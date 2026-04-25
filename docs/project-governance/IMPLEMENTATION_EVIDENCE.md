@@ -137,19 +137,19 @@
 |------|-----|
 | **workflow** | [`ci.yml`](../../.github/workflows/ci.yml) (파일) · YAML `name:` → Actions 탭 표시 **`CI`** |
 | **job** | `verify-349-12` |
-| **Run URL** | `https://github.com/kis1000burn-netizen/ai-lawfriend/actions/runs/RUN_ID` — *저장소: [ai-lawfriend](https://github.com/kis1000burn-netizen/ai-lawfriend). `RUN_ID`는 **Actions** → **`CI`** → **`verify-349-12` success** run → 주소의 **`/runs/` 뒤 숫자**로 **이 한 줄**을 `…/actions/runs/숫자` **실 URL**로 교체한다.* |
-| **결과** | **success** (job `verify-349-12`) — *Run URL이 위 형식의 **실제 주소**로 기입되면, 아래「완료 판정」 **CI**·**최종 기록**을 [x]로 둔다.* |
-| **확인일** | 2026-04-25 (증빙 문서·로컬 gate 일치) · *Run URL **실기입**이 같은 날이면 «원격 CI 확인일»로 읽는다* |
+| **Run URL** | **https://github.com/kis1000burn-netizen/ai-lawfriend/actions/runs/24934281336** — *workflow `CI` run #3, commit `9297af97` (push `main`).* |
+| **결과** | **success** — job **`verify-349-12`** (API·Actions UI 기준, 2026-04-25). |
+| **확인일** | 2026-04-25 (로컬 gate·원격 `verify-349-12` **success** 일치). |
 
-*로컬 **`.git` 초기화·`main` 푸시** 완료(2026-04-25). **public REST API** `actions/runs` **목록**은 **비로그인·비공개 저장소**일 때 **404** — **Run ID**는 [저장소 Actions](https://github.com/kis1000burn-netizen/ai-lawfriend/actions) (로그인)에서 **`CI` / `verify-349-12` success** run **전체 URL**로 위 표 **Run URL** **한 줄**을 **덮어쓴 뒤** «완료 판정» **CI**·**최종**을 [x]로 둔다.*
+*저장소 **공개** 후 **public REST** `…/actions/runs/24934281336/jobs`에서 job name **`verify-349-12`**, `conclusion` **success** 확인.*
 
 #### 완료 판정
 
 - [x] `EVIDENCE-20260425-350`이 «실제 기록» 절 **최상단** EVIDENCE로 개설
 - [x] `.github/workflows/*`에 `verify:349-12` 실행 경로 반영 (`ci.yml`)
-- [ ] CI에서 `verify-349-12` **success** (위 [CI run](#evidence-20260425-350-ci-run)에 **Run URL** 기입 후 [x])
+- [x] CI에서 `verify-349-12` **success** (위 [CI run](#evidence-20260425-350-ci-run) **Run URL** 기입·[공개 run](https://github.com/kis1000burn-netizen/ai-lawfriend/actions/runs/24934281336) 확인)
 - [x] [349] 본절에 ③·workflow 상세 누적 **없음** (③은 [350]만)
-- [ ] [350]에 PR·**exit**(로컬은 이미 기록됨)·**CI** success·**Run URL** **최종** 기록 (PR·원격 run URL 있으면)
+- [x] [350]에 **exit**(로컬)·**CI** success·**Run URL** **최종** 기록 (PR 없음·원격 run URL 확정)
 
 ### [EVIDENCE-20260425-349] Step 3 (333~) **[349] — 1순위 Step 3 잔여: 코드·시드·자동검증·런타임 동작 변경 전용 (349+·348과 분리·개설됨)** {#evidence-20260425-349}
 
