@@ -67,7 +67,7 @@
 ## 실제 기록 (공식 증빙)
 
 - **이 절만** 운용 기록이다. `## 기록 템플릿`·`## 기록 예시` 는 양식·교육용이며 완료 판정에 쓰지 않는다.
-- **AI법친 6.11 — 홈페이지 진입 홍보/안내 팝업 및 변호사법 준수 안내 반영 (코드·문서·완료):** [EVIDENCE-20260429-418](#evidence-20260429-418) — `src/components/marketing/aibeopchin-intro-popup.tsx`·`src/components/brand/aibeopchin-logo.tsx`·`src/components/layout/site-footer.tsx`·`src/app/page.tsx`·`src/app/globals.css`·`tailwind.config.ts`·`docs/project-governance/AIBEOPCHIN_6_11_PROMOTION_POPUP_AND_LEGAL_COMPLIANCE_NOTICE.md`; **홈페이지 진입 홍보/안내 팝업**, **변호사법 준수 안내**, **업무지원 범위 고지**, **오늘 하루 보지 않기 localStorage 정책**, **홈/보호 화면 공통 텍스트 기반 브랜드 헤더 보강** 반영; **브라우저 홈 팝업·닫기·24시간 미노출 확인 필요** ([확인 순서](IMPLEMENTATION_EVIDENCE.md#evidence-20260429-418-now)).
+- **AI법친 6.10~6.11 — 전역 서체·색상·로고·푸터·데모 로그인·홍보 팝업·변호사법 준수 안내 반영:** [EVIDENCE-20260429-418](#evidence-20260429-418) — `src/components/brand/aibeopchin-logo.tsx`·`src/components/layout/site-footer.tsx`·`src/components/marketing/aibeopchin-intro-popup.tsx`·`src/lib/auth/demo-access.ts`·`src/app/api/auth/login/route.ts`·`src/app/globals.css`·`tailwind.config.ts`·`src/app/page.tsx`·`src/app/login/login-page-client.tsx`·`src/components/dashboard/dashboard-shell.tsx`·`src/app/(protected)/dashboard/page.tsx`·`src/app/(lawyer)/lawyer/page.tsx`·`src/app/(admin)/admin/page.tsx`·`docs/project-governance/AIBEOPCHIN_6_11_PROMOTION_POPUP_AND_LEGAL_COMPLIANCE_NOTICE.md`·`docs/project-governance/IMPLEMENTATION_EVIDENCE.md`; **텍스트 기반 한글 로고**, **Pretendard + 저피로 그린/오프화이트 토큰**, **공통 푸터**, **홈 진입 홍보/안내 팝업**, **변호사법 준수·제출 보조 패키지 고지**, **환경변수 기반 데모 프리패스 로그인**, **홈/로그인/owner·lawyer·admin 주요 카드/버튼 톤 정리** 반영; **브라우저 홈 팝업·오늘 하루 보지 않기·데모 프리패스 실로그인 수동 확인 필요** ([확인 순서](IMPLEMENTATION_EVIDENCE.md#evidence-20260429-418-now)).
 - **AI법친 6.10 — 홈 로고 한글 깨짐 점검 / 전역 서체·색상 정리 / 데모 프리패스 로그인 / 푸터 생성 (코드·완료):** [EVIDENCE-20260429-417](#evidence-20260429-417) — `src/app/globals.css`·`src/components/branding/aibeopchin-intro-scene.tsx`·`src/components/branding/aibeopchin-hero.tsx`·`src/components/branding/aibeopchin-logo.tsx`·`src/components/branding/aibeopchin-logo-v2.tsx`·`src/components/home/home-trust-strip.tsx`·`src/components/home/home-role-entry-cards.tsx`·`src/app/layout.tsx`·`src/components/layout/site-footer.tsx`·`src/app/api/auth/login/route.ts`·`src/lib/auth/demo-access.ts`·`.env.example`; **홈 브랜드 락업과 공통 로고 컴포넌트를 심볼 + HTML 한글 텍스트로 전환**, **Pretendard + aibeop 색상 토큰 적용**, **protected/lawyer/admin 공통 톤 정리**, **데모 프리패스 로그인 및 AUTH_LOGIN_SUCCESS 감사로그 추가**, **공용 푸터 추가** 완료; **홈/대시보드 등 보호 화면 브라우저 확인 완료**; **데모 프리패스 실로그인 검증은 실제 환경변수와 DB 사용자 ID 설정 후 필요** ([확인 순서](IMPLEMENTATION_EVIDENCE.md#evidence-20260429-417-now)).
 - **AI법친 6.9-2 — 개인정보 / 보안 / 동의문구 카피 확정 (문서·완료):** [EVIDENCE-20260429-415](#evidence-20260429-415) — `AIBEOPCHIN_6_9_2_NOTICE_COPY_CANONICAL.md`; **의뢰인 공유 동의문구**, **변호사 고유번호 조회 고지문**, **변호사 사건 패키지 열람 고지문**, **첨부파일 다운로드 허용/차단 문구**, **사건 패키지 요약본 출력 고지문**, **공유 취소 후 접근 제한 문구**, **접근 로그 / 다운로드 로그 보관 고지**, **AI 생성 요약·문서 책임 고지**, **개인정보 제3자 제공 / 열람 동의 문구**, **전자소송 제출 보조 패키지 예정 고지문**의 canonical copy set 확정; **UI 반영 원칙 / 서버 차단 메시지 반영 원칙 분리 고정**; **6.9 최종 반영 단계 진입 기준 정리** ([확인 순서](IMPLEMENTATION_EVIDENCE.md#evidence-20260429-415-now)).
 - **AI법친 6.9-1 — 개인정보 / 보안 / 동의문구 노출 위치 매핑 (문서·완료):** [EVIDENCE-20260429-414](#evidence-20260429-414) — `AIBEOPCHIN_6_9_1_NOTICE_EXPOSURE_MAPPING.md`; **의뢰인 공유 설정 화면**, **공유 상세 화면**, **변호사 고유번호 조회 화면**, **변호사 사건 패키지 열람 화면**, **첨부파일 다운로드 버튼/차단 메시지**, **사건 패키지 요약본 출력 화면**, **공유 취소 화면**, **접근 로그/다운로드 로그 표시 영역**, **AI 생성 문서/요약본 고지 영역**, **전자소송 제출 보조 패키지 예정 고지 영역**의 실제 노출 위치와 현재 문구 매핑 완료; **전자소송 제출 보조 고지의 현재 런타임 노출면 없음 확인**; **6.9-2 카피 확정 우선순위 도출** ([확인 순서](IMPLEMENTATION_EVIDENCE.md#evidence-20260429-414-now)).
@@ -236,36 +236,65 @@
 
 **판정 분기**는 [`#predeploy-qa-1-4`](IMPLEMENTATION_EVIDENCE.md#predeploy-qa-1-4) 의 **3~4단계**를 따른다.
 
-### [EVIDENCE-20260429-418] AI법친 6.11 — 홈페이지 진입 홍보/안내 팝업 및 변호사법 준수 안내 {#evidence-20260429-418}
+### [EVIDENCE-20260429-418] AI법친 6.10~6.11 — 전역 서체·색상·로고·푸터·데모 로그인·홍보 팝업·변호사법 준수 안내 반영 {#evidence-20260429-418}
 
 #### 범위
 
-- 홈페이지 진입 홍보/안내 팝업 추가
-- AI법친 핵심 기능 안내
+- 홈화면 한글 로고 깨짐 방지를 위한 텍스트 기반 로고 컴포넌트 정리
+- 전역 Pretendard 서체 적용
+- 저피로 그린/오프화이트 계열 색상 토큰 적용
+- 공통 푸터 추가 및 연결 유지
+- 데모 프리패스 로그인 환경변수 기반 연결
+- 홈페이지 진입 홍보/안내 팝업 고도화
 - 변호사법 준수 안내 문구 반영
-- 업무지원 범위 고지
-- 특정 변호사 추천·순위화·자동매칭 배제 문구 반영
 - 전자소송 자동 제출이 아닌 제출 보조 패키지 구조 고지
-- 오늘 하루 보지 않기 localStorage 정책 반영
 
 #### 추가/수정 파일
 
-- `src/components/marketing/aibeopchin-intro-popup.tsx`
 - `src/components/brand/aibeopchin-logo.tsx`
 - `src/components/layout/site-footer.tsx`
-- `src/app/page.tsx`
+- `src/components/marketing/aibeopchin-intro-popup.tsx`
+- `src/lib/auth/demo-access.ts`
+- `src/app/api/auth/login/route.ts`
 - `src/app/globals.css`
 - `tailwind.config.ts`
+- `src/app/page.tsx`
+- `src/app/login/login-page-client.tsx`
+- `src/components/dashboard/dashboard-shell.tsx`
+- `src/app/(protected)/dashboard/page.tsx`
+- `src/app/(lawyer)/lawyer/page.tsx`
+- `src/app/(admin)/admin/page.tsx`
 - `docs/project-governance/AIBEOPCHIN_6_11_PROMOTION_POPUP_AND_LEGAL_COMPLIANCE_NOTICE.md`
+- `docs/project-governance/IMPLEMENTATION_EVIDENCE.md`
 
 #### 완료 기준
 
-- 홈페이지 접속 시 안내 팝업이 표시됨.
-- 팝업에 AI법친의 주요 기능이 표시됨.
-- 팝업에 변호사법 준수 안내 문구가 표시됨.
-- AI 생성 자료가 변호사의 검토용 초안 및 참고자료임을 명시함.
-- 최종 법률판단, 문서 확정, 전자소송 제출은 변호사가 직접 수행함을 명시함.
-- 특정 변호사 추천·순위화·자동매칭 및 수임료 분배 구조를 배제함을 명시함.
+- 홈화면 로고의 한글 깨짐이 사라짐.
+- 전체 UI에 Pretendard 계열 서체가 적용됨.
+- 주요 화면의 배경/카드/버튼 색상이 AI법친 홈화면과 유사한 저피로 계열로 정리됨.
+- 푸터에 도메인, 운영사, 대표이사, 연락처가 표시됨.
+- 홈페이지 진입 시 홍보/안내 팝업이 표시됨.
+- 팝업에 변호사법 준수 안내가 포함됨.
+- 데모 프리패스 로그인은 환경변수 기반으로만 작동함.
+- `DEMO_ACCESS_ENABLED=false`일 때 데모 로그인이 차단됨.
+
+#### 검증
+
+- `npx tsc --noEmit`
+- `npm run lint`
+- `npm run verify:canonical-sources`
+
+#### 검증 결과
+
+- `npx tsc --noEmit` 통과
+- `npm run lint` 통과
+- `npm run verify:canonical-sources` 통과
+
+#### 근거 메모
+
+- 홈 로고는 HTML 텍스트 기반 `AibeopchinLogo`로 유지되어 한글 깨짐 리스크를 줄였다.
+- 안내 팝업은 `dialog` 기반으로 접근성 규칙을 맞추고, 오늘 하루 보지 않기(localStorage) 정책을 유지했다.
+- 데모 프리패스 로그인은 `DEMO_ACCESS_ENABLED`, `DEMO_ACCESS_ID`, `DEMO_ACCESS_PASSWORD`, `DEMO_ACCESS_ROLE` 환경변수만으로 동작하도록 정리했다.
 
 #### 확인 순서 {#evidence-20260429-418-now}
 

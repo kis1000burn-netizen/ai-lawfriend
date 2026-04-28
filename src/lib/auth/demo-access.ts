@@ -3,7 +3,6 @@ import type { UserRole } from "@prisma/client";
 export type DemoAccessConfig = {
   loginId: string;
   password: string;
-  userId: string;
   expectedRole: UserRole | null;
 };
 
@@ -35,9 +34,8 @@ export function getDemoAccessConfig(): DemoAccessConfig | null {
 
   const loginId = process.env.DEMO_ACCESS_ID?.trim();
   const password = process.env.DEMO_ACCESS_PASSWORD;
-  const userId = process.env.DEMO_ACCESS_USER_ID?.trim();
 
-  if (!loginId || !password || !userId) {
+  if (!loginId || !password) {
     return null;
   }
 
@@ -49,7 +47,6 @@ export function getDemoAccessConfig(): DemoAccessConfig | null {
   return {
     loginId: normalizeLoginId(loginId),
     password,
-    userId,
     expectedRole: parseDemoRole(rawRole),
   };
 }

@@ -13,8 +13,10 @@ export default function RootLayout({
 }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="ko">
-      <body className="min-h-dvh bg-aibeop-bg font-sans text-aibeop-text antialiased">
-        <ToastProvider>{children}</ToastProvider>
+      <body className="flex min-h-dvh flex-col bg-aibeop-bg font-sans text-aibeop-text antialiased">
+        <ToastProvider>
+          <div className="flex-1">{children}</div>
+        </ToastProvider>
         <SiteFooter />
       </body>
     </html>

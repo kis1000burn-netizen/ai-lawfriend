@@ -4,7 +4,9 @@
 @theme inline {
   --font-sans: var(--font-sans-ui);
   --color-aibeop-bg: var(--aibeop-bg);
+  --color-aibeop-canvas: var(--aibeop-canvas);
   --color-aibeop-surface: var(--aibeop-surface);
+  --color-aibeop-card: var(--aibeop-card);
   --color-aibeop-soft: var(--aibeop-soft);
   --color-aibeop-line: var(--aibeop-line);
   --color-aibeop-text: var(--aibeop-text);
@@ -12,6 +14,8 @@
   --color-aibeop-green: var(--aibeop-green);
   --color-aibeop-deep: var(--aibeop-deep);
   --color-aibeop-pale: var(--aibeop-pale);
+  --color-aibeop-accent: var(--aibeop-accent);
+  --color-aibeop-accent-soft: var(--aibeop-accent-soft);
   --color-aibeop-warn: var(--aibeop-warn);
   --color-aibeop-danger: var(--aibeop-danger);
   --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.06);
@@ -23,21 +27,26 @@
     "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   --font-sans-ui: var(--font-sans);
 
-  --aibeop-bg: #f7faf8;
-  --aibeop-surface: #ffffff;
-  --aibeop-soft: #edf5f1;
-  --aibeop-line: #dce8e2;
-  --aibeop-text: #13201b;
-  --aibeop-muted: #63756c;
-  --aibeop-green: #166534;
-  --aibeop-deep: #064e3b;
-  --aibeop-pale: #dcfce7;
+  --aibeop-bg: #f5f8f4;
+  --aibeop-canvas: #eef4ef;
+  --aibeop-surface: #fffdf8;
+  --aibeop-card: #ffffff;
+  --aibeop-soft: #e7f0ea;
+  --aibeop-line: #d4e2d9;
+  --aibeop-text: #18231d;
+  --aibeop-muted: #5f7166;
+  --aibeop-green: #2f6b4f;
+  --aibeop-deep: #1f4c38;
+  --aibeop-pale: #dcefe1;
+  --aibeop-accent: #8fb89e;
+  --aibeop-accent-soft: #f1f7f2;
   --aibeop-warn: #92400e;
   --aibeop-danger: #991b1b;
 }
 
 html,
 body {
+  min-height: 100%;
   font-family: var(--font-sans);
   background: var(--aibeop-bg);
   color: var(--aibeop-text);
@@ -47,7 +56,16 @@ body {
 }
 
 * {
+  box-sizing: border-box;
   letter-spacing: -0.015em;
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: inherit;
 }
 
 ::selection {

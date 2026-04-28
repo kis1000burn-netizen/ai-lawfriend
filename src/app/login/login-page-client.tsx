@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { AibeopchinLogo } from "@/components/brand/aibeopchin-logo";
 import AuthInput from "@/components/auth/auth-input";
 import FormError from "@/components/auth/form-error";
 import { useAuthForm } from "@/hooks/use-auth-form";
@@ -18,6 +19,10 @@ type LoginResponse = {
   message: string;
 };
 
+type LoginFormSubmitEvent = Parameters<
+  NonNullable<React.ComponentProps<"form">["onSubmit"]>
+>[0];
+
 export default function LoginPageClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -31,7 +36,7 @@ export default function LoginPageClient() {
     password: "",
   });
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: LoginFormSubmitEvent) {
     e.preventDefault();
 
     await submit<typeof form, LoginResponse>({
@@ -48,6 +53,7 @@ export default function LoginPageClient() {
     <main className="mx-auto max-w-lg px-6 py-16">
       <div className="rounded-[2rem] border border-aibeop-line bg-aibeop-surface p-8 shadow-soft">
         <div className="mb-8">
+          <AibeopchinLogo compact />
           <h1 className="text-3xl font-bold text-aibeop-text">로그인</h1>
           <p className="mt-2 text-sm text-aibeop-muted">
             가입한 이메일 또는 데모 로그인 ID와 비밀번호로 로그인하세요.

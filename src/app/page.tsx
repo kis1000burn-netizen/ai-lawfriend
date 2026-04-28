@@ -16,7 +16,7 @@ export default async function HomePage() {
   const user = await getSessionUser();
 
   return (
-    <div className="min-h-screen bg-aibeop-bg text-aibeop-text">
+    <div className="flex min-h-full flex-col bg-aibeop-bg text-aibeop-text">
       <AibeopchinIntroPopup />
       {user ? <LoggedInStrip user={user} /> : null}
       <header className="sticky top-0 z-30 border-b border-aibeop-line bg-aibeop-surface/90 backdrop-blur">
@@ -30,7 +30,7 @@ export default async function HomePage() {
           </Link>
         </div>
       </header>
-      <main id="main-content">
+      <main id="main-content" className="flex-1">
         <AibeopchinHero />
         <HomeTrustStrip />
         <HomeRoleEntryCards />
