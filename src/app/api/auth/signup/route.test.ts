@@ -30,14 +30,14 @@ describe("POST /api/auth/signup", () => {
     vi.mocked(hashPassword).mockResolvedValue("hashed-password");
   });
 
-  it("creates a pending USER account from normalized signup input", async () => {
+  it("creates an ACTIVE USER account from normalized signup input", async () => {
     prismaMocks.findUnique.mockResolvedValueOnce(null);
     prismaMocks.create.mockResolvedValueOnce({
       id: "user-1",
       email: "newuser@example.com",
       name: "새 사용자",
       role: "USER",
-      status: "PENDING",
+      status: "ACTIVE",
       createdAt: new Date("2026-04-29T00:00:00.000Z"),
     });
 
@@ -66,7 +66,7 @@ describe("POST /api/auth/signup", () => {
         name: "새 사용자",
         phone: "01012345678",
         role: "USER",
-        status: "PENDING",
+        status: "ACTIVE",
       },
       select: {
         id: true,
@@ -80,7 +80,7 @@ describe("POST /api/auth/signup", () => {
 
     const body = await response.json();
     expect(body.ok).toBe(true);
-    expect(body.data.user.status).toBe("PENDING");
+    expect(body.data.user.status).toBe("ACTIVE");
   });
 
   it("rejects duplicate emails before creating a user", async () => {

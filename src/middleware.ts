@@ -3,6 +3,7 @@ import { jwtVerify } from "jose";
 import { getJwtSecretKey } from "@/lib/auth/jwt";
 import { isAllowedStaffAdminPath } from "@/lib/auth/ops-admin-paths";
 import { isAdminRole } from "@/lib/auth/roles";
+import { getPostLoginHrefForSessionRole } from "@/lib/landing/post-login-href";
 
 /**
  * [FILE-004] 보호 경로·쿠키·역할(변호사·STAFF `/admin` 예외)만 처리.
@@ -20,7 +21,7 @@ const AUTH_COOKIE_NAME = "aibupchin_access_token";
 const userProtectedPaths = ["/dashboard", "/cases"];
 const lawyerProtectedPaths = ["/lawyer"];
 const adminProtectedPaths = ["/admin"];
-const guestOnlyPaths = ["/login", "/signup"];
+const guestOnlyPaths = ["/login", "/signup", "/signup-lawyer"];
 
 function startsWithPath(pathname: string, paths: string[]) {
   return paths.some((path) => pathname === path || pathname.startsWith(`${path}/`));
@@ -60,11 +61,13 @@ export async function middleware(req: NextRequest) {
   }
 
   if (isGuestOnly && isLoggedIn) {
-    return NextResponse.redirect(new URL("/dashboard", req.url));
+    return NextResponse.redirect(
+      new URL(getPostLoginHrefForSessionRole(role), req.url),
+    );
   }
 
   if (isLawyerProtected && role !== "LAWYER") {
-    return NextResponse.redirect(new URL("/dashboard", req.url));
+    return NextResponse.redirect(new URL("/access-denied", req.url));
   }
 
   if (isAdminProtected) {
@@ -77,7 +80,7 @@ export async function middleware(req: NextRequest) {
     if (role === "LAWYER" && isAllowedLawyerAdminPath(pathname)) {
       return NextResponse.next();
     }
-    return NextResponse.redirect(new URL("/dashboard", req.url));
+    return NextResponse.redirect(new URL("/access-denied", req.url));
   }
 
   return NextResponse.next();
@@ -95,5 +98,6 @@ export const config = {
     "/admin/:path*",
     "/login",
     "/signup",
+    "/signup-lawyer",
   ],
 };

@@ -1,5 +1,6 @@
 import { toErrorResponse } from "@/lib/domain-api-response";
 import { requireSessionUser } from "@/lib/auth/require-session-user";
+import { assertLawyerProfessionalAccess } from "@/lib/lawyer/lawyer-verification-access";
 import { prisma } from "@/lib/prisma";
 import { NotFoundError } from "@/lib/errors";
 import { casePackageAttachmentDownloadRouteParamsSchema } from "@/lib/case-package/case-package-share-schema";
@@ -54,6 +55,10 @@ export async function GET(request: Request, context: RouteContext) {
     try {
       if (!share) {
         throw new NotFoundError("사건 패키지 공유를 찾을 수 없습니다.");
+      }
+
+      if (currentUser.role === "LAWYER") {
+        await assertLawyerProfessionalAccess(currentUser);
       }
 
       assertCanDownloadSharedAttachment({

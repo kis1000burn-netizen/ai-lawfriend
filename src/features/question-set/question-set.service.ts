@@ -1,4 +1,4 @@
-import type { UserRole } from "@prisma/client";
+import type { Prisma, UserRole } from "@prisma/client";
 import {
   createQuestionSetRepository,
   deleteQuestionSetRepository,
@@ -182,7 +182,12 @@ export async function getActiveQuestionSet() {
   };
 }
 
-export async function createQuestionSet(input: Partial<QuestionSetEntity> & { name: string }) {
+export async function createQuestionSet(
+  input: Partial<QuestionSetEntity> & {
+    name: string;
+    definitionJson?: Prisma.InputJsonValue | null;
+  },
+) {
   const merged: QuestionSetEntity = {
     id: "new",
     name: input.name,
@@ -200,6 +205,9 @@ export async function createQuestionSet(input: Partial<QuestionSetEntity> & { na
     description: merged.description,
     isActive: merged.isActive,
     questions: merged.questions,
+    ...(input.definitionJson !== undefined && input.definitionJson !== null
+      ? { definitionJson: input.definitionJson }
+      : {}),
   });
 }
 

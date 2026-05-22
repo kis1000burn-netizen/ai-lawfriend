@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { readJsonApiErrorMessage } from "@/lib/client/api-error";
+import { readJsonApiErrorEnvelope, readJsonApiErrorMessage } from "@/lib/client/api-error";
 import { getErrorMessage } from "@/lib/error-messages";
 
 type SubmitOptions<TBody, TSuccessData> = {
@@ -10,9 +10,15 @@ type SubmitOptions<TBody, TSuccessData> = {
   onSuccess: (data: TSuccessData) => void | Promise<void>;
 };
 
+export type AccountPendingNotice = {
+  message: string;
+  pendingAccountRole?: string;
+};
+
 export function useAuthForm() {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [accountPending, setAccountPending] = useState<AccountPendingNotice | null>(null);
 
   async function submit<TBody, TSuccessData>({
     endpoint,
@@ -21,10 +27,12 @@ export function useAuthForm() {
   }: SubmitOptions<TBody, TSuccessData>) {
     setLoading(true);
     setErrorMessage("");
+    setAccountPending(null);
 
     try {
       const res = await fetch(endpoint, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -34,7 +42,15 @@ export function useAuthForm() {
       const json: unknown = await res.json();
 
       if (!res.ok) {
-        setErrorMessage(readJsonApiErrorMessage(json, "요청에 실패했습니다."));
+        const env = readJsonApiErrorEnvelope(json, "요청에 실패했습니다.");
+        if (env.code === "ACCOUNT_PENDING") {
+          setAccountPending({
+            message: env.message,
+            pendingAccountRole: env.pendingAccountRole,
+          });
+          return;
+        }
+        setErrorMessage(env.message);
         return;
       }
 
@@ -60,6 +76,7 @@ export function useAuthForm() {
   return {
     loading,
     errorMessage,
+    accountPending,
     setErrorMessage,
     submit,
   };

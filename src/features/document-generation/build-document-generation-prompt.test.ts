@@ -38,9 +38,29 @@ describe("document generation policy", () => {
     expect(result.prompt).toContain("NO_UNVERIFIED_FACTS");
     expect(result.prompt).toContain("입력 자료에 없는 사실은 생성하지 마십시오");
     expect(result.prompt).toContain("법령·판례·증거");
+    expect(result.prompt).toContain("[공식 서식 추출 원문(발췌·참고)]");
+    expect(result.prompt).toContain("등록된 추출 원문이 없습니다.");
     expect(result.guardrail.policy).toBe(
       DOCUMENT_GENERATION_POLICIES.NO_UNVERIFIED_FACTS,
     );
+  });
+
+  it("embeds officialFormParsedTextExcerpt in the dedicated block", () => {
+    const result = buildDocumentGenerationPrompt({
+      documentType: "STATEMENT",
+      officialFormTrace: { sourceProvider: "SCOURT" },
+      officialFormParsedTextExcerpt: "제1조 목적\n서식 본문 발췌",
+    });
+    expect(result.prompt).toContain("제1조 목적");
+  });
+
+  it("appends gongbuhoRulesAppendix when provided (Phase 3-F)", () => {
+    const result = buildDocumentGenerationPrompt({
+      documentType: "STATEMENT",
+      gongbuhoRulesAppendix: "[공부호 패킷 · 검증·금지 규칙 참고]\n1. 테스트 규칙",
+    });
+    expect(result.prompt).toContain("[공부호 패킷 · 검증·금지 규칙 참고]");
+    expect(result.prompt).toContain("테스트 규칙");
   });
 
   it("keeps WARNING missing fields as supplementation guidance only", () => {

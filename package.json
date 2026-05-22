@@ -73,7 +73,11 @@
     "db:deploy:supplement-phase1": "npm run verify:supplement-migration-predeploy && npm run db:deploy && npm run db:generate",
     "db:backfill-paragraphs": "tsx src/scripts/backfill-document-paragraphs.ts",
     "backfill:question-set-questions": "tsx src/scripts/backfill-question-set-questions.ts",
-    "seed": "tsx prisma/seed.ts",
+    "migrate:lawyer-verification-docs": "tsx scripts/migrate-lawyer-verification-documents-to-private-storage.ts",
+    "seed:gongbuho-law-fraud-001": "tsx scripts/seed-gongbuho-law-fraud-001.ts",
+    "seed:gongbuho-samples": "tsx scripts/seed-gongbuho-samples.ts",
+    "verify:gongbuho": "node scripts/verify-gongbuho.mjs && node scripts/run-gongbuho-verify.mjs",
+    "verify:aibeopchin-voice": "node scripts/verify-aibeopchin-voice.mjs",
     "db:seed": "tsx prisma/seed.ts",
     "verify:case-package-6-12": "vitest run src/features/case-package/case-package-pdf-response.test.ts && eslint src/features/case-package/render-case-package-pdf-binary.ts src/features/case-package/case-package-pdf-response.ts src/features/case-package/case-package-pdf-response.test.ts \"src/app/api/lawyer/case-packages/[shareId]/package-pdf/route.ts\" \"src/app/api/cases/[caseId]/package-shares/[shareId]/package-pdf/route.ts\""
   },

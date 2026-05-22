@@ -1,6 +1,9 @@
 import { redirect } from "next/navigation";
 import { documentExportService } from "@/features/document-exports/document-export.service";
-import { getSessionUser } from "@/lib/auth/session";
+import {
+  getSessionUser,
+  redirectLawyerToVerificationUnlessApproved,
+} from "@/lib/auth/session";
 
 type PageProps = {
   params: Promise<{
@@ -15,6 +18,8 @@ export default async function DocumentPrintPage({ params }: PageProps) {
   if (!sessionUser) {
     redirect("/login");
   }
+
+  await redirectLawyerToVerificationUnlessApproved(sessionUser);
 
   const result = await documentExportService.getApprovedPrintableDocument(
     documentId,

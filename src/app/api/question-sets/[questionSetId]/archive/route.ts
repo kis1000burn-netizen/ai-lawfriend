@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { getSessionUser } from "@/lib/get-session-user";
 import { assertPermission, permissionContextFromSession } from "@/lib/authz";
 import { ok, toErrorResponse } from "@/lib/domain-api-response";
+import { assertLawyerProfessionalAccess } from "@/lib/lawyer/lawyer-verification-access";
 
 export async function PATCH(
   _req: Request,
@@ -18,6 +19,8 @@ export async function PATCH(
       "questionSet.archive",
       permissionContextFromSession(sessionUser, {}),
     );
+
+    await assertLawyerProfessionalAccess(sessionUser);
 
     const questionSet = await prisma.questionSet.findUnique({
       where: { id: questionSetId },

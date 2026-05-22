@@ -29,6 +29,12 @@ export class ForbiddenError extends AppError {
   }
 }
 
+export class ConflictError extends AppError {
+  constructor(message = "충돌이 발생했습니다.", details?: unknown) {
+    super(message, 409, "CONFLICT", details);
+  }
+}
+
 export class NotFoundError extends AppError {
   constructor(message = "대상을 찾을 수 없습니다.") {
     super(message, 404, "NOT_FOUND");

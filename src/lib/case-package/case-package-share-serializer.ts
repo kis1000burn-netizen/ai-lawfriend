@@ -1,3 +1,4 @@
+import { resolveVerifiedCasePackageSnapshot } from "@/features/case-package/case-package-share-snapshot-utils";
 import type {
   Case,
   CaseAttachment,
@@ -7,6 +8,8 @@ import type {
 } from "@prisma/client";
 
 type ShareWithCase = CasePackageShare & {
+  snapshotJson?: unknown;
+  snapshotSha256?: string | null;
   case: Case & {
     attachments?: CaseAttachment[];
     legalDocuments?: LegalDocument[];
@@ -16,6 +19,37 @@ type ShareWithCase = CasePackageShare & {
 };
 
 export function serializeCasePackageShare(share: ShareWithCase) {
+  const verifiedSnapshot = resolveVerifiedCasePackageSnapshot(
+    share.snapshotJson,
+    share.snapshotSha256,
+  );
+
+  const attachmentSource = verifiedSnapshot
+    ? verifiedSnapshot.attachments.map((a) => ({
+        id: a.attachmentId,
+        originalName: a.filename,
+        mimeType: a.mimeType ?? "application/octet-stream",
+        sizeBytes: a.sizeBytes ?? 0,
+        category: a.category as CaseAttachment["category"],
+        createdAt: a.uploadedAt ? new Date(a.uploadedAt) : new Date(0),
+      }))
+    : (share.case.attachments ?? []);
+
+  const documentSource = verifiedSnapshot
+    ? verifiedSnapshot.documents.map((d) => ({
+        id: d.documentId,
+        title: d.title,
+        type: "DRAFT" as LegalDocument["type"],
+        status: d.status as LegalDocument["status"],
+        createdAt: new Date(0),
+        updatedAt: new Date(0),
+      }))
+    : (share.case.legalDocuments ?? []);
+
+  const caseDescriptionForShare = verifiedSnapshot
+    ? verifiedSnapshot.summary.shortSummary
+    : share.case.description;
+
   return {
     id: share.id,
     caseId: share.caseId,
@@ -28,6 +62,7 @@ export function serializeCasePackageShare(share: ShareWithCase) {
     consentedAt: share.consentedAt,
     createdAt: share.createdAt,
     updatedAt: share.updatedAt,
+    snapshotCaptured: Boolean(verifiedSnapshot),
     scope: {
       allowSummary: share.allowSummary,
       allowInterview: share.allowInterview,
@@ -41,12 +76,12 @@ export function serializeCasePackageShare(share: ShareWithCase) {
     },
     case: {
       id: share.case.id,
-      title: share.case.title,
-      description: share.allowSummary ? share.case.description : null,
-      category: share.case.category,
+      title: verifiedSnapshot?.caseInfo.title ?? share.case.title,
+      description: share.allowSummary ? caseDescriptionForShare : null,
+      category: verifiedSnapshot?.caseInfo.caseType ?? share.case.category,
       opponentName: share.allowOpponentDetail ? share.case.opponentName : null,
       incidentDate: share.case.incidentDate,
-      status: share.case.status,
+      status: verifiedSnapshot?.caseInfo.status ?? share.case.status,
       createdAt: share.case.createdAt,
       updatedAt: share.case.updatedAt,
     },
@@ -69,7 +104,7 @@ export function serializeCasePackageShare(share: ShareWithCase) {
         }
       : null,
     attachments: share.allowAttachmentList
-      ? (share.case.attachments ?? []).map((attachment) => ({
+      ? attachmentSource.map((attachment) => ({
           id: attachment.id,
           originalName: attachment.originalName,
           mimeType: attachment.mimeType,
@@ -80,7 +115,7 @@ export function serializeCasePackageShare(share: ShareWithCase) {
         }))
       : [],
     documents: share.allowDocumentDraft
-      ? (share.case.legalDocuments ?? []).map((document) => ({
+      ? documentSource.map((document) => ({
           id: document.id,
           title: document.title,
           type: document.type,

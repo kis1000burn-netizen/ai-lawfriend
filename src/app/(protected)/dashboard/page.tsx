@@ -32,12 +32,16 @@ import {
   fetchClientDashboardMetrics,
   type ClientCasePreviewItem,
 } from "@/lib/dashboard/dashboard-metrics";
+import { findLatestInterviewAnswersMapMemoByCaseIds } from "@/features/case-interview/case-interview-memo-batch.repository";
 import { prisma } from "@/lib/prisma";
+import { redirectLawyerToVerificationUnlessApproved } from "@/lib/auth/session";
 
 export default async function DashboardPage() {
   const currentUser = await requireSessionUser();
+  await redirectLawyerToVerificationUnlessApproved(currentUser);
+
   const recentCases = await getDashboardCasesService(currentUser);
-  const accessibleWhere = buildAccessibleCaseWhere(currentUser);
+  const accessibleWhere = await buildAccessibleCaseWhere(currentUser);
   const [clientDashboardMetricsBase, casesForReadiness] = await Promise.all([
     fetchClientDashboardMetrics(currentUser),
     prisma.case.findMany({
@@ -64,6 +68,10 @@ export default async function DashboardPage() {
     }),
   ]);
 
+  const interviewMemoByCaseId = await findLatestInterviewAnswersMapMemoByCaseIds(
+    casesForReadiness.map((c) => c.id),
+  );
+
   const sourceCase =
     casesForReadiness.find(
       (c) => c.status !== "CLOSED" && c.status !== "REJECTED",
@@ -81,6 +89,7 @@ export default async function DashboardPage() {
           description: sourceCase.description,
           interviewAnswerCount: countInterviewAnswerEntries(
             sourceCase.interviews,
+            interviewMemoByCaseId.get(sourceCase.id) ?? null,
           ),
           attachmentCount: sourceCase._count.attachments,
           opponentName: sourceCase.opponentName,
@@ -97,7 +106,10 @@ export default async function DashboardPage() {
         caseType: item.category,
         status: item.status,
         description: item.description,
-        interviewAnswerCount: countInterviewAnswerEntries(item.interviews),
+        interviewAnswerCount: countInterviewAnswerEntries(
+          item.interviews,
+          interviewMemoByCaseId.get(item.id) ?? null,
+        ),
         attachmentCount: item._count.attachments,
         opponentName: item.opponentName,
       });
@@ -117,6 +129,7 @@ export default async function DashboardPage() {
 
   const clientDashboardMetrics = {
     ...clientDashboardMetricsBase,
+    guidanceCaseHref: sourceCase ? `/cases/${sourceCase.id}/guidance` : null,
     readiness,
     recentCasesPreview,
   };
@@ -165,6 +178,14 @@ export default async function DashboardPage() {
               >
                 새 사건 등록
               </Link>
+              {sourceCase ? (
+                <Link
+                  href={`/cases/${sourceCase.id}/guidance`}
+                  className="rounded-xl border border-emerald-600 bg-emerald-50 px-5 py-3 text-sm font-semibold text-emerald-950"
+                >
+                  사건 진단 카드
+                </Link>
+              ) : null}
               {isPlatformAdmin(currentUser.role) ? (
                 <Link
                   href="/admin/audit-logs"

@@ -6,18 +6,13 @@ import {
   getOAuthProvider,
   normalizeAuthRedirectPath,
 } from "@/lib/auth/oauth";
+import { authSessionCookieSetOptions } from "@/lib/auth/cookie-security";
 import { env } from "@/lib/env";
 
 export const dynamic = "force-dynamic";
 
 function getOAuthCookieOptions() {
-  return {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax" as const,
-    path: "/",
-    maxAge: 60 * 10,
-  };
+  return authSessionCookieSetOptions(60 * 10);
 }
 
 function redirectToLoginWithError(code: string) {

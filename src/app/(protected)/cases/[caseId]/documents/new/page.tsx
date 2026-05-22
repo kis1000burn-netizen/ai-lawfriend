@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { redirectLawyerToVerificationUnlessApproved } from "@/lib/auth/session";
 import { requireSessionUser } from "@/lib/auth/require-session-user";
 import { getCaseAccessContext } from "@/features/cases/case.permissions";
 import DocumentDraftClient from "@/components/cases/document-draft-client";
@@ -13,6 +14,7 @@ type PageProps = {
 
 export default async function CaseDocumentDraftPage({ params }: PageProps) {
   const currentUser = await requireSessionUser();
+  await redirectLawyerToVerificationUnlessApproved(currentUser);
   const { caseId } = await params;
 
   await getCaseAccessContext(currentUser, caseId);

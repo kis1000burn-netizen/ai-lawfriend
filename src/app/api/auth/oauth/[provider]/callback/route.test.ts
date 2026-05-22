@@ -6,11 +6,13 @@ const prismaMocks = vi.hoisted(() => {
   const authAccountCreate = vi.fn();
   const userFindUnique = vi.fn();
   const userCreate = vi.fn();
+  const lawyerProfileFindUnique = vi.fn();
   return {
     authAccountFindUnique,
     authAccountCreate,
     userFindUnique,
     userCreate,
+    lawyerProfileFindUnique,
   };
 });
 
@@ -37,6 +39,9 @@ vi.mock("@/lib/prisma", () => ({
       findUnique: prismaMocks.userFindUnique,
       create: prismaMocks.userCreate,
     },
+    lawyerProfile: {
+      findUnique: prismaMocks.lawyerProfileFindUnique,
+    },
   },
 }));
 
@@ -57,6 +62,7 @@ import { applyLoginSession } from "@/lib/auth/login-response";
 describe("GET /api/auth/oauth/:provider/callback", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    prismaMocks.lawyerProfileFindUnique.mockResolvedValue(null);
     vi.mocked(getOAuthProvider).mockReturnValue({
       key: "google",
       label: "Google",
@@ -109,6 +115,7 @@ describe("GET /api/auth/oauth/:provider/callback", () => {
     );
 
     expect(response.headers.get("location")).toBe("http://localhost:3000/dashboard");
+    expect(prismaMocks.lawyerProfileFindUnique).not.toHaveBeenCalled();
     expect(prismaMocks.authAccountCreate).toHaveBeenCalledWith({
       data: {
         userId: "user-1",
@@ -121,7 +128,7 @@ describe("GET /api/auth/oauth/:provider/callback", () => {
     expect(applyLoginSession).toHaveBeenCalled();
   });
 
-  it("creates a pending social user and redirects back to login until approved", async () => {
+  it("creates an ACTIVE social user, applies session, and redirects", async () => {
     vi.mocked(exchangeOAuthCode).mockResolvedValue("access-token");
     vi.mocked(fetchOAuthProfile).mockResolvedValue({
       provider: "GOOGLE",
@@ -139,9 +146,11 @@ describe("GET /api/auth/oauth/:provider/callback", () => {
       email: "pending@example.com",
       name: "Pending User",
       role: "USER",
-      status: "PENDING",
+      status: "ACTIVE",
     });
     prismaMocks.authAccountCreate.mockResolvedValueOnce({ id: "account-2" });
+
+    vi.mocked(normalizeAuthRedirectPath).mockReturnValue("/cases");
 
     const response = await GET(
       new NextRequest(
@@ -158,7 +167,50 @@ describe("GET /api/auth/oauth/:provider/callback", () => {
       },
     );
 
-    expect(response.headers.get("location")).toBe("http://localhost:3000/login?registered=1");
-    expect(applyLoginSession).not.toHaveBeenCalled();
+    expect(response.headers.get("location")).toBe("http://localhost:3000/cases");
+    expect(applyLoginSession).toHaveBeenCalled();
+  });
+
+  it("승인된 변호사와 /dashboard 쿠키는 변호사 작업실로 보낸다", async () => {
+    vi.mocked(exchangeOAuthCode).mockResolvedValue("access-token");
+    vi.mocked(fetchOAuthProfile).mockResolvedValue({
+      provider: "GOOGLE",
+      providerKey: "google",
+      providerAccountId: "google-sub-lawyer",
+      email: "lawyer@example.com",
+      emailVerified: true,
+      name: "Lawyer User",
+    } as never);
+
+    prismaMocks.authAccountFindUnique.mockResolvedValueOnce({
+      user: {
+        id: "lawyer-active",
+        email: "lawyer@example.com",
+        name: "Lawyer User",
+        role: "LAWYER",
+        status: "ACTIVE",
+      },
+    });
+    prismaMocks.lawyerProfileFindUnique.mockResolvedValueOnce({
+      verificationStatus: "APPROVED",
+    });
+
+    const response = await GET(
+      new NextRequest(
+        "http://localhost/api/auth/oauth/google/callback?code=oauth-code&state=state-lawyer",
+        {
+          headers: {
+            cookie:
+              "aibupchin_oauth_state_google=state-lawyer; aibupchin_oauth_redirect_google=/dashboard",
+          },
+        },
+      ),
+      {
+        params: Promise.resolve({ provider: "google" }),
+      },
+    );
+
+    expect(response.headers.get("location")).toBe("http://localhost:3000/lawyer");
+    expect(applyLoginSession).toHaveBeenCalled();
   });
 });

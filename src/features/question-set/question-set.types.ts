@@ -39,6 +39,20 @@ export type QuestionOption = {
   value: string;
 };
 
+/**
+ * 질문 JSON `voicePrompt` — 명세는 `docs/voice/VOICE_PROMPT_TTS_SPEC.md`(Phase 5-C).
+ */
+export type VoicePromptSpec = {
+  /** TTS 1순위 본문(비우면 기본 라벨 합성) */
+  readAloudPrimary?: string | null;
+  /** true 시 민감 안내 문자열 우선 또는 `sensitivePrefix` */
+  requiresSensitiveSpeechNotice?: boolean | null;
+  sensitivePrefix?: string | null;
+  /** “예시 듣기” 시 법적 사실 특정 피하는 짧은 문장 */
+  exampleSentence?: string | null;
+  optionReadOrder?: "DEFINITION_ORDER" | "ALPHA_BY_LABEL";
+};
+
 export type QuestionDocumentMappingRule = {
   enabled: boolean;
   sectionTitle?: string | null;
@@ -64,6 +78,7 @@ export type QuestionSetQuestion = {
   order: number;
   placeholder?: string | null;
   helpText?: string | null;
+  voicePrompt?: VoicePromptSpec | null;
   options?: QuestionOption[];
   /**
    * Zod `QuestionDefinition.visibility` → 게시/투영 `projectDefinitionJsonToQuestions`가 채움.

@@ -96,6 +96,8 @@ export type ClientDashboardMetrics = {
   activeCases: number;
   interviewInProgress: number;
   attachmentsReady: number;
+  /** 대표 사건 진단 카드 딥링크(진행 중·최근 사건 기준). 없으면 목록으로 유도 */
+  guidanceCaseHref?: string | null;
   readiness?: ClientCaseReadiness;
   recentCasesPreview?: ClientCasePreviewItem[];
 };
@@ -211,7 +213,7 @@ function getAdminOperationalReviewReason(status: string): string {
 export async function fetchClientDashboardMetrics(
   user: SessionUser,
 ): Promise<ClientDashboardMetrics> {
-  const base = buildAccessibleCaseWhere(user);
+  const base = await buildAccessibleCaseWhere(user);
   const [totalCases, activeCases, interviewInProgress, attachmentsReady] =
     await Promise.all([
       prisma.case.count({ where: base }),
@@ -240,7 +242,7 @@ export async function fetchClientDashboardMetrics(
 export async function fetchLawyerDashboardMetrics(
   user: SessionUser,
 ): Promise<LawyerDashboardMetrics> {
-  const base = buildAccessibleCaseWhere(user);
+  const base = await buildAccessibleCaseWhere(user);
   const [
     interviewCompleted,
     draftReady,
@@ -310,7 +312,7 @@ export async function fetchLawyerDashboardMetrics(
 export async function fetchAdminDashboardMetrics(
   user: SessionUser,
 ): Promise<AdminDashboardMetrics> {
-  const base = buildAccessibleCaseWhere(user);
+  const base = await buildAccessibleCaseWhere(user);
   const withStatus = (status: CaseStatus) =>
     prisma.case.count({
       where: { AND: [base, { status }] },

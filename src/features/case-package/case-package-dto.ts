@@ -2,7 +2,7 @@ export type CasePackageMeta = {
   caseId: string;
   packageTitle: string;
   generatedAt: string;
-  packageVersion: "6.1";
+  packageVersion: "6.1" | "6.2";
   source: "CASE_PACKAGE_DRAFT";
 };
 

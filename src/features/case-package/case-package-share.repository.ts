@@ -1,5 +1,6 @@
 import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
+import { buildCasePackageShareSnapshot } from "./build-case-package-share-snapshot";
 import {
   buildCasePackageConsentSnapshot,
   generateCasePackagePublicCode,
@@ -61,6 +62,7 @@ function buildShareSelect() {
     allowAttachmentDownload: true,
     allowDocumentDraft: true,
     allowPackagePdf: true,
+    snapshotSha256: true,
     consentText: true,
     consentedAt: true,
     expiresAt: true,
@@ -110,6 +112,11 @@ export async function createCasePackageShare(input: CreateCasePackageShareInput)
     expiresAt: input.expiresAt ?? null,
   });
 
+  const { dto: snapshotDto, snapshotSha256 } = await buildCasePackageShareSnapshot(
+    input.caseId,
+    input.ownerUserId,
+  );
+
   const year = getCurrentYear();
 
   for (let attempt = 0; attempt < MAX_PUBLIC_CODE_RETRY; attempt += 1) {
@@ -135,6 +142,8 @@ export async function createCasePackageShare(input: CreateCasePackageShareInput)
             downloadPermissions.allowAttachmentDownload,
           allowDocumentDraft: scope.allowDocumentDraft,
           allowPackagePdf: downloadPermissions.allowPackagePdf,
+          snapshotJson: snapshotDto as unknown as Prisma.InputJsonValue,
+          snapshotSha256,
           consentText: consentSnapshot.consentText,
           consentedAt: new Date(consentSnapshot.consentedAt),
           expiresAt: toDate(consentSnapshot.expiresAt),
@@ -216,6 +225,8 @@ export async function findShareByPublicCode(publicCode: string) {
     select: {
       ...buildShareSelect(),
       optionalPinHash: true,
+      snapshotJson: true,
+      snapshotSha256: true,
       case: {
         select: {
           id: true,
@@ -256,6 +267,8 @@ export async function findShareForLawyer(input: {
     },
     select: {
       ...buildShareSelect(),
+      snapshotJson: true,
+      snapshotSha256: true,
       case: {
         select: {
           id: true,
@@ -463,6 +476,8 @@ export async function findShareForPackagePdf(input: {
     },
     select: {
       ...buildShareSelect(),
+      snapshotJson: true,
+      snapshotSha256: true,
       case: {
         select: {
           id: true,
@@ -489,6 +504,7 @@ export async function findShareForPackagePdf(input: {
               id: true,
               title: true,
               status: true,
+              createdAt: true,
               updatedAt: true,
             },
             orderBy: {
@@ -606,6 +622,7 @@ export async function listAdminCasePackageShares(
       allowAttachmentDownload: true,
       allowDocumentDraft: true,
       allowPackagePdf: true,
+      snapshotSha256: true,
       consentedAt: true,
       expiresAt: true,
       revokedAt: true,

@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { redirectLawyerToVerificationUnlessApproved } from "@/lib/auth/session";
+import { requireSessionUser } from "@/lib/auth/require-session-user";
 import { CasePackageShareDetailClient } from "@/components/case-package/case-package-share-detail-client";
 
 type PageProps = {
@@ -10,6 +12,9 @@ type PageProps = {
 
 export default async function CasePackageShareDetailPage({ params }: PageProps) {
   const { caseId, shareId } = await params;
+
+  const sessionUser = await requireSessionUser();
+  await redirectLawyerToVerificationUnlessApproved(sessionUser);
 
   return (
     <main className="mx-auto flex w-full max-w-6xl flex-col gap-6 p-6">

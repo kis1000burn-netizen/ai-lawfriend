@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { redirectLawyerToVerificationUnlessApproved } from "@/lib/auth/session";
 import { getSessionUser } from "@/lib/get-session-user";
 import { assertCaseAccess } from "@/lib/authz";
 import { buildPermissionContextForCase } from "@/features/cases/case.permissions";
@@ -10,6 +11,11 @@ import { serializeCaseDetail } from "@/lib/cases/case-detail-serialize";
 import { prismaRoleToUiRole } from "@/lib/role-map";
 import { canRequestSoftDelete } from "@/features/cases/case.permissions";
 import DeleteCaseButton from "@/components/cases/delete-case-button";
+import {
+  gongbuhoReviewUxViewerKindFromSessionRole,
+  loadCaseGongbuhoReviewUxModel,
+} from "@/features/gongbuho/case-gongbuho-review-ux";
+import { CaseGongbuhoReviewCard } from "@/components/cases/case-gongbuho-review-card";
 
 export default async function CaseDetailPage({
   params,
@@ -22,6 +28,8 @@ export default async function CaseDetailPage({
   if (!sessionUser) {
     redirect("/login");
   }
+
+  await redirectLawyerToVerificationUnlessApproved(sessionUser);
 
   const caseRecord = await prisma.case.findUnique({
     where: { id: caseId },
@@ -63,6 +71,8 @@ export default async function CaseDetailPage({
   assertCaseAccess("case.read", permCtx);
 
   const serialized = serializeCaseDetail(caseRecord);
+  const viewerKind = gongbuhoReviewUxViewerKindFromSessionRole(sessionUser.role);
+  const gongbuhoReviewModel = await loadCaseGongbuhoReviewUxModel(caseId, viewerKind);
   const showSoftDelete = canRequestSoftDelete(sessionUser, {
     ownerUserId: caseRecord.ownerUserId,
     status: caseRecord.status,
@@ -72,6 +82,12 @@ export default async function CaseDetailPage({
     <div className="space-y-4">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="flex flex-wrap gap-2">
+          <Link
+            href={`/cases/${caseId}/guidance`}
+            className="rounded-xl border border-emerald-700 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-900 hover:bg-emerald-100"
+          >
+            사건 진단 카드
+          </Link>
           <Link
             href={`/cases/${caseId}/interview`}
             className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white"
@@ -99,6 +115,10 @@ export default async function CaseDetailPage({
           {showSoftDelete ? <DeleteCaseButton caseId={caseId} /> : null}
         </div>
       </div>
+
+      {gongbuhoReviewModel ? (
+        <CaseGongbuhoReviewCard model={gongbuhoReviewModel} />
+      ) : null}
 
       <CaseDetailClient
         caseRecord={serialized}

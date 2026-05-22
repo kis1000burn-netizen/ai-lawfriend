@@ -1,8 +1,28 @@
 import { DashboardActionCard } from "@/components/dashboard/dashboard-action-card";
 
-export function ClientNextActions() {
+type Props = {
+  guidanceCaseHref?: string | null;
+};
+
+export function ClientNextActions({
+  guidanceCaseHref = null,
+}: Props) {
+  const diagnosisHref =
+    guidanceCaseHref && guidanceCaseHref.trim().length > 0
+      ? guidanceCaseHref.trim()
+      : "/cases";
+  const diagnosisDesc = guidanceCaseHref
+    ? "기관 안내·체크리스트·조사 힌트를 한 화면에서 확인합니다."
+    : "사건 목록에서 사건을 고른 뒤, 상세 상단에서 사건 진단 카드를 여세요.";
   return (
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
+      <DashboardActionCard
+        label="Reference"
+        title="사건 진단 카드"
+        description={diagnosisDesc}
+        href={diagnosisHref}
+        ctaLabel="진단 카드 열기 →"
+      />
       <DashboardActionCard
         label="Start"
         title="새 사건 정리하기"

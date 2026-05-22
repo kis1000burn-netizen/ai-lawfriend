@@ -1,4 +1,5 @@
 import type { CaseStatus } from "@prisma/client";
+import { maxInterviewAnswerCount } from "@/features/case-interview/interview-answers-for-ui";
 import {
   EMPTY_CLIENT_CASE_READINESS,
   type ClientCaseReadiness,
@@ -31,17 +32,9 @@ const REVIEW_READY_STATUSES = new Set<CaseStatus>([
 
 export function countInterviewAnswerEntries(
   interviews: { answersJson: unknown }[],
+  interviewAnswersMemoContent?: string | null,
 ): number {
-  let n = 0;
-  for (const { answersJson } of interviews) {
-    if (answersJson == null) continue;
-    if (Array.isArray(answersJson)) {
-      n += answersJson.filter((x) => x != null && x !== "").length;
-    } else if (typeof answersJson === "object") {
-      n += Object.keys(answersJson as object).length;
-    }
-  }
-  return n;
+  return maxInterviewAnswerCount(interviews, interviewAnswersMemoContent);
 }
 
 export function buildClientCaseReadiness(

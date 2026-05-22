@@ -21,11 +21,22 @@ type DocumentItem = {
   updatedAt?: string | null;
 };
 
+type InterviewPreview = {
+  completed: boolean;
+  answerCount: number;
+  publicSafeAnswers: Array<{
+    questionKey: string;
+    questionLabel: string;
+    answerPreview: string;
+  }>;
+};
+
 type LawyerCasePackageDetail = {
   share: {
     id: string;
     publicCode: string;
     expiresAt?: string | null;
+    snapshotCaptured?: boolean;
     allowSummary: boolean;
     allowInterview: boolean;
     allowAttachmentList: boolean;
@@ -48,6 +59,7 @@ type LawyerCasePackageDetail = {
   };
   attachments: AttachmentItem[];
   documents: DocumentItem[];
+  interview?: InterviewPreview | null;
 };
 
 type LawyerCasePackageDetailClientProps = {
@@ -107,6 +119,41 @@ function normalizeDocument(value: unknown): DocumentItem | null {
   };
 }
 
+function normalizeInterviewPreview(value: unknown): InterviewPreview | null {
+  const record = asRecord(value);
+  if (
+    typeof record.completed !== "boolean" ||
+    typeof record.answerCount !== "number" ||
+    !Array.isArray(record.publicSafeAnswers)
+  ) {
+    return null;
+  }
+
+  const answers = record.publicSafeAnswers.flatMap((item) => {
+    const row = asRecord(item);
+    if (
+      typeof row.questionKey !== "string" ||
+      typeof row.questionLabel !== "string" ||
+      typeof row.answerPreview !== "string"
+    ) {
+      return [];
+    }
+    return [
+      {
+        questionKey: row.questionKey,
+        questionLabel: row.questionLabel,
+        answerPreview: row.answerPreview,
+      },
+    ];
+  });
+
+  return {
+    completed: record.completed,
+    answerCount: record.answerCount,
+    publicSafeAnswers: answers,
+  };
+}
+
 function normalizeDetail(value: unknown): LawyerCasePackageDetail | null {
   const record = asRecord(value);
   const share = asRecord(record.share);
@@ -128,6 +175,7 @@ function normalizeDetail(value: unknown): LawyerCasePackageDetail | null {
       id: share.id,
       publicCode: share.publicCode,
       expiresAt: normalizeNullableString(share.expiresAt),
+      snapshotCaptured: normalizeBoolean(share.snapshotCaptured),
       allowSummary: normalizeBoolean(share.allowSummary, true),
       allowInterview: normalizeBoolean(share.allowInterview, true),
       allowAttachmentList: normalizeBoolean(share.allowAttachmentList, true),
@@ -162,6 +210,9 @@ function normalizeDetail(value: unknown): LawyerCasePackageDetail | null {
           return normalized ? [normalized] : [];
         })
       : [],
+    interview: record.interview
+      ? normalizeInterviewPreview(record.interview)
+      : null,
   };
 }
 
@@ -304,6 +355,12 @@ export function LawyerCasePackageDetailClient({
               {detail.share.publicCode}
             </p>
 
+            {detail.share.snapshotCaptured ? (
+              <p className="mt-1 inline-flex rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold text-white">
+                공유 시점 사건파일 고정(스냅샷)
+              </p>
+            ) : null}
+
             <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-950">
               {detail.case.title}
             </h1>
@@ -370,6 +427,29 @@ export function LawyerCasePackageDetailClient({
           </p>
         )}
       </section>
+
+      {detail.share.allowInterview && detail.interview ? (
+        <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <p className="text-base font-semibold text-slate-950">AI 인터뷰 요약(공유 스냅샷)</p>
+          <p className="mt-1 text-xs text-slate-500">
+            상태: {detail.interview.completed ? "완료" : "미완료"} · 응답{" "}
+            {detail.interview.answerCount}건
+          </p>
+          <ul className="mt-4 space-y-3">
+            {detail.interview.publicSafeAnswers.map((row) => (
+              <li
+                key={row.questionKey}
+                className="rounded-xl border border-slate-100 bg-slate-50/80 p-3 text-sm"
+              >
+                <p className="font-semibold text-slate-900">{row.questionLabel}</p>
+                <p className="mt-1 whitespace-pre-wrap text-slate-700">
+                  {row.answerPreview}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
         <p className="text-base font-semibold text-slate-950">첨부자료 목록</p>

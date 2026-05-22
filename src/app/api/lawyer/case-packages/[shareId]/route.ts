@@ -1,10 +1,15 @@
 import { NextResponse } from "next/server";
 import { requireSessionUser } from "@/lib/auth/require-session-user";
+import { assertLawyerProfessionalAccess } from "@/lib/lawyer/lawyer-verification-access";
 import {
   findShareForLawyer,
   logCasePackageAccess,
   resolveShareStatusForResponse,
 } from "@/features/case-package/case-package-share.repository";
+import {
+  buildLawyerCasePackageApiPayload,
+  resolveVerifiedCasePackageSnapshot,
+} from "@/features/case-package/case-package-share-snapshot-utils";
 
 type RouteContext = {
   params: Promise<{
@@ -37,6 +42,10 @@ export async function GET(request: Request, context: RouteContext) {
       },
       { status: 403 },
     );
+  }
+
+  if (user.role === "LAWYER") {
+    await assertLawyerProfessionalAccess(user);
   }
 
   const share = await findShareForLawyer({
@@ -93,43 +102,42 @@ export async function GET(request: Request, context: RouteContext) {
     context: getRequestContext(request, user.id),
   });
 
+  const verifiedSnapshot = resolveVerifiedCasePackageSnapshot(
+    share.snapshotJson,
+    share.snapshotSha256,
+  );
+
+  const payload = buildLawyerCasePackageApiPayload({
+    share,
+    owner: share.owner,
+    verifiedSnapshot,
+    liveCase: {
+      id: share.case.id,
+      title: share.case.title,
+      status: share.case.status,
+      category: share.case.category,
+      description: share.case.description,
+      createdAt: share.case.createdAt,
+      updatedAt: share.case.updatedAt,
+      attachments: share.case.attachments.map((a) => ({
+        id: a.id,
+        originalName: a.originalName,
+        mimeType: a.mimeType,
+        sizeBytes: a.sizeBytes,
+        createdAt: a.createdAt,
+      })),
+      legalDocuments: share.case.legalDocuments.map((d) => ({
+        id: d.id,
+        title: d.title,
+        status: d.status,
+        createdAt: d.createdAt,
+        updatedAt: d.updatedAt,
+      })),
+    },
+  });
+
   return NextResponse.json({
     ok: true,
-    package: {
-      share: {
-        id: share.id,
-        publicCode: share.publicCode,
-        expiresAt: share.expiresAt,
-        allowSummary: share.allowSummary,
-        allowInterview: share.allowInterview,
-        allowAttachmentList: share.allowAttachmentList,
-        allowAttachmentDownload: share.allowAttachmentDownload,
-        allowDocumentDraft: share.allowDocumentDraft,
-        allowPackagePdf: share.allowPackagePdf,
-      },
-      case: {
-        id: share.case.id,
-        title: share.case.title,
-        status: share.case.status,
-        caseType: share.case.category,
-        summary: share.allowSummary ? share.case.description : null,
-        createdAt: share.case.createdAt,
-        updatedAt: share.case.updatedAt,
-      },
-      owner: {
-        id: share.owner.id,
-        name: share.owner.name,
-      },
-      attachments: share.allowAttachmentList
-        ? share.case.attachments.map((attachment) => ({
-            id: attachment.id,
-            filename: attachment.originalName,
-            mimeType: attachment.mimeType,
-            sizeBytes: attachment.sizeBytes,
-            createdAt: attachment.createdAt,
-          }))
-        : [],
-      documents: share.allowDocumentDraft ? share.case.legalDocuments : [],
-    },
+    ...payload,
   });
 }

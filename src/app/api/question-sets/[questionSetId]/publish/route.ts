@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getSessionUser } from "@/lib/get-session-user";
 import { assertPermission, permissionContextFromSession } from "@/lib/authz";
 import { ok, toErrorResponse } from "@/lib/domain-api-response";
+import { assertLawyerProfessionalAccess } from "@/lib/lawyer/lawyer-verification-access";
 import { buildValidatedAQuestionsForQuestionSet } from "@/features/question-set/apply-definition-to-questions";
 
 /**
@@ -27,6 +28,8 @@ export async function PATCH(
       "questionSet.publish",
       permissionContextFromSession(sessionUser, {}),
     );
+
+    await assertLawyerProfessionalAccess(sessionUser);
 
     const questionSet = await prisma.questionSet.findUnique({
       where: { id: questionSetId },

@@ -18,6 +18,13 @@ import {
 } from "@/lib/document-generation-trace";
 import { validateOfficialFormRequiredFields } from "@/features/document-generation/official-form-required-field-validator";
 import { buildDocumentGenerationPrompt } from "@/features/document-generation/build-document-generation-prompt";
+import {
+  finalizeGongbuhoDocumentRulesEvaluation,
+  mergeLatestGongbuhoTraceDocumentGenerationResult,
+  prepareGongbuhoDocumentRulesForCase,
+  type GongbuhoDocumentRulesEvaluation,
+} from "@/features/gongbuho/gongbuho-document-rules.service";
+import { buildOfficialFormGenerationContext } from "@/features/document-generation/official-form-source-prompt";
 import { buildDocumentGenerationGuardrailTrace } from "@/features/document-generation/document-generation-guardrail-trace";
 import { buildGuardrailViolationSuggestions } from "@/features/document-generation/document-generation-guardrail-suggestions";
 import {
@@ -44,33 +51,32 @@ function buildCaseSummary(caseRecord: {
   return caseRecord.description ?? caseRecord.title ?? null;
 }
 
-function buildOfficialFormTrace(templateRecord: {
-  id: string;
-  code: string;
-  version: string;
-  title: string;
-  sourceProvider: string;
-  sourceId?: string | null;
-  sourceUrl?: string | null;
-  sourceHash?: string | null;
-  source?: {
-    sourceName?: string | null;
-    sourceUrl?: string | null;
-    status?: string | null;
-  } | null;
-}) {
-  return {
-    templateId: templateRecord.id,
-    templateCode: templateRecord.code,
-    templateVersion: templateRecord.version,
-    templateTitle: templateRecord.title,
-    sourceProvider: templateRecord.sourceProvider,
-    sourceId: templateRecord.sourceId ?? null,
-    sourceName: templateRecord.source?.sourceName ?? null,
-    sourceUrl: templateRecord.sourceUrl ?? templateRecord.source?.sourceUrl ?? null,
-    sourceHash: templateRecord.sourceHash ?? null,
-    sourceStatus: templateRecord.source?.status ?? null,
-  };
+async function buildCaseAttachmentSummary(caseId: string): Promise<string | null> {
+  const items = await prisma.caseAttachment.findMany({
+    where: {
+      caseId,
+      status: "ACTIVE",
+      deletedAt: null,
+    },
+    orderBy: { createdAt: "desc" },
+    take: 20,
+    select: {
+      originalName: true,
+      category: true,
+      mimeType: true,
+      sizeBytes: true,
+    },
+  });
+
+  if (!items.length) {
+    return null;
+  }
+
+  const lines = items.map(
+    (a) =>
+      `- ${a.originalName} (${String(a.category)}, ${a.mimeType}, ${(a.sizeBytes / 1024).toFixed(1)} KiB)`,
+  );
+  return ["사건 활성 첨부파일 목록(파일 내용은 미포함):", ...lines].join("\n");
 }
 
 function getTemplateGenerationPolicy(template: unknown) {
@@ -91,6 +97,14 @@ const BodySchema = z.object({
   templateCode: z.string().trim().min(1),
   templateVersion: z.string().trim().min(1),
 });
+
+const GONGBUHO_RULES_EVAL_EMPTY: GongbuhoDocumentRulesEvaluation = {
+  applied: false,
+  validationChecklist: [],
+  forbiddenHits: [],
+  riskFlags: [],
+  expertReviewPoints: [],
+};
 
 export async function POST(
   req: NextRequest,
@@ -148,6 +162,8 @@ export async function POST(
         { status: 400 },
       );
     }
+
+    const gongbuhoPrepared = await prepareGongbuhoDocumentRulesForCase(caseId);
 
     const questionSet =
       (await getQuestionSetDefinitionFromDb(body.questionSetCode, body.questionSetVersion)) ??
@@ -212,16 +228,21 @@ export async function POST(
       answers,
     });
     const generationPolicy = getTemplateGenerationPolicy(templateRecord);
-    const officialFormTrace = buildOfficialFormTrace(templateRecord);
+    const { officialFormTrace, officialFormParsedTextExcerpt } =
+      buildOfficialFormGenerationContext(templateRecord);
+    const attachmentSummary = await buildCaseAttachmentSummary(caseId);
+
     const { prompt, guardrail } = buildDocumentGenerationPrompt({
       documentType: template.type,
       templateTitle: template.title,
       caseSummary: buildCaseSummary(caseRecord),
       interviewAnswers: answers,
       officialFormTrace,
-      attachmentSummary: null,
+      officialFormParsedTextExcerpt,
+      attachmentSummary,
       generationPolicy,
       missingWarningFields,
+      gongbuhoRulesAppendix: gongbuhoPrepared?.promptAppendix ?? null,
     });
 
     const docType = body.documentType as GeneratedDocumentType;
@@ -290,6 +311,10 @@ export async function POST(
       warningMissingFields: missingWarningFields,
     });
 
+    const gongbuhoEvaluation =
+      finalizeGongbuhoDocumentRulesEvaluation(generatedBody, gongbuhoPrepared) ??
+      GONGBUHO_RULES_EVAL_EMPTY;
+
     const created = await prisma.$transaction(async (tx) => {
       const document = await tx.legalDocument.create({
         data: {
@@ -339,6 +364,7 @@ export async function POST(
             status: document.status,
             paragraphs: generatedParagraphs,
             guardrailTrace,
+            gongbuhoDocumentRules: gongbuhoEvaluation,
           },
           approved: false,
         },
@@ -372,6 +398,15 @@ export async function POST(
       return document;
     });
 
+    if (gongbuhoEvaluation.applied) {
+      await mergeLatestGongbuhoTraceDocumentGenerationResult(caseId, {
+        occurredAtIso: new Date().toISOString(),
+        legalDocumentId: created.id,
+        documentType: body.documentType,
+        evaluation: gongbuhoEvaluation,
+      });
+    }
+
     return ok(
       {
         document: created,
@@ -379,6 +414,7 @@ export async function POST(
         generationWarnings: guardrail.warnings,
         missingWarningFields,
         guardrailTrace,
+        gongbuhoDocumentRules: gongbuhoEvaluation,
         validation: {
           missingFields: missingWarningFields,
           suggestedQuestions: requiredFieldValidation.suggestedQuestions,

@@ -48,6 +48,7 @@ type CasePackageShareItem = {
   allowAttachmentDownload: boolean;
   allowDocumentDraft: boolean;
   allowPackagePdf: boolean;
+  snapshotSha256?: string | null;
   consentedAt: string;
   expiresAt?: string | null;
   revokedAt?: string | null;
@@ -145,6 +146,7 @@ function normalizeShareItem(value: unknown): CasePackageShareItem | null {
     allowAttachmentDownload: normalizeBoolean(record.allowAttachmentDownload),
     allowDocumentDraft: normalizeBoolean(record.allowDocumentDraft),
     allowPackagePdf: normalizeBoolean(record.allowPackagePdf),
+    snapshotSha256: normalizeNullableString(record.snapshotSha256),
     consentedAt: normalizeString(record.consentedAt),
     expiresAt: normalizeNullableString(record.expiresAt),
     revokedAt: normalizeNullableString(record.revokedAt),
@@ -599,7 +601,11 @@ export function CasePackageShareSettingsPanel({
           </p>
           <p className="mt-1 text-sm leading-6 text-slate-600">
             변호사가 검토할 수 있도록 사건 요약, 인터뷰 요약, 첨부자료 목록,
-            문서 초안의 기초를 고유번호로 공유합니다.
+            문서 초안의 기초를 고유번호로 공유합니다.{" "}
+            <span className="font-medium text-slate-800">
+              고유번호 발급 순간의 패키지가 스냅샷으로 고정되며, 이후 사건을
+              수정해도 해당 공유 건의 열람 내용은 발급 당시 기준으로 유지됩니다.
+            </span>
           </p>
         </div>
 
@@ -618,6 +624,10 @@ export function CasePackageShareSettingsPanel({
         <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
           <p className="text-sm font-semibold text-emerald-950">
             사건 패키지 고유번호가 발급되었습니다.
+          </p>
+          <p className="mt-2 text-xs leading-5 text-emerald-900">
+            이 시점의 사건 패키지가 스냅샷으로 고정됩니다. 이후 내용을 수정해도
+            이 공유로 보이는 자료는 발급 당시 버전입니다.
           </p>
 
           <dl className="mt-3 grid gap-3 sm:grid-cols-2">
@@ -838,6 +848,11 @@ export function CasePackageShareSettingsPanel({
                       <p className="font-mono text-sm font-bold text-slate-950">
                         {share.publicCode}
                       </p>
+                      {share.snapshotSha256 ? (
+                        <p className="mt-1 text-xs font-semibold text-emerald-800">
+                          사건파일 스냅샷 고정(공유 시점)
+                        </p>
+                      ) : null}
                       <p className="mt-1 text-xs text-slate-500">
                         생성: {formatDateTime(share.createdAt)}
                       </p>

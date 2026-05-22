@@ -25,6 +25,7 @@ export const caseSelect = {
   courtName: true,
   incidentDate: true,
   status: true,
+  questionSetId: true,
   createdAt: true,
   updatedAt: true,
 } satisfies Prisma.CaseSelect;
@@ -48,7 +49,7 @@ export async function findAccessibleCases(
   currentUser: SessionUser,
   filters: CaseListFilters
 ) {
-  const accessibleWhere = buildAccessibleCaseWhere(currentUser);
+  const accessibleWhere = await buildAccessibleCaseWhere(currentUser);
 
   const where: Prisma.CaseWhereInput = {
     AND: [
@@ -116,7 +117,7 @@ export async function findRecentAccessibleCases(
   take = 5
 ) {
   return prisma.case.findMany({
-    where: buildAccessibleCaseWhere(currentUser),
+    where: await buildAccessibleCaseWhere(currentUser),
     orderBy: { createdAt: "desc" },
     take,
     select: caseSelect,

@@ -23,6 +23,26 @@ export function readJsonApiErrorMessage(json: unknown, fallback = "요청에 실
   return fallback;
 }
 
+/** `fail()` 응답 등에서 코드·부가 필드와 메시지를 함께 파싱 */
+export function readJsonApiErrorEnvelope(
+  json: unknown,
+  fallback = "요청에 실패했습니다.",
+): {
+  message: string;
+  code?: string;
+  pendingAccountRole?: string;
+} {
+  const message = readJsonApiErrorMessage(json, fallback);
+  if (!json || typeof json !== "object") {
+    return { message };
+  }
+  const o = json as Record<string, unknown>;
+  const code = typeof o.code === "string" ? o.code : undefined;
+  const pendingAccountRole =
+    typeof o.pendingAccountRole === "string" ? o.pendingAccountRole : undefined;
+  return { message, code, pendingAccountRole };
+}
+
 /**
  * `fetch` 직후 `res.json()` 본문(`raw`)에 대해, HTTP 성공 + `{ ok: true, data }`를 엄격히 확인한 뒤 `data`를 반환.
  * 그렇지 않으면 `readJsonApiErrorMessage` 기반 `Error`를 던짐(슬라이스 1·domain envelope 클라이언트 공통).

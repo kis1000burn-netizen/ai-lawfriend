@@ -1,6 +1,7 @@
 import { UserRole, UserStatus } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { applyLoginSession } from "@/lib/auth/login-response";
+import { resolvePostAuthRedirect } from "@/lib/auth/post-auth-redirect";
 import {
   exchangeOAuthCode,
   fetchOAuthProfile,
@@ -9,19 +10,14 @@ import {
   isOAuthProviderKey,
   normalizeAuthRedirectPath,
 } from "@/lib/auth/oauth";
+import { authSessionCookieClearOptions } from "@/lib/auth/cookie-security";
 import { env } from "@/lib/env";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
 function getExpiredCookieOptions() {
-  return {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax" as const,
-    path: "/",
-    maxAge: 0,
-  };
+  return authSessionCookieClearOptions();
 }
 
 function clearOAuthFlowCookies(response: NextResponse, provider: string) {
@@ -42,9 +38,10 @@ function buildLoginRedirect(provider: string, code: string) {
   return clearOAuthFlowCookies(NextResponse.redirect(loginUrl), provider);
 }
 
-function buildPendingRedirect(provider: string) {
+function buildPendingRedirect(provider: string, role: string) {
   const loginUrl = new URL("/login", env.APP_BASE_URL);
-  loginUrl.searchParams.set("registered", "1");
+  loginUrl.searchParams.set("accountPending", "1");
+  loginUrl.searchParams.set("pendingRole", role);
   return clearOAuthFlowCookies(NextResponse.redirect(loginUrl), provider);
 }
 
@@ -74,7 +71,7 @@ export async function GET(
   const cookieNames = getOAuthFlowCookieNames(oauthProvider.key);
   const storedState = req.cookies.get(cookieNames.state)?.value;
   const requestedRedirect = req.cookies.get(cookieNames.redirect)?.value;
-  const redirectPath = normalizeAuthRedirectPath(requestedRedirect);
+  const normalizedRequestPath = normalizeAuthRedirectPath(requestedRedirect);
 
   if (!code || !state || !storedState || state !== storedState) {
     return buildLoginRedirect(provider, "OAUTH_STATE_MISMATCH");
@@ -119,7 +116,8 @@ export async function GET(
             name: profile.name,
             phone: null,
             role: UserRole.USER,
-            status: UserStatus.PENDING,
+            status: UserStatus.ACTIVE,
+            emailVerifiedAt: profile.emailVerified ? new Date() : null,
           },
         });
       }
@@ -136,12 +134,28 @@ export async function GET(
     }
 
     if (user.status === "PENDING") {
-      return buildPendingRedirect(provider);
+      return buildPendingRedirect(provider, user.role);
     }
 
     if (user.status !== "ACTIVE") {
       return buildLoginRedirect(provider, "ACCOUNT_BLOCKED");
     }
+
+    let lawyerVerificationApproved = user.role !== "LAWYER";
+    if (user.role === "LAWYER") {
+      const lawyerProfileRow = await prisma.lawyerProfile.findUnique({
+        where: { userId: user.id },
+        select: { verificationStatus: true },
+      });
+      lawyerVerificationApproved =
+        lawyerProfileRow?.verificationStatus === "APPROVED";
+    }
+
+    const redirectPath = resolvePostAuthRedirect({
+      normalizedRequestPath,
+      role: user.role,
+      lawyerVerificationApproved,
+    });
 
     const response = buildAppRedirect(provider, redirectPath);
 

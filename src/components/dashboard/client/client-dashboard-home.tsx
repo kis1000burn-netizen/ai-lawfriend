@@ -43,7 +43,7 @@ export function ClientDashboardHome({
             title="다음에 할 일을 바로 시작하세요."
             description="사건 생성, 인터뷰 이어하기, 첨부자료 정리로 자연스럽게 이동합니다."
           />
-          <ClientNextActions />
+          <ClientNextActions guidanceCaseHref={metrics.guidanceCaseHref} />
         </div>
       </section>
 

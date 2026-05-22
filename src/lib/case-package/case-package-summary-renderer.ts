@@ -5,6 +5,8 @@ import type {
   LegalDocument,
   User,
 } from "@prisma/client";
+import type { CasePackageDto } from "@/features/case-package/case-package-dto";
+
 
 type ShareForSummary = CasePackageShare & {
   case: Case & {
@@ -46,9 +48,59 @@ function formatBytes(value: number | null | undefined): string {
   return `${(size / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-export function renderCasePackageSummaryHtml(share: ShareForSummary): string {
-  const attachments = share.allowAttachmentList ? share.case.attachments ?? [] : [];
-  const documents = share.allowDocumentDraft ? share.case.legalDocuments ?? [] : [];
+export function renderCasePackageSummaryHtml(
+  share: ShareForSummary,
+  options?: {
+    verifiedSnapshot?: CasePackageDto | null;
+  },
+): string {
+  const dto = options?.verifiedSnapshot ?? null;
+
+  const attachments: Array<{
+    originalName: string;
+    mimeType: string | null;
+    sizeBytes: number | null;
+    category: string | null;
+  }> = share.allowAttachmentList
+    ? dto
+      ? dto.attachments.map((a) => ({
+          originalName: a.filename,
+          mimeType: a.mimeType ?? null,
+          sizeBytes: a.sizeBytes ?? null,
+          category: a.category ?? a.mimeType ?? null,
+        }))
+      : (share.case.attachments ?? []).map((a) => ({
+          originalName: a.originalName,
+          mimeType: a.mimeType,
+          sizeBytes: a.sizeBytes,
+          category: a.category ?? null,
+        }))
+    : [];
+
+  const documentRows: Array<{ title: string; typeLabel: string; status: string }> =
+    share.allowDocumentDraft
+      ? dto
+        ? dto.documents.map((d) => ({
+            title: d.title,
+            typeLabel: "—",
+            status: d.status,
+          }))
+        : (share.case.legalDocuments ?? []).map((document) => ({
+            title: document.title,
+            typeLabel: document.type,
+            status: document.status,
+          }))
+      : [];
+
+  const caseTitle = dto?.caseInfo.title ?? share.case.title;
+  const caseCategory = dto?.caseInfo.caseType ?? share.case.category;
+  const caseStatus = dto?.caseInfo.status ?? share.case.status;
+
+  const summaryBody = share.allowSummary
+    ? dto
+      ? dto.summary.shortSummary
+      : share.case.description || "공유된 사건 요약이 아직 없습니다."
+    : null;
 
   return `<!doctype html>
 <html lang="ko">
@@ -212,16 +264,16 @@ export function renderCasePackageSummaryHtml(share: ShareForSummary): string {
 
     <h2>2. 사건 기본 정보</h2>
     <div class="grid">
-      <div class="item"><div class="label">사건 제목</div><div class="value">${escapeHtml(share.case.title)}</div></div>
-      <div class="item"><div class="label">사건 유형</div><div class="value">${escapeHtml(share.case.category ?? "미분류")}</div></div>
-      <div class="item"><div class="label">사건 상태</div><div class="value">${escapeHtml(share.case.status)}</div></div>
+      <div class="item"><div class="label">사건 제목</div><div class="value">${escapeHtml(caseTitle)}</div></div>
+      <div class="item"><div class="label">사건 유형</div><div class="value">${escapeHtml(caseCategory ?? "미분류")}</div></div>
+      <div class="item"><div class="label">사건 상태</div><div class="value">${escapeHtml(caseStatus)}</div></div>
       <div class="item"><div class="label">사건 발생일</div><div class="value">${formatDate(share.case.incidentDate)}</div></div>
       <div class="item"><div class="label">상대방</div><div class="value">${share.allowOpponentDetail ? escapeHtml(share.case.opponentName) : "비공개"}</div></div>
       <div class="item"><div class="label">의뢰인</div><div class="value">${share.allowClientContact ? escapeHtml(share.owner?.name) : "비공개"}</div></div>
     </div>
 
     <h2>3. 사건 요약</h2>
-    ${share.allowSummary ? `<div class="summary">${escapeHtml(share.case.description || "공유된 사건 요약이 아직 없습니다.")}</div>` : `<div class="summary">의뢰인이 사건 요약 열람을 허용하지 않았습니다.</div>`}
+    ${share.allowSummary ? `<div class="summary">${escapeHtml(summaryBody ?? "")}</div>` : `<div class="summary">의뢰인이 사건 요약 열람을 허용하지 않았습니다.</div>`}
 
     <h2>4. 공유 범위</h2>
     <table>
@@ -249,10 +301,10 @@ export function renderCasePackageSummaryHtml(share: ShareForSummary): string {
       </tr>`).join("")}</tbody></table>` : `<div class="summary">공유된 첨부자료 목록이 없습니다.</div>`}
 
     <h2>6. 문서 초안</h2>
-    ${documents.length > 0 ? `<table><thead><tr><th>문서명</th><th>유형</th><th>상태</th><th>PDF</th></tr></thead><tbody>${documents.map((document) => `
+    ${documentRows.length > 0 ? `<table><thead><tr><th>문서명</th><th>유형</th><th>상태</th><th>PDF</th></tr></thead><tbody>${documentRows.map((document) => `
       <tr>
         <td>${escapeHtml(document.title)}</td>
-        <td>${escapeHtml(document.type)}</td>
+        <td>${escapeHtml(document.typeLabel)}</td>
         <td>${escapeHtml(document.status)}</td>
         <td>${share.allowDocumentPdf ? "허용" : "비허용"}</td>
       </tr>`).join("")}</tbody></table>` : `<div class="summary">공유된 문서 초안이 없습니다.</div>`}

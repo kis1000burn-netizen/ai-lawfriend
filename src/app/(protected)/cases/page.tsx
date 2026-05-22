@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirectLawyerToVerificationUnlessApproved } from "@/lib/auth/session";
 import { requireSessionUser } from "@/lib/auth/require-session-user";
 import { listCasesService } from "@/features/cases/case.service";
 import {
@@ -21,6 +22,7 @@ type CasesPageProps = {
 
 export default async function CasesPage({ searchParams }: CasesPageProps) {
   const currentUser = await requireSessionUser();
+  await redirectLawyerToVerificationUnlessApproved(currentUser);
   const resolved = await searchParams;
 
   const page = Number(resolved.page ?? 1);
@@ -133,6 +135,9 @@ export default async function CasesPage({ searchParams }: CasesPageProps) {
                 <th scope="col" className="px-4 py-3">
                   등록일
                 </th>
+                <th scope="col" className="px-4 py-3">
+                  진단 카드
+                </th>
                 <th
                   scope="col"
                   className="px-4 py-3"
@@ -161,6 +166,14 @@ export default async function CasesPage({ searchParams }: CasesPageProps) {
                   </td>
                   <td className="px-4 py-3 text-slate-500">
                     {formatDate(item.createdAt)}
+                  </td>
+                  <td className="px-4 py-3 text-sm">
+                    <Link
+                      href={`/cases/${item.id}/guidance`}
+                      className="font-medium text-emerald-800 underline"
+                    >
+                      열기
+                    </Link>
                   </td>
                   <td className="px-4 py-3 text-sm">
                     {isSupplementHubCaseStatus(item.status) ? (

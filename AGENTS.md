@@ -19,6 +19,8 @@ npm run test:e2e         # Playwright E2E
 npm run db:migrate       # Prisma 마이그레이션 (dev)
 npm run db:deploy        # Prisma 마이그레이션 (prod)
 npm run verify:canonical-sources  # CaseStatus 정합성 검증 (필수)
+npm run verify:gongbuho     # Gongbuho 정적 증거(문서·샘플·상수) + Vitest 회귀
+npm run verify:aibeopchin-voice  # Phase 5 Voice transcript 스키마 정적 게이트
 npm run predeploy:check  # 배포 전 전체 체크
 ```
 
@@ -41,6 +43,7 @@ src/
   types/         # 전역 TypeScript 타입
 aibeopchin_patchset/  # 배포 전 패치 파일 스테이징 영역
 prisma/          # schema, migrations, seed
+docs/            # 도메인 표준 문서 (예: `docs/gongbuho/`, `docs/voice/`)
 ```
 
 ---

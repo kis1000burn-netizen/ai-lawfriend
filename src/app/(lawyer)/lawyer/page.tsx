@@ -2,11 +2,11 @@ import Link from "next/link";
 import { DashboardLegacyBridge } from "@/components/dashboard/dashboard-legacy-bridge";
 import { DashboardShell } from "@/components/dashboard/dashboard-shell";
 import { LawyerDashboardHome } from "@/components/dashboard/lawyer/lawyer-dashboard-home";
-import { requireLawyer } from "@/lib/auth/session";
+import { requireApprovedLawyer } from "@/lib/auth/session";
 import { fetchLawyerDashboardMetrics } from "@/lib/dashboard/dashboard-metrics";
 
 export default async function LawyerPage() {
-  const user = await requireLawyer();
+  const user = await requireApprovedLawyer();
   const lawyerDashboardMetrics = await fetchLawyerDashboardMetrics(user);
 
   return (

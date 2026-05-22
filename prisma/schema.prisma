@@ -22,6 +22,16 @@ enum UserStatus {
   DELETED
 }
 
+/// 변호사 **전문가 권한** 승인 상태 — `User.status`(계정 활성)와 분리한다.
+enum LawyerVerificationStatus {
+  NOT_SUBMITTED
+  PENDING
+  NEEDS_MORE_INFO
+  APPROVED
+  REJECTED
+  SUSPENDED
+}
+
 enum AuthProvider {
   GOOGLE
   KAKAO
@@ -181,6 +191,31 @@ enum SupplementRequestAuditActionType {
   AUDIT_LOG_VIEW
 }
 
+/// 공부호 패킷 수명 상태 — `docs/gongbuho/GONGBUHO_STANDARD.md` §3 Persistence
+/// 적용 허용: `APPROVED`만 (`DRAFT`/`REVIEW`/`ARCHIVED`는 사건 매칭·적용 로직에서 제외)
+enum GongbuhoPacketStatus {
+  DRAFT
+  REVIEW
+  APPROVED
+  ARCHIVED
+}
+
+/// Phase 5-B Voice intake draft — 문서 SSOT `docs/voice/VOICE_INTAKE_POLICY.md`.
+enum VoiceTranscriptStatus {
+  CAPTURED
+  NEEDS_CONFIRMATION
+  CONFIRMED
+  REJECTED
+}
+
+/// Phase 5-B 사건 단위 Voice 이벤트 append — AuditLog 과밀 회피, 운영 추적 우선.
+enum VoiceInteractionTraceEvent {
+  VOICE_TRANSCRIPT_CREATED
+  VOICE_TRANSCRIPT_CONFIRMED
+  VOICE_TRANSCRIPT_REJECTED
+  VOICE_INTERVIEW_ANSWER_BOUND
+}
+
 enum TimelineMemoType {
   USER_NOTE
   STAFF_NOTE
@@ -228,16 +263,19 @@ enum TimelineExportFormat {
 }
 
 model User {
-  id           String     @id @default(uuid())
-  email        String     @unique
-  passwordHash String?
-  name         String
-  phone        String?
-  role         UserRole   @default(USER)
-  status       UserStatus @default(ACTIVE)
-  lastLoginAt  DateTime?
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+  id              String     @id @default(uuid())
+  email           String     @unique
+  passwordHash    String?
+  name            String
+  phone           String?
+  role            UserRole   @default(USER)
+  status          UserStatus @default(ACTIVE)
+  lastLoginAt     DateTime?
+  /// 일반 가입·소셜 이메일 검증 시각 — 미검증이면 null (MVP에서는 선택 적용).
+  emailVerifiedAt DateTime?
+  phoneVerifiedAt DateTime?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
 
   cases               Case[]             @relation("UserCases")
   auditLogs           AuditLog[]         @relation("UserAuditLogs")
@@ -246,33 +284,97 @@ model User {
   assignedCases       CaseAssignment[]   @relation("UserAssignedCases")
   createdAssignments  CaseAssignment[]   @relation("UserCreatedAssignments")
 
-  createdAlertRules         AlertRule[]                       @relation("AlertRuleCreatedBy")
-  updatedAlertRules         AlertRule[]                       @relation("AlertRuleUpdatedBy")
-  alertEventsActed          AlertEvent[]                      @relation("AlertEventActor")
-  alertEventsAcknowledged   AlertEvent[]                      @relation("AlertEventAcknowledgedBy")
-  alertEventsIgnored        AlertEvent[]                      @relation("AlertEventIgnoredBy")
-  alertEventsResolved       AlertEvent[]                      @relation("AlertEventResolvedBy")
-  alertEventsAssigned       AlertEvent[]                      @relation("AlertAssignee")
-  escalationsReleased       AlertEscalation[]                 @relation("EscalationReleasedBy")
-  adminNotifications        AdminNotification[]
-  alertBoardFilterPresets   AlertBoardFilterPreset[]
-  bulkActionJobs            BulkActionJob[]                   @relation("BulkActionJobActor")
-  canceledBulkActionJobs    BulkActionJob[]                   @relation("BulkActionJobCanceledBy")
-  opsQueueTicketsAssigned   OpsQueueTicket[]                  @relation("OpsQueueTicketAssignee")
-  timelineExportLogs        TimelineExportLog[]
-  paragraphRewriteHistories DocumentParagraphRewriteHistory[]
-  documentParagraphVersions DocumentParagraphVersion[]        @relation("UserParagraphVersions")
-  ownedCasePackageShares    CasePackageShare[]                @relation("CasePackageShareOwner")
-  lawyerCasePackageShares   CasePackageShare[]                @relation("CasePackageShareLawyer")
-  casePackageAccessLogs     CasePackageAccessLog[]            @relation("CasePackageAccessLogActor")
-  requestedSupplementRequests SupplementRequest[]             @relation("SupplementRequestRequester")
-  targetSupplementRequests    SupplementRequest[]             @relation("SupplementRequestTarget")
-  supplementResponses         SupplementResponse[]            @relation("SupplementResponseResponder")
-  supplementRequestStatusLogs SupplementRequestStatusLog[]    @relation("SupplementRequestStatusLogActor")
-  supplementRequestAuditLogs  SupplementRequestAuditLog[]     @relation("SupplementRequestAuditLogActor")
-  authAccounts              AuthAccount[]
+  createdAlertRules           AlertRule[]                       @relation("AlertRuleCreatedBy")
+  updatedAlertRules           AlertRule[]                       @relation("AlertRuleUpdatedBy")
+  alertEventsActed            AlertEvent[]                      @relation("AlertEventActor")
+  alertEventsAcknowledged     AlertEvent[]                      @relation("AlertEventAcknowledgedBy")
+  alertEventsIgnored          AlertEvent[]                      @relation("AlertEventIgnoredBy")
+  alertEventsResolved         AlertEvent[]                      @relation("AlertEventResolvedBy")
+  alertEventsAssigned         AlertEvent[]                      @relation("AlertAssignee")
+  escalationsReleased         AlertEscalation[]                 @relation("EscalationReleasedBy")
+  adminNotifications          AdminNotification[]
+  alertBoardFilterPresets     AlertBoardFilterPreset[]
+  bulkActionJobs              BulkActionJob[]                   @relation("BulkActionJobActor")
+  canceledBulkActionJobs      BulkActionJob[]                   @relation("BulkActionJobCanceledBy")
+  opsQueueTicketsAssigned     OpsQueueTicket[]                  @relation("OpsQueueTicketAssignee")
+  timelineExportLogs          TimelineExportLog[]
+  paragraphRewriteHistories   DocumentParagraphRewriteHistory[]
+  documentParagraphVersions   DocumentParagraphVersion[]        @relation("UserParagraphVersions")
+  ownedCasePackageShares      CasePackageShare[]                @relation("CasePackageShareOwner")
+  lawyerCasePackageShares     CasePackageShare[]                @relation("CasePackageShareLawyer")
+  casePackageAccessLogs       CasePackageAccessLog[]            @relation("CasePackageAccessLogActor")
+  requestedSupplementRequests SupplementRequest[]               @relation("SupplementRequestRequester")
+  targetSupplementRequests    SupplementRequest[]               @relation("SupplementRequestTarget")
+  supplementResponses         SupplementResponse[]              @relation("SupplementResponseResponder")
+  supplementRequestStatusLogs SupplementRequestStatusLog[]      @relation("SupplementRequestStatusLogActor")
+  supplementRequestAuditLogs  SupplementRequestAuditLog[]       @relation("SupplementRequestAuditLogActor")
+  authAccounts                AuthAccount[]
+  lawyerProfile               LawyerProfile?
+  lawyerProfilesReviewed      LawyerProfile[]                   @relation("LawyerProfileReviewer")
+  gongbuhoPacketsCreated      GongbuhoPacket[]                  @relation("GongbuhoPacketCreatedBy")
+  gongbuhoPacketsApproved     GongbuhoPacket[]                  @relation("GongbuhoPacketApprovedBy")
+  voiceTranscriptsCreated     VoiceTranscript[]                 @relation("VoiceTranscriptCreatedBy")
+  voiceInteractionTracesActor VoiceInteractionTrace[]           @relation("VoiceInteractionTraceActor")
 
   @@index([email])
+}
+
+model LawyerProfile {
+  id                             String                   @id @default(cuid())
+  userId                         String                   @unique
+  registrationNumber             String?
+  barAssociation                 String?
+  officeName                     String?
+  officeAddress                  String?
+  officePhone                    String?
+  websiteUrl                     String?
+  specialtiesNote                String?
+  verificationStatus             LawyerVerificationStatus @default(NOT_SUBMITTED)
+  submittedAt                    DateTime?
+  reviewedAt                     DateTime?
+  reviewedById                   String?
+  rejectionReason                String?
+  /// 가입 시 디지털 무결 서약(허위 증빙 책임 안내) 접수 시각
+  integrityAttestationAcceptedAt DateTime?
+  /// 서약 문구 버전(로그·증빙)
+  integrityAttestationVersion    String?
+  /// 가입 요청 시 클라이언트 IP HMAC(SHA-256, salt) — 동일 출처 다중 가입 탐지 참고
+  signupRiskIpFingerprint        String?
+  /// User-Agent 앞 512자까지(원문 전체 미보관)
+  signupRiskUserAgent            String?
+  createdAt                      DateTime                 @default(now())
+  updatedAt                      DateTime                 @updatedAt
+
+  user                  User                         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reviewedBy            User?                        @relation("LawyerProfileReviewer", fields: [reviewedById], references: [id])
+  verificationDocuments LawyerVerificationDocument[]
+
+  @@index([verificationStatus])
+  @@index([reviewedById])
+  @@index([signupRiskIpFingerprint])
+}
+
+model LawyerVerificationDocument {
+  id              String    @id @default(cuid())
+  lawyerProfileId String
+  type            String
+  fileName        String
+  /// **Legacy / 외부 URL 참조**(P4): 신규 저장 금지. 성격상 legacyExternalUrl; 컬럼명은 당분간 `fileUrl` 유지.
+  fileUrl         String?
+  /// Private bucket 객체 키(또는 provider 파일 ID). P3 에서 signed URL 발급 시 사용.
+  storageKey      String?
+  bucket          String?
+  mimeType        String?
+  sizeBytes       Int?
+  checksum        String?
+  uploadedAt      DateTime  @default(now())
+  /// `fileUrl` → 객체 스토리지 이관 완료 시각(P4).
+  migratedAt      DateTime?
+
+  lawyerProfile LawyerProfile @relation(fields: [lawyerProfileId], references: [id], onDelete: Cascade)
+
+  @@index([lawyerProfileId])
+  @@index([storageKey])
 }
 
 model AuthAccount {
@@ -516,9 +618,17 @@ model Case {
   caseTimelineEvents         CaseTimelineEvent[]
   casePackageShares          CasePackageShare[]
   supplementRequests         SupplementRequest[]
+  gongbuhoTraces             GongbuhoTrace[]
+  voiceTranscripts           VoiceTranscript[]
+  voiceInteractionTraces     VoiceInteractionTrace[]
+
+  /// 사건 인터뷰에 사용할 질문셋(선택). 미지정 시 전역 활성 단일 QuestionSet 규약 유지(Phase 3-D).
+  questionSetId               String?
+  interviewQuestionSet       QuestionSet? @relation("CaseInterviewQuestionSet", fields: [questionSetId], references: [id], onDelete: SetNull)
 
   @@index([ownerUserId, status, createdAt])
   @@index([status, createdAt])
+  @@index([questionSetId])
   @@index([assignedLawyerUserId])
   @@index([assignedStaffUserId])
 }
@@ -551,6 +661,11 @@ model CasePackageShare {
   expiresAt    DateTime?
   revokedAt    DateTime?
   revokeReason String?
+
+  /// 공유 생성 시점의 사건 패키지 전체 스냅샷(JSON). 변호사 열람·PDF 등은 변경 후에도 동일 버전 유지용.
+  snapshotJson   Json?
+  /// `snapshotJson` UTF-8 JSON 직렬화 기준 SHA-256 무결성(내부 감사·오염 탐지)
+  snapshotSha256 String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -627,17 +742,17 @@ model SupplementRequest {
 }
 
 model SupplementRequestItem {
-  id             String               @id @default(cuid())
+  id             String                @id @default(cuid())
   requestId      String
   itemType       SupplementRequestType
   itemLabel      String
-  itemPrompt     String               @db.Text
-  isRequired     Boolean              @default(true)
-  sortOrder      Int                  @default(0)
+  itemPrompt     String                @db.Text
+  isRequired     Boolean               @default(true)
+  sortOrder      Int                   @default(0)
   expectedFormat String?
   maxLength      Int?
-  createdAt      DateTime             @default(now())
-  updatedAt      DateTime             @updatedAt
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
 
   request SupplementRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
 
@@ -647,22 +762,22 @@ model SupplementRequestItem {
 }
 
 model SupplementResponse {
-  id                String   @id @default(cuid())
-  requestId         String
-  requestItemId     String?
-  responderUserId   String
-  responderRole     UserRole
-  responseText      String?  @db.Text
-  responseJson      Json?
-  submittedAt       DateTime @default(now())
-  revisionRound     Int      @default(0)
-  isAcceptedSnapshot Boolean @default(false)
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  id                 String   @id @default(cuid())
+  requestId          String
+  requestItemId      String?
+  responderUserId    String
+  responderRole      UserRole
+  responseText       String?  @db.Text
+  responseJson       Json?
+  submittedAt        DateTime @default(now())
+  revisionRound      Int      @default(0)
+  isAcceptedSnapshot Boolean  @default(false)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 
-  request     SupplementRequest     @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  request     SupplementRequest      @relation(fields: [requestId], references: [id], onDelete: Cascade)
   requestItem SupplementRequestItem? @relation(fields: [requestItemId], references: [id], onDelete: SetNull)
-  responder   User                  @relation("SupplementResponseResponder", fields: [responderUserId], references: [id], onDelete: Cascade)
+  responder   User                   @relation("SupplementResponseResponder", fields: [responderUserId], references: [id], onDelete: Cascade)
 
   attachments SupplementResponseAttachment[]
 
@@ -671,34 +786,34 @@ model SupplementResponse {
 }
 
 model SupplementResponseAttachment {
-  id               String                 @id @default(cuid())
+  id               String                   @id @default(cuid())
   responseId       String
   caseAttachmentId String
   attachmentRole   SupplementAttachmentRole @default(EVIDENCE)
   note             String?
-  uploadedAt       DateTime               @default(now())
-  createdAt        DateTime               @default(now())
-  updatedAt        DateTime               @updatedAt
+  uploadedAt       DateTime                 @default(now())
+  createdAt        DateTime                 @default(now())
+  updatedAt        DateTime                 @updatedAt
 
   response       SupplementResponse @relation(fields: [responseId], references: [id], onDelete: Cascade)
-  caseAttachment CaseAttachment    @relation(fields: [caseAttachmentId], references: [id], onDelete: Cascade)
+  caseAttachment CaseAttachment     @relation(fields: [caseAttachmentId], references: [id], onDelete: Cascade)
 
   @@index([responseId, createdAt])
   @@index([caseAttachmentId])
 }
 
 model SupplementRequestStatusLog {
-  id           String                  @id @default(cuid())
-  requestId    String
-  fromStatus   SupplementRequestStatus
-  toStatus     SupplementRequestStatus
-  actorUserId  String?
-  actorRole    UserRole
-  reasonCode   String?
-  reasonMemo   String?
-  ipMasked     String?
+  id              String                  @id @default(cuid())
+  requestId       String
+  fromStatus      SupplementRequestStatus
+  toStatus        SupplementRequestStatus
+  actorUserId     String?
+  actorRole       UserRole
+  reasonCode      String?
+  reasonMemo      String?
+  ipMasked        String?
   userAgentMasked String?
-  createdAt    DateTime                @default(now())
+  createdAt       DateTime                @default(now())
 
   request SupplementRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
   actor   User?             @relation("SupplementRequestStatusLogActor", fields: [actorUserId], references: [id], onDelete: SetNull)
@@ -1162,7 +1277,121 @@ model Interview {
 
   case Case @relation(fields: [caseId], references: [id], onDelete: Cascade)
 
+  voiceTranscripts VoiceTranscript[]
+
   @@index([caseId, status])
+}
+
+/// Phase 5-B — 음성 STT 결과 초안 저장. 인터뷰 답변(`Interview.answersJson`)에는 `CONFIRMED` 이후 API에서만 반영해야 한다.
+model VoiceTranscript {
+  id     String @id @default(cuid())
+  caseId String
+  /// `Interview.answersJson` 키 규약과 동일(예 공부호 `gongbuho.*` 포함).
+  questionKey     String
+  createdByUserId String
+  interviewId     String?
+
+  status VoiceTranscriptStatus @default(CAPTURED)
+
+  draftText String? @db.Text
+
+  /// 원본 오디오 옵션 — 기본 false (`docs/voice/VOICE_PRIVACY_AND_RETENTION_POLICY.md`).
+  storeOriginalAudio      Boolean @default(false)
+  originalAudioStorageKey String?
+
+  /// Draft 상태 TTL 만료 목표 시각 앱 레이어가 설정한다(`VOICE_TRANSCRIPT_DRAFT_TTL_HOURS_DEFAULT`).
+  expiresAt DateTime?
+
+  confirmedAt DateTime?
+  rejectedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  case        Case                       @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  createdBy   User                       @relation("VoiceTranscriptCreatedBy", fields: [createdByUserId], references: [id], onDelete: Cascade)
+  interview   Interview?                 @relation(fields: [interviewId], references: [id], onDelete: SetNull)
+  traces      VoiceInteractionTrace[]
+
+  @@index([caseId, questionKey, status])
+  @@index([caseId, status, expiresAt])
+}
+
+/// Phase 5-B Voice 사건 타임라인 append-only 이벤트(`docs/voice/VOICE_INTERVIEW_FLOW.md` §5).
+model VoiceInteractionTrace {
+  id                String                       @id @default(cuid())
+  caseId            String
+  voiceTranscriptId String
+  event             VoiceInteractionTraceEvent
+  payloadJson       Json?
+  actorUserId       String?
+
+  createdAt DateTime @default(now())
+
+  case            Case            @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  voiceTranscript VoiceTranscript @relation(fields: [voiceTranscriptId], references: [id], onDelete: Cascade)
+  actor           User?           @relation("VoiceInteractionTraceActor", fields: [actorUserId], references: [id], onDelete: SetNull)
+
+  @@index([caseId])
+  @@index([voiceTranscriptId, createdAt])
+}
+
+/// 공부호 패킷 정의 — 본문은 `packetJson` 단일 블록(SSOT 동일 키). 인덱싱용 중복 필드만 컬럼으로 둠.
+model GongbuhoPacket {
+  id       String               @id @default(cuid())
+  code     String
+  version  String
+  name     String
+  domain   String
+  caseType String?
+  status   GongbuhoPacketStatus @default(DRAFT)
+
+  packetJson Json
+
+  createdByUserId  String?
+  approvedByUserId String?
+  approvedAt       DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  traces         GongbuhoTrace[]
+  createdByUser  User?           @relation("GongbuhoPacketCreatedBy", fields: [createdByUserId], references: [id], onDelete: SetNull)
+  approvedByUser User?           @relation("GongbuhoPacketApprovedBy", fields: [approvedByUserId], references: [id], onDelete: SetNull)
+
+  @@unique([code, version])
+  @@index([code])
+  @@index([caseType])
+  @@index([status])
+  @@index([createdByUserId])
+  @@index([approvedByUserId])
+}
+
+/// 사건별 공부호 적용 스냅샷/감사 흔적 — `version`은 적용 시점 패킷 버전(필드 매핑의 `appliedVersion`과 동일 의미)
+model GongbuhoTrace {
+  id String @id @default(cuid())
+
+  caseId           String
+  gongbuhoPacketId String
+
+  code    String
+  version String
+
+  inputSnapshot       Json?
+  outputSnapshot      Json?
+  validationResult    Json?
+  riskFlags           Json?
+  expertReviewPoints  Json?
+  humanApprovalStatus String?
+
+  createdAt DateTime @default(now())
+
+  case           Case           @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  gongbuhoPacket GongbuhoPacket @relation(fields: [gongbuhoPacketId], references: [id], onDelete: Restrict)
+
+  @@index([caseId])
+  @@index([code, version])
+  @@index([gongbuhoPacketId])
 }
 
 // ────────────────────────────────────────────────
@@ -1223,14 +1452,14 @@ enum JeonseReportStatus {
 }
 
 model IllegalLendingReport {
-  id                   String                         @id @default(cuid())
-  reporterType         IllegalLendingReporterType
-  reporterName         String
-  reporterPhone        String
-  reporterEmail        String?
-  uploadToken          String?                        @unique
-  victimName           String?
-  victimPhone          String?
+  id            String                     @id @default(cuid())
+  reporterType  IllegalLendingReporterType
+  reporterName  String
+  reporterPhone String
+  reporterEmail String?
+  uploadToken   String?                    @unique
+  victimName    String?
+  victimPhone   String?
 
   creditorName         String?
   creditorPhone        String?
@@ -1238,33 +1467,33 @@ model IllegalLendingReport {
   creditorAccount      String?
   creditorMemo         String?
 
-  loanDate             DateTime?
-  principalAmount      Int?
-  receivedAmount       Int?
-  repaidAmount         Int?
-  demandedAmount       Int?
-  interestRateMemo     String?
+  loanDate         DateTime?
+  principalAmount  Int?
+  receivedAmount   Int?
+  repaidAmount     Int?
+  demandedAmount   Int?
+  interestRateMemo String?
 
-  damageTypes          IllegalLendingDamageType[]
-  collectionMethods    String?
-  damageSummary        String
-  requestedHelp        String?
+  damageTypes       IllegalLendingDamageType[]
+  collectionMethods String?
+  damageSummary     String
+  requestedHelp     String?
 
-  evidenceSummary      String?
-  generatedReport      String
+  evidenceSummary String?
+  generatedReport String
 
-  consentPrivacy       Boolean                        @default(false)
-  consentNoLegalAdvice Boolean                        @default(false)
+  consentPrivacy       Boolean @default(false)
+  consentNoLegalAdvice Boolean @default(false)
 
-  status               IllegalLendingReportStatus     @default(DRAFT_SUBMITTED)
+  status IllegalLendingReportStatus @default(DRAFT_SUBMITTED)
 
-  createdAt            DateTime                       @default(now())
-  updatedAt            DateTime                       @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  statusHistories      IllegalLendingReportStatusHistory[]
-  accessLogs           IllegalLendingReportAccessLog[]
-  attachments          IllegalLendingReportAttachment[]
-  lawyerReviewRequests IllegalLendingLawyerReviewRequest[]
+  statusHistories           IllegalLendingReportStatusHistory[]
+  accessLogs                IllegalLendingReportAccessLog[]
+  attachments               IllegalLendingReportAttachment[]
+  lawyerReviewRequests      IllegalLendingLawyerReviewRequest[]
   lawyerAssignmentHistories IllegalLendingLawyerAssignmentHistory[]
 
   @@index([createdAt])
@@ -1273,7 +1502,7 @@ model IllegalLendingReport {
 }
 
 model IllegalLendingReportStatusHistory {
-  id         String                     @id @default(cuid())
+  id         String                      @id @default(cuid())
   reportId   String
   fromStatus IllegalLendingReportStatus?
   toStatus   IllegalLendingReportStatus
@@ -1281,7 +1510,7 @@ model IllegalLendingReportStatusHistory {
   actorId    String?
   actorName  String?
   actorRole  String?
-  createdAt  DateTime                   @default(now())
+  createdAt  DateTime                    @default(now())
 
   report IllegalLendingReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
 
@@ -1327,22 +1556,22 @@ enum IllegalLendingLawyerReviewStatus {
 }
 
 model IllegalLendingReportAttachment {
-  id              String                        @id @default(cuid())
-  reportId        String
-  attachmentType  IllegalLendingAttachmentType @default(OTHER)
-  originalName    String
-  storedName      String
-  mimeType        String
-  sizeBytes       Int
-  storageProvider String                        @default("local")
-  storageKey      String?
-  storagePath     String
-  downloadCount   Int                           @default(0)
+  id               String                       @id @default(cuid())
+  reportId         String
+  attachmentType   IllegalLendingAttachmentType @default(OTHER)
+  originalName     String
+  storedName       String
+  mimeType         String
+  sizeBytes        Int
+  storageProvider  String                       @default("local")
+  storageKey       String?
+  storagePath      String
+  downloadCount    Int                          @default(0)
   lastDownloadedAt DateTime?
-  memo            String?
-  uploadedByName  String?
-  uploadedByPhone String?
-  createdAt       DateTime                      @default(now())
+  memo             String?
+  uploadedByName   String?
+  uploadedByPhone  String?
+  createdAt        DateTime                     @default(now())
 
   report IllegalLendingReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
 
@@ -1375,14 +1604,14 @@ model IllegalLendingLawyerReviewRequest {
 
 model IllegalLendingLawyerAssignmentHistory {
   id              String   @id @default(cuid())
-  reportId         String
-  reviewRequestId  String?
-  lawyerId         String?
-  lawyerName       String?
-  reason           String?
-  createdAt        DateTime @default(now())
+  reportId        String
+  reviewRequestId String?
+  lawyerId        String?
+  lawyerName      String?
+  reason          String?
+  createdAt       DateTime @default(now())
 
-  report           IllegalLendingReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  report IllegalLendingReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
 
   @@index([reportId])
   @@index([lawyerId])
@@ -1505,7 +1734,7 @@ enum WageClaimReportStatus {
 }
 
 model JeonseDamageReportStatusHistory {
-  id         String             @id @default(cuid())
+  id         String              @id @default(cuid())
   reportId   String
   fromStatus JeonseReportStatus?
   toStatus   JeonseReportStatus
@@ -1513,7 +1742,7 @@ model JeonseDamageReportStatusHistory {
   actorId    String?
   actorName  String?
   actorRole  String?
-  createdAt  DateTime           @default(now())
+  createdAt  DateTime            @default(now())
 
   report JeonseDamageReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
 
@@ -1588,32 +1817,32 @@ model JeonseDamageLawyerReviewRequest {
 }
 
 model WageClaimReport {
-  id                    String                  @id @default(cuid())
+  id String @id @default(cuid())
 
-  reporterType          WageClaimReporterType
-  reporterName          String
-  reporterPhone         String
-  reporterEmail         String?
+  reporterType  WageClaimReporterType
+  reporterName  String
+  reporterPhone String
+  reporterEmail String?
 
-  workerName            String?
-  workerPhone           String?
+  workerName  String?
+  workerPhone String?
 
-  employerName          String?
-  companyName           String
-  companyAddress        String?
-  companyPhone          String?
-  workplaceAddress      String?
+  employerName     String?
+  companyName      String
+  companyAddress   String?
+  companyPhone     String?
+  workplaceAddress String?
 
-  employmentType        WageClaimEmploymentType
-  jobDescription        String?
-  hireDate              DateTime?
-  resignationDate       DateTime?
-  isResigned            Boolean                 @default(false)
+  employmentType  WageClaimEmploymentType
+  jobDescription  String?
+  hireDate        DateTime?
+  resignationDate DateTime?
+  isResigned      Boolean                 @default(false)
 
-  monthlyWageAmount     Int?
-  dailyWageAmount       Int?
-  hourlyWageAmount      Int?
-  agreedPayMemo         String?
+  monthlyWageAmount Int?
+  dailyWageAmount   Int?
+  hourlyWageAmount  Int?
+  agreedPayMemo     String?
 
   unpaidWageAmount      Int?
   unpaidSeveranceAmount Int?
@@ -1622,24 +1851,24 @@ model WageClaimReport {
   unpaidPeriod          String?
   paymentDueDate        DateTime?
 
-  damageTypes           WageClaimDamageType[]
-  requestHistory        String?
-  evidenceSummary       String?
-  damageSummary         String
-  requestedHelp         String?
+  damageTypes     WageClaimDamageType[]
+  requestHistory  String?
+  evidenceSummary String?
+  damageSummary   String
+  requestedHelp   String?
 
-  generatedStatement    String
-  generatedTable        String
-  generatedChecklist    String
+  generatedStatement String
+  generatedTable     String
+  generatedChecklist String
 
-  consentPrivacy        Boolean                 @default(false)
-  consentNoLegalAdvice  Boolean                 @default(false)
+  consentPrivacy       Boolean @default(false)
+  consentNoLegalAdvice Boolean @default(false)
 
-  uploadToken           String?                 @unique
-  status                WageClaimReportStatus   @default(DRAFT_SUBMITTED)
+  uploadToken String?               @unique
+  status      WageClaimReportStatus @default(DRAFT_SUBMITTED)
 
-  createdAt             DateTime                @default(now())
-  updatedAt             DateTime                @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([createdAt])
   @@index([status])
@@ -1664,10 +1893,10 @@ model LegalDocument {
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
 
-  case       Case                     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  case            Case                     @relation(fields: [caseId], references: [id], onDelete: Cascade)
   generationTrace DocumentGenerationTrace?
-  paragraphs LegalDocumentParagraph[]
-  versions   LegalDocumentVersion[]
+  paragraphs      LegalDocumentParagraph[]
+  versions        LegalDocumentVersion[]
 
   @@index([caseId, type])
   @@index([status])
@@ -1792,6 +2021,8 @@ model QuestionSet {
   archivedAt             DateTime?
   createdAt              DateTime          @default(now())
   updatedAt              DateTime          @updatedAt
+
+  caseInterviewBindings Case[] @relation("CaseInterviewQuestionSet")
 
   @@index([isActive, updatedAt])
   @@index([createdAt])

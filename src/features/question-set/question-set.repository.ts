@@ -74,7 +74,9 @@ export async function getActiveQuestionSetRepository() {
 }
 
 export async function createQuestionSetRepository(
-  data: Omit<QuestionSetEntity, "id" | "createdAt" | "updatedAt">,
+  data: Omit<QuestionSetEntity, "id" | "createdAt" | "updatedAt"> & {
+    definitionJson?: Prisma.InputJsonValue | null;
+  },
 ) {
   const row = await qs().create({
     data: {
@@ -83,6 +85,9 @@ export async function createQuestionSetRepository(
       description: data.description ?? null,
       isActive: data.isActive,
       questions: data.questions as unknown as Prisma.InputJsonValue,
+      ...(data.definitionJson !== undefined && data.definitionJson !== null
+        ? { definitionJson: data.definitionJson }
+        : {}),
     },
   });
 

@@ -12,6 +12,7 @@ import type { PermissionContext } from "@/lib/definitions";
 import { ForbiddenError, NotFoundError } from "@/lib/errors";
 import { prisma } from "@/lib/prisma";
 import { hasDefinedPermission } from "@/lib/definitions/permission-definition";
+import { assertLawyerProfessionalAccess } from "@/lib/lawyer/lawyer-verification-access";
 
 /** RB-03: `assertCaseAccess`·배정 조회에 공통으로 쓰는 사건 행 최소 필드 */
 export type CaseRowForPermission = {
@@ -93,9 +94,17 @@ export function canPerformCaseInterview(access: CaseAccessContext): boolean {
   );
 }
 
-export function buildAccessibleCaseWhere(
-  currentUser: SessionUser
-): Prisma.CaseWhereInput {
+export async function buildAccessibleCaseWhere(
+  currentUser: SessionUser,
+): Promise<Prisma.CaseWhereInput> {
+  if (currentUser.role === "LAWYER") {
+    try {
+      await assertLawyerProfessionalAccess(currentUser);
+    } catch {
+      return { id: { in: [] } };
+    }
+  }
+
   const base: Prisma.CaseWhereInput = {
     status: { not: "DELETED" },
   };
@@ -146,8 +155,12 @@ export function buildAccessibleCaseWhere(
 
 export async function getCaseAccessContext(
   currentUser: SessionUser,
-  caseId: string
+  caseId: string,
 ): Promise<CaseAccessContext> {
+  if (currentUser.role === "LAWYER") {
+    await assertLawyerProfessionalAccess(currentUser);
+  }
+
   const found = await prisma.case.findUnique({
     where: { id: caseId },
     select: {

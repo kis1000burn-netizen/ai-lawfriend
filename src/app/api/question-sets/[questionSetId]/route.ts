@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { getSessionUser } from "@/lib/get-session-user";
 import { assertPermission, permissionContextFromSession } from "@/lib/authz";
 import { ok, toErrorResponse } from "@/lib/domain-api-response";
+import { assertLawyerProfessionalAccess } from "@/lib/lawyer/lawyer-verification-access";
 
 const UpdateSchema = z.object({
   title: z.string().min(1),
@@ -27,6 +28,8 @@ export async function PATCH(
     }
 
     assertPermission("questionSet.update", permissionContextFromSession(sessionUser, {}));
+
+    await assertLawyerProfessionalAccess(sessionUser);
 
     const body = UpdateSchema.parse(await req.json());
 

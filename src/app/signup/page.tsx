@@ -74,12 +74,8 @@ export default function SignupPage() {
             AI법친 계정을 만들고 사건 정리를 시작하세요.
           </p>
           <p className="mt-3 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-950">
-          가입 후 계정은 <strong className="font-semibold">관리자 승인 대기(PENDING)</strong> 상태입니다.
-          승인이 완료되면 로그인할 수 있습니다.{" "}
-          <strong className="font-semibold">플랫폼 관리자(ADMIN)</strong>는 로그인 후 상단{" "}
-          <span className="whitespace-nowrap">「가입 승인」</span> 또는{" "}
-          <span className="whitespace-nowrap">관리자 콘솔 → 가입 승인 대기</span>에서 승인·반려합니다.
-          일반 변호사·의뢰인 계정에는 해당 메뉴가 보이지 않습니다.
+            가입이 완료되면 바로 로그인할 수 있습니다. (이메일·휴대폰 본인확인 절차는 운영 정책에 따라
+            단계적으로 적용합니다.)
           </p>
         </div>
 

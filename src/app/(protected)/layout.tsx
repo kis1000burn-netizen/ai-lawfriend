@@ -1,3 +1,4 @@
+import { isStaffRole } from "@/lib/auth/roles";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { requireUser } from "@/lib/auth/session";
@@ -32,6 +33,33 @@ export default async function ProtectedLayout({ children }: Props) {
               <Link href="/cases/new" className="hover:text-aibeop-text">
                 사건 등록
               </Link>
+              {user.role === "LAWYER" ? (
+                <Link href="/lawyer" className="hover:text-aibeop-text">
+                  변호사 포털
+                </Link>
+              ) : null}
+              {isStaffRole(user.role) ? (
+                <>
+                  <Link href="/admin/alerts/ops-queue" className="hover:text-aibeop-text">
+                    Ops 대기열
+                  </Link>
+                  <Link href="/admin/alerts/ops-dashboard" className="hover:text-aibeop-text">
+                    운영 현황
+                  </Link>
+                  <Link href="/admin/audit-logs" className="hover:text-aibeop-text">
+                    감사로그
+                  </Link>
+                  <Link href="/admin/lawyer-verifications" className="hover:text-aibeop-text">
+                    변호사 자격(조회)
+                  </Link>
+                  <Link href="/admin/case-package-shares" className="hover:text-aibeop-text">
+                    사건 패키지 공유
+                  </Link>
+                  <Link href="/admin/legal-form-sources" className="hover:text-aibeop-text">
+                    공식 서식 원천
+                  </Link>
+                </>
+              ) : null}
               {canEditQuestionSets ? (
                 <Link href="/admin/question-sets" className="hover:text-aibeop-text">
                   인터뷰 질문셋
@@ -42,6 +70,11 @@ export default async function ProtectedLayout({ children }: Props) {
                   문서 템플릿
                 </Link>
               ) : null}
+              {isStaffRole(user.role) || isPlatformAdmin ? (
+                <Link href="/admin/gongbuho" className="hover:text-aibeop-text">
+                  공부호 패킷
+                </Link>
+              ) : null}
               {isPlatformAdmin ? (
                 <>
                   <Link
@@ -50,6 +83,12 @@ export default async function ProtectedLayout({ children }: Props) {
                     title="플랫폼 관리자(ADMIN / SUPER_ADMIN) 전용"
                   >
                     가입 승인
+                  </Link>
+                  <Link href="/admin/lawyer-verifications" className="hover:text-aibeop-text">
+                    변호사 자격 검증
+                  </Link>
+                  <Link href="/admin/case-package-shares" className="hover:text-aibeop-text">
+                    사건 패키지 공유
                   </Link>
                   <Link href="/admin/audit-logs" className="hover:text-aibeop-text">
                     감사로그

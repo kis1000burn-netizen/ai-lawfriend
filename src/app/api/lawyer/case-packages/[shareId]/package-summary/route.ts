@@ -1,11 +1,13 @@
 import { z } from "zod";
 import { toErrorResponse } from "@/lib/domain-api-response";
 import { requireSessionUser } from "@/lib/auth/require-session-user";
+import { assertLawyerProfessionalAccess } from "@/lib/lawyer/lawyer-verification-access";
 import { prisma } from "@/lib/prisma";
 import { NotFoundError } from "@/lib/errors";
 import { assertCanDownloadPackageSummary } from "@/lib/case-package/case-package-pdf-policy";
 import { createCasePackageAccessLog } from "@/lib/case-package/case-package-access-log";
 import { renderCasePackageSummaryHtml } from "@/lib/case-package/case-package-summary-renderer";
+import { resolveVerifiedCasePackageSnapshot } from "@/features/case-package/case-package-share-snapshot-utils";
 import { normalizeShareStatusByTime } from "@/lib/case-package/case-package-share-policy";
 
 export const dynamic = "force-dynamic";
@@ -74,6 +76,10 @@ export async function GET(request: Request, context: RouteContext) {
     }
 
     try {
+      if (currentUser.role === "LAWYER") {
+        await assertLawyerProfessionalAccess(currentUser);
+      }
+
       assertCanDownloadPackageSummary({
         currentUser,
         share,
@@ -106,7 +112,13 @@ export async function GET(request: Request, context: RouteContext) {
       throw error;
     }
 
-    const html = renderCasePackageSummaryHtml(share);
+    const verifiedSnapshot = resolveVerifiedCasePackageSnapshot(
+      share.snapshotJson,
+      share.snapshotSha256,
+    );
+    const html = renderCasePackageSummaryHtml(share, {
+      verifiedSnapshot,
+    });
 
     await createCasePackageAccessLog({
       shareId: share.id,

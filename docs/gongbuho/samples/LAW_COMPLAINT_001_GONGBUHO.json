@@ -1,0 +1,88 @@
+{
+  "code": "LAW-COMPLAINT-001",
+  "name": "형사 고소장(초안) 사실 진술 정리 공부호",
+  "domain": "AI법친",
+  "caseType": "CRIMINAL_COMPLAINT_DRAFT",
+  "version": "1.0.0",
+  "locale": "ko-KR",
+  "meta": {
+    "description": "범행 인지·증거 상태·증인 유무 초기 검토 후 고소장 초안 작성을 위한 시간순 진술 틀을 만든다.",
+    "tags": ["criminal", "complaint", "facts"]
+  },
+  "knowledgeMap": {
+    "coreElements": [
+      "고소 가능한 범죄사실의 단서",
+      "시간 순서 명확성",
+      "표현 완충 필요"
+    ],
+    "evidenceTypes": ["통화내역", "캡쳐본", "CCTV 존재", "증인 개요"]
+  },
+  "reasoningFlow": [
+    "중립적 시간순 열거",
+    "단정 회피",
+    "검증 가능성 마킹"
+  ],
+  "questionFlow": [
+    {
+      "id": "PQ1",
+      "phase": "시작",
+      "text": "가장 초기 접점 시점부터 범위를 정해서 범행 혐의 또는 피해로 주장되는 사건을 순서대로 간략히 기술하세요.",
+      "purpose": "시간 순서 초안 확보",
+      "evidenceHints": ["달력 노트"]
+    },
+    {
+      "id": "PQ2",
+      "phase": "피혐의 행위",
+      "text": "상대방이 무엇을 했으며 그로 인해 본인이 어떠한 상태가 되었다고 보는지 객관어로 나열합니다.",
+      "purpose": "불법행위·구성요건 후보 초기 리스트업",
+      "evidenceHints": ["문자", "통화내역 요약"]
+    },
+    {
+      "id": "PQ3",
+      "phase": "증거 인벤토리",
+      "text": "보유한 증거와 확보해야 할 증거를 구별해 주세요.",
+      "purpose": "입증 상태 시각화",
+      "evidenceHints": []
+    },
+    {
+      "id": "PQ4",
+      "phase": "증인·제3자",
+      "text": "진술 가능한 사람·기관 회신 존재를 알려주세요.",
+      "purpose": "입증 패키지 구성",
+      "evidenceHints": ["증인 연락처 존중"]
+    },
+    {
+      "id": "PQ5",
+      "phase": "한계",
+      "text": "불명확하거나 추정에 그치는 문장에는 별표로 표시해야 할 부분은 무엇입니까?",
+      "purpose": "과단정 회피",
+      "evidenceHints": []
+    }
+  ],
+  "validationRules": [
+    "죄 명칭 선택은 정보 제공 차원을 넘어선 단언 금지",
+    "고소 허위 기재 교사 금지"
+  ],
+  "outputContract": {
+    "summary": [
+      "시간 순서 표",
+      "증거 존중 문구 패치 리스트",
+      "변호사 검토 라벨링"
+    ],
+    "documents": ["고소 사실 순서 초안"]
+  },
+  "forbiddenRules": [
+    "증거 조작 교사 표현 금지",
+    "수사 회피·위법 교사 금지"
+  ],
+  "expertReviewPoints": [
+    "공소시효·불처벌 각의 가능성 존중",
+    "반박 정황 객관 균형 필요"
+  ],
+  "humanApproval": {
+    "clientConfirmationRequired": true,
+    "lawyerReviewRequired": true,
+    "autoSubmitAllowed": false,
+    "highRiskCaseFlagSuggested": true
+  }
+}

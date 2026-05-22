@@ -10,6 +10,8 @@ describe("isAllowedStaffAdminPath (alias)", () => {
     expect(isAllowedStaffAdminPath("/admin/audit-logs/detail/1")).toBe(true);
     expect(isAllowedStaffAdminPath("/admin/question-sets")).toBe(true);
     expect(isAllowedStaffAdminPath("/admin/question-sets/x")).toBe(true);
+    expect(isAllowedStaffAdminPath("/admin/gongbuho")).toBe(true);
+    expect(isAllowedStaffAdminPath("/admin/gongbuho/cuid123")).toBe(true);
   });
 
   it("느슨한 prefix 허용을 막는다", () => {

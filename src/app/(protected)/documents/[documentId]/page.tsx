@@ -1,5 +1,6 @@
 /* [FILE-027] 문서 상세·`case.status` 는 서버 `getDocumentDetail` DTO; 사건 상태·전이는 `PATCH/POST` `/api/cases/.../status`·`transition` 축(Batch A). */
 import { notFound, redirect } from "next/navigation";
+import { redirectLawyerToVerificationUnlessApproved } from "@/lib/auth/session";
 import { getSessionUser } from "@/lib/get-session-user";
 import { documentDetailService } from "@/features/documents/document-detail.service";
 import DocumentDetailClient from "@/components/cases/document-detail-client";
@@ -20,6 +21,8 @@ export default async function DocumentDetailPage({ params }: PageProps) {
   if (!sessionUser) {
     redirect("/login");
   }
+
+  await redirectLawyerToVerificationUnlessApproved(sessionUser);
 
   try {
     const document = await documentDetailService.getDocumentDetail(

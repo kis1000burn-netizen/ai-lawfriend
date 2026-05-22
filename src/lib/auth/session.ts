@@ -65,10 +65,42 @@ export async function requireLawyer() {
   }
 
   if (user.role !== "LAWYER") {
-    redirect("/dashboard");
+    redirect("/access-denied");
   }
 
   return user;
+}
+
+/** 변호사 **전문가(사건·보완요청 등)** 화면 — 승인(`APPROVED`) 전이면 승인 대기로 보낸다. */
+export async function requireApprovedLawyer() {
+  const user = await requireLawyer();
+  const profile = await prisma.lawyerProfile.findUnique({
+    where: { userId: user.id },
+    select: { verificationStatus: true },
+  });
+  if (!profile || profile.verificationStatus !== "APPROVED") {
+    redirect("/lawyer/verification-pending");
+  }
+  return user;
+}
+
+/**
+ * 의뢰인 보호 경로 접근 시 `LAWYER`인데 등록 미승인이면 검증 대기로 보냅니다.
+ * (`assertCaseAccess`만 적용되는 화면에서 전문가 검증 우회 방지.)
+ */
+export async function redirectLawyerToVerificationUnlessApproved(
+  user: SessionUser,
+): Promise<void> {
+  if (user.role !== "LAWYER") return;
+
+  const profile = await prisma.lawyerProfile.findUnique({
+    where: { userId: user.id },
+    select: { verificationStatus: true },
+  });
+
+  if (!profile || profile.verificationStatus !== "APPROVED") {
+    redirect("/lawyer/verification-pending");
+  }
 }
 
 export async function requireAdmin() {
@@ -79,7 +111,7 @@ export async function requireAdmin() {
   }
 
   if (user.role !== "ADMIN" && user.role !== "SUPER_ADMIN") {
-    redirect("/dashboard");
+    redirect("/access-denied");
   }
 
   return user;
@@ -94,7 +126,7 @@ export async function requireRolePage(minimumRole: UserRole) {
   }
 
   if (!hasRoleAtLeast(user.role, minimumRole)) {
-    redirect("/dashboard");
+    redirect("/access-denied");
   }
 
   return user;

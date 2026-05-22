@@ -37,7 +37,7 @@ export async function POST(req: Request) {
         name: parsed.data.name.trim(),
         phone: parsed.data.phone?.trim() || null,
         role: UserRole.USER,
-        status: UserStatus.PENDING,
+        status: UserStatus.ACTIVE,
       },
       select: {
         id: true,
@@ -53,7 +53,7 @@ export async function POST(req: Request) {
       {
         user,
         message:
-          "가입 신청이 접수되었습니다. 관리자 승인 후 로그인할 수 있습니다.",
+          "가입이 완료되었습니다. 로그인 후 이용해 주세요.",
       },
       { status: 201 },
     );

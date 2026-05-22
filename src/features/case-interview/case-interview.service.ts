@@ -3,11 +3,15 @@ import { writeAuditLog } from "@/lib/audit-log";
 import { ForbiddenError, NotFoundError, ValidationError } from "@/lib/errors";
 import type { SessionUser } from "@/lib/auth/require-session-user";
 import { prisma } from "@/lib/prisma";
-import { getActiveQuestionSet } from "@/features/question-set/question-set.service";
+import {
+  getActiveQuestionSet,
+  getQuestionSetById,
+} from "@/features/question-set/question-set.service";
 import type {
   InterviewAnswerMap,
   InterviewAnswerValue,
   InterviewFlowPayload,
+  QuestionSetEntity,
 } from "@/features/question-set/question-set.types";
 import {
   buildInterviewProgress,
@@ -27,12 +31,13 @@ import {
   findInterviewCompletionByCaseId,
   markInterviewCompleted,
 } from "@/features/case-interview/case-interview.repository";
+import { assertQuestionSetOperationalForInterview } from "@/features/gongbuho/gongbuho-interview-binding.service";
 
 /**
- * 인터뷰 **런타임** (조회·저장·완료) 질문 소스: `QuestionSet.questions` JSON (플랫, `getActiveQuestionSet` →
- * `resolveInterviewQuestions` + 사건 `CaseAccessContext`: Zod/정의 `audience(=visibility)`·`visibleToRoles`·
- * `visibilityRule`·`active` **한 축**). `QuestionSet.definitionJson.sections` 는 **관리/카탈로그(SPEC Zod) 구조**이며
- * EVIDENCE-20260423-330 기준 **필수 완료 검증**에는 쓰지 않는다.
+ * 인터뷰 **런타임** (조회·저장·완료) 질문 소스: `QuestionSet.questions` JSON (플랫).
+ * 사건 `Case.questionSetId`가 있으면 게시(PUBLISHED)·활성 질문셋(Phase 3-D 공부호 바인딩), 없으면 전역 `getActiveQuestionSet` 유지.
+ * `resolveInterviewQuestions` + `CaseAccessContext`: `audience`·`visibleToRoles`·`visibilityRule`·`active` 한 축.
+ * `QuestionSet.definitionJson.sections` 는 관리/카탈로그(Zod) 구조이며 EVIDENCE-330 기준 필수 완료 검증에는 쓰지 않는다.
  */
 type SummaryAnswerRow = { questionKey: string; answerText: string }[];
 
@@ -170,8 +175,64 @@ async function assertCaseInterviewAccess(currentUser: SessionUser, caseId: strin
   }
 }
 
+async function resolveQuestionSetEntityForCaseInterview(caseId: string): Promise<QuestionSetEntity> {
+  const row = await prisma.case.findUnique({
+    where: { id: caseId },
+    select: { questionSetId: true },
+  });
+
+  if (row?.questionSetId) {
+    const [questionSet, operational] = await Promise.all([
+      getQuestionSetById(row.questionSetId),
+      prisma.questionSet.findUnique({
+        where: { id: row.questionSetId },
+        select: { catalogStatus: true, isActive: true },
+      }),
+    ]);
+
+    if (!questionSet || !operational) {
+      throw new ValidationError("사건에 연결된 질문셋을 찾을 수 없습니다.", {
+        code: "CASE_BOUND_QUESTION_SET_MISSING",
+      });
+    }
+    assertQuestionSetOperationalForInterview(operational);
+    return questionSet;
+  }
+
+  const active = await getActiveQuestionSet();
+  if (!active) {
+    throw new Error("활성 질문셋이 없습니다.");
+  }
+  return active;
+}
+
+async function resolveInterviewQuestionSetPersistRow(caseId: string): Promise<{
+  id: string;
+  code: string | null;
+  version: string;
+} | null> {
+  const caseRow = await prisma.case.findUnique({
+    where: { id: caseId },
+    select: { questionSetId: true },
+  });
+
+  if (caseRow?.questionSetId) {
+    const meta = await prisma.questionSet.findUnique({
+      where: { id: caseRow.questionSetId },
+      select: { id: true, code: true, version: true },
+    });
+    return meta;
+  }
+
+  return prisma.questionSet.findFirst({
+    where: { isActive: true },
+    orderBy: { updatedAt: "desc" },
+    select: { id: true, code: true, version: true },
+  });
+}
+
 /**
- * 활성 `QuestionSet`의 `questions` JSON만 읽는다. (`definitionJson` 런타임 필수 경로는 아님)
+ * 사건 바인딩 또는 전역 활성 QuestionSet 기준 질문 셋.
  * [346] / PR-346-A: `visibleToRoles`·질문 `audience`·`active`·`visibilityRule` = `getInterviewFlow`·`complete` 동일.
  */
 export async function getInterviewFlowInternal(
@@ -179,10 +240,7 @@ export async function getInterviewFlowInternal(
   access: CaseAccessContext,
   currentUser: SessionUser,
 ): Promise<InterviewFlowPayload> {
-  const questionSet = await getActiveQuestionSet();
-  if (!questionSet) {
-    throw new Error("활성 질문셋이 없습니다.");
-  }
+  const questionSet = await resolveQuestionSetEntityForCaseInterview(caseId);
 
   if (!isCatalogUserRoleAllowedForQuestionSet(questionSet.visibleToRoles, currentUser)) {
     throw new ForbiddenError("이 질문셋에 대한 인터뷰를 볼 수 있는 역할이 아닙니다.");
@@ -288,7 +346,7 @@ export async function getCaseInterviewQuestionSetService(
     throw new NotFoundError("사건을 찾을 수 없습니다.");
   }
 
-  const qs = await getActiveQuestionSet();
+  const qs = await resolveQuestionSetEntityForCaseInterview(caseId);
 
   return {
     caseId: found.id,
@@ -317,7 +375,7 @@ export async function listCaseInterviewAnswersService(
   );
   const completion = await findInterviewCompletionByCaseId(caseId);
 
-  const qs = await getActiveQuestionSet();
+  const qs = await resolveQuestionSetEntityForCaseInterview(caseId);
 
   return {
     case: {
@@ -464,11 +522,7 @@ export async function completeCaseInterviewService(
 
   assertCaseTerminalAllowsInterviewComplete(found.status);
 
-  const activeQsRow = await prisma.questionSet.findFirst({
-    where: { isActive: true },
-    orderBy: { updatedAt: "desc" },
-    select: { id: true, code: true, version: true },
-  });
+  const activeQsRow = await resolveInterviewQuestionSetPersistRow(caseId);
 
   const existingCompletion = await findInterviewCompletionByCaseId(caseId);
 

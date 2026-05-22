@@ -1,8 +1,10 @@
 import CaseForm from "@/components/cases/case-form";
+import { redirectLawyerToVerificationUnlessApproved } from "@/lib/auth/session";
 import { requireSessionUser } from "@/lib/auth/require-session-user";
 
 export default async function NewCasePage() {
-  await requireSessionUser();
+  const currentUser = await requireSessionUser();
+  await redirectLawyerToVerificationUnlessApproved(currentUser);
 
   return (
     <div className="mx-auto max-w-4xl space-y-6">

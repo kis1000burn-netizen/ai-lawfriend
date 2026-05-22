@@ -1,8 +1,9 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { forbidden, notFound, redirect } from "next/navigation";
 import { SupplementRequestMvpClient } from "@/components/supplement-requests/supplement-request-mvp-client";
 import { getCaseDetailService } from "@/features/cases/case.service";
 import { ForbiddenError, NotFoundError } from "@/lib/errors";
+import { redirectLawyerToVerificationUnlessApproved } from "@/lib/auth/session";
 import { getSessionUser } from "@/lib/get-session-user";
 import { prismaRoleToUiRole } from "@/lib/role-map";
 
@@ -17,6 +18,8 @@ export default async function CaseSupplementHubPage({ params }: PageProps) {
   if (!sessionUser) {
     redirect("/login");
   }
+
+  await redirectLawyerToVerificationUnlessApproved(sessionUser);
 
   let item: Awaited<ReturnType<typeof getCaseDetailService>>;
 

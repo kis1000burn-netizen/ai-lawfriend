@@ -1,11 +1,14 @@
+import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
 import { PromoAnalyticsProvider } from "@/components/analytics/promo-analytics-provider";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SitePromoPopupProvider } from "@/components/layout/site-promo-popup-provider";
 import { ToastProvider } from "@/components/ui/toast/ToastProvider";
+import { siteOrigin } from "@/lib/site-origin";
 
-export const metadata = {
+export const metadata: Metadata = {
+  metadataBase: new URL(siteOrigin()),
   title: "AI법친",
   description: "사건 정리와 상담 준비를 돕는 플랫폼",
 };

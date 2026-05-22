@@ -1,4 +1,5 @@
 import CaseForm from "@/components/cases/case-form";
+import { redirectLawyerToVerificationUnlessApproved } from "@/lib/auth/session";
 import { requireSessionUser } from "@/lib/auth/require-session-user";
 import { getCaseDetailService } from "@/features/cases/case.service";
 
@@ -16,6 +17,7 @@ function toDateInputValue(date: Date | string | null | undefined) {
 
 export default async function EditCasePage({ params }: EditCasePageProps) {
   const currentUser = await requireSessionUser();
+  await redirectLawyerToVerificationUnlessApproved(currentUser);
   const { caseId } = await params;
   const item = await getCaseDetailService(currentUser, caseId);
 

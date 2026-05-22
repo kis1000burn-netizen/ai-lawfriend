@@ -1,4 +1,4 @@
-import { PrismaClient, UserRole, UserStatus } from "@prisma/client";
+import { PrismaClient, UserRole, UserStatus, LawyerVerificationStatus } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { seedLegalFormSources } from "./seed-legal-form-sources";
 import { DEFAULT_QUESTION_SET_CODE, seedQuestionSets } from "./seed-question-sets";
@@ -72,6 +72,24 @@ async function main() {
       role: UserRole.LAWYER,
       status: UserStatus.ACTIVE,
       phone: "01000000002",
+    },
+  });
+
+  await prisma.lawyerProfile.upsert({
+    where: { userId: lawyer.id },
+    update: {
+      verificationStatus: LawyerVerificationStatus.APPROVED,
+      registrationNumber: "SEED-DEMO",
+      barAssociation: "SEED-DEMO",
+      reviewedAt: new Date(),
+    },
+    create: {
+      userId: lawyer.id,
+      registrationNumber: "SEED-DEMO",
+      barAssociation: "SEED-DEMO",
+      verificationStatus: LawyerVerificationStatus.APPROVED,
+      submittedAt: new Date(),
+      reviewedAt: new Date(),
     },
   });
 

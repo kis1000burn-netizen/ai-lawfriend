@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { redirectLawyerToVerificationUnlessApproved } from "@/lib/auth/session";
+import { requireSessionUser } from "@/lib/auth/require-session-user";
 import { CasePackageShareClient } from "@/components/case-package/case-package-share-client";
 
 type PageProps = {
@@ -9,6 +11,9 @@ type PageProps = {
 
 export default async function CasePackageSharePage({ params }: PageProps) {
   const { caseId } = await params;
+
+  const sessionUser = await requireSessionUser();
+  await redirectLawyerToVerificationUnlessApproved(sessionUser);
 
   return (
     <main className="mx-auto flex w-full max-w-6xl flex-col gap-6 p-6">
@@ -22,6 +27,11 @@ export default async function CasePackageSharePage({ params }: PageProps) {
             <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600">
               사건 요약, AI 인터뷰 정리, 첨부자료 목록, 문서 초안의 기초를
               변호사가 검토할 수 있도록 공유 범위와 만료일을 설정합니다.
+              <span className="font-medium text-slate-800">
+                {" "}
+                고유번호를 발급하는 순간 현재 사건 패키지가 스냅샷으로 고정되며, 이후 의뢰인이
+                사건을 수정해도 이 공유로 열람되는 내용은 발급 당시 기준으로 유지됩니다.
+              </span>
               고유번호만으로는 열람되지 않으며, 변호사 로그인과 공유 상태
               검증을 거쳐야 합니다.
             </p>

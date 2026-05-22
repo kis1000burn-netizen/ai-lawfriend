@@ -9,6 +9,13 @@ import FormError from "@/components/auth/form-error";
 import { useAuthForm } from "@/hooks/use-auth-form";
 import { getErrorMessage } from "@/lib/error-messages";
 
+const APPROVAL_PENDING_FALLBACK =
+  "가입 신청이 완료되었습니다. 관리자 승인 후 서비스를 이용할 수 있습니다.";
+
+/** `/lawyer/verification-pending` 안내와 톤·기능 나열을 맞춤 */
+const LAWYER_PENDING_EXTRA =
+  "변호사 회원은 자격 확인 및 관리자 승인 후 사건 검토, 문서 검토, 보완요청 기능을 사용할 수 있습니다.";
+
 type LoginResponse = {
   user: {
     id: string;
@@ -18,6 +25,8 @@ type LoginResponse = {
     status: string;
   };
   message: string;
+  mode?: string;
+  postLoginRedirect?: string;
 };
 
 type LoginFormSubmitEvent = Parameters<
@@ -52,9 +61,12 @@ export default function LoginPageClient({ oauthProviders }: LoginPageClientProps
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect") || "/dashboard";
   const registered = searchParams.get("registered") === "1";
+  const lawyerRegistered = searchParams.get("lawyerRegistered") === "1";
+  const urlAccountPending = searchParams.get("accountPending") === "1";
+  const urlPendingRole = searchParams.get("pendingRole");
   const oauthErrorCode = searchParams.get("oauthError");
 
-  const { loading, errorMessage, submit } = useAuthForm();
+  const { loading, errorMessage, accountPending, submit } = useAuthForm();
 
   const [form, setForm] = useState({
     email: "",
@@ -66,19 +78,32 @@ export default function LoginPageClient({ oauthProviders }: LoginPageClientProps
 
     await submit<typeof form, LoginResponse>({
       endpoint: "/api/auth/login",
-      body: form,
-      onSuccess: async () => {
-        router.push(redirect);
+      body: {
+        ...form,
+        redirect: searchParams.get("redirect") ?? undefined,
+      },
+      onSuccess: async (data) => {
+        router.push(data.postLoginRedirect ?? redirect);
         router.refresh();
       },
     });
   }
 
-  const oauthErrorMessage = oauthErrorCode
-    ? getErrorMessage({ code: oauthErrorCode })
-    : "";
+  /** OAuth: `?accountPending=1&pendingRole=LAWYER` 와 동일 내용의 `oauthError=ACCOUNT_PENDING`이면 이중 표시 방지 */
+  const showApprovalNotice = accountPending !== null || urlAccountPending;
+  const suppressOauthPendingDuplicate =
+    oauthErrorCode === "ACCOUNT_PENDING" && showApprovalNotice;
+  const oauthErrorMessage =
+    oauthErrorCode && !suppressOauthPendingDuplicate
+      ? getErrorMessage({ code: oauthErrorCode })
+      : "";
 
   const visibleErrorMessage = errorMessage || oauthErrorMessage;
+
+  const approvalMainText =
+    accountPending?.message ?? (urlAccountPending ? APPROVAL_PENDING_FALLBACK : "");
+  const approvalLawyerExtra =
+    accountPending?.pendingAccountRole === "LAWYER" || urlPendingRole === "LAWYER";
 
   return (
     <main className="mx-auto max-w-lg px-6 py-16">
@@ -96,13 +121,22 @@ export default function LoginPageClient({ oauthProviders }: LoginPageClientProps
           ) : null}
         {registered ? (
           <p className="mt-3 rounded-xl border border-aibeop-pale bg-aibeop-pale/60 px-3 py-2 text-xs leading-relaxed text-aibeop-deep">
-            가입 신청이 접수되었습니다. <strong className="font-semibold">관리자 승인 후</strong>{" "}
-            로그인할 수 있습니다.
+            가입이 완료되었습니다. 같은 이메일로 로그인해 주세요.
           </p>
         ) : null}
-        <p className="mt-3 text-xs leading-relaxed text-aibeop-muted">
-          승인 대기(PENDING)·정지(SUSPENDED) 계정은 로그인할 수 없습니다.
-        </p>
+        {lawyerRegistered ? (
+          <p className="mt-3 rounded-xl border border-aibeop-pale bg-aibeop-pale/60 px-3 py-2 text-xs leading-relaxed text-aibeop-deep">
+            변호사 회원 정보가 접수되었습니다. 로그인 후{" "}
+            <strong className="font-semibold">자격 승인</strong>이 끝나면 전문 기능을 사용할 수
+            있습니다.
+          </p>
+        ) : null}
+        {!registered && !lawyerRegistered && !urlAccountPending ? (
+          <p className="mt-3 text-xs leading-relaxed text-aibeop-muted">
+            계정이 <strong className="font-medium text-aibeop-text">승인 대기(PENDING)</strong>인 경우
+            로그인 시 안내 메시지가 표시됩니다. 정지(SUSPENDED) 계정은 로그인할 수 없습니다.
+          </p>
+        ) : null}
         <p className="mt-2 text-xs leading-relaxed text-aibeop-muted">
           승인이 끝났는데도 로그인되지 않으면 이메일·비밀번호를 확인하거나, 플랫폼 관리자에게 계정 상태를 문의하세요.
         </p>
@@ -127,6 +161,20 @@ export default function LoginPageClient({ oauthProviders }: LoginPageClientProps
               setForm((prev) => ({ ...prev, password: value }))
             }
           />
+
+          {showApprovalNotice ? (
+            <div
+              className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950"
+              role="status"
+            >
+              <p className="whitespace-pre-line">{approvalMainText}</p>
+              {approvalLawyerExtra ? (
+                <p className="mt-2 text-[15px] leading-relaxed text-amber-950/95">
+                  {LAWYER_PENDING_EXTRA}
+                </p>
+              ) : null}
+            </div>
+          ) : null}
 
           <FormError message={visibleErrorMessage} />
 
@@ -161,11 +209,19 @@ export default function LoginPageClient({ oauthProviders }: LoginPageClientProps
           </div>
         ) : null}
 
-        <div className="mt-6 text-sm text-aibeop-muted">
-          아직 계정이 없으신가요?{" "}
-          <Link href="/signup" className="font-medium text-aibeop-text underline">
-            회원가입
-          </Link>
+        <div className="mt-6 space-y-2 text-sm text-aibeop-muted">
+          <div>
+            아직 계정이 없으신가요?{" "}
+            <Link href="/signup" className="font-medium text-aibeop-text underline">
+              일반 회원가입
+            </Link>
+          </div>
+          <div>
+            변호사이신가요?{" "}
+            <Link href="/signup-lawyer" className="font-medium text-aibeop-text underline">
+              변호사 회원가입
+            </Link>
+          </div>
         </div>
       </div>
     </main>

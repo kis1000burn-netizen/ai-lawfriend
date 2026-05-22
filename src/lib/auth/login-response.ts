@@ -1,5 +1,6 @@
 import { ok } from "@/lib/domain-api-response";
 import { writeAuditLog } from "@/lib/audit-log";
+import { authSessionCookieSetOptions } from "@/lib/auth/cookie-security";
 import { signAccessToken } from "@/lib/auth/jwt";
 import { AUTH_COOKIE_NAME } from "@/lib/auth/session";
 import { prisma } from "@/lib/prisma";
@@ -19,6 +20,8 @@ type ApplyLoginSessionOptions = {
   message: string;
   mode: AuthLoginMode;
   metadata?: Record<string, unknown>;
+  /** 변호사 미승인 등 로그인 직후 이동 경로(계정 `ACTIVE`와 별개). */
+  postLoginRedirect?: string | null;
 };
 
 export async function applyLoginSession<T extends NextResponse>(
@@ -51,13 +54,7 @@ export async function applyLoginSession<T extends NextResponse>(
       : { mode: options.mode },
   });
 
-  response.cookies.set(AUTH_COOKIE_NAME, token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: 60 * 60 * 24 * 7,
-  });
+  response.cookies.set(AUTH_COOKIE_NAME, token, authSessionCookieSetOptions(60 * 60 * 24 * 7));
 
   return response;
 }
@@ -70,6 +67,9 @@ export async function buildJsonLoginResponse(
     user,
     mode: options.mode,
     message: options.message,
+    ...(typeof options.postLoginRedirect === "string"
+      ? { postLoginRedirect: options.postLoginRedirect }
+      : {}),
   });
 
   return applyLoginSession(response, user, options);

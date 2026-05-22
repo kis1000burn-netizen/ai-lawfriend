@@ -5,6 +5,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { requireOkData } from "@/lib/client/api-error";
+import { InterviewVoiceGuidedPanel } from "@/components/cases/interview-voice-guided-panel";
+import type { VoicePromptSpec } from "@/features/question-set/question-set.types";
 
 type QuestionOption = {
   label: string;
@@ -27,6 +29,8 @@ type Question = {
   required: boolean;
   order: number;
   options?: QuestionOption[];
+  helpText?: string | null;
+  voicePrompt?: VoicePromptSpec | null;
   isVisible: boolean;
   isAnswered: boolean;
 };
@@ -255,6 +259,23 @@ export default function CaseInterviewClient({
                     </span>
                   ) : null}
                 </div>
+              </div>
+
+              <div className="mb-5">
+                <InterviewVoiceGuidedPanel
+                  caseId={caseId}
+                  questionKey={question.key}
+                  interactionDisabled={interviewReadOnly}
+                  projection={{
+                    label: question.label,
+                    description: question.description ?? null,
+                    helpText: question.helpText ?? null,
+                    voicePrompt: question.voicePrompt ?? null,
+                    type: question.type,
+                    options: question.options,
+                  }}
+                  onCommitted={() => void fetchFlow()}
+                />
               </div>
 
               {question.type === "TEXT" && (

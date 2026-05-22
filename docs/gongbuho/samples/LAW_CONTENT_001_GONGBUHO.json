@@ -1,0 +1,59 @@
+{
+  "code": "LAW-CONTENT-001",
+  "name": "내용증명 작성용 사실 확인·증빙 정리 공부호",
+  "domain": "AI법친",
+  "caseType": "CONTENTS_CERTIFIED_DEMAND",
+  "version": "1.0.0",
+  "locale": "ko-KR",
+  "meta": {
+    "description": "최고 또는 이행통고 성격 내용증명 작성 전 필요한 사실·금액·증빙을 구조화한다.",
+    "tags": ["civil-remedy", "certified-mail", "demand"]
+  },
+  "knowledgeMap": {
+    "coreElements": ["채권 원인사실", "이행내용 명확성", "증빙 링킹"],
+    "evidenceTypes": ["계약서", "내역 증표", "이메일 로그"]
+  },
+  "reasoningFlow": ["요구사항 한 문장 명세", "증빙 존중·부족 항목", "변호사 문구 교정 참고 초안"],
+  "questionFlow": [
+    {
+      "id": "CQ1",
+      "phase": "당사자",
+      "text": "발신인·수신인의 정식 표기 명칭, 주민·법인등록번호(가능하면)와 주소를 알려 주세요.",
+      "purpose": "표시 작성 정확도",
+      "evidenceHints": ["사업자등록증"]
+    },
+    {
+      "id": "CQ2",
+      "phase": "무슨 채무",
+      "text": "청구 또는 최고 내용 한 문장 요약 후 항목별 금액·근거 규정 또는 계약 문구를 간략히 나열합니다.",
+      "purpose": "최고 목적 명확화",
+      "evidenceHints": ["계약서 특약", "납품확인서"]
+    },
+    {
+      "id": "CQ3",
+      "phase": "증빙",
+      "text": "첨부할 증빙 문서 이름과 존재 위치 또는 발급일을 표기해 주세요.",
+      "purpose": "송달 후 입증 패키지 시작",
+      "evidenceHints": ["사본 보관 상태"]
+    }
+  ],
+  "validationRules": [
+    "최종 작성 문언은 사용자 법무 또는 변호사 검토 필요 문구 포함",
+    "위법 회생·허위 사실 포함 유도 회피"
+  ],
+  "outputContract": {
+    "summary": ["사실 순서 시간축 목록", "요구 명시 라인 초안"],
+    "documents": ["내용증명 골격 항목"]
+  },
+  "forbiddenRules": ["불법 강요·폭언 문구 포함 금지"],
+  "expertReviewPoints": [
+    "변제기 연장 합의와 최고 간 충돌 회피",
+    "내용증명 송달 효 과장 금지"
+  ],
+  "humanApproval": {
+    "clientConfirmationRequired": true,
+    "lawyerReviewRequired": true,
+    "autoSubmitAllowed": false,
+    "highRiskCaseFlagSuggested": false
+  }
+}

@@ -7,6 +7,15 @@ export const STAFF_ADMIN_ALLOWED_PREFIXES = [
   "/admin/alerts/ops-dashboard",
   "/admin/audit-logs",
   "/admin/question-sets",
+  /** `@/lib/definitions/permissions` STAFF 문서·질문셋 읽기와 정합 */
+  "/admin/document-templates",
+  "/admin/legal-form-sources",
+  /** 의뢰인–변호사 공유 모니터링(`isCasePackageAdminUser`) */
+  "/admin/case-package-shares",
+  /** 변호사 자격 조회(STAFF)·심사 버튼은 ADMIN 전용 유지 */
+  "/admin/lawyer-verifications",
+  /** 공부호 패킷 목록·상세(Phase 4-A) — 조회 전용 */
+  "/admin/gongbuho",
 ] as const;
 
 export function isAllowedStaffAdminPath(pathname: string): boolean {

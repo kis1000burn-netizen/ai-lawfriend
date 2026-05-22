@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { redirectLawyerToVerificationUnlessApproved } from "@/lib/auth/session";
 import { requireSessionUser } from "@/lib/auth/require-session-user";
 import {
   canPerformCaseInterview,
@@ -21,6 +22,7 @@ type PageProps = {
 
 export default async function CaseInterviewPage({ params }: PageProps) {
   const currentUser = await requireSessionUser();
+  await redirectLawyerToVerificationUnlessApproved(currentUser);
 
   const { caseId } = await params;
 
@@ -83,7 +85,13 @@ export default async function CaseInterviewPage({ params }: PageProps) {
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <Link
+            href={`/cases/${found.id}/guidance`}
+            className="rounded-xl border border-emerald-700 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-900 hover:bg-emerald-100"
+          >
+            사건 진단 카드
+          </Link>
           <Link
             href={`/cases/${found.id}`}
             className="rounded-xl border px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"

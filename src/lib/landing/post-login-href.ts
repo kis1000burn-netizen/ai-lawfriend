@@ -9,6 +9,13 @@ export function getPostLoginHref(role: UserRole): string {
   return "/dashboard";
 }
 
+/** JWT 페이로드 등 문자열 역할용. 미들웨어(edge)·접근 거절 페이지에서 DB 없이 분기할 때 사용. */
+export function getPostLoginHrefForSessionRole(role: string | undefined): string {
+  if (role === "LAWYER") return "/lawyer";
+  if (role === "STAFF" || role === "ADMIN" || role === "SUPER_ADMIN") return "/admin";
+  return "/dashboard";
+}
+
 export function getRoleLabelKo(role: UserRole): string {
   switch (role) {
     case "USER":

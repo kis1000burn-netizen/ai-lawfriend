@@ -1,11 +1,16 @@
 import { NextResponse } from "next/server";
 import { getSessionUser } from "@/lib/get-session-user";
+import { assertLawyerProfessionalAccess } from "@/lib/lawyer/lawyer-verification-access";
 import {
   findShareForPackagePdf,
   logCasePackageAccess,
 } from "@/features/case-package/case-package-share.repository";
 import { evaluateCasePackagePdfPermission } from "@/features/case-package/case-package-pdf-permission";
 import { buildCasePackagePdfResponse } from "@/features/case-package/case-package-pdf-response";
+import {
+  buildCasePackagePdfInputFromShare,
+  resolveVerifiedCasePackageSnapshot,
+} from "@/features/case-package/case-package-share-snapshot-utils";
 
 export const dynamic = "force-dynamic";
 
@@ -52,6 +57,10 @@ export async function GET(request: Request, context: RouteContext) {
       },
       { status: 403 },
     );
+  }
+
+  if (user.role === "LAWYER") {
+    await assertLawyerProfessionalAccess(user);
   }
 
   const share = await findShareForPackagePdf({
@@ -109,15 +118,41 @@ export async function GET(request: Request, context: RouteContext) {
     context: getRequestContext(request, user.id),
   });
 
-  return buildCasePackagePdfResponse({
-    share,
-    case: {
+  const verifiedSnapshot = resolveVerifiedCasePackageSnapshot(
+    share.snapshotJson,
+    share.snapshotSha256,
+  );
+
+  const pdfInput = buildCasePackagePdfInputFromShare({
+    share: {
+      id: share.id,
+      publicCode: share.publicCode,
+      expiresAt: share.expiresAt,
+      allowSummary: share.allowSummary,
+      allowAttachmentList: share.allowAttachmentList,
+      allowDocumentDraft: share.allowDocumentDraft,
+      allowPackagePdf: share.allowPackagePdf,
+    },
+    verifiedSnapshot,
+    liveCase: {
       ...share.case,
-      caseType: share.case.category,
-      summary: share.case.description,
+      attachments: share.case.attachments.map((a) => ({
+        id: a.id,
+        originalName: a.originalName,
+        mimeType: a.mimeType,
+        sizeBytes: a.sizeBytes,
+        createdAt: a.createdAt,
+      })),
+      legalDocuments: share.case.legalDocuments.map((d) => ({
+        id: d.id,
+        title: d.title,
+        status: d.status,
+        createdAt: d.createdAt,
+        updatedAt: d.updatedAt,
+      })),
     },
     owner: share.owner,
-    attachments: share.case.attachments,
-    documents: share.case.legalDocuments,
   });
+
+  return buildCasePackagePdfResponse(pdfInput);
 }

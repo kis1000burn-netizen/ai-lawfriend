@@ -220,7 +220,9 @@ export function CasePackageShareClient({ caseId }: { caseId: string }) {
 
       setShares((prev) => [payload.data, ...prev]);
       setForm(DEFAULT_FORM);
-      setMessage("사건 고유번호가 발급되었습니다.");
+      setMessage(
+        "사건 고유번호가 발급되었습니다. 이 순간의 사건 패키지가 스냅샷으로 고정되어, 이후 수정하더라도 이 공유 건으로 열람·출력되는 자료는 발급 당시 내용입니다.",
+      );
     } catch {
       setErrorMessage("사건 패키지 공유 생성 중 오류가 발생했습니다.");
     } finally {

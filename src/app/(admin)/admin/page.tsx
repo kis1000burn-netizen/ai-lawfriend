@@ -76,6 +76,16 @@ export default async function AdminPage() {
               </span>
             </Link>
             <Link
+              href="/admin/lawyer-verifications"
+              className="flex flex-col gap-1 rounded-xl border border-aibeop-line bg-aibeop-surface p-4 text-sm font-medium hover:bg-aibeop-soft"
+              title="변호사 등록·증빙 심사"
+            >
+              <span>변호사 자격 검증</span>
+              <span className="text-xs font-normal text-aibeop-muted">
+                심사 큐 · 승인 · 보완 · 반려 · 정지
+              </span>
+            </Link>
+            <Link
               href="/admin/audit-logs"
               className="flex flex-col gap-1 rounded-xl border border-aibeop-line bg-aibeop-surface p-4 text-sm font-medium hover:bg-aibeop-soft"
             >

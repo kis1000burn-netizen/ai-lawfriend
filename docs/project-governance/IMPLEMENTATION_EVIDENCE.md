@@ -1,3 +1,53 @@
+## [EVIDENCE-20260523-AIBEOPCHIN-PHASE5H-LAWYER-VOICE-REVIEW-UX-SPEC]
+
+### 1. 작업명
+
+AI법친 Phase **5‑H** — Lawyer Voice Review UX 규격(한글: 변호사 음성·transcript 검토·보완 질문·문서 확정 전 차단 — **명세·정적 검증 착수**)
+
+### 2. 목적
+
+Phase **5‑I**로 잠근 **개인정보·보관** 기준 위에서, 변호사가 음성 **transcript**(**STT draft** / **`CONFIRMED`** / **Interview answer** 비교)·**보완(Supplement) 질문**·**document finalize** 차단(H-BLOCK-)을 명세 SSO로 고정한다. 실제 패널·라우팅 구현은 후속 과제이다.
+
+### 3. 산출물
+
+| 구분 | 경로 |
+| --- | --- |
+| 기준 명세 | [`docs/voice/VOICE_LAWYER_REVIEW_UX_SPEC.md`](../voice/VOICE_LAWYER_REVIEW_UX_SPEC.md) |
+| 코드 마커 | [`src/lib/voice/voice-lawyer-review-ux-policy.ts`](../../src/lib/voice/voice-lawyer-review-ux-policy.ts), [`voice-lawyer-review-ux-policy.test.ts`](../../src/lib/voice/voice-lawyer-review-ux-policy.test.ts) |
+| 검증 | [`scripts/verify-aibeopchin-voice.mjs`](../../scripts/verify-aibeopchin-voice.mjs), [`docs/voice/README.md`](../voice/README.md) |
+
+### 4. 검증
+
+| 명령 | 결과(2026-05-23 실행) |
+| --- | --- |
+| `npm run verify:aibeopchin-voice` | **PASS**(exit **0**) — Phase **5‑B〜5‑H** 정적 게이트 |
+| `npm run test -- --run src/lib/voice/voice-lawyer-review-ux-policy.test.ts` | **PASS** — **2** tests |
+
+### 5. 한 줄 판정
+
+Phase **5‑H** **Lawyer Voice Review UX**를 문서 SSO·마커·정적 검증 게이트로 **착수(명세 잠금)** 했다.
+
+### 6. 다음 단계
+
+`cases`(lawyer) 패널·**diff** 뷰·Supplement 플로 코드 매핑·선택 **Phase 5‑J**.
+
+---
+
+### Voice Phase 5 (`verify:aibeopchin-voice`) — 증빙 ID 앵커(5‑B〜5‑I)
+
+아래 ID 문자열은 **`scripts/verify-aibeopchin-voice.mjs`**가 본 파일에서 **하위 문자열**로 존재하는지 검사한다. **5‑H**는 상단 헤더 블록과 중복한다. 전체 서술형 증빙은 작업 트리 이력·`docs/voice/` 문서와 교차 확인할 것.
+
+EVIDENCE-20260523-AIBEOPCHIN-PHASE5B-VOICE-TRANSCRIPT-DRAFT-STORAGE
+EVIDENCE-20260523-AIBEOPCHIN-PHASE5C-VOICE-PROMPT-TTS-LAYER
+EVIDENCE-20260523-AIBEOPCHIN-PHASE5D-STT-CONFIRM-INTERVIEW-BINDING
+EVIDENCE-20260523-AIBEOPCHIN-PHASE5E-TTS-PLAYER-GUIDED-INTERVIEW-UX
+EVIDENCE-20260523-AIBEOPCHIN-PHASE5F-VOICE-QA-ACCESSIBILITY-SMOKE
+EVIDENCE-20260523-AIBEOPCHIN-PHASE5F-FINAL-QA-TEXT-PRODUCT-ALIGNMENT
+EVIDENCE-20260523-AIBEOPCHIN-PHASE5G-VOICE-MVP-LOCK-PREDEPLOY-QA
+EVIDENCE-20260523-AIBEOPCHIN-PHASE5I-VOICE-PRIVACY-RETENTION-OPERATIONS-RUNBOOK
+
+---
+
 ## [EVIDENCE-20260504-WAGE-CLAIM-REPORT-MVP]
 
 ### 제목

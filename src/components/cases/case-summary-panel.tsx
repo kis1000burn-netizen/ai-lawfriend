@@ -12,10 +12,20 @@ type SummaryContent = {
   riskNotes: string[];
   checklist: string[];
   disclaimer: string;
+  contractSections?: { heading: string; body: string }[];
+  structuredSummaryNote?: string;
+};
+
+type GongbuhoResolutionBadge = {
+  via: string;
+  code?: string;
+  version?: string;
 };
 
 type SummaryPayload = {
   generatedAt: string;
+  outputContractApplied?: boolean;
+  gongbuhoResolution?: GongbuhoResolutionBadge;
   content: SummaryContent;
   caseStatus: string;
 };
@@ -122,13 +132,42 @@ export function CaseSummaryPanel({ caseId, interviewCompleted }: Props) {
               {CASE_STATUS_LABELS[summary.caseStatus as keyof typeof CASE_STATUS_LABELS] ??
                 summary.caseStatus}
             </span>
+            {summary.outputContractApplied ? (
+              <span className="font-medium text-indigo-700">
+                · 공부호 출력 양식 적용됨{" "}
+                {summary.gongbuhoResolution
+                  ? `(${summary.gongbuhoResolution.code ?? ""}${
+                      summary.gongbuhoResolution.version
+                        ? ` · v${summary.gongbuhoResolution.version}`
+                        : ""
+                    })`
+                  : ""}
+              </span>
+            ) : null}
           </div>
 
-          <SummaryBlock title="사건 개요" body={summary.content.caseOverview} />
-          <SummaryList title="타임라인·경위" items={summary.content.timeline} />
-          <SummaryList title="쟁점·이슈" items={summary.content.issues} />
-          <SummaryList title="누락·주의" items={summary.content.riskNotes} />
-          <SummaryList title="체크리스트" items={summary.content.checklist} />
+          {summary.content.structuredSummaryNote ? (
+            <div className="rounded-xl border border-sky-200 bg-sky-50 p-3 text-xs leading-relaxed text-sky-950">
+              {summary.content.structuredSummaryNote}
+            </div>
+          ) : null}
+
+          {summary.content.contractSections?.length ? (
+            <div className="space-y-4">
+              {summary.content.contractSections.map((sec, idx) => (
+                <SummaryBlock key={`${sec.heading}-${idx}`} title={sec.heading} body={sec.body} />
+              ))}
+            </div>
+          ) : (
+            <>
+              <SummaryBlock title="사건 개요" body={summary.content.caseOverview} />
+              <SummaryList title="타임라인·경위" items={summary.content.timeline} />
+              <SummaryList title="쟁점·이슈" items={summary.content.issues} />
+              <SummaryList title="누락·주의" items={summary.content.riskNotes} />
+              <SummaryList title="체크리스트" items={summary.content.checklist} />
+            </>
+          )}
+
           <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs leading-relaxed text-amber-950">
             {summary.content.disclaimer}
           </div>

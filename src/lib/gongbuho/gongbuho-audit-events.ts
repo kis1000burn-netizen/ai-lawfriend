@@ -1,0 +1,32 @@
+export const GONGBUHO_AUDIT_EVENTS = [
+  "GONGBUHO_PACKET_CREATED",
+  "GONGBUHO_PACKET_APPROVED",
+  "GONGBUHO_PACKET_ARCHIVED",
+  "GONGBUHO_QUESTION_SET_PROJECTED",
+  "GONGBUHO_APPLIED_TO_CASE",
+  "GONGBUHO_INTERVIEW_BOUND",
+  "GONGBUHO_DOCUMENT_RULES_APPLIED",
+] as const;
+
+export type GongbuhoAuditEvent = (typeof GONGBUHO_AUDIT_EVENTS)[number];
+
+export const AUDIT_LOG_EVENTS: GongbuhoAuditEvent[] = [
+  "GONGBUHO_PACKET_CREATED",
+  "GONGBUHO_PACKET_APPROVED",
+  "GONGBUHO_PACKET_ARCHIVED",
+  "GONGBUHO_QUESTION_SET_PROJECTED",
+];
+
+export const GONGBUHO_TRACE_EVENTS: GongbuhoAuditEvent[] = [
+  "GONGBUHO_APPLIED_TO_CASE",
+  "GONGBUHO_INTERVIEW_BOUND",
+  "GONGBUHO_DOCUMENT_RULES_APPLIED",
+];
+
+export function isAuditLogEvent(event: GongbuhoAuditEvent): boolean {
+  return AUDIT_LOG_EVENTS.includes(event);
+}
+
+export function isGongbuhoTraceEvent(event: GongbuhoAuditEvent): boolean {
+  return GONGBUHO_TRACE_EVENTS.includes(event);
+}

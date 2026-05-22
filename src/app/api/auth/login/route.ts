@@ -1,8 +1,11 @@
 import { prisma } from "@/lib/prisma";
 import { fail } from "@/lib/domain-api-response";
+import { normalizeAuthRedirectPath } from "@/lib/auth/oauth";
+import { resolvePostAuthRedirect } from "@/lib/auth/post-auth-redirect";
 import { loginSchema } from "@/lib/validators/auth";
 import { verifyPassword } from "@/lib/auth/password";
 import { buildJsonLoginResponse } from "@/lib/auth/login-response";
+import type { UserRole } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
 
@@ -38,7 +41,7 @@ export async function POST(req: Request) {
 
     const isPasswordValid = await verifyPassword(
       parsed.data.password,
-      user.passwordHash
+      user.passwordHash,
     );
 
     if (!isPasswordValid) {
@@ -49,15 +52,35 @@ export async function POST(req: Request) {
 
     if (user.status === "PENDING") {
       return fail(
-        "관리자 승인 대기 중입니다. 승인 후 다시 로그인해 주세요.",
+        "가입 신청이 완료되었습니다. 관리자 승인 후 서비스를 이용할 수 있습니다.",
         403,
-        { code: "ACCOUNT_PENDING" },
+        { code: "ACCOUNT_PENDING", pendingAccountRole: user.role },
       );
     }
 
     if (user.status !== "ACTIVE") {
       return fail("현재 로그인할 수 없는 계정입니다.", 403, { code: "ACCOUNT_BLOCKED" });
     }
+
+    let lawyerVerificationApproved = user.role !== "LAWYER";
+    if (user.role === "LAWYER") {
+      const profile = await prisma.lawyerProfile.findUnique({
+        where: { userId: user.id },
+        select: { verificationStatus: true },
+      });
+      lawyerVerificationApproved = profile?.verificationStatus === "APPROVED";
+    }
+
+    const redirectInput =
+      typeof parsed.data.redirect === "string" && parsed.data.redirect.trim() !== ""
+        ? parsed.data.redirect.trim()
+        : undefined;
+
+    const postLoginRedirect = resolvePostAuthRedirect({
+      normalizedRequestPath: normalizeAuthRedirectPath(redirectInput),
+      role: user.role as UserRole,
+      lawyerVerificationApproved,
+    });
 
     return buildJsonLoginResponse(
       {
@@ -70,6 +93,7 @@ export async function POST(req: Request) {
       {
         message: "로그인되었습니다.",
         mode: "STANDARD",
+        postLoginRedirect,
       },
     );
   } catch (error) {
