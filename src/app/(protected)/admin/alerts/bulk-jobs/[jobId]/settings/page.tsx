@@ -31,9 +31,9 @@ export default async function BulkJobSettingsPage({ params }: Props) {
   return (
     <div className="space-y-6">
       <div>
-        <div className="text-sm text-slate-500">관리자 / 경고 / Bulk Jobs</div>
-        <h1 className="mt-1 text-2xl font-semibold text-slate-900">BulkActionJob 관리자 설정</h1>
-        <p className="mt-1 text-sm text-slate-500">job 우선순위 및 동시성 제약을 운영자가 수정합니다.</p>
+        <div className="text-sm text-aibeop-subtle">관리자 / 경고 / Bulk Jobs</div>
+        <h1 className="mt-1 text-2xl font-semibold text-aibeop-text">BulkActionJob 관리자 설정</h1>
+        <p className="mt-1 text-sm text-aibeop-subtle">job 우선순위 및 동시성 제약을 운영자가 수정합니다.</p>
       </div>
 
       <BulkJobAdminSettingsForm

@@ -41,15 +41,15 @@ export default async function BulkJobComparePage({ params, searchParams }: PageP
   return (
     <div className="space-y-6">
       <div>
-        <div className="text-sm text-slate-500">관리자 / 경고 / Bulk Jobs</div>
-        <h1 className="mt-1 text-2xl font-semibold text-slate-900">BulkActionJob 비교</h1>
-        <p className="mt-2 text-sm text-slate-600">
-          원본 Job <span className="font-mono text-slate-900">{sourceJob.id}</span> 과 재시도 Job{" "}
-          <span className="font-mono text-slate-900">{retryJob.id}</span> 의 처리 결과를 비교합니다.
+        <div className="text-sm text-aibeop-subtle">관리자 / 경고 / Bulk Jobs</div>
+        <h1 className="mt-1 text-2xl font-semibold text-aibeop-text">BulkActionJob 비교</h1>
+        <p className="mt-2 text-sm text-aibeop-muted">
+          원본 Job <span className="font-mono text-aibeop-text">{sourceJob.id}</span> 과 재시도 Job{" "}
+          <span className="font-mono text-aibeop-text">{retryJob.id}</span> 의 처리 결과를 비교합니다.
         </p>
       </div>
 
-      <Suspense fallback={<div className="text-sm text-slate-500">비교 패널을 불러오는 중…</div>}>
+      <Suspense fallback={<div className="text-sm text-aibeop-subtle">비교 패널을 불러오는 중…</div>}>
         <BulkJobComparePanel jobId={jobId} retryJobId={retryJobId} />
       </Suspense>
     </div>

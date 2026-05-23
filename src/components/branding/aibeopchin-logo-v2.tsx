@@ -1,12 +1,19 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { AibeopchinLogoV2Glyph } from "@/components/branding/aibeopchin-logo-v2-glyph";
+import { AibeopchinLogoV2Orbit } from "@/components/branding/aibeopchin-logo-v2-orbit";
+import { AibeopchinLogoV2Particles } from "@/components/branding/aibeopchin-logo-v2-particles";
+import { AibeopchinLogoRainbowText } from "@/components/branding/aibeopchin-logo-rainbow-text";
+import type {
+  AibeopchinLogoV2Mode,
+  AibeopchinLogoV2Size,
+} from "@/components/branding/aibeopchin-logo-v2-types";
 import { AIBEOPCHIN_LOGO_V2_COPY } from "@/lib/branding/aibeopchin-logo-v2-config";
-import { AIBEOPCHIN_LOGO_V2_MODE_CONFIG } from "@/lib/branding/aibeopchin-logo-v2-mode-config";
-import { getAibeopchinLogoV2MotionPolicy } from "@/lib/branding/aibeopchin-logo-v2-motion-policy";
+import type { LogoAccentTone } from "@/lib/branding/aibeopchin-logo-v2-mode-config";
+import { resolveLogoPresentation } from "@/lib/branding/aibeopchin-logo-runtime";
 import { AIBEOPCHIN_LOGO_V2_TIMELINE } from "@/lib/branding/aibeopchin-logo-v2-timeline";
-import type { AibeopchinLogoV2Mode, AibeopchinLogoV2Size } from "./aibeopchin-logo-v2-types";
 
 type Props = {
   mode?: AibeopchinLogoV2Mode;
@@ -15,34 +22,36 @@ type Props = {
   className?: string;
   /** `prefers-reduced-motion` 등 상위에서 전달 */
   reducedMotion?: boolean;
+  /** 라이트 캔버스(대시보드·네비) vs 다크 히어로 */
+  variant?: "light" | "dark";
 };
 
 const sizeClass: Record<AibeopchinLogoV2Size, string> = {
-  sm: "max-w-[220px]",
-  md: "max-w-[300px]",
-  lg: "max-w-[380px]",
-  hero: "max-w-[520px]",
+  sm: "max-w-[240px]",
+  md: "max-w-[320px]",
+  lg: "max-w-[420px]",
+  hero: "max-w-[560px]",
 };
 
 const lockupClass: Record<AibeopchinLogoV2Size, string> = {
   sm: "gap-2 rounded-[1.35rem] px-3 py-3",
   md: "gap-3 rounded-[1.6rem] px-4 py-4",
-  lg: "gap-3 rounded-[1.85rem] px-5 py-5",
-  hero: "gap-4 rounded-[2rem] px-6 py-5 md:px-7 md:py-6",
+  lg: "gap-4 rounded-[1.85rem] px-5 py-5",
+  hero: "gap-5 rounded-[2rem] px-6 py-6 md:px-8 md:py-7",
 };
 
 const symbolClass: Record<AibeopchinLogoV2Size, string> = {
   sm: "h-10 w-10 rounded-2xl text-base",
-  md: "h-12 w-12 rounded-2xl text-lg",
-  lg: "h-14 w-14 rounded-[1.2rem] text-xl",
-  hero: "h-16 w-16 rounded-[1.35rem] text-2xl md:h-20 md:w-20 md:text-3xl",
+  md: "h-11 w-11 rounded-2xl text-lg",
+  lg: "h-12 w-12 rounded-[1.1rem] text-lg",
+  hero: "h-14 w-14 rounded-[1.2rem] text-xl md:h-16 md:w-16 md:text-2xl",
 };
 
 const titleClass: Record<AibeopchinLogoV2Size, string> = {
-  sm: "text-xl",
-  md: "text-2xl",
-  lg: "text-[2rem]",
-  hero: "text-3xl md:text-[2.6rem]",
+  sm: "text-lg",
+  md: "text-xl",
+  lg: "text-2xl",
+  hero: "text-3xl md:text-[2.4rem]",
 };
 
 const taglineClass: Record<AibeopchinLogoV2Size, string> = {
@@ -52,33 +61,120 @@ const taglineClass: Record<AibeopchinLogoV2Size, string> = {
   hero: "text-sm md:text-base",
 };
 
-function getAccentClass(mode: AibeopchinLogoV2Mode) {
-  if (mode === "restricted") {
-    return "border-amber-200/30 bg-white/[0.04] text-amber-50";
+const statusClass: Record<AibeopchinLogoV2Size, string> = {
+  sm: "text-[10px] px-2 py-0.5",
+  md: "text-[10px] px-2.5 py-1",
+  lg: "text-xs px-3 py-1",
+  hero: "text-xs px-3 py-1.5",
+};
+
+function getAccentClasses(tone: LogoAccentTone, variant: "light" | "dark") {
+  if (variant === "dark") {
+    if (tone === "restricted") {
+      return {
+        shell:
+          "border-amber-200/30 bg-white/[0.04] shadow-2xl shadow-slate-950/25 backdrop-blur-md",
+        symbol: "bg-amber-200/20 text-amber-50",
+        status: "border-amber-200/30 bg-amber-300/10 text-amber-100",
+        title: "text-white",
+        eyebrow: "text-white/60",
+        subtitle: "text-white/72",
+        tagline: "text-white/75",
+      };
+    }
+
+    if (tone === "verified") {
+      return {
+        shell:
+          "border-emerald-200/30 bg-emerald-300/10 shadow-2xl shadow-slate-950/25 backdrop-blur-md",
+        symbol: "bg-emerald-200/25 text-white",
+        status: "border-emerald-200/30 bg-emerald-300/15 text-emerald-50",
+        title: "text-white",
+        eyebrow: "text-white/60",
+        subtitle: "text-white/72",
+        tagline: "text-white/75",
+      };
+    }
+
+    if (tone === "thinking") {
+      return {
+        shell:
+          "border-cyan-200/20 bg-white/[0.05] shadow-2xl shadow-slate-950/25 backdrop-blur-md",
+        symbol: "bg-aibeop-green text-white",
+        status: "border-cyan-200/25 bg-cyan-300/10 text-cyan-50",
+        title: "text-white",
+        eyebrow: "text-white/60",
+        subtitle: "text-white/72",
+        tagline: "text-white/75",
+      };
+    }
+
+    return {
+      shell:
+        "border-white/10 bg-white/[0.04] shadow-2xl shadow-slate-950/25 backdrop-blur-md",
+      symbol: "bg-aibeop-green text-white",
+      status: "border-white/15 bg-white/10 text-white/80",
+      title: "text-white",
+      eyebrow: "text-white/60",
+      subtitle: "text-white/72",
+      tagline: "text-white/75",
+    };
   }
 
-  if (mode === "verified") {
-    return "border-emerald-200/30 bg-emerald-300/10 text-emerald-50";
+  if (tone === "restricted") {
+    return {
+      shell:
+        "border-amber-200/70 bg-gradient-to-br from-amber-50/90 to-aibeop-card shadow-soft ring-1 ring-amber-100/80",
+      symbol: "bg-amber-500/15 text-aibeop-warn ring-1 ring-amber-200/80",
+      status: "border-amber-200/80 bg-amber-50 text-aibeop-warn",
+      title: "text-aibeop-text",
+      eyebrow: "text-aibeop-faint",
+      subtitle: "text-aibeop-muted",
+      tagline: "text-aibeop-muted",
+    };
   }
 
-  return "border-white/10 bg-white/[0.04] text-cyan-50";
-}
-
-function getSymbolToneClass(mode: AibeopchinLogoV2Mode) {
-  if (mode === "restricted") {
-    return "bg-amber-200/20 text-amber-50";
+  if (tone === "verified") {
+    return {
+      shell:
+        "border-aibeop-line bg-gradient-to-br from-aibeop-soft via-aibeop-card to-aibeop-accent-soft shadow-soft ring-1 ring-aibeop-line/80",
+      symbol: "bg-aibeop-deep text-white shadow-soft",
+      status: "border-aibeop-line bg-aibeop-soft text-aibeop-deep",
+      title: "text-aibeop-text",
+      eyebrow: "text-aibeop-faint",
+      subtitle: "text-aibeop-muted",
+      tagline: "text-aibeop-muted",
+    };
   }
 
-  if (mode === "verified") {
-    return "bg-emerald-200/25 text-white";
+  if (tone === "thinking") {
+    return {
+      shell:
+        "border-aibeop-accent/50 bg-gradient-to-br from-aibeop-card via-aibeop-soft to-aibeop-pale/70 shadow-soft ring-1 ring-aibeop-accent/30",
+      symbol: "bg-gradient-to-br from-aibeop-green to-aibeop-deep text-white shadow-soft",
+      status: "border-aibeop-accent/40 bg-aibeop-accent-soft text-aibeop-deep",
+      title: "text-aibeop-text",
+      eyebrow: "text-aibeop-faint",
+      subtitle: "text-aibeop-muted",
+      tagline: "text-aibeop-muted",
+    };
   }
 
-  return "bg-aibeop-green text-white";
+  return {
+    shell:
+      "border-aibeop-line bg-gradient-to-br from-aibeop-card to-aibeop-soft shadow-soft ring-1 ring-aibeop-line/70",
+    symbol: "bg-gradient-to-br from-aibeop-green to-aibeop-deep text-white shadow-soft",
+    status: "border-aibeop-line bg-aibeop-soft text-aibeop-subtle",
+    title: "text-aibeop-text",
+    eyebrow: "text-aibeop-faint",
+    subtitle: "text-aibeop-muted",
+    tagline: "text-aibeop-muted",
+  };
 }
 
 function getPulseAnimation(pulse: "none" | "soft" | "medium") {
   if (pulse === "medium") {
-    return { scale: [1, 1.04, 1] };
+    return { scale: [1, 1.045, 1] };
   }
 
   if (pulse === "soft") {
@@ -94,23 +190,40 @@ export function AibeopchinLogoV2({
   showTagline = false,
   className = "",
   reducedMotion = false,
+  variant = "light",
 }: Readonly<Props>) {
   const [pointerHover, setPointerHover] = useState(false);
+  const [revealActive, setRevealActive] = useState(true);
   const reduced = Boolean(reducedMotion);
+
+  useEffect(() => {
+    if (reduced || mode === "restricted") {
+      setRevealActive(false);
+      return;
+    }
+
+    const timer = window.setTimeout(() => setRevealActive(false), 2200);
+    return () => window.clearTimeout(timer);
+  }, [mode, reduced]);
 
   const visualMode: AibeopchinLogoV2Mode =
     mode === "idle" && pointerHover && !reduced ? "hover" : mode;
 
-  const motionPolicy = getAibeopchinLogoV2MotionPolicy({
-    mode: visualMode,
-    reducedMotion: reduced,
-  });
+  const presentation = useMemo(
+    () =>
+      resolveLogoPresentation({
+        mode: visualMode,
+        reducedMotion: reduced,
+      }),
+    [visualMode, reduced],
+  );
 
+  const { config, motion: motionPolicy } = presentation;
   const effectiveMode = motionPolicy.effectiveMode;
-  const modeConfig = AIBEOPCHIN_LOGO_V2_MODE_CONFIG[effectiveMode];
-  const accentClass = getAccentClass(effectiveMode);
-  const symbolToneClass = getSymbolToneClass(effectiveMode);
+  const accent = getAccentClasses(config.accentTone, variant);
   const pulseAnimation = getPulseAnimation(motionPolicy.pulse);
+  const showGlyph = size === "lg" || size === "hero";
+  const rainbowActive = effectiveMode !== "restricted";
 
   return (
     <motion.div
@@ -119,64 +232,121 @@ export function AibeopchinLogoV2({
         sizeClass[size],
         className,
       ].join(" ")}
-      style={{ opacity: modeConfig.opacity }}
+      style={{ opacity: config.opacity }}
       whileHover={
-        effectiveMode === "restricted" || !motionPolicy.hoverScale
+        !motionPolicy.hoverScale
           ? undefined
-          : { scale: 1.025 }
+          : { scale: size === "hero" ? 1.03 : 1.025 }
       }
       transition={{ type: "spring", stiffness: 170, damping: 20 }}
       role="img"
-      aria-label={`${AIBEOPCHIN_LOGO_V2_COPY.label} - ${modeConfig.label} 상태`}
+      aria-label={`${AIBEOPCHIN_LOGO_V2_COPY.label} - ${config.label} 상태`}
       onPointerEnter={() => mode === "idle" && !reduced && setPointerHover(true)}
       onPointerLeave={() => setPointerHover(false)}
     >
       <div
         className={[
-          "relative flex w-full items-center justify-center shadow-2xl shadow-slate-950/25 backdrop-blur-md",
-          accentClass,
+          "relative w-full overflow-visible",
+          accent.shell,
           lockupClass[size],
         ].join(" ")}
       >
+        <AibeopchinLogoV2Orbit active={motionPolicy.orbit} variant={variant} />
+        <AibeopchinLogoV2Particles
+          active={motionPolicy.particles}
+          variant={variant}
+        />
+
         <motion.div
-          className="relative z-10 flex w-full items-center justify-center gap-3"
+          className="relative z-10 flex w-full flex-col items-center gap-3"
           initial={
             effectiveMode === "intro" ? { opacity: 0, filter: "blur(8px)" } : false
           }
           animate={{ opacity: 1, filter: "blur(0px)" }}
           transition={{ duration: 0.55 }}
         >
-          <motion.div
-            className={[
-              "flex shrink-0 items-center justify-center font-black tracking-[-0.04em] shadow-soft",
-              symbolClass[size],
-              symbolToneClass,
-            ].join(" ")}
-            animate={pulseAnimation}
-            transition={{
-              duration: motionPolicy.pulse === "medium" ? 1.4 : 2.4,
-              repeat: motionPolicy.pulse === "none" ? 0 : Infinity,
-              ease: "easeInOut",
-            }}
-          >
-            AI
-          </motion.div>
+          {showGlyph ? (
+            <div className="w-full px-1">
+              <AibeopchinLogoV2Glyph
+                mode={effectiveMode}
+                draw={motionPolicy.draw}
+                reveal={motionPolicy.reveal && revealActive}
+                pulseOverride={motionPolicy.pulse}
+                variant={variant}
+              />
+            </div>
+          ) : (
+            <div className="flex w-full items-center gap-3">
+              <motion.div
+                className={[
+                  "flex shrink-0 items-center justify-center font-black tracking-[-0.04em]",
+                  symbolClass[size],
+                  accent.symbol,
+                ].join(" ")}
+                animate={pulseAnimation}
+                transition={{
+                  duration: motionPolicy.pulse === "medium" ? 1.4 : 2.4,
+                  repeat: motionPolicy.pulse === "none" ? 0 : Infinity,
+                  ease: "easeInOut",
+                }}
+              >
+                AI
+              </motion.div>
 
-          <div className="min-w-0 text-left">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-white/60 md:text-[11px]">
-              {AIBEOPCHIN_LOGO_V2_COPY.label}
-            </p>
-            <p className={[
-              "mt-1 font-black tracking-[-0.05em] text-white",
-              titleClass[size],
-            ].join(" ")}>
-              AI법친
-            </p>
-            <p className={[
-              "mt-1 font-medium text-white/72",
-              taglineClass[size],
-            ].join(" ")}>
-              {modeConfig.label} 상태의 법률 업무 동반자
+              <div className="min-w-0 text-left">
+                <p
+                  className={[
+                    "font-semibold uppercase tracking-[0.24em]",
+                    accent.eyebrow,
+                    taglineClass[size],
+                  ].join(" ")}
+                >
+                  {AIBEOPCHIN_LOGO_V2_COPY.label}
+                </p>
+                <AibeopchinLogoRainbowText
+                  active={rainbowActive}
+                  reducedMotion={reduced}
+                  className={[
+                    "mt-1 font-black tracking-[-0.05em]",
+                    rainbowActive ? "" : accent.title,
+                    titleClass[size],
+                  ].join(" ")}
+                />
+              </div>
+            </div>
+          )}
+
+          <div className="flex w-full flex-col items-center gap-2 text-center">
+            {showGlyph ? (
+              <AibeopchinLogoRainbowText
+                active={rainbowActive}
+                reducedMotion={reduced}
+                className={[
+                  "font-black tracking-[-0.05em]",
+                  rainbowActive ? "" : accent.title,
+                  titleClass[size],
+                ].join(" ")}
+              />
+            ) : null}
+
+            <span
+              className={[
+                "inline-flex items-center rounded-full border font-bold uppercase tracking-[0.18em]",
+                accent.status,
+                statusClass[size],
+              ].join(" ")}
+            >
+              {config.label}
+            </span>
+
+            <p
+              className={[
+                "max-w-[28ch] text-pretty font-semibold leading-snug",
+                accent.subtitle,
+                taglineClass[size],
+              ].join(" ")}
+            >
+              {config.description}
             </p>
           </div>
         </motion.div>
@@ -184,7 +354,10 @@ export function AibeopchinLogoV2({
 
       {showTagline ? (
         <motion.p
-          className="mt-3 text-center text-sm font-medium text-white/75 md:text-base"
+          className={[
+            "mt-3 text-center text-sm font-semibold md:text-base",
+            accent.tagline,
+          ].join(" ")}
           initial={effectiveMode === "intro" ? { opacity: 0, y: 8 } : false}
           animate={{ opacity: 1, y: 0 }}
           transition={{

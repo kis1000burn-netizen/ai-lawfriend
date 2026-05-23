@@ -1,8 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Jua&display=swap");
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css");
 @import "tailwindcss";
 
 @theme inline {
   --font-sans: var(--font-sans-ui);
+  --font-logo-pop: var(--font-logo-pop-family);
   --color-aibeop-bg: var(--aibeop-bg);
   --color-aibeop-canvas: var(--aibeop-canvas);
   --color-aibeop-surface: var(--aibeop-surface);
@@ -11,6 +13,9 @@
   --color-aibeop-line: var(--aibeop-line);
   --color-aibeop-text: var(--aibeop-text);
   --color-aibeop-muted: var(--aibeop-muted);
+  --color-aibeop-subtle: var(--aibeop-subtle);
+  --color-aibeop-faint: var(--aibeop-faint);
+  --color-aibeop-disabled: var(--aibeop-disabled);
   --color-aibeop-green: var(--aibeop-green);
   --color-aibeop-deep: var(--aibeop-deep);
   --color-aibeop-pale: var(--aibeop-pale);
@@ -26,6 +31,7 @@
     BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR",
     "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   --font-sans-ui: var(--font-sans);
+  --font-logo-pop-family: "Jua", "CookieRun", "NanumSquareRound", "Malgun Gothic", sans-serif;
 
   --aibeop-bg: #f5f8f4;
   --aibeop-canvas: #eef4ef;
@@ -34,7 +40,10 @@
   --aibeop-soft: #e7f0ea;
   --aibeop-line: #d4e2d9;
   --aibeop-text: #18231d;
-  --aibeop-muted: #5f7166;
+  --aibeop-muted: #3f5248;
+  --aibeop-subtle: #2f4538;
+  --aibeop-faint: #4a5e54;
+  --aibeop-disabled: #6b7f74;
   --aibeop-green: #2f6b4f;
   --aibeop-deep: #1f4c38;
   --aibeop-pale: #dcefe1;
@@ -50,9 +59,24 @@ body {
   font-family: var(--font-sans);
   background: var(--aibeop-bg);
   color: var(--aibeop-text);
+  font-weight: 600;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* 라이트 surface 가독성 — muted/subtle 계열은 진하게 */
+@layer utilities {
+  .text-aibeop-muted,
+  .text-aibeop-subtle,
+  .text-aibeop-faint {
+    font-weight: 600;
+  }
+
+  .text-aibeop-disabled {
+    font-weight: 600;
+    color: var(--aibeop-disabled);
+  }
 }
 
 * {
@@ -64,8 +88,93 @@ body {
   margin: 0;
 }
 
-a {
-  color: inherit;
+@layer base {
+  a:not([class*="text-"]) {
+    color: inherit;
+  }
+}
+
+@layer components {
+  .aibeop-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.75rem;
+    background-color: var(--aibeop-green);
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.25rem;
+    color: #ffffff;
+    transition: background-color 150ms ease;
+  }
+
+  .aibeop-btn-primary:hover {
+    background-color: var(--aibeop-deep);
+  }
+
+  .aibeop-btn-primary:disabled {
+    opacity: 0.6;
+  }
+
+  .aibeop-rainbow-text {
+    background-image: linear-gradient(
+      90deg,
+      #ef4444 0%,
+      #f97316 14.28%,
+      #eab308 28.56%,
+      #22c55e 42.84%,
+      #3b82f6 57.12%,
+      #6366f1 71.4%,
+      #a855f7 85.68%,
+      #ef4444 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: aibeop-rainbow-text 5s linear infinite;
+  }
+
+  .aibeop-logo-pop-text {
+    font-family: var(--font-logo-pop-family);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    filter: drop-shadow(0 2px 0 rgba(24, 35, 29, 0.14))
+      drop-shadow(0 5px 12px rgba(47, 107, 79, 0.12));
+  }
+
+  .aibeop-logo-pop-subtitle {
+    font-family: var(--font-logo-pop-family);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  .aibeop-beop-kanji-pop {
+    filter: drop-shadow(0 3px 0 rgba(24, 35, 29, 0.12))
+      drop-shadow(0 6px 14px rgba(47, 107, 79, 0.1));
+  }
+}
+
+@keyframes aibeop-rainbow-text {
+  0% {
+    background-position: 0% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aibeop-rainbow-text {
+    animation: none;
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    color: var(--aibeop-deep);
+  }
 }
 
 ::selection {

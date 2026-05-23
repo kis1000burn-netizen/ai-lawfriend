@@ -24,8 +24,8 @@ export default async function EditCasePage({ params }: EditCasePageProps) {
   return (
     <div className="mx-auto max-w-4xl space-y-6">
       <div>
-        <p className="text-sm text-slate-500">사건 수정</p>
-        <h1 className="text-3xl font-bold text-slate-900">{item.title}</h1>
+        <p className="text-sm text-aibeop-subtle">사건 수정</p>
+        <h1 className="text-3xl font-bold text-aibeop-text">{item.title}</h1>
       </div>
 
       <CaseForm

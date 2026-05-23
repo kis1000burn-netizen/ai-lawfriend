@@ -33,14 +33,14 @@ export default async function AdminJeonseDamageReportsPage() {
           <h1 className="text-3xl font-bold">
             전세사기·보증금 반환 피해 서류 관리
           </h1>
-          <p className="mt-2 text-sm text-slate-400">
+          <p className="mt-2 text-sm text-aibeop-faint">
             무료 서류 정리센터에서 접수된 피해사실 요약서를 확인합니다.
           </p>
         </div>
 
         <div className="overflow-hidden rounded-3xl border border-slate-800">
           <table className="w-full border-collapse text-sm">
-            <thead className="bg-slate-900 text-left text-slate-300">
+            <thead className="bg-slate-900 text-left text-aibeop-disabled">
               <tr>
                 <th className="p-4">접수일</th>
                 <th className="p-4">작성자</th>
@@ -54,7 +54,7 @@ export default async function AdminJeonseDamageReportsPage() {
             <tbody>
               {reports.map((report) => (
                 <tr key={report.id} className="border-t border-slate-800">
-                  <td className="p-4 text-slate-400">
+                  <td className="p-4 text-aibeop-faint">
                     {report.createdAt.toLocaleString("ko-KR")}
                   </td>
                   <td className="p-4 font-semibold">
@@ -77,14 +77,14 @@ export default async function AdminJeonseDamageReportsPage() {
                       {report.status}
                     </span>
                   </td>
-                  <td className="max-w-md truncate p-4 text-slate-300">
+                  <td className="max-w-md truncate p-4 text-aibeop-disabled">
                     {report.damageSummary}
                   </td>
                 </tr>
               ))}
               {reports.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="p-8 text-center text-slate-400">
+                  <td colSpan={7} className="p-8 text-center text-aibeop-faint">
                     아직 접수된 전세사기·보증금 반환 피해 서류가 없습니다.
                   </td>
                 </tr>

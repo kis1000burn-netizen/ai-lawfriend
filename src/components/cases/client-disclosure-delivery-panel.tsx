@@ -20,8 +20,8 @@ function SummaryBlock({ title, body }: { title: string; body: string }) {
   if (!body.trim()) return null;
   return (
     <div className="rounded-xl border border-slate-100 bg-slate-50/50 p-4">
-      <div className="text-xs font-semibold text-slate-500">{title}</div>
-      <p className="mt-2 whitespace-pre-wrap text-slate-800">{body}</p>
+      <div className="text-xs font-semibold text-aibeop-subtle">{title}</div>
+      <p className="mt-2 whitespace-pre-wrap text-aibeop-subtle">{body}</p>
     </div>
   );
 }
@@ -30,8 +30,8 @@ function SummaryList({ title, items }: { title: string; items: string[] }) {
   if (!items.length) return null;
   return (
     <div className="rounded-xl border border-slate-100 bg-slate-50/50 p-4">
-      <div className="text-xs font-semibold text-slate-500">{title}</div>
-      <ul className="mt-2 list-inside list-disc space-y-1 text-slate-800">
+      <div className="text-xs font-semibold text-aibeop-subtle">{title}</div>
+      <ul className="mt-2 list-inside list-disc space-y-1 text-aibeop-subtle">
         {items.map((item, i) => (
           <li key={`${title}-${i}`}>{item}</li>
         ))}
@@ -75,8 +75,8 @@ export function ClientDisclosureDeliveryPanel({ caseId }: Readonly<Props>) {
     >
       <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h2 className="text-lg font-semibold text-slate-900">변호사 공개 정보</h2>
-          <p className="mt-1 text-sm text-slate-600">
+          <h2 className="text-lg font-semibold text-aibeop-text">변호사 공개 정보</h2>
+          <p className="mt-1 text-sm text-aibeop-muted">
             변호사가 release한 내용만 표시됩니다. 미공개 preview·내부 분석 자료는 포함되지
             않습니다.
           </p>
@@ -106,7 +106,7 @@ export function ClientDisclosureDeliveryPanel({ caseId }: Readonly<Props>) {
 
       {payload ? (
         <div className="mt-4 space-y-4 text-sm">
-          <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-slate-500">
+          <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-aibeop-subtle">
             <span>
               공개 시각: {new Date(payload.releasedAt).toLocaleString("ko-KR")}
             </span>
@@ -134,7 +134,7 @@ export function ClientDisclosureDeliveryPanel({ caseId }: Readonly<Props>) {
           </div>
         </div>
       ) : !error && !delivery ? (
-        <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50/60 p-4 text-sm text-slate-600">
+        <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50/60 p-4 text-sm text-aibeop-muted">
           「공개 정보 보기」를 눌러 변호사가 release한 최신 내용을 확인하세요.
         </div>
       ) : null}

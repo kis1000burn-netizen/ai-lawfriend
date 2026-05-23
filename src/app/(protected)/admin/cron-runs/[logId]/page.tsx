@@ -66,13 +66,13 @@ export default async function CronRunDetailPage({ params }: PageProps) {
     <div className="space-y-4">
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
-          <div className="text-sm text-slate-500">
+          <div className="text-sm text-aibeop-subtle">
             <Link href="/admin/cron" className="text-blue-600 hover:underline">
               Cron 실행 로그
             </Link>{" "}
             / 상세
           </div>
-          <h1 className="mt-1 text-2xl font-semibold text-slate-900">Cron 실행 상세</h1>
+          <h1 className="mt-1 text-2xl font-semibold text-aibeop-text">Cron 실행 상세</h1>
         </div>
 
         {run.status === "FAILED" && <CronRetryButton runId={run.id} />}

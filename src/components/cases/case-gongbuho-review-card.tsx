@@ -46,10 +46,10 @@ export function CaseGongbuhoReviewCard({ model }: Readonly<CaseGongbuhoReviewCar
   if (!model.hasGongbuhoSignal && isClient) {
     return (
       <section
-        className="rounded-2xl border border-dashed border-slate-200 bg-slate-50/80 p-4 text-sm text-slate-700"
+        className="rounded-2xl border border-dashed border-slate-200 bg-slate-50/80 p-4 text-sm text-aibeop-subtle"
         aria-label="사건 유형별 정리 기준"
       >
-        <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+        <div className="text-xs font-semibold uppercase tracking-wide text-aibeop-subtle">
           정리 기준
         </div>
         <p className="mt-2 leading-relaxed">
@@ -122,12 +122,12 @@ export function CaseGongbuhoReviewCard({ model }: Readonly<CaseGongbuhoReviewCar
     >
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h2 className="text-lg font-semibold text-slate-900">{cardTitle}</h2>
+          <h2 className="text-lg font-semibold text-aibeop-text">{cardTitle}</h2>
           {model.questionSetTitle ? (
-            <div className="mt-1 text-xs text-slate-500">{model.questionSetTitle}</div>
+            <div className="mt-1 text-xs text-aibeop-subtle">{model.questionSetTitle}</div>
           ) : null}
         </div>
-        <div className="rounded-xl border bg-slate-50 px-3 py-2 text-xs text-slate-700">
+        <div className="rounded-xl border bg-slate-50 px-3 py-2 text-xs text-aibeop-subtle">
           {isAdmin && model.caseType ? <div>카테고리 매칭용 caseType: {model.caseType}</div> : null}
           {!isClient && model.selectionPolicy ? (
             <div>후보 선택 정책: {model.selectionPolicy}</div>
@@ -137,12 +137,12 @@ export function CaseGongbuhoReviewCard({ model }: Readonly<CaseGongbuhoReviewCar
 
       <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
         <div className="rounded-xl border bg-slate-50 p-4">
-          <dt className="text-xs font-medium text-slate-500">
+          <dt className="text-xs font-medium text-aibeop-subtle">
             {isClient ? "정리 패키지" : "적용 패킷 / 정체성"}
           </dt>
-          <dd className="mt-1 font-semibold text-slate-900">{packetFriendly}</dd>
+          <dd className="mt-1 font-semibold text-aibeop-text">{packetFriendly}</dd>
           {!isClient && model.latestTrace ? (
-            <div className="mt-2 text-xs text-slate-600">
+            <div className="mt-2 text-xs text-aibeop-muted">
               패킷 id:{" "}
               <span className="font-mono text-[11px]">{model.latestTrace.gongbuhoPacketId}</span>
             </div>
@@ -150,37 +150,37 @@ export function CaseGongbuhoReviewCard({ model }: Readonly<CaseGongbuhoReviewCar
         </div>
 
         <div className="rounded-xl border bg-slate-50 p-4">
-          <dt className="text-xs font-medium text-slate-500">
+          <dt className="text-xs font-medium text-aibeop-subtle">
             {isClient ? "질문 진행 표준" : "질문셋 상태"}
           </dt>
-          <dd className="mt-1 font-semibold text-slate-900">{operationalLabel}</dd>
+          <dd className="mt-1 font-semibold text-aibeop-text">{operationalLabel}</dd>
           {!isClient && model.questionSetTitle ? (
-            <div className="mt-1 text-xs text-slate-600">제목 {model.questionSetTitle}</div>
+            <div className="mt-1 text-xs text-aibeop-muted">제목 {model.questionSetTitle}</div>
           ) : null}
         </div>
 
         <div className="rounded-xl border bg-slate-50 p-4">
-          <dt className="text-xs font-medium text-slate-500">요약(outputContract)</dt>
-          <dd className="mt-1 font-semibold text-slate-900">
+          <dt className="text-xs font-medium text-aibeop-subtle">요약(outputContract)</dt>
+          <dd className="mt-1 font-semibold text-aibeop-text">
             {model.outputContractApplied ? "패킷 outputContract(summary) 존재" : "패킷 outputContract(summary) 미적용"}
           </dd>
-          <div className="mt-1 text-xs text-slate-600">{contractLabel}</div>
+          <div className="mt-1 text-xs text-aibeop-muted">{contractLabel}</div>
         </div>
 
         <div className="rounded-xl border bg-slate-50 p-4">
-          <dt className="text-xs font-medium text-slate-500">
+          <dt className="text-xs font-medium text-aibeop-subtle">
             {isClient ? "문서 자동 검토 표시" : "문서 규칙(gongbuhoDocumentRules)"}
           </dt>
-          <dd className="mt-1 font-semibold text-slate-900">
+          <dd className="mt-1 font-semibold text-aibeop-text">
             validation 규칙·체크 {model.documentRules.validationPendingCount}건{" "}
             {model.documentRules.applied ? "(스냅샷 평가됨)" : "(패킷 정의 또는 문서 평가 대기)"}
           </dd>
-          <div className="mt-1 text-xs text-slate-600">{forbiddenLine}</div>
-          <div className="mt-1 text-xs text-slate-600">
+          <div className="mt-1 text-xs text-aibeop-muted">{forbiddenLine}</div>
+          <div className="mt-1 text-xs text-aibeop-muted">
             문서 riskFlags 신호 {model.documentRules.documentRiskFlagCount}건
           </div>
           {!isClient && model.latestTrace ? (
-            <div className="mt-1 text-xs text-slate-600">
+            <div className="mt-1 text-xs text-aibeop-muted">
               Trace riskFlags 카운트 {model.latestTrace.riskFlagsCount}건 (최근 Trace 행 요약)
             </div>
           ) : null}
@@ -196,20 +196,20 @@ export function CaseGongbuhoReviewCard({ model }: Readonly<CaseGongbuhoReviewCar
 
       {!isClient ? (
         <div className="mt-4 rounded-xl border p-4 text-sm">
-          <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+          <div className="text-xs font-semibold uppercase tracking-wide text-aibeop-subtle">
             APPROVED 후보 패킷 요약 (Trace 반영 포함)
           </div>
           {model.candidates.length === 0 ? (
-            <p className="mt-2 text-sm text-slate-600">
+            <p className="mt-2 text-sm text-aibeop-muted">
               카테고리 기준 후보 패킷이 없습니다.{model.caseType === null ? " caseType 필요." : ""}
             </p>
           ) : (
-            <ul className="mt-2 space-y-2 text-xs text-slate-800">
+            <ul className="mt-2 space-y-2 text-xs text-aibeop-subtle">
               {model.candidates.map((c) => (
                 <li key={c.id} className="rounded-lg bg-slate-50 px-3 py-2">
                   <span className="font-mono">{c.code}</span> · v<span className="font-mono">{c.version}</span>{" "}
-                  <span className="text-slate-600">{c.name}</span>
-                  <div className="mt-1 text-[11px] text-slate-500">
+                  <span className="text-aibeop-muted">{c.name}</span>
+                  <div className="mt-1 text-[11px] text-aibeop-subtle">
                     traceApplied: {String(c.traceApplied)} · draft 질문셋 스캔:
                     {String(c.questionSetDraftProjected)}
                   </div>
@@ -233,13 +233,13 @@ export function CaseGongbuhoReviewCard({ model }: Readonly<CaseGongbuhoReviewCar
         <ul className="mt-2 list-decimal space-y-1 ps-5 text-purple-950">
           {displayedExpertReviewPoints.length === 0 &&
           model.documentRules.expertReviewPointCount === 0 ? (
-            <li className="list-none ps-0 text-slate-600">
+            <li className="list-none ps-0 text-aibeop-muted">
               패킷 또는 문서 검토 결과에 검토 포인트가 비어 있습니다.
             </li>
           ) : null}
           {displayedExpertReviewPoints.length === 0 &&
           model.documentRules.expertReviewPointCount > 0 ? (
-            <li className="list-none ps-0 text-slate-600">
+            <li className="list-none ps-0 text-aibeop-muted">
               표시 문자열 목록 없음 · 문서/패킷 카운트 {model.documentRules.expertReviewPointCount}건(요약 카드).
             </li>
           ) : null}
@@ -257,8 +257,8 @@ export function CaseGongbuhoReviewCard({ model }: Readonly<CaseGongbuhoReviewCar
       </div>
 
       {isAdmin && model.traceExpertReviewPoints ? (
-        <div className="mt-3 rounded-xl border p-4 text-xs text-slate-800">
-          <div className="font-semibold text-slate-900">Trace.expertReviewPoints (JSON 원문 분해)</div>
+        <div className="mt-3 rounded-xl border p-4 text-xs text-aibeop-subtle">
+          <div className="font-semibold text-aibeop-text">Trace.expertReviewPoints (JSON 원문 분해)</div>
           <ul className="mt-2 space-y-1">
             {summarizeTraceExpertReview(model.traceExpertReviewPoints).map((line) => (
               <li key={line}>- {line}</li>
@@ -269,34 +269,34 @@ export function CaseGongbuhoReviewCard({ model }: Readonly<CaseGongbuhoReviewCar
 
       {isAdmin ? (
         <details className="mt-4 rounded-xl border bg-slate-900/5">
-          <summary className="cursor-pointer px-4 py-3 text-sm font-semibold text-slate-900">
+          <summary className="cursor-pointer px-4 py-3 text-sm font-semibold text-aibeop-text">
             packetJson 미리보기 / Trace.validationResult
           </summary>
-          <div className="border-t px-4 py-3 text-xs leading-relaxed text-slate-800">
+          <div className="border-t px-4 py-3 text-xs leading-relaxed text-aibeop-subtle">
             {model.packetJsonPreview ? (
-              <pre className="max-h-80 overflow-auto whitespace-pre-wrap break-all rounded bg-white p-3 font-mono text-[11px] text-slate-900">
+              <pre className="max-h-80 overflow-auto whitespace-pre-wrap break-all rounded bg-white p-3 font-mono text-[11px] text-aibeop-text">
                 {model.packetJsonPreview}
               </pre>
             ) : (
               <p>packetJson 미리보기를 만들 수 없습니다.</p>
             )}
-            <div className="mt-4 font-semibold text-slate-900">Trace.validationResult</div>
-            <pre className="mt-2 max-h-60 overflow-auto whitespace-pre-wrap break-all rounded bg-white p-3 font-mono text-[11px] text-slate-900">
+            <div className="mt-4 font-semibold text-aibeop-text">Trace.validationResult</div>
+            <pre className="mt-2 max-h-60 overflow-auto whitespace-pre-wrap break-all rounded bg-white p-3 font-mono text-[11px] text-aibeop-text">
               {safeStringifyPreview(model.traceValidationResult)}
             </pre>
             {model.documentRules.present ? (
-              <p className="mt-3 text-[11px] text-slate-600">
+              <p className="mt-3 text-[11px] text-aibeop-muted">
                 최신 스냅샷 참조 문서: {model.documentRules.sourceDocumentTitle ?? "(미상)"}{" "}
                 v{model.documentRules.versionNo ?? "?"}
               </p>
             ) : (
-              <p className="mt-3 text-[11px] text-slate-600">저장된 LegalDocument 버전 스냅샷 없음.</p>
+              <p className="mt-3 text-[11px] text-aibeop-muted">저장된 LegalDocument 버전 스냅샷 없음.</p>
             )}
           </div>
         </details>
       ) : null}
 
-      <blockquote className="mt-6 border-l-4 border-slate-300 pl-4 text-sm italic text-slate-700">
+      <blockquote className="mt-6 border-l-4 border-slate-300 pl-4 text-sm italic text-aibeop-subtle">
         {disclaimer}
       </blockquote>
 

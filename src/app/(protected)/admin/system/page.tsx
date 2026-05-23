@@ -27,15 +27,15 @@ export default async function AdminSystemPage() {
   return (
     <div className="space-y-6 p-6">
       <div>
-        <h1 className="text-2xl font-semibold text-slate-900">시스템 점검</h1>
-        <p className="mt-1 text-sm text-slate-500">
+        <h1 className="text-2xl font-semibold text-aibeop-text">시스템 점검</h1>
+        <p className="mt-1 text-sm text-aibeop-subtle">
           헬스 상태와 배포 메타 정보를 확인합니다. (release-meta API는 별도 인증이 필요합니다.)
         </p>
       </div>
 
       <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h2 className="mb-2 text-lg font-medium text-slate-900">Health</h2>
-        <div className="grid gap-2 text-sm text-slate-700">
+        <h2 className="mb-2 text-lg font-medium text-aibeop-text">Health</h2>
+        <div className="grid gap-2 text-sm text-aibeop-subtle">
           <div>
             <span className="font-medium">상태:</span>{" "}
             {health.ok ? "healthy" : "unhealthy"}
@@ -47,8 +47,8 @@ export default async function AdminSystemPage() {
       </section>
 
       <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h2 className="mb-2 text-lg font-medium text-slate-900">Release Meta</h2>
-        <p className="mb-3 text-xs text-slate-500">
+        <h2 className="mb-2 text-lg font-medium text-aibeop-text">Release Meta</h2>
+        <p className="mb-3 text-xs text-aibeop-subtle">
           서버 인라인 메타입니다. JSON은 `getReleaseMetaInline()` 결과와 동일합니다.
         </p>
         <pre className="overflow-auto rounded-xl bg-slate-50 p-4 text-sm">
@@ -57,10 +57,10 @@ export default async function AdminSystemPage() {
       </section>
 
       <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h2 className="mb-2 text-lg font-medium text-slate-900">
+        <h2 className="mb-2 text-lg font-medium text-aibeop-text">
           권한정의서 (1차본)
         </h2>
-        <p className="mb-3 text-xs text-slate-500">
+        <p className="mb-3 text-xs text-aibeop-subtle">
           subject / action 기준 역할별 허용 목록입니다.
         </p>
         <pre className="max-h-96 overflow-auto rounded-xl bg-slate-50 p-4 text-xs">
@@ -69,10 +69,10 @@ export default async function AdminSystemPage() {
       </section>
 
       <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h2 className="mb-2 text-lg font-medium text-slate-900">
+        <h2 className="mb-2 text-lg font-medium text-aibeop-text">
           상태값 정의서 (1차본)
         </h2>
-        <p className="mb-3 text-xs text-slate-500">
+        <p className="mb-3 text-xs text-aibeop-subtle">
           Prisma `CaseStatus` 기준 라벨·전이·편집 역할입니다.
         </p>
         <pre className="max-h-96 overflow-auto rounded-xl bg-slate-50 p-4 text-xs">
@@ -81,10 +81,10 @@ export default async function AdminSystemPage() {
       </section>
 
       <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h2 className="mb-2 text-lg font-medium text-slate-900">
+        <h2 className="mb-2 text-lg font-medium text-aibeop-text">
           사건 라이프사이클 정의서 (1차본)
         </h2>
-        <p className="mb-3 text-xs text-slate-500">
+        <p className="mb-3 text-xs text-aibeop-subtle">
           CAS-3xxx 단계와 현재 상태 enum의 대응입니다.
         </p>
         <pre className="max-h-96 overflow-auto rounded-xl bg-slate-50 p-4 text-xs">
@@ -93,10 +93,10 @@ export default async function AdminSystemPage() {
       </section>
 
       <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h2 className="mb-2 text-lg font-medium text-slate-900">Environment</h2>
-        <div className="text-sm text-slate-700">
+        <h2 className="mb-2 text-lg font-medium text-aibeop-text">Environment</h2>
+        <div className="text-sm text-aibeop-subtle">
           {process.env.NODE_ENV !== "production" && (
-            <span className="block pb-2 text-slate-500">
+            <span className="block pb-2 text-aibeop-subtle">
               개발 모드: production env 스키마 검증은 건너뜁니다.{" "}
             </span>
           )}

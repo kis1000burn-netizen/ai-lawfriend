@@ -27,8 +27,8 @@ export default async function AdminLegalKnowledgeIntakeDetailPage({ params }: Pr
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-semibold text-slate-900">Intake 상세</h1>
-          <p className="mt-1 font-mono text-xs text-slate-500">{row.id}</p>
+          <h1 className="text-xl font-semibold text-aibeop-text">Intake 상세</h1>
+          <p className="mt-1 font-mono text-xs text-aibeop-subtle">{row.id}</p>
         </div>
         <Link
           href="/admin/gongbuho/legal-knowledge"

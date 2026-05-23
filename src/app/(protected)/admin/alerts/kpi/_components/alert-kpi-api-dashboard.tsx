@@ -95,8 +95,8 @@ export function AlertKpiApiDashboard() {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-lg font-semibold text-slate-900">기간 프리셋 집계</h2>
-      <p className="text-sm text-slate-500">
+      <h2 className="text-lg font-semibold text-aibeop-text">기간 프리셋 집계</h2>
+      <p className="text-sm text-aibeop-subtle">
         7일·14일·30일·분기 범위와 일·주·월 단위 버킷으로 생성·해결·에스컬레이션·고위험 건수를 봅니다.
       </p>
 
@@ -118,7 +118,7 @@ export function AlertKpiApiDashboard() {
             type="button"
             onClick={() => setChartMode("line")}
             className={`rounded-lg px-3 py-1.5 text-sm ${
-              chartMode === "line" ? "bg-slate-900 text-white" : "text-slate-600"
+              chartMode === "line" ? "bg-slate-900 text-white" : "text-aibeop-muted"
             }`}
           >
             선형
@@ -127,7 +127,7 @@ export function AlertKpiApiDashboard() {
             type="button"
             onClick={() => setChartMode("bar")}
             className={`rounded-lg px-3 py-1.5 text-sm ${
-              chartMode === "bar" ? "bg-slate-900 text-white" : "text-slate-600"
+              chartMode === "bar" ? "bg-slate-900 text-white" : "text-aibeop-muted"
             }`}
           >
             막대
@@ -138,14 +138,14 @@ export function AlertKpiApiDashboard() {
       </div>
 
       {loading && (
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-500">
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-aibeop-subtle">
           KPI를 불러오는 중입니다...
         </div>
       )}
 
       {!loading && data && (
         <>
-          <div className="text-xs text-slate-500">
+          <div className="text-xs text-aibeop-subtle">
             범위: {new Date(data.range.start).toLocaleDateString("ko-KR")} ~{" "}
             {new Date(data.range.end).toLocaleDateString("ko-KR")} · 집계:{" "}
             {data.range.granularity}
@@ -165,11 +165,11 @@ export function AlertKpiApiDashboard() {
           </div>
 
           <div className="rounded-2xl border border-slate-200 bg-white p-4">
-            <h3 className="mb-4 text-sm font-semibold text-slate-800">기간별 집계 표</h3>
+            <h3 className="mb-4 text-sm font-semibold text-aibeop-subtle">기간별 집계 표</h3>
 
             <div className="overflow-x-auto">
               <table className="min-w-full text-sm">
-                <thead className="border-b border-slate-200 text-slate-500">
+                <thead className="border-b border-slate-200 text-aibeop-subtle">
                   <tr>
                     <th className="px-3 py-2 text-left">구간</th>
                     <th className="px-3 py-2 text-right">생성</th>
@@ -188,12 +188,12 @@ export function AlertKpiApiDashboard() {
 
                     return (
                       <tr key={row.label} className="border-b border-slate-100">
-                        <td className="px-3 py-2 text-slate-700">{row.label}</td>
-                        <td className="px-3 py-2 text-right text-slate-700">{row.created}</td>
-                        <td className="px-3 py-2 text-right text-slate-700">{row.resolved}</td>
-                        <td className="px-3 py-2 text-right text-slate-700">{row.escalated}</td>
-                        <td className="px-3 py-2 text-right text-slate-700">{row.highSeverity}</td>
-                        <td className="px-3 py-2 text-right text-slate-700">{resolutionRate}%</td>
+                        <td className="px-3 py-2 text-aibeop-subtle">{row.label}</td>
+                        <td className="px-3 py-2 text-right text-aibeop-subtle">{row.created}</td>
+                        <td className="px-3 py-2 text-right text-aibeop-subtle">{row.resolved}</td>
+                        <td className="px-3 py-2 text-right text-aibeop-subtle">{row.escalated}</td>
+                        <td className="px-3 py-2 text-right text-aibeop-subtle">{row.highSeverity}</td>
+                        <td className="px-3 py-2 text-right text-aibeop-subtle">{resolutionRate}%</td>
                       </tr>
                     );
                   })}
@@ -216,8 +216,8 @@ export function AlertKpiApiDashboard() {
 function KpiCard({ label, value }: { label: string; value: string | number }) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-4">
-      <div className="text-xs text-slate-500">{label}</div>
-      <div className="mt-2 text-2xl font-semibold text-slate-900">{value}</div>
+      <div className="text-xs text-aibeop-subtle">{label}</div>
+      <div className="mt-2 text-2xl font-semibold text-aibeop-text">{value}</div>
     </div>
   );
 }

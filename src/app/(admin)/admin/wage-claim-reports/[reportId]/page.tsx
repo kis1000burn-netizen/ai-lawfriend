@@ -48,7 +48,7 @@ export default async function WageClaimReportAdminDetailPage({
     <main className="mx-auto max-w-6xl px-6 py-10">
       <header className="mb-6 rounded-2xl border border-slate-200 bg-white p-6">
         <h1 className="text-2xl font-bold">임금체불 진정서 상세</h1>
-        <p className="mt-2 text-sm text-slate-600">
+        <p className="mt-2 text-sm text-aibeop-muted">
           접수일시 {formatDate(report.createdAt)} | 상태 {report.status}
         </p>
       </header>

@@ -137,7 +137,7 @@ export function ParagraphStructurePanel({ document, currentRole, onRefresh }: Pr
           <h3 className="text-base font-semibold">
             문단 구조 패널{documentReadOnly ? " (읽기 전용)" : ""}
           </h3>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-aibeop-subtle">
             {documentReadOnly
               ? "문단을 선택해 내용과 이력을 확인합니다. 재생성·잠금·복원은 사용할 수 없습니다."
               : "문단별 재생성, 이력 확인, 잠금 작업을 수행합니다."}
@@ -157,7 +157,7 @@ export function ParagraphStructurePanel({ document, currentRole, onRefresh }: Pr
                 }`}
               >
                 <div className="text-sm font-semibold">{paragraph.title}</div>
-                <div className="mt-1 text-xs text-gray-500">
+                <div className="mt-1 text-xs text-aibeop-subtle">
                   {paragraph.sectionKey} / {paragraph.paragraphKey} / {paragraph.status}
                 </div>
               </button>
@@ -169,13 +169,13 @@ export function ParagraphStructurePanel({ document, currentRole, onRefresh }: Pr
           <div className="mt-5 space-y-4 border-t pt-4">
             <div>
               <div className="text-sm font-semibold">{selectedParagraph.title}</div>
-              <div className="mt-1 text-xs text-gray-500">
+              <div className="mt-1 text-xs text-aibeop-subtle">
                 generationMode: {selectedParagraph.generationMode}
               </div>
             </div>
 
             {documentReadOnly ? (
-              <p className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600">
+              <p className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-aibeop-muted">
                 문서가 잠금 또는 보관된 상태입니다. 재작성 지시 입력·재생성·문단 잠금은 사용할 수 없으며,
                 이력은 조회만 가능합니다.
               </p>

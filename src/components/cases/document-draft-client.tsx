@@ -304,14 +304,14 @@ export default function DocumentDraftClient({
       ) : null}
       <section className="rounded-2xl border bg-white p-5 shadow-sm">
         <h2 className="text-lg font-semibold">문서 초안 생성</h2>
-        <p className="mt-2 text-sm text-neutral-600">
+        <p className="mt-2 text-sm text-aibeop-muted">
           실제 AI 재생성 엔진으로 선택 문단만 다시 쓰고, 문단별 재생성 이력을 확인할 수 있습니다.
           (OPENAI_API_KEY 미설정 시 규칙 기반 정리로 동작합니다.)
         </p>
 
         <div className="mt-4 grid gap-4 md:grid-cols-[240px_auto]">
           <label className="space-y-1">
-            <span className="text-sm text-neutral-600">문서 템플릿</span>
+            <span className="text-sm text-aibeop-muted">문서 템플릿</span>
             <select
               className="w-full rounded-xl border px-3 py-2"
               value={templateType}
@@ -347,7 +347,7 @@ export default function DocumentDraftClient({
           <section className="rounded-2xl border bg-white p-5 shadow-sm">
             <div className="grid gap-4 md:grid-cols-[1fr_auto_auto_auto] md:items-end">
               <label className="space-y-1">
-                <span className="text-sm text-neutral-600">문서 제목</span>
+                <span className="text-sm text-aibeop-muted">문서 제목</span>
                 <input
                   className="w-full rounded-xl border px-3 py-2"
                   value={draftTitle}
@@ -355,7 +355,7 @@ export default function DocumentDraftClient({
                 />
               </label>
 
-              <div className="text-sm text-neutral-500">포함 문단 {includedCount}개</div>
+              <div className="text-sm text-aibeop-subtle">포함 문단 {includedCount}개</div>
 
               <button
                 type="button"
@@ -389,10 +389,10 @@ export default function DocumentDraftClient({
                 >
                   <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
                     <div>
-                      <div className="text-xs text-neutral-400">
+                      <div className="text-xs text-aibeop-faint">
                         source: {paragraph.sourceQuestionKey}
                       </div>
-                      <div className="text-sm text-neutral-500">순서 {paragraph.order}</div>
+                      <div className="text-sm text-aibeop-subtle">순서 {paragraph.order}</div>
                       {paragraph.aiHint ? (
                         <div className="mt-1 text-xs text-blue-600">
                           AI 힌트: {paragraph.aiHint}
@@ -470,7 +470,7 @@ export default function DocumentDraftClient({
 
                   <div className="grid gap-4 md:grid-cols-2">
                     <label className="space-y-1">
-                      <span className="text-sm text-neutral-600">섹션 제목</span>
+                      <span className="text-sm text-aibeop-muted">섹션 제목</span>
                       <input
                         className="w-full rounded-xl border px-3 py-2"
                         value={paragraph.sectionTitle ?? ""}
@@ -484,7 +484,7 @@ export default function DocumentDraftClient({
                     </label>
 
                     <label className="space-y-1">
-                      <span className="text-sm text-neutral-600">문단 라벨</span>
+                      <span className="text-sm text-aibeop-muted">문단 라벨</span>
                       <input
                         className="w-full rounded-xl border px-3 py-2"
                         value={paragraph.label ?? ""}
@@ -499,7 +499,7 @@ export default function DocumentDraftClient({
                   </div>
 
                   <label className="mt-4 block space-y-1">
-                    <span className="text-sm text-neutral-600">재생성 추가 지시</span>
+                    <span className="text-sm text-aibeop-muted">재생성 추가 지시</span>
                     <input
                       className="w-full rounded-xl border px-3 py-2"
                       value={instructionByParagraphId[paragraph.id] ?? ""}
@@ -514,7 +514,7 @@ export default function DocumentDraftClient({
                   </label>
 
                   <label className="mt-4 block space-y-1">
-                    <span className="text-sm text-neutral-600">문단 내용</span>
+                    <span className="text-sm text-aibeop-muted">문단 내용</span>
                     <textarea
                       className="min-h-[140px] w-full rounded-xl border px-3 py-2"
                       value={paragraph.content}
@@ -533,7 +533,7 @@ export default function DocumentDraftClient({
                       <div className="space-y-3">
                         {historyItems.map((item) => (
                           <div key={item.id} className="rounded-lg border bg-white p-3">
-                            <div className="mb-2 text-xs text-neutral-500">
+                            <div className="mb-2 text-xs text-aibeop-subtle">
                               {formatHistoryDate(item.createdAt)} / 모델: {item.aiModel ?? "-"}
                             </div>
                             {item.instruction ? (
@@ -543,18 +543,18 @@ export default function DocumentDraftClient({
                             ) : null}
                             <div className="grid gap-3 md:grid-cols-2">
                               <div>
-                                <div className="mb-1 text-xs font-medium text-neutral-500">
+                                <div className="mb-1 text-xs font-medium text-aibeop-subtle">
                                   이전
                                 </div>
-                                <pre className="whitespace-pre-wrap text-xs text-neutral-700">
+                                <pre className="whitespace-pre-wrap text-xs text-aibeop-subtle">
                                   {item.beforeContent}
                                 </pre>
                               </div>
                               <div>
-                                <div className="mb-1 text-xs font-medium text-neutral-500">
+                                <div className="mb-1 text-xs font-medium text-aibeop-subtle">
                                   이후
                                 </div>
-                                <pre className="whitespace-pre-wrap text-xs text-neutral-700">
+                                <pre className="whitespace-pre-wrap text-xs text-aibeop-subtle">
                                   {item.afterContent}
                                 </pre>
                               </div>
@@ -573,7 +573,7 @@ export default function DocumentDraftClient({
             <div className="flex items-center justify-between gap-3">
               <div>
                 <h3 className="font-semibold">최종 생성</h3>
-                <p className="mt-1 text-sm text-neutral-500">
+                <p className="mt-1 text-sm text-aibeop-subtle">
                   체크된 문단만 포함해 문서를 생성합니다.
                 </p>
               </div>

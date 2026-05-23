@@ -174,7 +174,7 @@ export function DocumentGenerationSupplementRequestPanel({
                 <span className="rounded-full bg-indigo-100 px-2.5 py-1 text-xs font-semibold text-indigo-900">
                   {getSuggestionLabel(suggestion.type)}
                 </span>
-                <p className="text-sm text-slate-800">{suggestion.issue}</p>
+                <p className="text-sm text-aibeop-subtle">{suggestion.issue}</p>
               </div>
             </div>
           ))}
@@ -183,7 +183,7 @@ export function DocumentGenerationSupplementRequestPanel({
 
       <div className="mt-4 grid gap-3">
         <div className="grid gap-1">
-          <label htmlFor="supplement-request-title" className="text-xs font-semibold text-slate-600">
+          <label htmlFor="supplement-request-title" className="text-xs font-semibold text-aibeop-muted">
             보완 요청 제목
           </label>
           <input
@@ -195,7 +195,7 @@ export function DocumentGenerationSupplementRequestPanel({
         </div>
 
         <div className="grid gap-1">
-          <label htmlFor="supplement-request-reason" className="text-xs font-semibold text-slate-600">
+          <label htmlFor="supplement-request-reason" className="text-xs font-semibold text-aibeop-muted">
             보완 요청 사유
           </label>
           <textarea
@@ -227,7 +227,7 @@ export function DocumentGenerationSupplementRequestPanel({
               <button
                 type="button"
                 onClick={clearQuestions}
-                className="rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-semibold text-slate-600"
+                className="rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-semibold text-aibeop-muted"
               >
                 선택 해제
               </button>
@@ -242,7 +242,7 @@ export function DocumentGenerationSupplementRequestPanel({
                 <label
                   key={question}
                   htmlFor={checkboxId}
-                  className="flex gap-3 rounded-xl border border-indigo-100 bg-white/80 p-3 text-sm text-slate-800"
+                  className="flex gap-3 rounded-xl border border-indigo-100 bg-white/80 p-3 text-sm text-aibeop-subtle"
                 >
                   <input
                     id={checkboxId}
@@ -269,7 +269,7 @@ export function DocumentGenerationSupplementRequestPanel({
           {isSubmitting ? "보완 요청 생성 중..." : "보완 요청 생성"}
         </button>
 
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-aibeop-subtle">
           선택한 질문은 보완 요청 초안으로 저장되며, 문서는 아직 생성되지 않은 상태로 유지됩니다.
         </p>
       </div>

@@ -15,7 +15,7 @@ export default async function FreeServicePromoQaPage() {
         <h1 className="mt-2 text-3xl font-black">
           무료 유입 서비스 1·2호 홍보 노출 정책 QA
         </h1>
-        <p className="mt-3 text-sm leading-7 text-slate-300">
+        <p className="mt-3 text-sm leading-7 text-aibeop-disabled">
           불법사금융·전세사기 무료 유입 서비스의 랜딩페이지, 공유 경로, 팝업
           노출 정책, GA/Meta 이벤트, OG 이미지를 운영 배포 전 점검합니다.
         </p>

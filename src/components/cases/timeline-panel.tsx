@@ -15,18 +15,18 @@ export function TimelinePanel({ timelineEvents }: Props) {
 
       <div className="mt-3 space-y-3">
         {timelineEvents.length === 0 ? (
-          <div className="rounded-xl border border-dashed p-4 text-sm text-gray-500">
+          <div className="rounded-xl border border-dashed p-4 text-sm text-aibeop-subtle">
             타임라인 이력이 없습니다.
           </div>
         ) : (
           timelineEvents.map((event) => (
             <div key={event.id} className="rounded-xl border p-3">
               <div className="text-sm font-semibold">{event.title}</div>
-              <div className="mt-1 text-xs text-gray-500">
+              <div className="mt-1 text-xs text-aibeop-subtle">
                 {event.type} · {new Date(event.createdAt).toLocaleString()}
               </div>
               {event.description ? (
-                <div className="mt-2 text-sm text-gray-700">{event.description}</div>
+                <div className="mt-2 text-sm text-aibeop-subtle">{event.description}</div>
               ) : null}
             </div>
           ))

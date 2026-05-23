@@ -32,8 +32,8 @@ function StatusBadge({ status }: { status: string }) {
           : status === "RESOLVED"
             ? "border-emerald-200 bg-emerald-50 text-emerald-700"
             : status === "CANCELED"
-              ? "border-slate-200 bg-slate-50 text-slate-600"
-              : "border-slate-200 bg-slate-50 text-slate-600";
+              ? "border-slate-200 bg-slate-50 text-aibeop-muted"
+              : "border-slate-200 bg-slate-50 text-aibeop-muted";
 
   return (
     <span className={`rounded-lg border px-2 py-1 text-xs font-medium ${cls}`}>
@@ -90,9 +90,9 @@ export default async function OpsQueueTicketDetailPage({
   return (
     <div className="space-y-6">
       <div>
-        <div className="text-sm text-slate-500">관리자 / 경고 / 운영 큐</div>
-        <h1 className="mt-1 text-xl font-semibold text-slate-900">운영 큐 상세</h1>
-        <p className="mt-1 text-sm text-slate-500">
+        <div className="text-sm text-aibeop-subtle">관리자 / 경고 / 운영 큐</div>
+        <h1 className="mt-1 text-xl font-semibold text-aibeop-text">운영 큐 상세</h1>
+        <p className="mt-1 text-sm text-aibeop-subtle">
           티켓 상태와 담당자 배정을 관리합니다.
         </p>
       </div>
@@ -108,25 +108,25 @@ export default async function OpsQueueTicketDetailPage({
             dueAt={ticket.dueAt}
             completedAt={ticket.completedAt}
           />
-          <span className="rounded-lg border border-slate-200 bg-slate-50 px-2 py-1 text-xs text-slate-600">
+          <span className="rounded-lg border border-slate-200 bg-slate-50 px-2 py-1 text-xs text-aibeop-muted">
             {ticket.boardColumn}
           </span>
         </div>
 
-        <h2 className="mt-4 text-lg font-semibold text-slate-900">{ticket.title}</h2>
+        <h2 className="mt-4 text-lg font-semibold text-aibeop-text">{ticket.title}</h2>
 
         {ticket.description ? (
-          <p className="mt-2 text-sm text-slate-600">{ticket.description}</p>
+          <p className="mt-2 text-sm text-aibeop-muted">{ticket.description}</p>
         ) : null}
 
-        <div className="mt-4 grid gap-3 text-sm text-slate-600 md:grid-cols-2">
+        <div className="mt-4 grid gap-3 text-sm text-aibeop-muted md:grid-cols-2">
           <div>taxonomy: {ticket.taxonomy}</div>
           <div>bulkVariant: {ticket.bulkVariant}</div>
           <div>
             sourceJob:{" "}
             <Link
               href={`/admin/alerts/bulk-jobs/${ticket.sourceJobId}`}
-              className="text-slate-700 underline"
+              className="text-aibeop-subtle underline"
             >
               {ticket.sourceJobId}
             </Link>

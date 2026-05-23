@@ -93,20 +93,20 @@ export function DocumentReviewPanel({
           <h3 className="text-base font-semibold">
             {isTerminal ? "문서 검토 요약 (읽기 전용)" : "승인 전 검토 패널"}
           </h3>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-aibeop-subtle">
             {isTerminal ? (
               <>
                 잠금·보관된 문서입니다. 아래 수치·안내는 확인용이며, 편집 가능한 버튼은 표시되지 않습니다.
               </>
             ) : (
               <>
-                문단 확인 후 <strong className="font-medium text-gray-700">문서 승인</strong> →{" "}
-                <strong className="font-medium text-gray-700">승인본 잠금</strong> 순으로 진행합니다.
+                문단 확인 후 <strong className="font-medium text-aibeop-subtle">문서 승인</strong> →{" "}
+                <strong className="font-medium text-aibeop-subtle">승인본 잠금</strong> 순으로 진행합니다.
               </>
             )}
           </p>
         </div>
-        <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600">
+        <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-aibeop-muted">
           {DOCUMENT_STATUS_LABELS[document.status as keyof typeof DOCUMENT_STATUS_LABELS] ??
             document.status}
         </span>
@@ -114,11 +114,11 @@ export function DocumentReviewPanel({
 
       <div className="mt-4 grid gap-3 sm:grid-cols-3">
         <div className="rounded-xl border p-3">
-          <div className="text-xs text-gray-500">문단 수</div>
+          <div className="text-xs text-aibeop-subtle">문단 수</div>
           <div className="mt-1 text-lg font-semibold">{document.paragraphs.length}</div>
         </div>
         <div className="rounded-xl border p-3">
-          <div className="text-xs text-gray-500">승인일</div>
+          <div className="text-xs text-aibeop-subtle">승인일</div>
           <div className="mt-1 text-sm font-semibold">
             {document.latestApprovedAt
               ? new Date(document.latestApprovedAt).toLocaleString()
@@ -126,7 +126,7 @@ export function DocumentReviewPanel({
           </div>
         </div>
         <div className="rounded-xl border p-3">
-          <div className="text-xs text-gray-500">잠금일</div>
+          <div className="text-xs text-aibeop-subtle">잠금일</div>
           <div className="mt-1 text-sm font-semibold">
             {document.lockedAt ? new Date(document.lockedAt).toLocaleString() : "-"}
           </div>
@@ -137,7 +137,7 @@ export function DocumentReviewPanel({
         <div
           className={`rounded-xl p-3 text-sm ${
             isTerminal
-              ? "border border-slate-200 bg-slate-50 text-slate-700"
+              ? "border border-slate-200 bg-slate-50 text-aibeop-subtle"
               : requiredParagraphsMissing
                 ? "border border-red-200 bg-red-50 text-red-700"
                 : "border border-green-200 bg-green-50 text-green-700"
@@ -153,25 +153,25 @@ export function DocumentReviewPanel({
         </div>
 
         {document.generationTrace ? (
-          <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-aibeop-subtle">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <div className="font-medium text-slate-900">참조 기준자료</div>
-              <span className="rounded-full bg-white px-3 py-1 text-xs text-slate-600">
+              <div className="font-medium text-aibeop-text">참조 기준자료</div>
+              <span className="rounded-full bg-white px-3 py-1 text-xs text-aibeop-muted">
                 {providerLabels[document.generationTrace.sourceProvider] ??
                   document.generationTrace.sourceProvider}
               </span>
             </div>
-            <div className="mt-2 text-sm text-slate-800">
+            <div className="mt-2 text-sm text-aibeop-subtle">
               {document.generationTrace.templateTitle} ({document.generationTrace.templateCode} v
               {document.generationTrace.templateVersion})
             </div>
             <div className="mt-2 grid gap-3 sm:grid-cols-2">
               <div>
-                <div className="text-xs text-slate-500">출처명</div>
+                <div className="text-xs text-aibeop-subtle">출처명</div>
                 <div className="mt-1">{document.generationTrace.sourceName ?? "-"}</div>
               </div>
               <div>
-                <div className="text-xs text-slate-500">출처 상태</div>
+                <div className="text-xs text-aibeop-subtle">출처 상태</div>
                 <div className="mt-1">
                   {document.generationTrace.sourceStatus
                     ? sourceStatusLabels[document.generationTrace.sourceStatus] ??
@@ -180,13 +180,13 @@ export function DocumentReviewPanel({
                 </div>
               </div>
               <div>
-                <div className="text-xs text-slate-500">생성 스냅샷 시각</div>
+                <div className="text-xs text-aibeop-subtle">생성 스냅샷 시각</div>
                 <div className="mt-1">
                   {new Date(document.generationTrace.generatedSnapshotAt).toLocaleString()}
                 </div>
               </div>
               <div>
-                <div className="text-xs text-slate-500">승인 스냅샷 시각</div>
+                <div className="text-xs text-aibeop-subtle">승인 스냅샷 시각</div>
                 <div className="mt-1">
                   {document.generationTrace.approvedSnapshotAt
                     ? new Date(document.generationTrace.approvedSnapshotAt).toLocaleString()
@@ -196,7 +196,7 @@ export function DocumentReviewPanel({
             </div>
             {document.generationTrace.sourceUrl ? (
               <a
-                className="mt-3 inline-flex text-xs font-medium text-slate-700 underline underline-offset-2"
+                className="mt-3 inline-flex text-xs font-medium text-aibeop-subtle underline underline-offset-2"
                 href={document.generationTrace.sourceUrl}
                 target="_blank"
                 rel="noreferrer"
@@ -207,14 +207,14 @@ export function DocumentReviewPanel({
             {canSeeTraceInternals ? (
               <div className="mt-3 grid gap-3 rounded-xl border border-slate-200 bg-white p-3 sm:grid-cols-2">
                 <div>
-                  <div className="text-xs text-slate-500">출처 해시</div>
-                  <div className="mt-1 break-all text-xs text-slate-700">
+                  <div className="text-xs text-aibeop-subtle">출처 해시</div>
+                  <div className="mt-1 break-all text-xs text-aibeop-subtle">
                     {document.generationTrace.sourceHash ?? "-"}
                   </div>
                 </div>
                 <div>
-                  <div className="text-xs text-slate-500">내부 메모</div>
-                  <div className="mt-1 text-xs text-slate-700">
+                  <div className="text-xs text-aibeop-subtle">내부 메모</div>
+                  <div className="mt-1 text-xs text-aibeop-subtle">
                     {document.generationTrace.sourceNote ?? "-"}
                   </div>
                 </div>
@@ -281,7 +281,7 @@ export function DocumentReviewPanel({
       ) : null}
 
       {document.status === "LOCKED" ? (
-        <p className="mt-4 text-sm text-gray-700">
+        <p className="mt-4 text-sm text-aibeop-subtle">
           <span className="font-semibold text-emerald-900">잠금 완료.</span> 출력·PDF 검증코드는{" "}
           <a
             className="font-medium text-emerald-700 underline underline-offset-2"
@@ -294,7 +294,7 @@ export function DocumentReviewPanel({
       ) : null}
 
       {document.status === "ARCHIVED" ? (
-        <p className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
+        <p className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-aibeop-subtle">
           <span className="font-semibold">보관됨.</span> 승인·잠금·전달은 종료된 상태입니다. 검증은 상단
           「문서 검증 페이지」 링크로 확인할 수 있습니다.
         </p>

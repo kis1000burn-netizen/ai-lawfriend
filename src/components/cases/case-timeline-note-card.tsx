@@ -35,12 +35,12 @@ export function CaseTimelineNoteCard({ item, focused, actions }: Props) {
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div className="flex flex-wrap items-center gap-2">
           {item.noteType ? (
-            <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700">
+            <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-aibeop-subtle">
               {item.noteType}
             </span>
           ) : null}
 
-          <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">
+          <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-aibeop-muted">
             {item.memoType}
           </span>
 
@@ -50,7 +50,7 @@ export function CaseTimelineNoteCard({ item, focused, actions }: Props) {
             </span>
           ) : null}
 
-          <span className="text-xs text-slate-500">
+          <span className="text-xs text-aibeop-subtle">
             {new Date(item.createdAt).toLocaleString()}
           </span>
         </div>
@@ -69,11 +69,11 @@ export function CaseTimelineNoteCard({ item, focused, actions }: Props) {
         </div>
       ) : null}
 
-      <pre className="mt-3 whitespace-pre-wrap font-sans text-sm leading-7 text-slate-700">
+      <pre className="mt-3 whitespace-pre-wrap font-sans text-sm leading-7 text-aibeop-subtle">
         {item.content}
       </pre>
 
-      <div className="mt-3 text-xs text-slate-500">
+      <div className="mt-3 text-xs text-aibeop-subtle">
         작성자: {item.author?.name ?? item.author?.email ?? "-"}
       </div>
     </div>

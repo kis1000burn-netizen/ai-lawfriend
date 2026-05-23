@@ -1,4 +1,8 @@
 import type { AibeopchinLogoV2Mode } from "@/components/branding/aibeopchin-logo-v2-types";
+import {
+  AIBEOPCHIN_LOGO_V2_MODE_CONFIG,
+  type AibeopchinLogoV2ModeConfig,
+} from "@/lib/branding/aibeopchin-logo-v2-mode-config";
 
 export type AibeopchinLogoV2MotionPolicy = {
   effectiveMode: AibeopchinLogoV2Mode;
@@ -6,8 +10,23 @@ export type AibeopchinLogoV2MotionPolicy = {
   orbit: boolean;
   pulse: "none" | "soft" | "medium";
   draw: boolean;
+  reveal: boolean;
   hoverScale: boolean;
 };
+
+function downgradePulse(
+  pulse: AibeopchinLogoV2ModeConfig["pulse"],
+): AibeopchinLogoV2ModeConfig["pulse"] {
+  if (pulse === "medium") {
+    return "soft";
+  }
+
+  if (pulse === "soft") {
+    return "none";
+  }
+
+  return "none";
+}
 
 export function getAibeopchinLogoV2MotionPolicy({
   mode,
@@ -16,14 +35,17 @@ export function getAibeopchinLogoV2MotionPolicy({
   mode: AibeopchinLogoV2Mode;
   reducedMotion: boolean;
 }): AibeopchinLogoV2MotionPolicy {
+  const modeConfig = AIBEOPCHIN_LOGO_V2_MODE_CONFIG[mode];
+
   if (!reducedMotion) {
     return {
       effectiveMode: mode,
-      particles: true,
-      orbit: true,
-      pulse: "medium",
-      draw: true,
-      hoverScale: true,
+      particles: modeConfig.particles,
+      orbit: modeConfig.orbit,
+      pulse: modeConfig.pulse,
+      draw: mode === "intro",
+      reveal: mode !== "restricted",
+      hoverScale: mode !== "restricted",
     };
   }
 
@@ -34,39 +56,7 @@ export function getAibeopchinLogoV2MotionPolicy({
       orbit: false,
       pulse: "none",
       draw: false,
-      hoverScale: false,
-    };
-  }
-
-  if (mode === "thinking") {
-    return {
-      effectiveMode: "thinking",
-      particles: false,
-      orbit: false,
-      pulse: "soft",
-      draw: false,
-      hoverScale: false,
-    };
-  }
-
-  if (mode === "verified") {
-    return {
-      effectiveMode: "verified",
-      particles: false,
-      orbit: false,
-      pulse: "none",
-      draw: false,
-      hoverScale: false,
-    };
-  }
-
-  if (mode === "restricted") {
-    return {
-      effectiveMode: "restricted",
-      particles: false,
-      orbit: false,
-      pulse: "none",
-      draw: false,
+      reveal: false,
       hoverScale: false,
     };
   }
@@ -75,8 +65,9 @@ export function getAibeopchinLogoV2MotionPolicy({
     effectiveMode: mode,
     particles: false,
     orbit: false,
-    pulse: "none",
+    pulse: downgradePulse(modeConfig.pulse),
     draw: false,
+    reveal: false,
     hoverScale: false,
   };
 }

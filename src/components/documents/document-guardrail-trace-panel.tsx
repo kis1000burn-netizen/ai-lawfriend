@@ -39,7 +39,7 @@ function getStatusClassName(status: GuardrailCheckStatus): string {
       return "border-rose-200 bg-rose-50 text-rose-900";
 
     case "SKIPPED":
-      return "border-slate-200 bg-slate-50 text-slate-700";
+      return "border-slate-200 bg-slate-50 text-aibeop-subtle";
   }
 }
 
@@ -75,8 +75,8 @@ export function DocumentGuardrailTracePanel({
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="text-sm font-semibold text-slate-950">{title}</p>
-          <p className="mt-1 text-sm leading-6 text-slate-600">
+          <p className="text-sm font-semibold text-aibeop-text">{title}</p>
+          <p className="mt-1 text-sm leading-6 text-aibeop-muted">
             승인본 문서가 어떤 AI 생성 정책과 안전검사를 거쳤는지 표시합니다. 내부
             프롬프트, 인터뷰 원문, 첨부 원문, 모델 원문 응답은 표시하지 않습니다.
           </p>
@@ -93,19 +93,19 @@ export function DocumentGuardrailTracePanel({
 
       <dl className="mt-4 grid gap-3 sm:grid-cols-2">
         <div className="rounded-xl bg-slate-50 p-3">
-          <dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+          <dt className="text-xs font-semibold uppercase tracking-wide text-aibeop-subtle">
             생성 정책
           </dt>
-          <dd className="mt-1 text-sm font-medium text-slate-950">
+          <dd className="mt-1 text-sm font-medium text-aibeop-text">
             {guardrailTrace.generationPolicy}
           </dd>
         </div>
 
         <div className="rounded-xl bg-slate-50 p-3">
-          <dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+          <dt className="text-xs font-semibold uppercase tracking-wide text-aibeop-subtle">
             검사 시각
           </dt>
-          <dd className="mt-1 text-sm font-medium text-slate-950">
+          <dd className="mt-1 text-sm font-medium text-aibeop-text">
             {formatDateTime(guardrailTrace.checkedAt)}
           </dd>
         </div>
@@ -128,13 +128,13 @@ export function DocumentGuardrailTracePanel({
                     WARNING
                   </span>
                   <span className="font-semibold">{field.label}</span>
-                  <code className="rounded bg-slate-100 px-1.5 py-0.5 text-xs text-slate-600">
+                  <code className="rounded bg-slate-100 px-1.5 py-0.5 text-xs text-aibeop-muted">
                     {field.fieldKey}
                   </code>
                 </div>
 
                 {field.suggestedQuestions && field.suggestedQuestions.length > 0 ? (
-                  <ul className="mt-2 list-disc space-y-1 pl-5 text-slate-700">
+                  <ul className="mt-2 list-disc space-y-1 pl-5 text-aibeop-subtle">
                     {field.suggestedQuestions.map((question) => (
                       <li key={question}>{question}</li>
                     ))}

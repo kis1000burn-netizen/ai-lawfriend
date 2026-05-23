@@ -8,7 +8,7 @@ export default async function LoginPage() {
   return (
     <Suspense
       fallback={
-        <div className="px-6 py-16 text-center text-sm text-gray-600">
+        <div className="px-6 py-16 text-center text-sm text-aibeop-muted">
           로딩...
         </div>
       }

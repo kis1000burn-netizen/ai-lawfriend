@@ -268,7 +268,7 @@ function PermissionBadge({
       className={`rounded-full border px-2.5 py-1 text-xs font-semibold ${
         allowed
           ? "border-emerald-200 bg-emerald-50 text-emerald-900"
-          : "border-slate-200 bg-slate-50 text-slate-500"
+          : "border-slate-200 bg-slate-50 text-aibeop-subtle"
       }`}
     >
       {label}: {allowed ? "허용" : "불허"}
@@ -325,7 +325,7 @@ export function LawyerCasePackageDetailClient({
   if (isLoading) {
     return (
       <main className="mx-auto w-full max-w-6xl px-4 py-8">
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-600 shadow-sm">
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-aibeop-muted shadow-sm">
           사건 패키지를 불러오는 중입니다.
         </div>
       </main>
@@ -351,7 +351,7 @@ export function LawyerCasePackageDetailClient({
       <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <p className="font-mono text-sm font-semibold text-slate-500">
+            <p className="font-mono text-sm font-semibold text-aibeop-subtle">
               {detail.share.publicCode}
             </p>
 
@@ -361,18 +361,18 @@ export function LawyerCasePackageDetailClient({
               </p>
             ) : null}
 
-            <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-950">
+            <h1 className="mt-2 text-2xl font-bold tracking-tight text-aibeop-text">
               {detail.case.title}
             </h1>
 
-            <p className="mt-2 text-sm text-slate-600">
+            <p className="mt-2 text-sm text-aibeop-muted">
               사건 유형: {detail.case.caseType ?? "미분류"} · 상태:{" "}
               {detail.case.status}
             </p>
           </div>
 
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
-            <p className="font-semibold text-slate-950">공유 만료일</p>
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm text-aibeop-subtle">
+            <p className="font-semibold text-aibeop-text">공유 만료일</p>
             <p className="mt-1">{formatDateTime(detail.share.expiresAt)}</p>
           </div>
         </div>
@@ -407,7 +407,7 @@ export function LawyerCasePackageDetailClient({
         {detail.share.allowPackagePdf ? (
           <a
             href={`/api/lawyer/case-packages/${detail.share.id}/package-pdf`}
-            className="mt-3 inline-flex rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+            className="mt-3 inline-flex rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-aibeop-subtle hover:bg-slate-50"
           >
             사건 패키지 요약본 다운로드
           </a>
@@ -415,14 +415,14 @@ export function LawyerCasePackageDetailClient({
       </section>
 
       <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <p className="text-base font-semibold text-slate-950">사건 요약</p>
+        <p className="text-base font-semibold text-aibeop-text">사건 요약</p>
 
         {detail.share.allowSummary ? (
-          <p className="mt-3 whitespace-pre-wrap text-sm leading-7 text-slate-700">
+          <p className="mt-3 whitespace-pre-wrap text-sm leading-7 text-aibeop-subtle">
             {detail.case.summary || "공유된 사건 요약이 없습니다."}
           </p>
         ) : (
-          <p className="mt-3 text-sm text-slate-500">
+          <p className="mt-3 text-sm text-aibeop-subtle">
             의뢰인이 사건 요약 열람을 허용하지 않았습니다.
           </p>
         )}
@@ -430,8 +430,8 @@ export function LawyerCasePackageDetailClient({
 
       {detail.share.allowInterview && detail.interview ? (
         <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <p className="text-base font-semibold text-slate-950">AI 인터뷰 요약(공유 스냅샷)</p>
-          <p className="mt-1 text-xs text-slate-500">
+          <p className="text-base font-semibold text-aibeop-text">AI 인터뷰 요약(공유 스냅샷)</p>
+          <p className="mt-1 text-xs text-aibeop-subtle">
             상태: {detail.interview.completed ? "완료" : "미완료"} · 응답{" "}
             {detail.interview.answerCount}건
           </p>
@@ -441,8 +441,8 @@ export function LawyerCasePackageDetailClient({
                 key={row.questionKey}
                 className="rounded-xl border border-slate-100 bg-slate-50/80 p-3 text-sm"
               >
-                <p className="font-semibold text-slate-900">{row.questionLabel}</p>
-                <p className="mt-1 whitespace-pre-wrap text-slate-700">
+                <p className="font-semibold text-aibeop-text">{row.questionLabel}</p>
+                <p className="mt-1 whitespace-pre-wrap text-aibeop-subtle">
                   {row.answerPreview}
                 </p>
               </li>
@@ -452,20 +452,20 @@ export function LawyerCasePackageDetailClient({
       ) : null}
 
       <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <p className="text-base font-semibold text-slate-950">첨부자료 목록</p>
+        <p className="text-base font-semibold text-aibeop-text">첨부자료 목록</p>
 
         {!detail.share.allowAttachmentList ? (
-          <p className="mt-3 text-sm text-slate-500">
+          <p className="mt-3 text-sm text-aibeop-subtle">
             의뢰인이 첨부자료 목록 열람을 허용하지 않았습니다.
           </p>
         ) : detail.attachments.length === 0 ? (
-          <p className="mt-3 text-sm text-slate-500">
+          <p className="mt-3 text-sm text-aibeop-subtle">
             공유된 첨부자료가 없습니다.
           </p>
         ) : (
           <div className="mt-4 overflow-hidden rounded-xl border border-slate-200">
             <table className="w-full text-left text-sm">
-              <thead className="bg-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-500">
+              <thead className="bg-slate-50 text-xs font-semibold uppercase tracking-wide text-aibeop-subtle">
                 <tr>
                   <th className="px-3 py-2">파일명</th>
                   <th className="px-3 py-2">유형</th>
@@ -477,23 +477,23 @@ export function LawyerCasePackageDetailClient({
               <tbody className="divide-y divide-slate-100">
                 {detail.attachments.map((attachment) => (
                   <tr key={attachment.id}>
-                    <td className="px-3 py-2 font-medium text-slate-900">
+                    <td className="px-3 py-2 font-medium text-aibeop-text">
                       {attachment.filename}
                     </td>
-                    <td className="px-3 py-2 text-slate-600">
+                    <td className="px-3 py-2 text-aibeop-muted">
                       {attachment.mimeType ?? "-"}
                     </td>
-                    <td className="px-3 py-2 text-slate-600">
+                    <td className="px-3 py-2 text-aibeop-muted">
                       {formatFileSize(attachment.sizeBytes)}
                     </td>
-                    <td className="px-3 py-2 text-slate-600">
+                    <td className="px-3 py-2 text-aibeop-muted">
                       {formatDateTime(attachment.createdAt)}
                     </td>
-                    <td className="px-3 py-2 text-slate-600">
+                    <td className="px-3 py-2 text-aibeop-muted">
                       {detail.share.allowAttachmentDownload ? (
                         <a
                           href={`/api/lawyer/case-packages/${detail.share.id}/attachments/${attachment.id}/download`}
-                          className="rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                          className="rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-semibold text-aibeop-subtle hover:bg-slate-50"
                         >
                           다운로드
                         </a>
@@ -510,16 +510,16 @@ export function LawyerCasePackageDetailClient({
       </section>
 
       <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <p className="text-base font-semibold text-slate-950">
+        <p className="text-base font-semibold text-aibeop-text">
           문서 초안 / 문서 목록
         </p>
 
         {!detail.share.allowDocumentDraft ? (
-          <p className="mt-3 text-sm text-slate-500">
+          <p className="mt-3 text-sm text-aibeop-subtle">
             의뢰인이 문서 초안의 기초 열람을 허용하지 않았습니다.
           </p>
         ) : detail.documents.length === 0 ? (
-          <p className="mt-3 text-sm text-slate-500">
+          <p className="mt-3 text-sm text-aibeop-subtle">
             공유된 문서 초안 또는 문서가 없습니다.
           </p>
         ) : (
@@ -529,10 +529,10 @@ export function LawyerCasePackageDetailClient({
                 key={document.id}
                 className="rounded-xl border border-slate-200 p-3"
               >
-                <p className="font-semibold text-slate-950">
+                <p className="font-semibold text-aibeop-text">
                   {document.title}
                 </p>
-                <p className="mt-1 text-xs text-slate-500">
+                <p className="mt-1 text-xs text-aibeop-subtle">
                   상태: {document.status} · 수정일:{" "}
                   {formatDateTime(document.updatedAt)}
                 </p>

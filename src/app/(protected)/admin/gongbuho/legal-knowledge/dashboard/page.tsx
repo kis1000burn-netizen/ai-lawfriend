@@ -13,15 +13,15 @@ export default async function AdminLegalKnowledgeIntelligenceDashboardPage() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-xl font-semibold text-slate-900">Legal Knowledge Intelligence</h1>
-          <p className="mt-1 text-sm text-slate-600">
+          <h1 className="text-xl font-semibold text-aibeop-text">Legal Knowledge Intelligence</h1>
+          <p className="mt-1 text-sm text-aibeop-muted">
             Phase 4-I — Intake·Brief·Review·Packet backlog·전환율·수요 gap·SLA·준수 메타(본문 없음).
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
           <Link
             href="/admin/gongbuho/legal-knowledge"
-            className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
+            className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-aibeop-subtle hover:bg-slate-50"
           >
             Intake 목록
           </Link>

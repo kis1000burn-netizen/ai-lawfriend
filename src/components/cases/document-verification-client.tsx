@@ -104,10 +104,10 @@ export default function DocumentVerificationClient() {
       <div className="mx-auto max-w-3xl space-y-5 px-4 py-6 sm:py-10">
         <section className="rounded-3xl border border-neutral-200 bg-white p-5 shadow-sm sm:p-6">
           <div className="mb-4">
-            <h1 className="text-2xl font-semibold tracking-tight text-neutral-900 sm:text-3xl">
+            <h1 className="text-2xl font-semibold tracking-tight text-aibeop-text sm:text-3xl">
               문서 검증
             </h1>
-            <p className="mt-2 text-sm leading-6 text-neutral-600">
+            <p className="mt-2 text-sm leading-6 text-aibeop-muted">
               승인본 PDF 또는 출력본의 검증코드를 입력하거나, QR 코드를 스캔해 접속하면 해당
               문서가 실제 승인 잠금 버전 기준 문서인지 확인할 수 있습니다.
             </p>
@@ -133,7 +133,7 @@ export default function DocumentVerificationClient() {
             </button>
           </div>
 
-          <div className="mt-3 rounded-2xl bg-neutral-50 px-4 py-3 text-xs leading-5 text-neutral-500">
+          <div className="mt-3 rounded-2xl bg-neutral-50 px-4 py-3 text-xs leading-5 text-aibeop-subtle">
             모바일에서는 PDF 하단의 QR 코드를 스캔하면 검증코드가 자동 입력된 상태로 열립니다.
           </div>
 
@@ -160,98 +160,98 @@ export default function DocumentVerificationClient() {
 
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               <div className="rounded-2xl bg-white p-4">
-                <div className="text-xs text-neutral-500">문서명</div>
-                <div className="mt-1 text-sm font-semibold text-neutral-900 sm:text-base">
+                <div className="text-xs text-aibeop-subtle">문서명</div>
+                <div className="mt-1 text-sm font-semibold text-aibeop-text sm:text-base">
                   {result.document.title}
                 </div>
               </div>
 
               <div className="rounded-2xl bg-white p-4">
-                <div className="text-xs text-neutral-500">사건명</div>
-                <div className="mt-1 text-sm font-semibold text-neutral-900 sm:text-base">
+                <div className="text-xs text-aibeop-subtle">사건명</div>
+                <div className="mt-1 text-sm font-semibold text-aibeop-text sm:text-base">
                   {result.document.caseTitle || "-"}
                 </div>
               </div>
 
               <div className="rounded-2xl bg-white p-4">
-                <div className="text-xs text-neutral-500">사건번호</div>
-                <div className="mt-1 text-sm font-semibold text-neutral-900 sm:text-base">
+                <div className="text-xs text-aibeop-subtle">사건번호</div>
+                <div className="mt-1 text-sm font-semibold text-aibeop-text sm:text-base">
                   {result.document.caseNumber || "-"}
                 </div>
               </div>
 
               <div className="rounded-2xl bg-white p-4">
-                <div className="text-xs text-neutral-500">승인 기준 버전</div>
-                <div className="mt-1 text-sm font-semibold text-neutral-900 sm:text-base">
+                <div className="text-xs text-aibeop-subtle">승인 기준 버전</div>
+                <div className="mt-1 text-sm font-semibold text-aibeop-text sm:text-base">
                   v{result.approvedVersion.versionNumber}
                 </div>
               </div>
 
               <div className="rounded-2xl bg-white p-4">
-                <div className="text-xs text-neutral-500">승인자</div>
-                <div className="mt-1 text-sm font-semibold text-neutral-900 sm:text-base">
+                <div className="text-xs text-aibeop-subtle">승인자</div>
+                <div className="mt-1 text-sm font-semibold text-aibeop-text sm:text-base">
                   {result.approver.name || "-"}{" "}
                   {result.approver.role ? `(${result.approver.role})` : ""}
                 </div>
               </div>
 
               <div className="rounded-2xl bg-white p-4">
-                <div className="text-xs text-neutral-500">승인 시각</div>
-                <div className="mt-1 text-sm font-semibold text-neutral-900 sm:text-base">
+                <div className="text-xs text-aibeop-subtle">승인 시각</div>
+                <div className="mt-1 text-sm font-semibold text-aibeop-text sm:text-base">
                   {formatDateTime(result.approver.approvedAt)}
                 </div>
               </div>
 
               <div className="rounded-2xl bg-white p-4 sm:col-span-2">
-                <div className="text-xs text-neutral-500">검증코드</div>
-                <div className="mt-2 break-all font-mono text-sm font-semibold tracking-wide text-neutral-900">
+                <div className="text-xs text-aibeop-subtle">검증코드</div>
+                <div className="mt-2 break-all font-mono text-sm font-semibold tracking-wide text-aibeop-text">
                   {result.verificationCode}
                 </div>
-                <div className="mt-3 break-all text-[11px] leading-5 text-neutral-500">
+                <div className="mt-3 break-all text-[11px] leading-5 text-aibeop-subtle">
                   {result.fullHash}
                 </div>
               </div>
 
               {result.sourceTrace ? (
                 <div className="rounded-2xl bg-white p-4 sm:col-span-2">
-                  <div className="text-xs text-neutral-500">참조 공식서식 / 내부표준</div>
-                  <div className="mt-1 text-sm font-semibold text-neutral-900 sm:text-base">
+                  <div className="text-xs text-aibeop-subtle">참조 공식서식 / 내부표준</div>
+                  <div className="mt-1 text-sm font-semibold text-aibeop-text sm:text-base">
                     {result.sourceTrace.templateTitle}
                   </div>
                   <div className="mt-3 grid gap-3 sm:grid-cols-2">
                     <div>
-                      <div className="text-xs text-neutral-500">템플릿 버전</div>
-                      <div className="mt-1 text-sm text-neutral-900">
+                      <div className="text-xs text-aibeop-subtle">템플릿 버전</div>
+                      <div className="mt-1 text-sm text-aibeop-text">
                         {result.sourceTrace.templateCode} v{result.sourceTrace.templateVersion}
                       </div>
                     </div>
                     <div>
-                      <div className="text-xs text-neutral-500">출처 구분</div>
-                      <div className="mt-1 text-sm text-neutral-900">
+                      <div className="text-xs text-aibeop-subtle">출처 구분</div>
+                      <div className="mt-1 text-sm text-aibeop-text">
                         {formatProvider(result.sourceTrace.sourceProvider)}
                       </div>
                     </div>
                     <div>
-                      <div className="text-xs text-neutral-500">출처명</div>
-                      <div className="mt-1 text-sm text-neutral-900">
+                      <div className="text-xs text-aibeop-subtle">출처명</div>
+                      <div className="mt-1 text-sm text-aibeop-text">
                         {result.sourceTrace.sourceName || "-"}
                       </div>
                     </div>
                     <div>
-                      <div className="text-xs text-neutral-500">출처 상태</div>
-                      <div className="mt-1 text-sm text-neutral-900">
+                      <div className="text-xs text-aibeop-subtle">출처 상태</div>
+                      <div className="mt-1 text-sm text-aibeop-text">
                         {formatSourceStatus(result.sourceTrace.sourceStatus)}
                       </div>
                     </div>
                     <div>
-                      <div className="text-xs text-neutral-500">생성 스냅샷 시각</div>
-                      <div className="mt-1 text-sm text-neutral-900">
+                      <div className="text-xs text-aibeop-subtle">생성 스냅샷 시각</div>
+                      <div className="mt-1 text-sm text-aibeop-text">
                         {formatDateTime(result.sourceTrace.generatedSnapshotAt)}
                       </div>
                     </div>
                     <div>
-                      <div className="text-xs text-neutral-500">승인 스냅샷 시각</div>
-                      <div className="mt-1 text-sm text-neutral-900">
+                      <div className="text-xs text-aibeop-subtle">승인 스냅샷 시각</div>
+                      <div className="mt-1 text-sm text-aibeop-text">
                         {formatDateTime(result.sourceTrace.approvedSnapshotAt)}
                       </div>
                     </div>
@@ -261,7 +261,7 @@ export default function DocumentVerificationClient() {
                       href={result.sourceTrace.sourceUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="mt-3 inline-flex text-xs font-medium text-neutral-700 underline underline-offset-2"
+                      className="mt-3 inline-flex text-xs font-medium text-aibeop-subtle underline underline-offset-2"
                     >
                       원문 출처 열기
                     </a>
@@ -294,8 +294,8 @@ export default function DocumentVerificationClient() {
             </div>
 
             <div className="mt-4 rounded-2xl bg-white p-4">
-              <div className="text-xs text-neutral-500">입력 코드</div>
-              <div className="mt-2 break-all font-mono text-sm font-semibold tracking-wide text-neutral-900">
+              <div className="text-xs text-aibeop-subtle">입력 코드</div>
+              <div className="mt-2 break-all font-mono text-sm font-semibold tracking-wide text-aibeop-text">
                 {result.verificationCode}
               </div>
             </div>

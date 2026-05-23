@@ -50,20 +50,20 @@ export function LawyerReviewQueue({
         ))}
       </div>
 
-      <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 sm:rounded-3xl sm:p-6">
+      <div className="rounded-2xl border border-aibeop-line bg-aibeop-card p-5 shadow-soft ring-1 ring-aibeop-line/70 sm:rounded-3xl sm:p-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-sm font-semibold text-indigo-200">
+            <p className="text-sm font-bold text-aibeop-deep">
               Review Preview
             </p>
-            <h3 className="mt-1 text-lg font-bold text-white sm:text-xl">
+            <h3 className="mt-1 text-lg font-black text-aibeop-text sm:text-xl">
               최근 검토 후보 사건
             </h3>
           </div>
 
           <Link
             href="/cases"
-            className="text-sm font-semibold text-cyan-200 hover:text-cyan-100"
+            className="text-sm font-bold text-aibeop-deep underline hover:text-aibeop-green"
           >
             전체 사건 보기 →
           </Link>

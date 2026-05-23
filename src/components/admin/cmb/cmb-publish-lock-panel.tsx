@@ -145,7 +145,7 @@ export function CmbPublishLockPanel({ panel }: Readonly<Props>) {
             ))}
           </div>
           {rev.status === "LOCKED" || rev.status === "PUBLISHED" ? (
-            <p className="text-xs text-slate-600" data-testid="cmb-lock-notice">
+            <p className="text-xs text-aibeop-muted" data-testid="cmb-lock-notice">
               {rev.status} revision — config 수정 불가 · preview/transition만 허용
             </p>
           ) : null}

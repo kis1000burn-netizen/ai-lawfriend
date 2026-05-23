@@ -20,7 +20,7 @@ function BoolBadge({ value, label }: { value: boolean; label: string }) {
   return (
     <span
       className={`inline-flex rounded-full px-2 py-0.5 text-xs font-semibold ${
-        value ? "bg-emerald-100 text-emerald-900" : "bg-slate-100 text-slate-600"
+        value ? "bg-emerald-100 text-emerald-900" : "bg-slate-100 text-aibeop-muted"
       }`}
     >
       {label}: {value ? "ON" : "off"}
@@ -36,7 +36,7 @@ export function CmbConfigPreviewPanel({ preview }: Readonly<Props>) {
     <div className="space-y-6" data-testid="cmb-config-preview-panel">
       {preview.lockNotice ? (
         <div
-          className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-800"
+          className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-aibeop-subtle"
           data-testid="cmb-lock-notice"
         >
           {preview.lockNotice}

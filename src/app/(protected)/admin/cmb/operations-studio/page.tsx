@@ -19,7 +19,7 @@ export default async function AdminCmbOperationsStudioPage() {
         </div>
         <Link
           href="/admin/cmb"
-          className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
+          className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-aibeop-subtle hover:bg-slate-50"
         >
           CMB Preview
         </Link>

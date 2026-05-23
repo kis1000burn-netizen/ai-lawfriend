@@ -36,7 +36,7 @@ export function RecoverStaleLocksButton() {
       type="button"
       onClick={handleRecover}
       disabled={loading}
-      className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 disabled:opacity-50"
+      className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm text-aibeop-subtle hover:bg-slate-50 disabled:opacity-50"
     >
       {loading ? "복구 중..." : "stale lock 복구 실행"}
     </button>

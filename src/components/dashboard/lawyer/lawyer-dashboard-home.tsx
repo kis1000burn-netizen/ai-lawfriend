@@ -25,7 +25,6 @@ export function LawyerDashboardHome({
       <DashboardLivingHeader
         role="lawyer"
         statusText="검토 대기 사건과 보완 필요 사건을 우선 확인하세요."
-        useV2Logo
       />
 
       <section>

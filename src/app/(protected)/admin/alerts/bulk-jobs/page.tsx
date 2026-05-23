@@ -61,9 +61,9 @@ export default async function BulkActionJobsPage({ searchParams }: PageProps) {
     <div className="space-y-4">
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
-          <div className="text-sm text-slate-500">관리자 / 경고 / Bulk Jobs</div>
-          <h1 className="mt-1 text-2xl font-semibold text-slate-900">대량 액션 Job 목록</h1>
-          <p className="mt-1 text-sm text-slate-500">
+          <div className="text-sm text-aibeop-subtle">관리자 / 경고 / Bulk Jobs</div>
+          <h1 className="mt-1 text-2xl font-semibold text-aibeop-text">대량 액션 Job 목록</h1>
+          <p className="mt-1 text-sm text-aibeop-subtle">
             비동기 대량 액션 큐 상태를 조회하고, 실패 Job 재시도·취소를 관리합니다.
           </p>
         </div>
@@ -71,7 +71,7 @@ export default async function BulkActionJobsPage({ searchParams }: PageProps) {
         <div className="flex flex-wrap items-center gap-2">
           <Link
             href="/admin/alerts/bulk-jobs/dashboard"
-            className="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
+            className="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-aibeop-subtle hover:bg-slate-50"
           >
             운영 대시보드
           </Link>
@@ -91,13 +91,13 @@ export default async function BulkActionJobsPage({ searchParams }: PageProps) {
       </div>
 
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-[1.5fr_1fr]">
-        <Suspense fallback={<div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-500">필터를 불러오는 중…</div>}>
+        <Suspense fallback={<div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm text-aibeop-subtle">필터를 불러오는 중…</div>}>
           <BulkActionJobFilterBar />
         </Suspense>
         <BulkJobFailureReasonWidget rows={failureStats} />
       </div>
 
-      <Suspense fallback={<div className="text-sm text-slate-500">목록을 불러오는 중…</div>}>
+      <Suspense fallback={<div className="text-sm text-aibeop-subtle">목록을 불러오는 중…</div>}>
         <BulkActionJobListClient
           initialRows={data.rows}
           page={data.page}

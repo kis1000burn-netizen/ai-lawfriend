@@ -35,25 +35,25 @@ export default async function CaseSupplementHubPage({ params }: PageProps) {
 
   return (
     <div className="mx-auto max-w-6xl space-y-8 px-4 py-8">
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-600">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-aibeop-muted">
         <Link
           href={`/cases/${caseId}`}
-          className="font-medium underline hover:text-slate-900"
+          className="font-medium underline hover:text-aibeop-text"
         >
           ← 사건 상세
         </Link>
-        <span className="text-slate-300" aria-hidden>
+        <span className="text-aibeop-disabled" aria-hidden>
           |
         </span>
-        <Link href="/cases" className="underline hover:text-slate-900">
+        <Link href="/cases" className="underline hover:text-aibeop-text">
           사건 목록
         </Link>
       </div>
 
       <header className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-        <p className="text-sm font-semibold text-slate-500">AI법친 7.1-B</p>
-        <h1 className="mt-1 text-2xl font-black tracking-tight text-slate-950">보완 요청</h1>
-        <p className="mt-2 text-sm leading-6 text-slate-600">
+        <p className="text-sm font-semibold text-aibeop-subtle">AI법친 7.1-B</p>
+        <h1 className="mt-1 text-2xl font-black tracking-tight text-aibeop-text">보완 요청</h1>
+        <p className="mt-2 text-sm leading-6 text-aibeop-muted">
           {item.title} 사건에 대한 보완 요청을 확인하고, 역할에 따라 작성·응답·재검토를 진행합니다.
         </p>
       </header>

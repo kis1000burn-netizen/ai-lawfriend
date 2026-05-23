@@ -154,7 +154,7 @@ export default function CaseForm({
 
       <div className="grid gap-5 md:grid-cols-2">
         <div className="space-y-2 md:col-span-2">
-          <label className="text-sm font-medium text-slate-700">사건 제목</label>
+          <label className="text-sm font-medium text-aibeop-subtle">사건 제목</label>
           <input
             value={values.title}
             onChange={(e) => update("title", e.target.value)}
@@ -168,7 +168,7 @@ export default function CaseForm({
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-700">사건 유형</label>
+          <label className="text-sm font-medium text-aibeop-subtle">사건 유형</label>
           <select
             value={values.category}
             onChange={(e) => update("category", e.target.value)}
@@ -186,7 +186,7 @@ export default function CaseForm({
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-700">세부 유형</label>
+          <label className="text-sm font-medium text-aibeop-subtle">세부 유형</label>
           <input
             value={values.subcategory ?? ""}
             onChange={(e) => update("subcategory", e.target.value)}
@@ -196,7 +196,7 @@ export default function CaseForm({
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-700">사건 발생일</label>
+          <label className="text-sm font-medium text-aibeop-subtle">사건 발생일</label>
           <input
             type="date"
             value={values.incidentDate ?? ""}
@@ -209,7 +209,7 @@ export default function CaseForm({
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-700">상대방 관계</label>
+          <label className="text-sm font-medium text-aibeop-subtle">상대방 관계</label>
           <input
             value={values.opponentType ?? ""}
             onChange={(e) => update("opponentType", e.target.value)}
@@ -224,7 +224,7 @@ export default function CaseForm({
         {mode === "edit" ? (
           <>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-700">법원명</label>
+              <label className="text-sm font-medium text-aibeop-subtle">법원명</label>
               <input
                 value={values.courtName ?? ""}
                 onChange={(e) => update("courtName", e.target.value)}
@@ -232,14 +232,14 @@ export default function CaseForm({
                 className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm outline-none focus:border-slate-500"
               />
             </div>
-            <p className="text-xs text-slate-500 md:col-span-2">
+            <p className="text-xs text-aibeop-subtle md:col-span-2">
               사건 상태는 상세 화면의 액션(인터뷰 완료·상태 변경)으로만 바꿀 수 있습니다.
             </p>
           </>
         ) : null}
 
         <div className="space-y-2 md:col-span-2">
-          <label className="text-sm font-medium text-slate-700">간단 요약</label>
+          <label className="text-sm font-medium text-aibeop-subtle">간단 요약</label>
           <textarea
             value={values.briefSummary ?? ""}
             onChange={(e) => update("briefSummary", e.target.value)}
@@ -257,14 +257,14 @@ export default function CaseForm({
         <button
           type="button"
           onClick={() => router.back()}
-          className="rounded-xl border px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+          className="rounded-xl border px-4 py-2 text-sm font-medium text-aibeop-subtle hover:bg-slate-50"
         >
           취소
         </button>
         <button
           type="submit"
           disabled={isPending}
-          className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
+          className="aibeop-btn-primary disabled:opacity-60"
         >
           {isPending
             ? mode === "create"

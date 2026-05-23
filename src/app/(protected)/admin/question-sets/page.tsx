@@ -28,7 +28,7 @@ export default async function AdminQuestionSetsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-semibold">질문셋 관리자</h1>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-aibeop-subtle">
             섹션·질문·분기·매핑 규칙을 담은 질문셋 정의를 관리합니다. (QUESTION_SET_DEFINITION 기준
             구조체, 게시/보관은 카탈로그 상태로 반영)
           </p>

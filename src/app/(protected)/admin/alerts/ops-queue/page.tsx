@@ -29,8 +29,8 @@ function StatusBadge({ status }: { status: string }) {
           : status === "RESOLVED"
             ? "border-emerald-200 bg-emerald-50 text-emerald-700"
             : status === "CANCELED"
-              ? "border-slate-200 bg-slate-50 text-slate-600"
-              : "border-slate-200 bg-slate-50 text-slate-600";
+              ? "border-slate-200 bg-slate-50 text-aibeop-muted"
+              : "border-slate-200 bg-slate-50 text-aibeop-muted";
 
   return (
     <span className={`rounded-lg border px-2 py-1 text-xs font-medium ${cls}`}>
@@ -65,27 +65,27 @@ export default async function OpsQueuePage() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h1 className="text-xl font-semibold text-slate-900">운영 큐</h1>
-          <p className="mt-1 text-sm text-slate-500">
+          <h1 className="text-xl font-semibold text-aibeop-text">운영 큐</h1>
+          <p className="mt-1 text-sm text-aibeop-subtle">
             추천 액션에서 생성된 운영 점검/권한 점검/수동 검토 티켓입니다.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
           <Link
             href="/admin/alerts/ops-queue/dashboard"
-            className="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
+            className="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-aibeop-subtle hover:bg-slate-50"
           >
             워크로드 보드
           </Link>
           <Link
             href="/admin/alerts/ops-queue/board"
-            className="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
+            className="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-aibeop-subtle hover:bg-slate-50"
           >
             칸반 보드
           </Link>
           <Link
             href="/admin/alerts/ops-queue/settings"
-            className="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
+            className="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-aibeop-subtle hover:bg-slate-50"
           >
             운영 큐 설정
           </Link>
@@ -96,14 +96,14 @@ export default async function OpsQueuePage() {
         <table className="min-w-full divide-y divide-slate-200 text-sm">
           <thead className="bg-slate-50">
             <tr>
-              <th className="px-4 py-3 text-left font-medium text-slate-600">제목</th>
-              <th className="px-4 py-3 text-left font-medium text-slate-600">심각도</th>
-              <th className="px-4 py-3 text-left font-medium text-slate-600">상태</th>
-              <th className="px-4 py-3 text-left font-medium text-slate-600">SLA</th>
-              <th className="px-4 py-3 text-left font-medium text-slate-600">taxonomy</th>
-              <th className="px-4 py-3 text-left font-medium text-slate-600">담당자</th>
-              <th className="px-4 py-3 text-left font-medium text-slate-600">sourceJob</th>
-              <th className="px-4 py-3 text-left font-medium text-slate-600">생성일</th>
+              <th className="px-4 py-3 text-left font-medium text-aibeop-muted">제목</th>
+              <th className="px-4 py-3 text-left font-medium text-aibeop-muted">심각도</th>
+              <th className="px-4 py-3 text-left font-medium text-aibeop-muted">상태</th>
+              <th className="px-4 py-3 text-left font-medium text-aibeop-muted">SLA</th>
+              <th className="px-4 py-3 text-left font-medium text-aibeop-muted">taxonomy</th>
+              <th className="px-4 py-3 text-left font-medium text-aibeop-muted">담당자</th>
+              <th className="px-4 py-3 text-left font-medium text-aibeop-muted">sourceJob</th>
+              <th className="px-4 py-3 text-left font-medium text-aibeop-muted">생성일</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
@@ -112,12 +112,12 @@ export default async function OpsQueuePage() {
                 <td className="px-4 py-3">
                   <Link
                     href={`/admin/alerts/ops-queue/${ticket.id}`}
-                    className="font-medium text-slate-900 underline"
+                    className="font-medium text-aibeop-text underline"
                   >
                     {ticket.title}
                   </Link>
                   {ticket.description ? (
-                    <div className="mt-1 text-xs text-slate-500">{ticket.description}</div>
+                    <div className="mt-1 text-xs text-aibeop-subtle">{ticket.description}</div>
                   ) : null}
                 </td>
                 <td className="px-4 py-3">
@@ -142,7 +142,7 @@ export default async function OpsQueuePage() {
                 <td className="px-4 py-3">
                   <Link
                     href={`/admin/alerts/bulk-jobs/${ticket.sourceJobId}`}
-                    className="text-slate-700 underline"
+                    className="text-aibeop-subtle underline"
                   >
                     {ticket.sourceJobId}
                   </Link>

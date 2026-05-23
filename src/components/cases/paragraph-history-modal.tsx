@@ -129,11 +129,11 @@ export function ParagraphHistoryModal({
           <div className="border-b p-3 text-sm font-semibold">문단 이력</div>
           <div className="max-h-[65vh] overflow-auto p-2">
             {loading ? (
-              <div className="p-3 text-sm text-gray-500">불러오는 중...</div>
+              <div className="p-3 text-sm text-aibeop-subtle">불러오는 중...</div>
             ) : loadError ? (
               <div className="p-3 text-sm text-red-600">{loadError}</div>
             ) : items.length === 0 ? (
-              <div className="p-3 text-sm text-gray-500">이력이 없습니다.</div>
+              <div className="p-3 text-sm text-aibeop-subtle">이력이 없습니다.</div>
             ) : (
               <div className="space-y-2">
                 {items.map((item) => (
@@ -150,7 +150,7 @@ export function ParagraphHistoryModal({
                     <div className="text-sm font-semibold">
                       v{item.versionNo} · {item.action}
                     </div>
-                    <div className="mt-1 text-xs text-gray-500">
+                    <div className="mt-1 text-xs text-aibeop-subtle">
                       {new Date(item.createdAt).toLocaleString()}
                     </div>
                   </button>
@@ -164,7 +164,7 @@ export function ParagraphHistoryModal({
           <div className="flex items-center justify-between border-b p-3">
             <div>
               <div className="text-sm font-semibold">{paragraph.title}</div>
-              <div className="text-xs text-gray-500">
+              <div className="text-xs text-aibeop-subtle">
                 {readOnly ? "이력 diff (읽기 전용)" : "이력 diff / 복원"}
               </div>
             </div>

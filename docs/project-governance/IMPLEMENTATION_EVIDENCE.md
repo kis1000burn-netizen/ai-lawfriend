@@ -1,3 +1,116 @@
+## [EVIDENCE-20260523-LOGO-CELEBRATE-LOCKUP]
+
+### 1. 목적
+
+法 획 완성 후 **동일 SVG 글자**를 `transform: scale`로 서서히 확대(재필기·획 두께 변경 없음) → **360° 회전** → 획 재시작 loop. 헤더는 **높이 44px 고정**, 우측 텍스트만 layout 폭 증가로 밀림.
+
+### 2. phase · surface
+
+| phase | 동작 |
+| --- | --- |
+| `drawing` | 8획 순차 등장 |
+| `scaling` | base 크기 글자 그대로 scale-up |
+| `spinning` | 확대 상태에서 360° 회전 후 loop |
+
+loop **2회차부터** `pickRandomLogoRainbowColor()`로 法 획 색을 7색 중 1색 랜덤 적용 (`rainbowCycleStroke`, restricted는 false).
+
+| surface | celebrateScale |
+| --- | --- |
+| `header` | 44px / baseHeight (헤더 슬롯 채움) |
+| `panel` | 1.15× (동일 글자 확대 후 회전) |
+
+### 3. 산출물
+
+| 파일 | 역할 |
+| --- | --- |
+| `src/lib/branding/aibeopchin-logo-celebrate.ts` | header slot·celebrate layout SSOT · `resolveLogoCelebrateLayout` |
+| `src/lib/branding/aibeopchin-logo-celebrate.test.ts` | header 고정·panel no-resize 회귀 |
+| `src/components/branding/aibeopchin-logo-lockup.tsx` | drawing → celebrating · `surface` prop |
+| `src/components/brand/aibeopchin-logo.tsx` | nav `surface="header"` horizontal lockup |
+| `src/components/dashboard/dashboard-living-header.tsx` | `surface="panel"` vertical lockup |
+
+### 4. 검증
+
+`npm run verify:aibeopchin-branding` · `aibeopchin-logo-celebrate.test.ts` 2 tests PASS.
+
+---
+
+## [EVIDENCE-20260523-BEOP-KANJI-STROKE-LOGO]
+
+### 1. 목적
+
+로고 영역·배경 제거. **「法」(U+6CD5)** 8획을 **hanzi-writer-data 표준 path**로 필기 순서 애니메이션.
+
+### 2. 산출물
+
+| 파일 | 역할 |
+| --- | --- |
+| `src/lib/branding/aibeopchin-beop-strokes.ts` | 法 8획 official SVG path · 氵(1–3)+去(4–8) |
+| `src/components/branding/aibeopchin-beop-kanji-logo.tsx` | viewBox 1024×900 · pathLength 획별 등장 |
+
+### 3. 검증
+
+`npm run verify:aibeopchin-branding` · `aibeopchin-beop-strokes.test.ts` 5 tests · 法=간체/번체 동형.
+
+---
+
+## [EVIDENCE-20260523-LOGO-RAINBOW-TEXT]
+
+### 1. 목적
+
+텍스트 로고 **「AI법친」**에 7색(빨·주·노·초·파·남·보) 무지개 그라데이션 순환 애니메이션 적용.
+
+### 2. 산출물
+
+| 파일 | 역할 |
+| --- | --- |
+| `src/lib/branding/aibeopchin-logo-rainbow.ts` | 7색 SSOT |
+| `src/components/branding/aibeopchin-logo-rainbow-text.tsx` | 재사용 컴포넌트 · reduced-motion 대응 |
+| `src/app/globals.css` | `.aibeop-rainbow-text` keyframes |
+| `src/components/brand/aibeopchin-logo.tsx` | 네비 텍스트 로고 |
+| `src/components/branding/aibeopchin-logo-v2.tsx` | 대시보드 Living Logo (restricted 제외) |
+
+### 3. 검증
+
+`npm run verify:aibeopchin-branding` · `restricted` 모드는 무지개 비활성(amber 고정).
+
+---
+
+## [EVIDENCE-20260523-CMB-STYLE-LOGO-RUNTIME]
+
+### 1. 목적
+
+CMB Framework 패턴(SSOT config → role resolver → motion policy → validator → verify)을 **브랜딩·Living Logo**에 적용. CaseType/CMB block 레이어와 분리하고 CORE 고정 브랜드 + 역할별 mode만 런타임에서 해석한다.
+
+### 2. 산출물
+
+| 구분 | 파일 | 역할 |
+| --- | --- | --- |
+| Runtime | `src/lib/branding/aibeopchin-logo-runtime.ts` | `resolveLogoMode` · `resolveLogoPresentation` · `getLogoModeConfig` |
+| Validator | `src/lib/branding/aibeopchin-logo-validator.ts` | mode·role registry fail-closed 정적 검사 |
+| Mode SSOT | `src/lib/branding/aibeopchin-logo-v2-mode-config.ts` | `accentTone` · particles/orbit/pulse |
+| Motion policy | `src/lib/branding/aibeopchin-logo-v2-motion-policy.ts` | mode config 기반 · reduced-motion downgrade |
+| UI | `src/components/branding/aibeopchin-logo-v2.tsx` | glyph + particles + orbit · light/dark variant |
+| Dashboard | `src/components/dashboard/dashboard-living-header.tsx` | runtime resolver · V2 기본 · `variant="light"` |
+| Verify | `scripts/verify-aibeopchin-branding.mjs` | 정적 registry + Vitest |
+
+### 3. npm scripts
+
+```bash
+npm run verify:aibeopchin-branding
+npx vitest run src/lib/branding/aibeopchin-logo-runtime.test.ts
+```
+
+### 4. 검증
+
+| 항목 | 결과 |
+| --- | --- |
+| `verify:aibeopchin-branding` | **PASS** (에이전트 실행) |
+| Vitest `aibeopchin-logo-runtime.test.ts` | **6 tests PASS** |
+| CMB block/registry 확장 | **없음** (의도적 — CORE 브랜딩 영역) |
+
+---
+
 ## [EVIDENCE-20260523-AIBEOPCHIN-STAGING-SECRETS-LIVE-PHASE]
 
 ### 1. 목적

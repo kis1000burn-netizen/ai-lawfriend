@@ -211,10 +211,10 @@ export default function DocumentVersionPanel({
     <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
-          <h2 className="text-lg font-semibold text-slate-900">
+          <h2 className="text-lg font-semibold text-aibeop-text">
             문서 버전 관리{readOnly ? " (읽기 전용)" : ""}
           </h2>
-          <p className="mt-1 text-sm text-slate-600">
+          <p className="mt-1 text-sm text-aibeop-muted">
             {readOnly
               ? "버전 목록과 비교는 조회만 가능합니다. 잠금·보관 문서는 새 스냅샷이나 복원을 수행할 수 없습니다."
               : "저장 시점 스냅샷과 수동 버전 생성을 통해 문서 이력을 관리합니다."}
@@ -226,7 +226,7 @@ export default function DocumentVersionPanel({
             type="button"
             onClick={createSnapshot}
             disabled={snapshotLoading}
-            className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-medium text-aibeop-subtle hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {snapshotLoading ? "생성 중..." : "현재 상태 버전 생성"}
           </button>
@@ -247,12 +247,12 @@ export default function DocumentVersionPanel({
 
       <div className="grid gap-6 lg:grid-cols-[320px_minmax(0,1fr)]">
         <div className="rounded-2xl border border-slate-200 p-4">
-          <div className="mb-3 text-sm font-semibold text-slate-900">버전 목록</div>
+          <div className="mb-3 text-sm font-semibold text-aibeop-text">버전 목록</div>
 
-          {loading ? <div className="text-sm text-slate-500">불러오는 중...</div> : null}
+          {loading ? <div className="text-sm text-aibeop-subtle">불러오는 중...</div> : null}
 
           {!loading && versions.length === 0 ? (
-            <div className="text-sm text-slate-500">저장된 버전이 없습니다.</div>
+            <div className="text-sm text-aibeop-subtle">저장된 버전이 없습니다.</div>
           ) : null}
 
           <div className="space-y-2">
@@ -271,19 +271,19 @@ export default function DocumentVersionPanel({
                   }`}
                 >
                   <div className="flex flex-wrap items-center gap-2">
-                    <div className="text-sm font-semibold text-slate-900">
+                    <div className="text-sm font-semibold text-aibeop-text">
                       v{version.versionNumber}
                     </div>
                     {version.isLocked ? (
-                      <span className="rounded-full border border-slate-800 bg-slate-100 px-2 py-0.5 text-[11px] font-semibold text-slate-800">
+                      <span className="rounded-full border border-slate-800 bg-slate-100 px-2 py-0.5 text-[11px] font-semibold text-aibeop-subtle">
                         승인 잠금
                       </span>
                     ) : null}
                   </div>
-                  <div className="mt-1 line-clamp-1 text-sm text-slate-700">
+                  <div className="mt-1 line-clamp-1 text-sm text-aibeop-subtle">
                     {version.title}
                   </div>
-                  <div className="mt-1 text-xs text-slate-500">
+                  <div className="mt-1 text-xs text-aibeop-subtle">
                     {formatDateTime(
                       version.createdAt != null
                         ? typeof version.createdAt === "string"
@@ -292,11 +292,11 @@ export default function DocumentVersionPanel({
                         : null,
                     )}
                   </div>
-                  <div className="mt-1 line-clamp-2 text-xs text-slate-500">
+                  <div className="mt-1 line-clamp-2 text-xs text-aibeop-subtle">
                     {version.changeSummary || "요약 없음"}
                   </div>
                   {version.isLocked ? (
-                    <div className="mt-2 rounded-lg bg-slate-100 px-2 py-2 text-[11px] text-slate-700">
+                    <div className="mt-2 rounded-lg bg-slate-100 px-2 py-2 text-[11px] text-aibeop-subtle">
                       잠금 사유: {version.lockReason || "승인 기준 버전"}
                       <br />
                       이 버전이 승인본 PDF/출력본 생성의 기준점으로 사용됩니다.
@@ -311,16 +311,16 @@ export default function DocumentVersionPanel({
         <div className="rounded-2xl border border-slate-200 p-4">
           <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
             <div>
-              <div className="text-sm font-semibold text-slate-900">선택 버전 비교</div>
+              <div className="text-sm font-semibold text-aibeop-text">선택 버전 비교</div>
               {diff ? (
-                <div className="mt-1 text-xs text-slate-500">
+                <div className="mt-1 text-xs text-aibeop-subtle">
                   총 {diff.summary.totalLines}줄 / 변경 {diff.summary.changedLines}줄
                 </div>
               ) : null}
             </div>
 
             {readOnly ? (
-              <p className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-600">
+              <p className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-aibeop-muted">
                 잠금·보관 문서는 이 화면에서 복원할 수 없습니다.
               </p>
             ) : (
@@ -344,28 +344,28 @@ export default function DocumentVersionPanel({
           </div>
 
           {!diff ? (
-            <div className="text-sm text-slate-500">
+            <div className="text-sm text-aibeop-subtle">
               버전을 선택하면 비교 내용이 표시됩니다.
             </div>
           ) : (
             <div className="space-y-4">
               <div className="rounded-xl bg-slate-50 p-4 text-sm">
-                <div className="font-medium text-slate-900">제목 비교</div>
+                <div className="font-medium text-aibeop-text">제목 비교</div>
                 <div className="mt-2 grid gap-3 md:grid-cols-2">
                   <div>
-                    <div className="mb-1 text-xs text-slate-500">선택 버전</div>
+                    <div className="mb-1 text-xs text-aibeop-subtle">선택 버전</div>
                     <div className="rounded-lg border border-slate-200 bg-white px-3 py-2">
                       {diff.version.title}
                     </div>
                   </div>
                   <div>
-                    <div className="mb-1 text-xs text-slate-500">현재 문서</div>
+                    <div className="mb-1 text-xs text-aibeop-subtle">현재 문서</div>
                     <div className="rounded-lg border border-slate-200 bg-white px-3 py-2">
                       {diff.currentDocument.title}
                     </div>
                   </div>
                 </div>
-                <div className="mt-2 text-xs text-slate-500">
+                <div className="mt-2 text-xs text-aibeop-subtle">
                   제목 변경 여부: {diff.titleChanged ? "변경됨" : "동일"}
                 </div>
               </div>
@@ -386,19 +386,19 @@ export default function DocumentVersionPanel({
                       key={`${line.lineNumber}-${line.type}`}
                       className={`rounded-xl border p-3 ${tone}`}
                     >
-                      <div className="mb-2 text-xs font-medium text-slate-500">
+                      <div className="mb-2 text-xs font-medium text-aibeop-subtle">
                         {line.lineNumber}행 / {line.type}
                       </div>
                       <div className="grid gap-3 md:grid-cols-2">
                         <div>
-                          <div className="mb-1 text-xs text-slate-500">선택 버전</div>
-                          <pre className="whitespace-pre-wrap break-words text-sm text-slate-800">
+                          <div className="mb-1 text-xs text-aibeop-subtle">선택 버전</div>
+                          <pre className="whitespace-pre-wrap break-words text-sm text-aibeop-subtle">
                             {line.before || " "}
                           </pre>
                         </div>
                         <div>
-                          <div className="mb-1 text-xs text-slate-500">현재 문서</div>
-                          <pre className="whitespace-pre-wrap break-words text-sm text-slate-800">
+                          <div className="mb-1 text-xs text-aibeop-subtle">현재 문서</div>
+                          <pre className="whitespace-pre-wrap break-words text-sm text-aibeop-subtle">
                             {line.after || " "}
                           </pre>
                         </div>

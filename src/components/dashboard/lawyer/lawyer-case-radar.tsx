@@ -13,10 +13,10 @@ const points = [
 
 export function LawyerCaseRadar() {
   return (
-    <div className="rounded-2xl border border-white/12 bg-white/[0.05] p-5 sm:rounded-3xl sm:p-6">
+    <div className="rounded-2xl border border-aibeop-line bg-aibeop-card p-5 shadow-soft ring-1 ring-aibeop-line/70 sm:rounded-3xl sm:p-6">
       <div className="mb-3 sm:mb-4">
-        <p className="text-xs font-semibold text-indigo-200 sm:text-sm">AI 사건 레이더</p>
-        <h3 className="mt-1.5 text-lg font-bold leading-snug text-white sm:mt-2 sm:text-xl">
+        <p className="text-xs font-bold text-aibeop-deep sm:text-sm">AI 사건 레이더</p>
+        <h3 className="mt-1.5 text-lg font-black leading-snug text-aibeop-text sm:mt-2 sm:text-xl">
           {DASHBOARD_AMBIENCE_COPY.lawyerRadarCaption}
         </h3>
       </div>

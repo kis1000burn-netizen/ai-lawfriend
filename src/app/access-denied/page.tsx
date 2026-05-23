@@ -10,7 +10,7 @@ export default async function AccessDeniedPage() {
   return (
     <main className="mx-auto flex max-w-lg flex-col gap-4 p-8">
       <h1 className="text-2xl font-semibold tracking-tight text-neutral-900">접근 권한이 없습니다</h1>
-      <p className="text-sm leading-relaxed text-neutral-600">
+      <p className="text-sm leading-relaxed text-aibeop-muted">
         요청한 주소에는 현재 역할로 들어갈 수 없습니다. 변호사 전용(`/lawyer`), 운영·관리자 전용(`/admin`)
         또는 의뢰인 업무(`/dashboard`) 경로가 서로 다릅니다.
       </p>

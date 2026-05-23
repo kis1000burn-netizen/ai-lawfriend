@@ -104,14 +104,14 @@ export default async function AuditLogsPage({ searchParams }: AuditLogsPageProps
       <section className="rounded-3xl border bg-white p-8 shadow-sm">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <p className="text-sm font-medium text-slate-500">관리자 전용 감사 대시보드</p>
-            <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-900">
+            <p className="text-sm font-medium text-aibeop-subtle">관리자 전용 감사 대시보드</p>
+            <h1 className="mt-2 text-3xl font-bold tracking-tight text-aibeop-text">
               감사로그 운영 센터
             </h1>
-            <p className="mt-2 text-slate-600">
+            <p className="mt-2 text-aibeop-muted">
               주요 행위 이력을 조회하고, 기간별 분석과 사용자 활동 패턴을 한 화면에서 확인할 수
-              있습니다. 가입 <strong className="font-medium text-slate-800">승인·반려</strong>만 보려면{" "}
-              <Link href={AUDIT_LOG_USER_APPROVAL_HREF} className="font-medium text-slate-900 underline">
+              있습니다. 가입 <strong className="font-medium text-aibeop-subtle">승인·반려</strong>만 보려면{" "}
+              <Link href={AUDIT_LOG_USER_APPROVAL_HREF} className="font-medium text-aibeop-text underline">
                 USER_APPROVAL 액션으로 좁힌 보기
               </Link>
               를 쓰거나, 아래 상세 검색의 액션 칸에 <span className="font-mono text-sm">USER_APPROVAL</span>을
@@ -160,7 +160,7 @@ export default async function AuditLogsPage({ searchParams }: AuditLogsPageProps
 
       <Suspense
         fallback={
-          <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-500 shadow-sm">
+          <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm text-aibeop-subtle shadow-sm">
             필터 영역을 불러오는 중...
           </div>
         }
@@ -192,8 +192,8 @@ export default async function AuditLogsPage({ searchParams }: AuditLogsPageProps
           <section className="rounded-2xl border bg-white p-5 shadow-sm">
             <div className="mb-4 flex items-center justify-between">
               <div>
-                <h2 className="text-lg font-semibold text-slate-900">상세 검색</h2>
-                <p className="mt-1 text-sm text-slate-500">
+                <h2 className="text-lg font-semibold text-aibeop-text">상세 검색</h2>
+                <p className="mt-1 text-sm text-aibeop-subtle">
                   액션, 엔티티, 행위자, 기간 조건을 조합해 세부 조회할 수 있습니다.
                 </p>
               </div>
@@ -260,26 +260,26 @@ export default async function AuditLogsPage({ searchParams }: AuditLogsPageProps
           <section className="rounded-2xl border bg-white p-5 shadow-sm">
             <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
               <div>
-                <h2 className="text-lg font-semibold text-slate-900">감사로그 목록</h2>
-                <p className="mt-1 text-sm text-slate-500">
+                <h2 className="text-lg font-semibold text-aibeop-text">감사로그 목록</h2>
+                <p className="mt-1 text-sm text-aibeop-subtle">
                   actor / action / entity 기준 drill-down과 상세 모달을 지원합니다.{" "}
-                  <span className="text-slate-600">
+                  <span className="text-aibeop-muted">
                     <span className="font-mono text-xs">USER_APPROVAL_*</span> 행은 목록에서{" "}
-                    <strong className="font-medium text-slate-700">왼쪽 색띠·뱃지 색</strong>으로 구분되고,
-                    운영 메모가 있으면 메시지 열에 <strong className="font-medium text-slate-700">요약</strong>
+                    <strong className="font-medium text-aibeop-subtle">왼쪽 색띠·뱃지 색</strong>으로 구분되고,
+                    운영 메모가 있으면 메시지 열에 <strong className="font-medium text-aibeop-subtle">요약</strong>
                     이 붙습니다(전체는 상세 모달).
                   </span>
                 </p>
               </div>
 
-              <div className="rounded-xl bg-slate-50 px-4 py-2 text-sm text-slate-600">
-                총 <span className="font-semibold text-slate-900">{result.pagination.total}</span>건
+              <div className="rounded-xl bg-slate-50 px-4 py-2 text-sm text-aibeop-muted">
+                총 <span className="font-semibold text-aibeop-text">{result.pagination.total}</span>건
               </div>
             </div>
 
             <Suspense
               fallback={
-                <div className="mb-4 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-500">
+                <div className="mb-4 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-aibeop-subtle">
                   페이지 정보를 불러오는 중...
                 </div>
               }
@@ -313,7 +313,7 @@ export default async function AuditLogsPage({ searchParams }: AuditLogsPageProps
 
           <Suspense
             fallback={
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-500">
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-aibeop-subtle">
                 페이지 정보를 불러오는 중...
               </div>
             }

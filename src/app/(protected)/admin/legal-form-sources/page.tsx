@@ -15,7 +15,7 @@ function getStatusClassName(status: "ACTIVE" | "INACTIVE" | "ARCHIVED") {
     case "INACTIVE":
       return "bg-amber-100 text-amber-800";
     default:
-      return "bg-gray-200 text-gray-700";
+      return "bg-gray-200 text-aibeop-subtle";
   }
 }
 
@@ -48,7 +48,7 @@ export default async function AdminLegalFormSourcesPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-semibold">공식서식 소스 관리자</h1>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-aibeop-subtle">
             공식기관 서식 원천자료의 출처, 문서유형, 상태, 해시를 관리합니다.
           </p>
         </div>
@@ -61,21 +61,21 @@ export default async function AdminLegalFormSourcesPage() {
         </Link>
       </div>
 
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-gray-600">
-        <Link href="/admin/document-templates" className="underline hover:text-gray-900">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-aibeop-muted">
+        <Link href="/admin/document-templates" className="underline hover:text-aibeop-text">
           문서 템플릿 관리자
         </Link>
         <span className="text-gray-300" aria-hidden>
           |
         </span>
-        <Link href="/admin/question-sets" className="underline hover:text-gray-900">
+        <Link href="/admin/question-sets" className="underline hover:text-aibeop-text">
           인터뷰 질문셋 관리
         </Link>
       </div>
 
       <div className="overflow-hidden rounded-2xl border bg-white shadow-sm">
         <table className="min-w-full divide-y divide-gray-200 text-sm">
-          <thead className="bg-gray-50 text-left text-xs uppercase tracking-wide text-gray-500">
+          <thead className="bg-gray-50 text-left text-xs uppercase tracking-wide text-aibeop-subtle">
             <tr>
               <th className="px-4 py-3">상태</th>
               <th className="px-4 py-3">서식</th>
@@ -98,18 +98,18 @@ export default async function AdminLegalFormSourcesPage() {
                   </span>
                 </td>
                 <td className="px-4 py-3">
-                  <div className="font-medium text-gray-900">
+                  <div className="font-medium text-aibeop-text">
                     {formatLegalFormSourceLabel(item)}
                   </div>
-                  <div className="mt-1 text-xs text-gray-500">{item.sourceUrl}</div>
+                  <div className="mt-1 text-xs text-aibeop-subtle">{item.sourceUrl}</div>
                 </td>
-                <td className="px-4 py-3 text-gray-700">
+                <td className="px-4 py-3 text-aibeop-subtle">
                   {LEGAL_FORM_SOURCE_PROVIDER_LABELS[item.provider]}
                 </td>
-                <td className="px-4 py-3 text-gray-700">
+                <td className="px-4 py-3 text-aibeop-subtle">
                   {item.documentType}
                 </td>
-                <td className="px-4 py-3 font-mono text-xs text-gray-600">
+                <td className="px-4 py-3 font-mono text-xs text-aibeop-muted">
                   {item.fileHash ?? "-"}
                 </td>
               </tr>;

@@ -42,7 +42,7 @@ export function CronRetryButton({
       type="button"
       disabled={disabled || loading}
       onClick={() => void handleRetry()}
-      className="rounded-xl border border-slate-300 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 disabled:opacity-50"
+      className="rounded-xl border border-slate-300 px-4 py-2 text-sm text-aibeop-subtle hover:bg-slate-50 disabled:opacity-50"
     >
       {loading ? "재시도 중..." : "실패 재시도"}
     </button>

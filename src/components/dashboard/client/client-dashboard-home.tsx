@@ -31,7 +31,6 @@ export function ClientDashboardHome({
       <DashboardLivingHeader
         role="client"
         statusText={statusText}
-        useV2Logo
       />
 
       <section className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-8">

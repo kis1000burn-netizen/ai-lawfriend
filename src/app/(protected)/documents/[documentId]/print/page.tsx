@@ -33,7 +33,7 @@ export default async function DocumentPrintPage({ params }: PageProps) {
           href={`/api/documents/${documentId}/print`}
           target="_blank"
           rel="noreferrer"
-          className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
+          className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-aibeop-subtle hover:bg-slate-50"
         >
           새 창 인쇄용 HTML 열기
         </a>
@@ -45,15 +45,15 @@ export default async function DocumentPrintPage({ params }: PageProps) {
         </a>
         <a
           href={`/documents/${documentId}`}
-          className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
+          className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-aibeop-subtle hover:bg-slate-50"
         >
           문서 상세로 돌아가기
         </a>
       </div>
 
       <div className="mx-auto mb-4 max-w-5xl rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm">
-        <div className="text-sm font-semibold text-neutral-900">승인본 출력 안내</div>
-        <p className="mt-1 text-sm text-neutral-600">
+        <div className="text-sm font-semibold text-aibeop-text">승인본 출력 안내</div>
+        <p className="mt-1 text-sm text-aibeop-muted">
           이 출력 미리보기는 현재 편집본이 아니라 승인 잠금 버전을 기준으로 렌더링됩니다. 법인 헤더,
           사건번호, 워터마크, 서명란이 포함된 대외 제출형 양식입니다.
         </p>

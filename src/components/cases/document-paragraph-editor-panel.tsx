@@ -174,7 +174,7 @@ export default function DocumentParagraphEditorPanel({ documentId }: Props) {
 
   if (loading) {
     return (
-      <div className="rounded-2xl border bg-white p-5 text-sm text-neutral-600 shadow-sm">
+      <div className="rounded-2xl border bg-white p-5 text-sm text-aibeop-muted shadow-sm">
         문단 편집 패널을 불러오는 중입니다...
       </div>
     );
@@ -205,7 +205,7 @@ export default function DocumentParagraphEditorPanel({ documentId }: Props) {
           {sortedParagraphs.map((paragraph, index) => (
             <article key={paragraph.id} className="rounded-xl border p-4">
               <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-                <div className="text-sm text-neutral-500">순서 {paragraph.orderIndex}</div>
+                <div className="text-sm text-aibeop-subtle">순서 {paragraph.orderIndex}</div>
                 <div className="flex gap-2">
                   <button
                     type="button"
@@ -228,7 +228,7 @@ export default function DocumentParagraphEditorPanel({ documentId }: Props) {
 
               <div className="grid gap-4 md:grid-cols-2">
                 <label className="space-y-1">
-                  <span className="text-sm text-neutral-600">섹션 제목</span>
+                  <span className="text-sm text-aibeop-muted">섹션 제목</span>
                   <input
                     className="w-full rounded-xl border px-3 py-2"
                     value={paragraph.sectionTitle ?? ""}
@@ -242,7 +242,7 @@ export default function DocumentParagraphEditorPanel({ documentId }: Props) {
                 </label>
 
                 <label className="space-y-1">
-                  <span className="text-sm text-neutral-600">문단 라벨</span>
+                  <span className="text-sm text-aibeop-muted">문단 라벨</span>
                   <input
                     className="w-full rounded-xl border px-3 py-2"
                     value={paragraph.label ?? ""}
@@ -257,7 +257,7 @@ export default function DocumentParagraphEditorPanel({ documentId }: Props) {
               </div>
 
               <label className="mt-4 block space-y-1">
-                <span className="text-sm text-neutral-600">문단 내용</span>
+                <span className="text-sm text-aibeop-muted">문단 내용</span>
                 <textarea
                   className="min-h-[140px] w-full rounded-xl border px-3 py-2"
                   value={paragraph.content}

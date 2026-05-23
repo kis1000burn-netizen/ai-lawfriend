@@ -65,29 +65,29 @@ export default async function AdminPendingUsersPage({
 
   return (
     <div className="space-y-6 p-6">
-      <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
-        <Link href="/admin" className="font-medium text-slate-700 underline hover:text-black">
+      <div className="flex flex-wrap items-center gap-2 text-sm text-aibeop-subtle">
+        <Link href="/admin" className="font-medium text-aibeop-subtle underline hover:text-black">
           관리자 콘솔
         </Link>
         <span aria-hidden>·</span>
-        <span className="text-slate-400">가입 승인 대기</span>
+        <span className="text-aibeop-faint">가입 승인 대기</span>
       </div>
 
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-xl font-semibold">가입 승인 대기</h1>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-aibeop-subtle">
             신규 가입(PENDING) 계정을 승인하면 ACTIVE로 전환되어 로그인할 수 있습니다. 반려 시
             계정은 정지(SUSPENDED)됩니다. 처리 후 목록이 자동으로 갱신됩니다.
           </p>
-          <p className="mt-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs leading-relaxed text-slate-700">
+          <p className="mt-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs leading-relaxed text-aibeop-subtle">
             이 화면은 <strong className="font-semibold">플랫폼 관리자(ADMIN / SUPER_ADMIN)</strong>
             만 접근할 수 있습니다. 변호사·스태프 계정 메뉴에는 표시되지 않습니다.
           </p>
-          <p className="mt-2 text-xs leading-relaxed text-slate-600">
-            <strong className="text-slate-800">역할 열</strong>은 가입 시점의{" "}
-            <strong className="text-slate-800">요청 역할</strong>(USER·LAWYER·STAFF 등)입니다. 이
-            화면의 승인은 <strong className="text-slate-800">ACTIVE</strong> 전환만 수행하며, 다른
+          <p className="mt-2 text-xs leading-relaxed text-aibeop-muted">
+            <strong className="text-aibeop-subtle">역할 열</strong>은 가입 시점의{" "}
+            <strong className="text-aibeop-subtle">요청 역할</strong>(USER·LAWYER·STAFF 등)입니다. 이
+            화면의 승인은 <strong className="text-aibeop-subtle">ACTIVE</strong> 전환만 수행하며, 다른
             역할로 바꾸거나 권한을 덧씌우지는 않습니다(필요 시 별도 정책·DB 작업).
           </p>
           <p className="mt-2 rounded-lg border border-amber-100 bg-amber-50/80 px-3 py-2 text-xs leading-relaxed text-amber-950">
@@ -106,26 +106,26 @@ export default async function AdminPendingUsersPage({
             <span className="whitespace-nowrap">userApprovalNote</span>)에만 남습니다. 목록·상세 모달·JSON으로
             확인할 수 있습니다.
           </p>
-          <p className="mt-2 text-xs leading-relaxed text-slate-600">
-            <strong className="text-slate-800">역할 필터</strong> 칩은{" "}
-            <strong className="text-slate-800">의뢰인·변호사·스태프</strong> 가입 요청만 빠르게
-            좁힙니다. <strong className="text-slate-800">ADMIN</strong>·
-            <strong className="text-slate-800">SUPER_ADMIN</strong> 요청은 칩에 없으므로 반드시{" "}
-            <strong className="text-slate-800">전체</strong> 목록에서 찾습니다. (알림·자동 역할 변경은 이
+          <p className="mt-2 text-xs leading-relaxed text-aibeop-muted">
+            <strong className="text-aibeop-subtle">역할 필터</strong> 칩은{" "}
+            <strong className="text-aibeop-subtle">의뢰인·변호사·스태프</strong> 가입 요청만 빠르게
+            좁힙니다. <strong className="text-aibeop-subtle">ADMIN</strong>·
+            <strong className="text-aibeop-subtle">SUPER_ADMIN</strong> 요청은 칩에 없으므로 반드시{" "}
+            <strong className="text-aibeop-subtle">전체</strong> 목록에서 찾습니다. (알림·자동 역할 변경은 이
             화면 범위 밖입니다.)
           </p>
         </div>
         <div className="flex flex-col items-end gap-2 text-right">
           <Link
             href={AUDIT_LOG_USER_APPROVAL_HREF}
-            className="text-sm font-medium text-slate-800 underline"
+            className="text-sm font-medium text-aibeop-subtle underline"
             title="액션 필터 USER_APPROVAL"
           >
             승인·반려 기록 보기
           </Link>
           <Link
             href="/admin/audit-logs"
-            className="text-sm font-medium text-slate-600 underline"
+            className="text-sm font-medium text-aibeop-muted underline"
           >
             감사로그 전체
           </Link>
@@ -133,13 +133,13 @@ export default async function AdminPendingUsersPage({
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-xs font-medium text-gray-500">역할 필터(가입 요청 역할)</span>
+        <span className="text-xs font-medium text-aibeop-subtle">역할 필터(가입 요청 역할)</span>
         <Link
           href="/admin/users/pending"
           className={`rounded-full border px-3 py-1 text-xs font-medium ${
             !roleFilter
               ? "border-slate-900 bg-slate-900 text-white"
-              : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+              : "border-slate-200 bg-white text-aibeop-subtle hover:bg-slate-50"
           }`}
           title="모든 가입 요청 역할(ADMIN·SUPER_ADMIN 포함)"
         >
@@ -152,7 +152,7 @@ export default async function AdminPendingUsersPage({
             className={`rounded-full border px-3 py-1 text-xs font-medium ${
               roleFilter === r
                 ? "border-slate-900 bg-slate-900 text-white"
-                : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+                : "border-slate-200 bg-white text-aibeop-subtle hover:bg-slate-50"
             }`}
             title={`가입 요청 역할이 ${ROLE_FILTER_LABEL[r]} 인 PENDING 만`}
           >
@@ -173,26 +173,26 @@ export default async function AdminPendingUsersPage({
         activeRoleFilter={roleFilter ?? null}
       />
 
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-slate-100 pt-6 text-sm text-slate-600">
-        <span className="text-xs font-medium uppercase tracking-wide text-slate-400">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-slate-100 pt-6 text-sm text-aibeop-muted">
+        <span className="text-xs font-medium uppercase tracking-wide text-aibeop-faint">
           이동
         </span>
-        <Link href="/admin" className="font-medium text-slate-800 underline hover:text-black">
+        <Link href="/admin" className="font-medium text-aibeop-subtle underline hover:text-black">
           관리자 콘솔
         </Link>
         <Link
           href={AUDIT_LOG_USER_APPROVAL_HREF}
-          className="font-medium text-slate-800 underline hover:text-black"
+          className="font-medium text-aibeop-subtle underline hover:text-black"
         >
           승인·반려 감사로그
         </Link>
         <Link
           href="/admin/audit-logs"
-          className="font-medium text-slate-600 underline hover:text-black"
+          className="font-medium text-aibeop-muted underline hover:text-black"
         >
           감사로그 전체
         </Link>
-        <Link href="/dashboard" className="font-medium text-slate-800 underline hover:text-black">
+        <Link href="/dashboard" className="font-medium text-aibeop-subtle underline hover:text-black">
           업무 대시보드
         </Link>
       </div>

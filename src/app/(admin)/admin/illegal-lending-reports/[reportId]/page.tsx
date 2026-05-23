@@ -45,7 +45,7 @@ function InfoRow({
 }) {
   return (
     <div className="grid gap-1 border-b border-slate-800 py-3 md:grid-cols-[180px_1fr]">
-      <div className="text-sm font-semibold text-slate-400">{label}</div>
+      <div className="text-sm font-semibold text-aibeop-faint">{label}</div>
       <div className="text-sm leading-6 text-slate-100">{value}</div>
     </div>
   );
@@ -111,7 +111,7 @@ export default async function AdminIllegalLendingReportDetailPage({ params }: Pa
             </Link>
             <p className="mt-4 text-sm font-semibold text-cyan-300">AI법친 관리자</p>
             <h1 className="mt-1 text-3xl font-bold">불법사금융 피해 신고서 상세</h1>
-            <p className="mt-2 text-sm text-slate-400">접수번호: {report.id}</p>
+            <p className="mt-2 text-sm text-aibeop-faint">접수번호: {report.id}</p>
           </div>
           <div className="w-full max-w-sm space-y-3">
             <IllegalLendingReportStatusForm reportId={report.id} currentStatus={report.status} />
@@ -125,7 +125,7 @@ export default async function AdminIllegalLendingReportDetailPage({ params }: Pa
             </a>
             <a
               href={`/api/admin/illegal-lending-reports/${report.id}/pdf`}
-              className="inline-flex w-full justify-center rounded-xl bg-cyan-300 px-4 py-2 text-sm font-bold text-slate-950 hover:bg-cyan-200"
+              className="inline-flex w-full justify-center rounded-xl bg-cyan-300 px-4 py-2 text-sm font-bold text-aibeop-text hover:bg-cyan-200"
             >
               실제 PDF 다운로드
             </a>
@@ -186,19 +186,19 @@ export default async function AdminIllegalLendingReportDetailPage({ params }: Pa
               <InfoRow label="피해 유형" value={damageLabels || "미기재"} />
               <InfoRow label="불법추심 방식" value={empty(report.collectionMethods)} />
               <div className="mt-5">
-                <h3 className="mb-2 text-sm font-semibold text-slate-400">피해 사실 상세</h3>
+                <h3 className="mb-2 text-sm font-semibold text-aibeop-faint">피해 사실 상세</h3>
                 <div className="whitespace-pre-wrap rounded-2xl border border-slate-800 bg-slate-950 p-4 text-sm leading-7 text-slate-100">
                   {report.damageSummary}
                 </div>
               </div>
               <div className="mt-5">
-                <h3 className="mb-2 text-sm font-semibold text-slate-400">요청사항</h3>
+                <h3 className="mb-2 text-sm font-semibold text-aibeop-faint">요청사항</h3>
                 <div className="whitespace-pre-wrap rounded-2xl border border-slate-800 bg-slate-950 p-4 text-sm leading-7 text-slate-100">
                   {empty(report.requestedHelp)}
                 </div>
               </div>
               <div className="mt-5">
-                <h3 className="mb-2 text-sm font-semibold text-slate-400">증거자료 목록</h3>
+                <h3 className="mb-2 text-sm font-semibold text-aibeop-faint">증거자료 목록</h3>
                 <div className="whitespace-pre-wrap rounded-2xl border border-slate-800 bg-slate-950 p-4 text-sm leading-7 text-slate-100">
                   {empty(report.evidenceSummary)}
                 </div>
@@ -208,7 +208,7 @@ export default async function AdminIllegalLendingReportDetailPage({ params }: Pa
             <div className="rounded-3xl border border-slate-800 bg-slate-900/80 p-6">
               <h2 className="mb-4 text-xl font-bold">6. 상태 변경 이력</h2>
               {report.statusHistories.length === 0 ? (
-                <p className="text-sm text-slate-400">아직 상태 변경 이력이 없습니다.</p>
+                <p className="text-sm text-aibeop-faint">아직 상태 변경 이력이 없습니다.</p>
               ) : (
                 <div className="space-y-3">
                   {report.statusHistories.map((history) => (
@@ -217,19 +217,19 @@ export default async function AdminIllegalLendingReportDetailPage({ params }: Pa
                       className="rounded-2xl border border-slate-800 bg-slate-950 p-4"
                     >
                       <div className="flex flex-wrap items-center gap-2 text-sm">
-                        <span className="text-slate-400">
+                        <span className="text-aibeop-faint">
                           {history.createdAt.toLocaleString("ko-KR")}
                         </span>
-                        <span className="text-slate-500">·</span>
+                        <span className="text-aibeop-subtle">·</span>
                         <span className="font-semibold text-cyan-100">
                           {history.fromStatus ?? "최초"} → {history.toStatus}
                         </span>
                       </div>
-                      <p className="mt-2 text-sm text-slate-300">
+                      <p className="mt-2 text-sm text-aibeop-disabled">
                         담당자: {history.actorName ?? "관리자"} / {history.actorRole ?? "ADMIN"}
                       </p>
                       {history.reason ? (
-                        <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-slate-300">
+                        <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-aibeop-disabled">
                           사유: {history.reason}
                         </p>
                       ) : null}
@@ -242,11 +242,11 @@ export default async function AdminIllegalLendingReportDetailPage({ params }: Pa
             <div className="rounded-3xl border border-slate-800 bg-slate-900/80 p-6">
               <h2 className="mb-4 text-xl font-bold">7. 개인정보 열람·처리 감사로그</h2>
               {report.accessLogs.length === 0 ? (
-                <p className="text-sm text-slate-400">아직 감사로그가 없습니다.</p>
+                <p className="text-sm text-aibeop-faint">아직 감사로그가 없습니다.</p>
               ) : (
                 <div className="overflow-hidden rounded-2xl border border-slate-800">
                   <table className="w-full border-collapse text-sm">
-                    <thead className="bg-slate-950 text-left text-slate-400">
+                    <thead className="bg-slate-950 text-left text-aibeop-faint">
                       <tr>
                         <th className="p-3">일시</th>
                         <th className="p-3">행위</th>
@@ -274,7 +274,7 @@ export default async function AdminIllegalLendingReportDetailPage({ params }: Pa
             <div className="rounded-3xl border border-slate-800 bg-slate-900/80 p-6">
               <h2 className="mb-4 text-xl font-bold">8. 첨부파일</h2>
               {report.attachments.length === 0 ? (
-                <p className="text-sm text-slate-400">첨부파일이 없습니다.</p>
+                <p className="text-sm text-aibeop-faint">첨부파일이 없습니다.</p>
               ) : (
                 <div className="space-y-3">
                   {report.attachments.map((attachment) => (
@@ -287,12 +287,12 @@ export default async function AdminIllegalLendingReportDetailPage({ params }: Pa
                           <p className="font-semibold text-slate-100">
                             {attachment.originalName}
                           </p>
-                          <p className="mt-1 text-xs text-slate-400">
+                          <p className="mt-1 text-xs text-aibeop-faint">
                             {attachment.attachmentType} · {(attachment.sizeBytes / 1024).toFixed(1)}KB · {" "}
                             {attachment.createdAt.toLocaleString("ko-KR")}
                           </p>
                           {attachment.memo ? (
-                            <p className="mt-2 text-sm text-slate-300">{attachment.memo}</p>
+                            <p className="mt-2 text-sm text-aibeop-disabled">{attachment.memo}</p>
                           ) : null}
                         </div>
                         <a
@@ -311,7 +311,7 @@ export default async function AdminIllegalLendingReportDetailPage({ params }: Pa
             <div className="rounded-3xl border border-slate-800 bg-slate-900/80 p-6">
               <h2 className="mb-4 text-xl font-bold">9. 변호사 검토 요청 이력</h2>
               {report.lawyerReviewRequests.length === 0 ? (
-                <p className="text-sm text-slate-400">변호사 검토 요청 이력이 없습니다.</p>
+                <p className="text-sm text-aibeop-faint">변호사 검토 요청 이력이 없습니다.</p>
               ) : (
                 <div className="space-y-3">
                   {report.lawyerReviewRequests.map((request) => (
@@ -323,27 +323,27 @@ export default async function AdminIllegalLendingReportDetailPage({ params }: Pa
                         <span className="font-semibold text-fuchsia-100">
                           {request.status}
                         </span>
-                        <span className="text-slate-500">·</span>
-                        <span className="text-slate-400">
+                        <span className="text-aibeop-subtle">·</span>
+                        <span className="text-aibeop-faint">
                           {request.createdAt.toLocaleString("ko-KR")}
                         </span>
                       </div>
-                      <p className="mt-2 text-sm text-slate-300">
+                      <p className="mt-2 text-sm text-aibeop-disabled">
                         요청자: {request.requestedByName ?? "관리자"} / {request.requestedByRole ?? "ADMIN"}
                       </p>
-                      <p className="mt-1 text-sm text-slate-300">
+                      <p className="mt-1 text-sm text-aibeop-disabled">
                         배정 변호사: {request.assignedLawyerName ?? "미배정"}
                       </p>
-                      <p className="mt-1 text-sm text-slate-300">
+                      <p className="mt-1 text-sm text-aibeop-disabled">
                         자동 배정: {request.autoAssigned ? "예" : "아니오"}
                       </p>
                       {request.assignmentReason ? (
-                        <p className="mt-1 text-sm text-slate-400">
+                        <p className="mt-1 text-sm text-aibeop-faint">
                           배정 사유: {request.assignmentReason}
                         </p>
                       ) : null}
                       {request.memo ? (
-                        <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-slate-300">
+                        <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-aibeop-disabled">
                           {request.memo}
                         </p>
                       ) : null}
@@ -357,7 +357,7 @@ export default async function AdminIllegalLendingReportDetailPage({ params }: Pa
               <h2 className="mb-4 text-xl font-bold">10. 변호사 자동 배정 이력</h2>
 
               {report.lawyerAssignmentHistories.length === 0 ? (
-                <p className="text-sm text-slate-400">자동 배정 이력이 없습니다.</p>
+                <p className="text-sm text-aibeop-faint">자동 배정 이력이 없습니다.</p>
               ) : (
                 <div className="space-y-3">
                   {report.lawyerAssignmentHistories.map((history) => (
@@ -369,12 +369,12 @@ export default async function AdminIllegalLendingReportDetailPage({ params }: Pa
                         {history.lawyerName ?? "미지정 변호사"}
                       </p>
 
-                      <p className="mt-1 text-xs text-slate-400">
+                      <p className="mt-1 text-xs text-aibeop-faint">
                         {history.createdAt.toLocaleString("ko-KR")}
                       </p>
 
                       {history.reason ? (
-                        <p className="mt-2 text-sm leading-6 text-slate-300">
+                        <p className="mt-2 text-sm leading-6 text-aibeop-disabled">
                           {history.reason}
                         </p>
                       ) : null}

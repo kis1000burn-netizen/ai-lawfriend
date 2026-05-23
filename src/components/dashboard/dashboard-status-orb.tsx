@@ -35,7 +35,7 @@ export function DashboardStatusOrb({
         transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
       />
       {label ? (
-        <span className="text-xs font-medium text-slate-200">{label}</span>
+        <span className="text-xs font-bold text-aibeop-text">{label}</span>
       ) : null}
     </div>
   );

@@ -26,7 +26,6 @@ export function AdminDashboardHome({
       <DashboardLivingHeader
         role="admin"
         statusText="운영 흐름, 권한, 승인, 운영 확인이 필요한 항목을 한곳에서 봅니다."
-        useV2Logo
       />
 
       <section>

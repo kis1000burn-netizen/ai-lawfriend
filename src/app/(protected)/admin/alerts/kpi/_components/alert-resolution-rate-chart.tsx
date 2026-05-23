@@ -26,8 +26,8 @@ export function AlertResolutionRateChart({ rows }: { rows: SeriesRow[] }) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-4">
       <div className="mb-4">
-        <h3 className="text-sm font-semibold text-slate-800">기간별 해결률</h3>
-        <p className="mt-1 text-xs text-slate-500">각 구간의 생성 대비 해결 비율입니다.</p>
+        <h3 className="text-sm font-semibold text-aibeop-subtle">기간별 해결률</h3>
+        <p className="mt-1 text-xs text-aibeop-subtle">각 구간의 생성 대비 해결 비율입니다.</p>
       </div>
 
       <div className="h-[280px] w-full">

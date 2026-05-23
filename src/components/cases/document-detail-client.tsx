@@ -147,8 +147,8 @@ function DocumentDetailHeaderSection({
     <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
         <div className="space-y-2">
-          <div className="text-sm text-slate-500">문서 상세</div>
-          <h1 className="text-2xl font-semibold tracking-tight text-slate-900">{title}</h1>
+          <div className="text-sm text-aibeop-subtle">문서 상세</div>
+          <h1 className="text-2xl font-semibold tracking-tight text-aibeop-text">{title}</h1>
           <div className="flex flex-wrap gap-2 text-sm">
             <span className="rounded-full bg-slate-100 px-3 py-1">상태: {status}</span>
             <span className="rounded-full bg-slate-100 px-3 py-1">유형: {initialDocument.type}</span>
@@ -163,7 +163,7 @@ function DocumentDetailHeaderSection({
             {initialDocument.caseId ? (
               <a
                 href={`/cases/${initialDocument.caseId}`}
-                className="inline-flex items-center rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
+                className="inline-flex items-center rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium text-aibeop-subtle hover:bg-slate-50"
               >
                 사건 상세로 이동
               </a>
@@ -172,14 +172,14 @@ function DocumentDetailHeaderSection({
             {approvalOutputsReady ? (
               <a
                 href={`/documents/${initialDocument.id}/print`}
-                className="inline-flex items-center rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
+                className="inline-flex items-center rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium text-aibeop-subtle hover:bg-slate-50"
               >
                 승인본 출력 보기
               </a>
             ) : (
               <span
                 title="사건 상세에서 승인본 잠금 후 이용할 수 있습니다."
-                className="inline-flex cursor-not-allowed items-center rounded-xl border border-dashed border-slate-200 px-4 py-2 text-sm text-slate-400"
+                className="inline-flex cursor-not-allowed items-center rounded-xl border border-dashed border-slate-200 px-4 py-2 text-sm text-aibeop-faint"
               >
                 승인본 출력 보기
               </span>
@@ -195,7 +195,7 @@ function DocumentDetailHeaderSection({
             ) : (
               <span
                 title="사건 상세에서 승인본 잠금 후 이용할 수 있습니다."
-                className="inline-flex cursor-not-allowed items-center rounded-xl border border-dashed border-slate-300 bg-slate-100 px-4 py-2 text-sm text-slate-400"
+                className="inline-flex cursor-not-allowed items-center rounded-xl border border-dashed border-slate-300 bg-slate-100 px-4 py-2 text-sm text-aibeop-faint"
               >
                 승인본 PDF 다운로드
               </span>
@@ -203,12 +203,12 @@ function DocumentDetailHeaderSection({
 
             <a
               href="/document-verification"
-              className="inline-flex items-center rounded-xl border border-neutral-300 px-4 py-2 text-sm font-medium text-slate-800 hover:bg-neutral-50"
+              className="inline-flex items-center rounded-xl border border-neutral-300 px-4 py-2 text-sm font-medium text-aibeop-subtle hover:bg-neutral-50"
             >
               문서 검증 페이지
             </a>
           </div>
-          <p className="max-w-md text-right text-xs text-neutral-500">
+          <p className="max-w-md text-right text-xs text-aibeop-subtle">
             승인본 출력은 잠금된 승인 기준 버전으로 생성되며, 법인 헤더·사건번호·워터마크·서명란과 함께
             검증코드 및 QR 코드가 포함됩니다.
           </p>
@@ -217,8 +217,8 @@ function DocumentDetailHeaderSection({
 
       {initialDocument.case ? (
         <div className="mt-4 rounded-xl bg-slate-50 p-4 text-sm">
-          <div className="font-medium text-slate-900">연결 사건</div>
-          <div className="mt-1 text-slate-700">
+          <div className="font-medium text-aibeop-text">연결 사건</div>
+          <div className="mt-1 text-aibeop-subtle">
             {initialDocument.case.title} / 상태: {initialDocument.case.status ?? "-"}
           </div>
         </div>
@@ -228,37 +228,37 @@ function DocumentDetailHeaderSection({
         <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div>
-              <div className="font-medium text-slate-900">참조 기준자료</div>
-              <div className="mt-1 text-slate-600">
+              <div className="font-medium text-aibeop-text">참조 기준자료</div>
+              <div className="mt-1 text-aibeop-muted">
                 {initialDocument.generationTrace.templateTitle} ({initialDocument.generationTrace.templateCode} v
                 {initialDocument.generationTrace.templateVersion})
               </div>
             </div>
-            <span className="rounded-full bg-white px-3 py-1 text-xs text-slate-600">
+            <span className="rounded-full bg-white px-3 py-1 text-xs text-aibeop-muted">
               {formatProvider(initialDocument.generationTrace.sourceProvider)}
             </span>
           </div>
 
           <div className="mt-3 grid gap-3 md:grid-cols-2">
             <div>
-              <div className="text-xs text-slate-500">출처명</div>
-              <div className="mt-1 text-slate-800">{initialDocument.generationTrace.sourceName ?? "-"}</div>
+              <div className="text-xs text-aibeop-subtle">출처명</div>
+              <div className="mt-1 text-aibeop-subtle">{initialDocument.generationTrace.sourceName ?? "-"}</div>
             </div>
             <div>
-              <div className="text-xs text-slate-500">출처 상태</div>
-              <div className="mt-1 text-slate-800">
+              <div className="text-xs text-aibeop-subtle">출처 상태</div>
+              <div className="mt-1 text-aibeop-subtle">
                 {formatSourceStatus(initialDocument.generationTrace.sourceStatus)}
               </div>
             </div>
             <div>
-              <div className="text-xs text-slate-500">생성 스냅샷 시각</div>
-              <div className="mt-1 text-slate-800">
+              <div className="text-xs text-aibeop-subtle">생성 스냅샷 시각</div>
+              <div className="mt-1 text-aibeop-subtle">
                 {formatDateTime(initialDocument.generationTrace.generatedSnapshotAt)}
               </div>
             </div>
             <div>
-              <div className="text-xs text-slate-500">승인 스냅샷 시각</div>
-              <div className="mt-1 text-slate-800">
+              <div className="text-xs text-aibeop-subtle">승인 스냅샷 시각</div>
+              <div className="mt-1 text-aibeop-subtle">
                 {formatDateTime(initialDocument.generationTrace.approvedSnapshotAt)}
               </div>
             </div>
@@ -269,7 +269,7 @@ function DocumentDetailHeaderSection({
               href={initialDocument.generationTrace.sourceUrl}
               target="_blank"
               rel="noreferrer"
-              className="mt-3 inline-flex text-xs font-medium text-slate-700 underline underline-offset-2"
+              className="mt-3 inline-flex text-xs font-medium text-aibeop-subtle underline underline-offset-2"
             >
               원문 출처 열기
             </a>
@@ -278,14 +278,14 @@ function DocumentDetailHeaderSection({
           {canSeeTraceInternals ? (
             <div className="mt-3 grid gap-3 rounded-xl border border-slate-200 bg-white p-3 md:grid-cols-2">
               <div>
-                <div className="text-xs text-slate-500">출처 해시</div>
-                <div className="mt-1 break-all text-xs text-slate-700">
+                <div className="text-xs text-aibeop-subtle">출처 해시</div>
+                <div className="mt-1 break-all text-xs text-aibeop-subtle">
                   {initialDocument.generationTrace.sourceHash ?? "-"}
                 </div>
               </div>
               <div>
-                <div className="text-xs text-slate-500">내부 메모</div>
-                <div className="mt-1 text-xs text-slate-700">
+                <div className="text-xs text-aibeop-subtle">내부 메모</div>
+                <div className="mt-1 text-xs text-aibeop-subtle">
                   {initialDocument.generationTrace.sourceNote ?? "-"}
                 </div>
               </div>
@@ -326,11 +326,11 @@ function DocumentDetailEditSection({
     <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="mb-4 flex items-center justify-between gap-3">
         <div>
-          <h2 className="text-lg font-semibold text-slate-900">
+          <h2 className="text-lg font-semibold text-aibeop-text">
             {documentEditingLocked ? "문서 보기" : "문서 편집"}
           </h2>
           {documentEditingLocked ? (
-            <p className="mt-1 text-xs text-slate-500">
+            <p className="mt-1 text-xs text-aibeop-subtle">
               잠금 또는 보관된 문서입니다. 이 화면에서는 읽기만 가능합니다.
             </p>
           ) : null}
@@ -351,7 +351,7 @@ function DocumentDetailEditSection({
 
       <div className="space-y-4">
         <div>
-          <label htmlFor="document-detail-title" className="mb-2 block text-sm font-medium text-slate-800">
+          <label htmlFor="document-detail-title" className="mb-2 block text-sm font-medium text-aibeop-subtle">
             제목
           </label>
           <input
@@ -360,7 +360,7 @@ function DocumentDetailEditSection({
             onChange={(e) => onTitleChange(e.target.value)}
             readOnly={titleReadOnly}
             className={`w-full rounded-xl border border-slate-300 px-4 py-3 outline-none ring-0 focus:border-slate-500 ${
-              titleReadOnly ? "cursor-default bg-slate-50 text-slate-800" : ""
+              titleReadOnly ? "cursor-default bg-slate-50 text-aibeop-subtle" : ""
             }`}
             placeholder="문서 제목"
             aria-readonly={titleReadOnly || undefined}
@@ -380,7 +380,7 @@ function DocumentDetailEditSection({
         ) : null}
 
         <div>
-          <label htmlFor="document-detail-content" className="mb-2 block text-sm font-medium text-slate-800">
+          <label htmlFor="document-detail-content" className="mb-2 block text-sm font-medium text-aibeop-subtle">
             본문
           </label>
           <textarea
@@ -389,7 +389,7 @@ function DocumentDetailEditSection({
             onChange={(e) => onContentChange(e.target.value)}
             readOnly={bodyReadOnly}
             className={`min-h-[420px] w-full rounded-xl border border-slate-300 px-4 py-3 outline-none ring-0 focus:border-slate-500 ${
-              bodyReadOnly ? "cursor-default bg-slate-50 text-slate-800" : ""
+              bodyReadOnly ? "cursor-default bg-slate-50 text-aibeop-subtle" : ""
             }`}
             placeholder="문서 본문"
             aria-readonly={bodyReadOnly || undefined}
@@ -411,11 +411,11 @@ function renderReviewFlowHint(initialDocument: DocumentDetail, status: string) {
 
   if (hasCaseLink) {
     return (
-      <p className="mt-3 rounded-xl border border-slate-100 bg-slate-50 p-3 text-xs leading-relaxed text-slate-600">
+      <p className="mt-3 rounded-xl border border-slate-100 bg-slate-50 p-3 text-xs leading-relaxed text-aibeop-muted">
         법률 문서 <strong>최종 승인 → 승인본 잠금 → 검증 → 전달 완료</strong>는{" "}
         <a
           href={`/cases/${initialDocument.caseId}`}
-          className="font-medium text-slate-800 underline underline-offset-2"
+          className="font-medium text-aibeop-subtle underline underline-offset-2"
         >
           사건 상세
         </a>
@@ -455,13 +455,13 @@ function DocumentDetailReviewSection({
   return (
     <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="mb-4">
-        <h2 className="text-lg font-semibold text-slate-900">
+        <h2 className="text-lg font-semibold text-aibeop-text">
           {reviewButtonsEnabled ? "검토 흐름" : "검토 흐름 (읽기 전용)"}
         </h2>
-        <p className="mt-1 text-sm text-slate-600">
+        <p className="mt-1 text-sm text-aibeop-muted">
           AI는 초안과 구조화까지만 담당하며, 최종 확정은 변호사 또는 관리자가 수행합니다.
         </p>
-        <p className="mt-2 text-xs text-slate-500">
+        <p className="mt-2 text-xs text-aibeop-subtle">
           승인 시 최신 버전이 잠기며, PDF·승인본 출력은 그 잠금 버전을 기준으로 합니다. 이후 편집한
           작업본과 출력본이 달라질 수 있습니다.
         </p>
@@ -470,7 +470,7 @@ function DocumentDetailReviewSection({
 
       <div className="space-y-4">
         <div>
-          <label htmlFor="document-detail-review-comment" className="mb-2 block text-sm font-medium text-slate-800">
+          <label htmlFor="document-detail-review-comment" className="mb-2 block text-sm font-medium text-aibeop-subtle">
             검토 의견
           </label>
           <textarea
@@ -479,7 +479,7 @@ function DocumentDetailReviewSection({
             onChange={(e) => onReviewCommentChange(e.target.value)}
             readOnly={reviewReadOnly}
             className={`min-h-[120px] w-full rounded-xl border border-slate-300 px-4 py-3 outline-none ring-0 focus:border-slate-500 ${
-              reviewReadOnly ? "cursor-default bg-slate-50 text-slate-800" : ""
+              reviewReadOnly ? "cursor-default bg-slate-50 text-aibeop-subtle" : ""
             }`}
             placeholder="검토 요청 또는 승인/반려 의견을 입력하세요."
             aria-readonly={reviewReadOnly || undefined}
@@ -492,7 +492,7 @@ function DocumentDetailReviewSection({
               type="button"
               onClick={() => onSubmitReview("REQUEST_REVIEW")}
               disabled={isReviewing}
-              className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-medium text-aibeop-subtle hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isReviewing ? "처리 중..." : "검토 요청"}
             </button>
@@ -520,12 +520,12 @@ function DocumentDetailReviewSection({
             ) : null}
           </div>
         ) : (
-          <p className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
+          <p className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-aibeop-muted">
             잠금 또는 보관된 문서는 이 화면에서 검토 요청·승인·반려를 진행할 수 없습니다. 필요 시{" "}
             {initialDocument.caseId ? (
               <a
                 href={`/cases/${initialDocument.caseId}`}
-                className="font-medium text-slate-800 underline underline-offset-2"
+                className="font-medium text-aibeop-subtle underline underline-offset-2"
               >
                 사건 상세
               </a>

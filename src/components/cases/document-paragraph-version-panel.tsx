@@ -129,16 +129,16 @@ export default function DocumentParagraphVersionPanel({ documentId }: Props) {
       </div>
 
       {loading ? (
-        <div className="text-sm text-neutral-600">버전 목록을 불러오는 중입니다...</div>
+        <div className="text-sm text-aibeop-muted">버전 목록을 불러오는 중입니다...</div>
       ) : (
         <div className="space-y-3">
           {groups.map((group) => (
             <div key={group.versionGroupId} className="rounded-xl border p-4">
-              <div className="mb-2 text-xs text-neutral-500">
+              <div className="mb-2 text-xs text-aibeop-subtle">
                 {String(group.createdAt)} / actor: {group.actorUserId}
               </div>
               <div className="mb-2 text-sm font-medium">{group.reason ?? "SNAPSHOT"}</div>
-              <div className="mb-3 text-sm text-neutral-600">문단 수 {group.count}개</div>
+              <div className="mb-3 text-sm text-aibeop-muted">문단 수 {group.count}개</div>
               <button
                 type="button"
                 onClick={() => restoreGroup(group.versionGroupId)}
@@ -151,7 +151,7 @@ export default function DocumentParagraphVersionPanel({ documentId }: Props) {
           ))}
 
           {groups.length === 0 ? (
-            <div className="rounded-xl border border-dashed p-4 text-sm text-neutral-500">
+            <div className="rounded-xl border border-dashed p-4 text-sm text-aibeop-subtle">
               아직 생성된 문단 스냅샷이 없습니다.
             </div>
           ) : null}

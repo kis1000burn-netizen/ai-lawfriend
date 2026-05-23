@@ -130,7 +130,7 @@ export function ClientDisclosurePreviewPanel({
             {clientPreview.statements.map((statement) => (
               <li
                 key={statement.statementId}
-                className="rounded-xl border border-emerald-100 bg-white p-3 text-sm text-slate-800"
+                className="rounded-xl border border-emerald-100 bg-white p-3 text-sm text-aibeop-subtle"
               >
                 <span className="text-xs font-semibold text-emerald-800">
                   {statement.judgmentState}
@@ -168,7 +168,7 @@ export function ClientDisclosurePreviewPanel({
                   {diff.changed.map((c) => (
                     <li key={c.sourceEntryId} className="rounded-lg bg-blue-50/50 p-2">
                       <p className="text-xs text-red-700 line-through">{c.beforeText}</p>
-                      <p className="mt-1 text-slate-800">{c.afterText}</p>
+                      <p className="mt-1 text-aibeop-subtle">{c.afterText}</p>
                     </li>
                   ))}
                 </ul>

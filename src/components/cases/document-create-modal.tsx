@@ -334,7 +334,7 @@ export function DocumentCreateModal({
         <div className="flex items-start justify-between">
           <div>
             <h3 className="text-lg font-semibold">문서 초안 생성</h3>
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-aibeop-subtle">
               질문셋과 템플릿 정의 기준으로 초안을 생성합니다.
             </p>
           </div>

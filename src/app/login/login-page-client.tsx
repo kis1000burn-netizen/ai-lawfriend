@@ -112,11 +112,11 @@ export default function LoginPageClient({ oauthProviders }: LoginPageClientProps
         <div className="mb-8">
           <AibeopchinLogo compact />
           <h1 className="text-3xl font-bold text-aibeop-text">로그인</h1>
-          <p className="mt-2 text-sm text-aibeop-muted">
+          <p className="mt-2 text-sm text-aibeop-subtle">
             가입한 이메일과 비밀번호로 로그인하세요.
           </p>
           {oauthProviders.length > 0 ? (
-            <p className="mt-2 text-xs leading-relaxed text-aibeop-muted">
+            <p className="mt-2 text-xs leading-relaxed text-aibeop-subtle">
               Google 간편 로그인은 현재 활성화되어 있으며, Kakao·Naver도 같은 패턴으로 확장 가능합니다.
             </p>
           ) : null}
@@ -133,12 +133,12 @@ export default function LoginPageClient({ oauthProviders }: LoginPageClientProps
           </p>
         ) : null}
         {!registered && !lawyerRegistered && !urlAccountPending ? (
-          <p className="mt-3 text-xs leading-relaxed text-aibeop-muted">
+          <p className="mt-3 text-xs leading-relaxed text-aibeop-subtle">
             계정이 <strong className="font-medium text-aibeop-text">승인 대기(PENDING)</strong>인 경우
             로그인 시 안내 메시지가 표시됩니다. 정지(SUSPENDED) 계정은 로그인할 수 없습니다.
           </p>
         ) : null}
-        <p className="mt-2 text-xs leading-relaxed text-aibeop-muted">
+        <p className="mt-2 text-xs leading-relaxed text-aibeop-subtle">
           승인이 끝났는데도 로그인되지 않으면 이메일·비밀번호를 확인하거나, 플랫폼 관리자에게 계정 상태를 문의하세요.
         </p>
         </div>
@@ -190,7 +190,7 @@ export default function LoginPageClient({ oauthProviders }: LoginPageClientProps
 
         {oauthProviders.length > 0 ? (
           <div className="mt-6 border-t border-aibeop-line pt-6">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-aibeop-muted">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-aibeop-subtle">
               Social Login
             </p>
             <div className="mt-3 space-y-3">
@@ -210,7 +210,7 @@ export default function LoginPageClient({ oauthProviders }: LoginPageClientProps
           </div>
         ) : null}
 
-        <div className="mt-6 space-y-2 text-sm text-aibeop-muted">
+        <div className="mt-6 space-y-2 text-sm text-aibeop-subtle">
           <div>
             아직 계정이 없으신가요?{" "}
             <Link href="/signup" className="font-medium text-aibeop-text underline">

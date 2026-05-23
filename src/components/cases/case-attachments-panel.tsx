@@ -23,8 +23,8 @@ export default async function CaseAttachmentsPanel({
     <section className="rounded-2xl border bg-white p-6 shadow-sm">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h2 className="text-lg font-semibold text-slate-900">사건 첨부파일</h2>
-          <p className="mt-1 text-xs text-slate-500">
+          <h2 className="text-lg font-semibold text-aibeop-text">사건 첨부파일</h2>
+          <p className="mt-1 text-xs text-aibeop-subtle">
             현재 {attachments.length} / 최대 {MAX_ATTACHMENTS_PER_CASE}개
           </p>
         </div>
@@ -35,7 +35,7 @@ export default async function CaseAttachmentsPanel({
       </div>
 
       {attachments.length === 0 ? (
-        <div className="mt-6 rounded-xl border border-dashed p-6 text-sm text-slate-500">
+        <div className="mt-6 rounded-xl border border-dashed p-6 text-sm text-aibeop-subtle">
           업로드된 파일이 없습니다.
         </div>
       ) : (
@@ -50,13 +50,13 @@ export default async function CaseAttachmentsPanel({
                   caseId={caseId}
                   attachmentId={item.id}
                   fileName={item.originalName}
-                  className="font-medium text-slate-900 underline"
+                  className="font-medium text-aibeop-text underline"
                 >
                   {item.originalName}
                 </AttachmentDownloadLink>
-                <p className="mt-1 text-xs text-slate-500">
+                <p className="mt-1 text-xs text-aibeop-subtle">
                   분류:{" "}
-                  <span className="font-medium text-slate-700">
+                  <span className="font-medium text-aibeop-subtle">
                     {CASE_ATTACHMENT_CATEGORY_LABELS[item.category]}
                   </span>
                   {" · "}
@@ -73,7 +73,7 @@ export default async function CaseAttachmentsPanel({
               </div>
 
               <div className="flex items-center gap-3">
-                <span className="text-xs text-slate-500">
+                <span className="text-xs text-aibeop-subtle">
                   {Math.round(item.sizeBytes / 1024)} KB
                 </span>
                 <DeleteAttachmentButton caseId={caseId} attachmentId={item.id} />

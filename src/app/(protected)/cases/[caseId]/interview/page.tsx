@@ -104,9 +104,9 @@ export default async function CaseInterviewPage({ params }: PageProps) {
     <div className="space-y-6 p-6">
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div className="space-y-1">
-          <div className="text-sm text-slate-500">AI 인터뷰</div>
+          <div className="text-sm text-aibeop-subtle">AI 인터뷰</div>
           <h1 className="text-2xl font-semibold">{found.title}</h1>
-          <div className="text-sm text-slate-600">
+          <div className="text-sm text-aibeop-muted">
             카테고리: {found.category ?? "미분류"} · 사건 상태: {caseStatusLabel}
             {interviewStatusLabel ? (
               <> · 인터뷰: {interviewStatusLabel}</>
@@ -125,7 +125,7 @@ export default async function CaseInterviewPage({ params }: PageProps) {
           </Link>
           <Link
             href={`/cases/${found.id}`}
-            className="rounded-xl border px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+            className="rounded-xl border px-4 py-2 text-sm font-medium text-aibeop-subtle hover:bg-slate-50"
           >
             사건 상세로 돌아가기
           </Link>

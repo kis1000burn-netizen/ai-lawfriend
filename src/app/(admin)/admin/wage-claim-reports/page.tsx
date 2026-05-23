@@ -39,14 +39,14 @@ export default async function WageClaimReportsAdminPage() {
     <main className="mx-auto max-w-7xl px-6 py-10">
       <header className="mb-6">
         <h1 className="text-2xl font-bold">임금체불 진정서 관리</h1>
-        <p className="mt-2 text-sm text-slate-600">
+        <p className="mt-2 text-sm text-aibeop-muted">
           임금체불 진정서·체불내역 정리센터 접수 목록입니다.
         </p>
       </header>
 
       <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
         <table className="min-w-full text-sm">
-          <thead className="bg-slate-50 text-slate-600">
+          <thead className="bg-slate-50 text-aibeop-muted">
             <tr>
               <th className="px-4 py-3 text-left">접수시각</th>
               <th className="px-4 py-3 text-left">작성자</th>
@@ -61,7 +61,7 @@ export default async function WageClaimReportsAdminPage() {
           <tbody>
             {reports.length === 0 ? (
               <tr>
-                <td className="px-4 py-6 text-center text-slate-500" colSpan={7}>
+                <td className="px-4 py-6 text-center text-aibeop-subtle" colSpan={7}>
                   접수된 임금체불 제보가 없습니다.
                 </td>
               </tr>
@@ -71,11 +71,11 @@ export default async function WageClaimReportsAdminPage() {
                   <td className="px-4 py-3">{formatDate(report.createdAt)}</td>
                   <td className="px-4 py-3">
                     <div className="font-medium">{report.reporterName}</div>
-                    <div className="text-xs text-slate-500">{report.reporterPhone}</div>
+                    <div className="text-xs text-aibeop-subtle">{report.reporterPhone}</div>
                   </td>
                   <td className="px-4 py-3">{report.companyName}</td>
                   <td className="px-4 py-3">{formatAmount(report.unpaidTotalAmount)}</td>
-                  <td className="px-4 py-3 text-xs text-slate-600">
+                  <td className="px-4 py-3 text-xs text-aibeop-muted">
                     {report.damageTypes.slice(0, 2).join(", ")}
                     {report.damageTypes.length > 2
                       ? ` 외 ${report.damageTypes.length - 2}건`

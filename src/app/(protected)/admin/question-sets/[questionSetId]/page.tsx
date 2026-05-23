@@ -37,7 +37,7 @@ export default async function AdminQuestionSetDetailPage({
   return (
     <div className="space-y-4 p-6">
       <div className="flex flex-wrap gap-2 text-sm">
-        <Link href="/admin/question-sets" className="text-gray-600 underline hover:text-gray-900">
+        <Link href="/admin/question-sets" className="text-aibeop-muted underline hover:text-aibeop-text">
           ← 질문셋 목록
         </Link>
       </div>

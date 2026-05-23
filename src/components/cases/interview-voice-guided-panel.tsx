@@ -416,7 +416,7 @@ export function InterviewVoiceGuidedPanel({
       ) : null}
 
       {!synthOk ? (
-        <p className="text-sm text-neutral-700" role="status">
+        <p className="text-sm text-aibeop-subtle" role="status">
           {MESSAGE_TTS_UNAVAILABLE_KO}
         </p>
       ) : (
@@ -471,18 +471,18 @@ export function InterviewVoiceGuidedPanel({
       )}
 
       {ttsBusy ? (
-        <p className="mt-3 text-xs text-neutral-700" aria-live="polite">
+        <p className="mt-3 text-xs text-aibeop-subtle" aria-live="polite">
           질문이 재생 중입니다. 「말해서 답하기」는 재생 종료 또는 멈춤 후 이용해 주세요. 아래에서는 텍스트로 초안 작성·전송이
           가능합니다.
         </p>
       ) : null}
 
       {!canCapture ? (
-        <p className="mt-3 text-sm text-neutral-700 md:max-w-prose">
+        <p className="mt-3 text-sm text-aibeop-subtle md:max-w-prose">
           이 질문은 선택·예/아니오 형식입니다. 음성 버튼은 질문만 안내합니다. 실제 선택은 아래 입력으로 해 주세요.
         </p>
       ) : interactionDisabled ? (
-        <p className="mt-3 text-sm text-neutral-600 md:max-w-prose">
+        <p className="mt-3 text-sm text-aibeop-muted md:max-w-prose">
           읽기 전용에서는 질문 듣기만 사용할 수 있습니다. 답변 입력·음성 초안은 비활성화되어 있습니다.
         </p>
       ) : (
@@ -493,7 +493,7 @@ export function InterviewVoiceGuidedPanel({
               초안 카드로 넘기세요.
             </p>
           ) : (
-            <p className="mt-3 text-sm text-neutral-700 md:max-w-prose">
+            <p className="mt-3 text-sm text-aibeop-subtle md:max-w-prose">
               질문 재생 중에는 「말해서 답하기」가 꺼집니다.
             </p>
           )}
@@ -501,13 +501,13 @@ export function InterviewVoiceGuidedPanel({
           <div className="mt-3 space-y-2">
             <label
               htmlFor={manualDraftId}
-              className="block text-xs font-semibold uppercase tracking-wide text-neutral-700"
+              className="block text-xs font-semibold uppercase tracking-wide text-aibeop-subtle"
             >
               STT 없이 초안 보내기(직접 입력·선택)
             </label>
             <textarea
               id={manualDraftId}
-              className="min-h-[88px] w-full rounded-xl border border-neutral-300 bg-white px-3 py-3 text-base leading-relaxed text-neutral-900 md:text-sm"
+              className="min-h-[88px] w-full rounded-xl border border-neutral-300 bg-white px-3 py-3 text-base leading-relaxed text-aibeop-text md:text-sm"
               disabled={manualTextDraftLocked}
               value={manualDraft}
               placeholder="예: 사건 내용 요약 또는 날짜·금액"
@@ -515,7 +515,7 @@ export function InterviewVoiceGuidedPanel({
               onChange={(ev) => setManualDraft(ev.target.value)}
             />
             {!recOk ? (
-              <p id={`${manualDraftId}-mic-fallback`} className="text-xs text-neutral-600 md:max-w-prose">
+              <p id={`${manualDraftId}-mic-fallback`} className="text-xs text-aibeop-muted md:max-w-prose">
                 음성 인식이 불가할 때 기본 입력 경로입니다. 키보드만으로도 작성 가능합니다.
               </p>
             ) : null}
@@ -573,7 +573,7 @@ export function InterviewVoiceGuidedPanel({
           aria-label="음성 초안 확인 및 저장"
         >
           <h4 className="text-sm font-semibold text-blue-950">음성·텍스트 초안 확인</h4>
-          <p className="mt-2 text-xs leading-relaxed text-neutral-600 md:max-w-prose">
+          <p className="mt-2 text-xs leading-relaxed text-aibeop-muted md:max-w-prose">
             아래 문자열은 아직 인터뷰 최종 답변으로 확정되지 않았습니다. 「이 문구로 답변 저장」을 누르기 전까지 서버 저장 경로 및
             Voice trace는 Phase 5-D 규격을 따릅니다.
             {pending.expiresAt ? ` 초안 TTL 기준 만료 예정: ${pending.expiresAt}` : ""}

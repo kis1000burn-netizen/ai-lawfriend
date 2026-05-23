@@ -1,4 +1,9 @@
+"use client";
+
 import Link from "next/link";
+import { AibeopchinLogoLockup } from "@/components/branding/aibeopchin-logo-lockup";
+import { AibeopchinLogoRainbowText } from "@/components/branding/aibeopchin-logo-rainbow-text";
+import { AIBEOPCHIN_LOGO_POP_SUBTITLE_CLASS } from "@/lib/branding/aibeopchin-logo-typography";
 
 type AibeopchinLogoProps = {
   href?: string;
@@ -13,32 +18,34 @@ export function AibeopchinLogo({
     <Link
       href={href}
       aria-label="AI법친 홈으로 이동"
-      className="flex items-center gap-3 text-aibeop-text"
+      className="group text-aibeop-text"
     >
-      <div
-        className={[
-          "flex shrink-0 items-center justify-center rounded-2xl border border-aibeop-line bg-gradient-to-br from-aibeop-green to-aibeop-deep font-extrabold text-white shadow-soft",
-          compact ? "h-10 w-10 text-sm" : "h-11 w-11 text-sm",
-        ].join(" ")}
+      <AibeopchinLogoLockup
+        size={compact ? "xs" : "sm"}
+        direction="horizontal"
+        surface="header"
+        loop
+        className="items-center"
       >
-        AI
-      </div>
-
-      <div className="leading-tight">
-        <div
-          className={[
-            "font-extrabold tracking-[-0.05em] text-aibeop-text",
-            compact ? "text-lg" : "text-xl",
-          ].join(" ")}
-        >
-          AI법친
+        <div className="leading-tight">
+          <AibeopchinLogoRainbowText
+            className={[
+              "transition-opacity group-hover:opacity-90",
+              compact ? "text-lg" : "text-xl",
+            ].join(" ")}
+          />
+          {compact ? null : (
+            <div
+              className={[
+                AIBEOPCHIN_LOGO_POP_SUBTITLE_CLASS,
+                "mt-0.5 text-xs text-aibeop-muted",
+              ].join(" ")}
+            >
+              변호사와 의뢰인을 잇는 AI 법률업무 플랫폼
+            </div>
+          )}
         </div>
-        {compact ? null : (
-          <div className="mt-0.5 text-xs font-medium text-aibeop-muted">
-            변호사와 의뢰인을 잇는 AI 법률업무 플랫폼
-          </div>
-        )}
-      </div>
+      </AibeopchinLogoLockup>
     </Link>
   );
 }

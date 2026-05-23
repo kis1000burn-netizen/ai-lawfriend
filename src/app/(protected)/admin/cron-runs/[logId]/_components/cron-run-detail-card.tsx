@@ -32,9 +32,9 @@ export function CronRunDetailCard({ run }: Props) {
     <div className="rounded-2xl border border-slate-200 bg-white p-5">
       <div className="mb-4 flex items-start justify-between gap-3">
         <div>
-          <h1 className="text-xl font-semibold text-slate-900">{run.jobName}</h1>
-          <p className="mt-1 font-mono text-xs text-slate-500">{run.jobCode}</p>
-          <p className="mt-1 text-sm text-slate-500">Cron 실행 상세 로그</p>
+          <h1 className="text-xl font-semibold text-aibeop-text">{run.jobName}</h1>
+          <p className="mt-1 font-mono text-xs text-aibeop-subtle">{run.jobCode}</p>
+          <p className="mt-1 text-sm text-aibeop-subtle">Cron 실행 상세 로그</p>
         </div>
 
         <span
@@ -64,8 +64,8 @@ export function CronRunDetailCard({ run }: Props) {
 
       {run.message && (
         <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-4">
-          <div className="text-sm font-semibold text-slate-800">메시지</div>
-          <pre className="mt-2 whitespace-pre-wrap text-sm text-slate-700">{run.message}</pre>
+          <div className="text-sm font-semibold text-aibeop-subtle">메시지</div>
+          <pre className="mt-2 whitespace-pre-wrap text-sm text-aibeop-subtle">{run.message}</pre>
         </div>
       )}
 
@@ -77,7 +77,7 @@ export function CronRunDetailCard({ run }: Props) {
       )}
 
       <div className="mt-5">
-        <div className="mb-3 text-sm font-semibold text-slate-800">결과 Pretty Viewer (metaJson)</div>
+        <div className="mb-3 text-sm font-semibold text-aibeop-subtle">결과 Pretty Viewer (metaJson)</div>
         <PrettyJsonViewer value={run.metaJson ?? null} />
       </div>
     </div>
@@ -87,8 +87,8 @@ export function CronRunDetailCard({ run }: Props) {
 function Info({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-      <div className="text-xs text-slate-500">{label}</div>
-      <div className="mt-2 break-all text-sm font-medium text-slate-800">{value}</div>
+      <div className="text-xs text-aibeop-subtle">{label}</div>
+      <div className="mt-2 break-all text-sm font-medium text-aibeop-subtle">{value}</div>
     </div>
   );
 }

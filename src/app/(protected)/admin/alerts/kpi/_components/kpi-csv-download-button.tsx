@@ -18,7 +18,7 @@ export function KpiCsvDownloadButton({
     <button
       type="button"
       onClick={handleDownload}
-      className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm text-slate-700 hover:bg-slate-50"
+      className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm text-aibeop-subtle hover:bg-slate-50"
     >
       CSV 다운로드
     </button>

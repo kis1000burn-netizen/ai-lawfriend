@@ -143,7 +143,7 @@ export default function DocumentParagraphPanel({ documentId }: Props) {
 
   if (loading) {
     return (
-      <div className="rounded-2xl border bg-white p-5 text-sm text-neutral-600 shadow-sm">
+      <div className="rounded-2xl border bg-white p-5 text-sm text-aibeop-muted shadow-sm">
         문단 구조 패널을 불러오는 중입니다...
       </div>
     );
@@ -166,7 +166,7 @@ export default function DocumentParagraphPanel({ documentId }: Props) {
       <section className="rounded-2xl border bg-white p-5 shadow-sm">
         <div className="mb-4 flex items-center justify-between">
           <h3 className="font-semibold">문단 구조 패널</h3>
-          <span className="text-sm text-neutral-500">전체 문단 {payload.paragraphs.length}개</span>
+          <span className="text-sm text-aibeop-subtle">전체 문단 {payload.paragraphs.length}개</span>
         </div>
 
         <div className="space-y-4">
@@ -177,10 +177,10 @@ export default function DocumentParagraphPanel({ documentId }: Props) {
               <article key={paragraph.id} className="rounded-xl border p-4">
                 <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
                   <div>
-                    <div className="text-xs text-neutral-400">순서 {paragraph.order}</div>
+                    <div className="text-xs text-aibeop-faint">순서 {paragraph.order}</div>
                     <div className="font-medium">{paragraph.label ?? "문단"}</div>
                     {paragraph.sectionTitle ? (
-                      <div className="text-xs text-neutral-500">섹션: {paragraph.sectionTitle}</div>
+                      <div className="text-xs text-aibeop-subtle">섹션: {paragraph.sectionTitle}</div>
                     ) : null}
                   </div>
 
@@ -200,7 +200,7 @@ export default function DocumentParagraphPanel({ documentId }: Props) {
                   </div>
                 </div>
 
-                <pre className="whitespace-pre-wrap rounded-lg bg-neutral-50 p-3 text-sm text-neutral-800">
+                <pre className="whitespace-pre-wrap rounded-lg bg-neutral-50 p-3 text-sm text-aibeop-subtle">
                   {paragraph.content}
                 </pre>
 
@@ -211,7 +211,7 @@ export default function DocumentParagraphPanel({ documentId }: Props) {
                     <div className="space-y-3">
                       {historyItems.map((item) => (
                         <div key={item.id} className="rounded-lg border bg-white p-3">
-                          <div className="mb-2 text-xs text-neutral-500">
+                          <div className="mb-2 text-xs text-aibeop-subtle">
                             {item.createdAt} / 모델: {item.aiModel ?? "-"} / 상태: {item.status ?? "-"}
                           </div>
 
@@ -259,7 +259,7 @@ export default function DocumentParagraphPanel({ documentId }: Props) {
                                       ? "bg-green-50 px-3 py-2 text-xs text-green-800"
                                       : line.type === "REMOVED"
                                         ? "bg-red-50 px-3 py-2 text-xs text-red-800"
-                                        : "bg-white px-3 py-2 text-xs text-neutral-700"
+                                        : "bg-white px-3 py-2 text-xs text-aibeop-subtle"
                                   }
                                 >
                                   {line.type === "ADDED"

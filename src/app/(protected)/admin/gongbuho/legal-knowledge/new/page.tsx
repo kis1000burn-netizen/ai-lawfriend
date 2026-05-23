@@ -16,8 +16,8 @@ export default async function AdminLegalKnowledgeIntakeNewPage() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-semibold text-slate-900">Intake 등록</h1>
-          <p className="mt-1 text-sm text-slate-600">
+          <h1 className="text-xl font-semibold text-aibeop-text">Intake 등록</h1>
+          <p className="mt-1 text-sm text-aibeop-muted">
             Legal Knowledge 수요 후보를 관리자 UI에서 직접 생성합니다.
           </p>
         </div>

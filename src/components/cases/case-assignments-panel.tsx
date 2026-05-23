@@ -24,7 +24,7 @@ export default async function CaseAssignmentsPanel({
 
   return (
     <section className="rounded-2xl border bg-white p-6 shadow-sm">
-      <h2 className="text-lg font-semibold text-slate-900">사건 배정</h2>
+      <h2 className="text-lg font-semibold text-aibeop-text">사건 배정</h2>
 
       {isPlatformAdmin(currentUser.role) ? (
         <div className="mt-4">
@@ -33,7 +33,7 @@ export default async function CaseAssignmentsPanel({
       ) : null}
 
       {assignments.length === 0 ? (
-        <div className="mt-6 rounded-xl border border-dashed p-6 text-sm text-slate-500">
+        <div className="mt-6 rounded-xl border border-dashed p-6 text-sm text-aibeop-subtle">
           현재 배정된 변호사가 없습니다.
         </div>
       ) : (
@@ -44,14 +44,14 @@ export default async function CaseAssignmentsPanel({
               className="flex items-start justify-between gap-4 rounded-xl border p-4"
             >
               <div>
-                <div className="font-medium text-slate-900">
+                <div className="font-medium text-aibeop-text">
                   {item.assignee.name ?? item.assignee.email}
                 </div>
-                <div className="mt-1 text-xs text-slate-500">
+                <div className="mt-1 text-xs text-aibeop-subtle">
                   배정일: {formatDate(item.createdAt)}
                 </div>
                 {item.note ? (
-                  <div className="mt-3 text-sm text-slate-700">{item.note}</div>
+                  <div className="mt-3 text-sm text-aibeop-subtle">{item.note}</div>
                 ) : null}
               </div>
 

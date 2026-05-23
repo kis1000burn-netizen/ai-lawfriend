@@ -14,8 +14,8 @@ function StatusBadge({ status }: { status: string }) {
           : status === "FAILED"
             ? "border-rose-200 bg-rose-50 text-rose-700"
             : status === "CANCELED"
-              ? "border-slate-200 bg-slate-50 text-slate-600"
-              : "border-slate-200 bg-slate-50 text-slate-600";
+              ? "border-slate-200 bg-slate-50 text-aibeop-muted"
+              : "border-slate-200 bg-slate-50 text-aibeop-muted";
 
   return (
     <span className={`rounded-lg border px-2 py-1 text-xs font-medium ${cls}`}>
@@ -45,8 +45,8 @@ export default async function BulkJobSchedulesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-xl font-semibold text-slate-900">예약 재시도</h1>
-        <p className="mt-1 text-sm text-slate-500">
+        <h1 className="text-xl font-semibold text-aibeop-text">예약 재시도</h1>
+        <p className="mt-1 text-sm text-aibeop-subtle">
           추천 액션의 대기 후 재시도 요청 목록입니다.
         </p>
       </div>
@@ -62,13 +62,13 @@ export default async function BulkJobSchedulesPage() {
         <table className="min-w-full divide-y divide-slate-200 text-sm">
           <thead className="bg-slate-50">
             <tr>
-              <th className="px-4 py-3 text-left font-medium text-slate-600">sourceJob</th>
-              <th className="px-4 py-3 text-left font-medium text-slate-600">taxonomy</th>
-              <th className="px-4 py-3 text-left font-medium text-slate-600">액션</th>
-              <th className="px-4 py-3 text-left font-medium text-slate-600">상태</th>
-              <th className="px-4 py-3 text-left font-medium text-slate-600">실행 예정</th>
-              <th className="px-4 py-3 text-left font-medium text-slate-600">생성된 retryJob</th>
-              <th className="px-4 py-3 text-left font-medium text-slate-600">액션</th>
+              <th className="px-4 py-3 text-left font-medium text-aibeop-muted">sourceJob</th>
+              <th className="px-4 py-3 text-left font-medium text-aibeop-muted">taxonomy</th>
+              <th className="px-4 py-3 text-left font-medium text-aibeop-muted">액션</th>
+              <th className="px-4 py-3 text-left font-medium text-aibeop-muted">상태</th>
+              <th className="px-4 py-3 text-left font-medium text-aibeop-muted">실행 예정</th>
+              <th className="px-4 py-3 text-left font-medium text-aibeop-muted">생성된 retryJob</th>
+              <th className="px-4 py-3 text-left font-medium text-aibeop-muted">액션</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
@@ -77,7 +77,7 @@ export default async function BulkJobSchedulesPage() {
                 <td className="px-4 py-3">
                   <Link
                     href={`/admin/alerts/bulk-jobs/${schedule.sourceJobId}`}
-                    className="text-slate-700 underline"
+                    className="text-aibeop-subtle underline"
                   >
                     {schedule.sourceJobId}
                   </Link>
@@ -94,7 +94,7 @@ export default async function BulkJobSchedulesPage() {
                   {schedule.createdRetryJobId ? (
                     <Link
                       href={`/admin/alerts/bulk-jobs/${schedule.createdRetryJobId}`}
-                      className="text-slate-700 underline"
+                      className="text-aibeop-subtle underline"
                     >
                       {schedule.createdRetryJobId}
                     </Link>
@@ -105,7 +105,7 @@ export default async function BulkJobSchedulesPage() {
                 <td className="px-4 py-3">
                   <Link
                     href={`/admin/alerts/bulk-jobs/schedules/${schedule.id}`}
-                    className="text-slate-700 underline"
+                    className="text-aibeop-subtle underline"
                   >
                     관리
                   </Link>

@@ -114,8 +114,8 @@ export default async function AdminEscalationsPage({ searchParams }: PageProps) 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">에스컬레이션 이력</h1>
-        <p className="mt-1 text-sm text-slate-500">
+        <h1 className="text-2xl font-bold text-aibeop-text">에스컬레이션 이력</h1>
+        <p className="mt-1 text-sm text-aibeop-subtle">
           PENDING·SENT·CLEARED 상태와 수동 해제(정리) 이력을 확인합니다.
         </p>
       </div>
@@ -159,7 +159,7 @@ export default async function AdminEscalationsPage({ searchParams }: PageProps) 
         </button>
         <Link
           href="/admin/alerts/board"
-          className="rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium text-slate-800"
+          className="rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium text-aibeop-subtle"
         >
           보드로
         </Link>

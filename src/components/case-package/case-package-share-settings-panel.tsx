@@ -266,7 +266,7 @@ function getAccessActionClassName(action: CasePackageAccessAction): string {
       return "border-amber-200 bg-amber-50 text-amber-900";
 
     case "REVOKED":
-      return "border-slate-200 bg-slate-50 text-slate-700";
+      return "border-slate-200 bg-slate-50 text-aibeop-subtle";
   }
 }
 
@@ -596,20 +596,20 @@ export function CasePackageShareSettingsPanel({
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="text-base font-semibold text-slate-950">
+          <p className="text-base font-semibold text-aibeop-text">
             사건 패키지 공유 설정
           </p>
-          <p className="mt-1 text-sm leading-6 text-slate-600">
+          <p className="mt-1 text-sm leading-6 text-aibeop-muted">
             변호사가 검토할 수 있도록 사건 요약, 인터뷰 요약, 첨부자료 목록,
             문서 초안의 기초를 고유번호로 공유합니다.{" "}
-            <span className="font-medium text-slate-800">
+            <span className="font-medium text-aibeop-subtle">
               고유번호 발급 순간의 패키지가 스냅샷으로 고정되며, 이후 사건을
               수정해도 해당 공유 건의 열람 내용은 발급 당시 기준으로 유지됩니다.
             </span>
           </p>
         </div>
 
-        <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700">
+        <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-aibeop-subtle">
           활성 공유 {activeShares.length}건
         </span>
       </div>
@@ -632,19 +632,19 @@ export function CasePackageShareSettingsPanel({
 
           <dl className="mt-3 grid gap-3 sm:grid-cols-2">
             <div className="rounded-xl bg-white/80 p-3">
-              <dt className="text-xs font-semibold text-slate-500">
+              <dt className="text-xs font-semibold text-aibeop-subtle">
                 공유 고유번호
               </dt>
-              <dd className="mt-1 font-mono text-lg font-bold text-slate-950">
+              <dd className="mt-1 font-mono text-lg font-bold text-aibeop-text">
                 {createdShare.share.publicCode}
               </dd>
             </div>
 
             <div className="rounded-xl bg-white/80 p-3">
-              <dt className="text-xs font-semibold text-slate-500">
+              <dt className="text-xs font-semibold text-aibeop-subtle">
                 접근 토큰
               </dt>
-              <dd className="mt-1 break-all font-mono text-sm font-semibold text-slate-950">
+              <dd className="mt-1 break-all font-mono text-sm font-semibold text-aibeop-text">
                 {createdShare.plainAccessToken}
               </dd>
             </div>
@@ -659,13 +659,13 @@ export function CasePackageShareSettingsPanel({
 
       <div className="mt-5 grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
         <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-4">
-          <p className="text-sm font-semibold text-slate-900">
+          <p className="text-sm font-semibold text-aibeop-text">
             새 공유 만들기
           </p>
 
           <div className="mt-4 grid gap-4">
             <label className="grid gap-1">
-              <span className="text-xs font-semibold text-slate-600">
+              <span className="text-xs font-semibold text-aibeop-muted">
                 변호사 사용자 ID
               </span>
               <input
@@ -679,7 +679,7 @@ export function CasePackageShareSettingsPanel({
             </label>
 
             <label className="grid gap-1">
-              <span className="text-xs font-semibold text-slate-600">
+              <span className="text-xs font-semibold text-aibeop-muted">
                 선택형 접근 PIN
               </span>
               <input
@@ -693,7 +693,7 @@ export function CasePackageShareSettingsPanel({
             </label>
 
             <label className="grid gap-1">
-              <span className="text-xs font-semibold text-slate-600">
+              <span className="text-xs font-semibold text-aibeop-muted">
                 공유 만료일
               </span>
               <input
@@ -707,12 +707,12 @@ export function CasePackageShareSettingsPanel({
 
           <div className="mt-5 grid gap-4">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+              <p className="text-xs font-semibold uppercase tracking-wide text-aibeop-subtle">
                 공유 범위
               </p>
 
               <div className="mt-2 grid gap-2">
-                <label className="flex items-center gap-2 text-sm text-slate-700">
+                <label className="flex items-center gap-2 text-sm text-aibeop-subtle">
                   <input
                     type="checkbox"
                     checked={form.allowSummary}
@@ -723,7 +723,7 @@ export function CasePackageShareSettingsPanel({
                   사건 요약 열람 허용
                 </label>
 
-                <label className="flex items-center gap-2 text-sm text-slate-700">
+                <label className="flex items-center gap-2 text-sm text-aibeop-subtle">
                   <input
                     type="checkbox"
                     checked={form.allowInterview}
@@ -734,7 +734,7 @@ export function CasePackageShareSettingsPanel({
                   AI 인터뷰 요약 열람 허용
                 </label>
 
-                <label className="flex items-center gap-2 text-sm text-slate-700">
+                <label className="flex items-center gap-2 text-sm text-aibeop-subtle">
                   <input
                     type="checkbox"
                     checked={form.allowAttachmentList}
@@ -745,7 +745,7 @@ export function CasePackageShareSettingsPanel({
                   첨부자료 목록 열람 허용
                 </label>
 
-                <label className="flex items-center gap-2 text-sm text-slate-700">
+                <label className="flex items-center gap-2 text-sm text-aibeop-subtle">
                   <input
                     type="checkbox"
                     checked={form.allowDocumentDraft}
@@ -759,12 +759,12 @@ export function CasePackageShareSettingsPanel({
             </div>
 
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+              <p className="text-xs font-semibold uppercase tracking-wide text-aibeop-subtle">
                 다운로드 권한
               </p>
 
               <div className="mt-2 grid gap-2">
-                <label className="flex items-center gap-2 text-sm text-slate-700">
+                <label className="flex items-center gap-2 text-sm text-aibeop-subtle">
                   <input
                     type="checkbox"
                     checked={form.allowAttachmentDownload}
@@ -775,7 +775,7 @@ export function CasePackageShareSettingsPanel({
                   첨부파일 다운로드 허용
                 </label>
 
-                <label className="flex items-center gap-2 text-sm text-slate-700">
+                <label className="flex items-center gap-2 text-sm text-aibeop-subtle">
                   <input
                     type="checkbox"
                     checked={form.allowDocumentDownload}
@@ -786,7 +786,7 @@ export function CasePackageShareSettingsPanel({
                   문서 다운로드 허용
                 </label>
 
-                <label className="flex items-center gap-2 text-sm text-slate-700">
+                <label className="flex items-center gap-2 text-sm text-aibeop-subtle">
                   <input
                     type="checkbox"
                     checked={form.allowPackagePdf}
@@ -818,7 +818,7 @@ export function CasePackageShareSettingsPanel({
 
         <div className="rounded-2xl border border-slate-100 bg-white p-4">
           <div className="flex items-center justify-between gap-2">
-            <p className="text-sm font-semibold text-slate-900">
+            <p className="text-sm font-semibold text-aibeop-text">
               기존 공유 목록
             </p>
 
@@ -826,7 +826,7 @@ export function CasePackageShareSettingsPanel({
               type="button"
               onClick={() => void loadShares()}
               disabled={isLoading}
-              className="rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-semibold text-slate-600 disabled:opacity-50"
+              className="rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-semibold text-aibeop-muted disabled:opacity-50"
             >
               새로고침
             </button>
@@ -834,7 +834,7 @@ export function CasePackageShareSettingsPanel({
 
           <div className="mt-3 space-y-3">
             {shares.length === 0 ? (
-              <div className="rounded-xl border border-dashed border-slate-200 p-4 text-sm text-slate-500">
+              <div className="rounded-xl border border-dashed border-slate-200 p-4 text-sm text-aibeop-subtle">
                 아직 발급된 사건 패키지 공유가 없습니다.
               </div>
             ) : (
@@ -845,7 +845,7 @@ export function CasePackageShareSettingsPanel({
                 >
                   <div className="flex flex-wrap items-start justify-between gap-2">
                     <div>
-                      <p className="font-mono text-sm font-bold text-slate-950">
+                      <p className="font-mono text-sm font-bold text-aibeop-text">
                         {share.publicCode}
                       </p>
                       {share.snapshotSha256 ? (
@@ -853,7 +853,7 @@ export function CasePackageShareSettingsPanel({
                           사건파일 스냅샷 고정(공유 시점)
                         </p>
                       ) : null}
-                      <p className="mt-1 text-xs text-slate-500">
+                      <p className="mt-1 text-xs text-aibeop-subtle">
                         생성: {formatDateTime(share.createdAt)}
                       </p>
                     </div>
@@ -867,28 +867,28 @@ export function CasePackageShareSettingsPanel({
                     </span>
                   </div>
 
-                  <dl className="mt-3 grid gap-2 text-xs text-slate-600 sm:grid-cols-2">
+                  <dl className="mt-3 grid gap-2 text-xs text-aibeop-muted sm:grid-cols-2">
                     <div>
-                      <dt className="font-semibold text-slate-500">만료일</dt>
+                      <dt className="font-semibold text-aibeop-subtle">만료일</dt>
                       <dd>{formatDateTime(share.expiresAt)}</dd>
                     </div>
 
                     <div>
-                      <dt className="font-semibold text-slate-500">
+                      <dt className="font-semibold text-aibeop-subtle">
                         변호사 지정
                       </dt>
                       <dd>{share.lawyerUserId ?? "미지정"}</dd>
                     </div>
 
                     <div>
-                      <dt className="font-semibold text-slate-500">
+                      <dt className="font-semibold text-aibeop-subtle">
                         첨부 다운로드
                       </dt>
                       <dd>{share.allowAttachmentDownload ? "허용" : "불허"}</dd>
                     </div>
 
                     <div>
-                      <dt className="font-semibold text-slate-500">
+                      <dt className="font-semibold text-aibeop-subtle">
                         패키지 PDF
                       </dt>
                       <dd>{share.allowPackagePdf ? "허용" : "불허"}</dd>
@@ -898,7 +898,7 @@ export function CasePackageShareSettingsPanel({
                   {share.status === "ACTIVE" ? (
                     <div className="mt-3 grid gap-2">
                       <label className="grid gap-1">
-                        <span className="text-xs font-semibold text-slate-500">
+                        <span className="text-xs font-semibold text-aibeop-subtle">
                           공유 취소 사유
                         </span>
                         <input
@@ -926,7 +926,7 @@ export function CasePackageShareSettingsPanel({
                     <button
                       type="button"
                       onClick={() => toggleAccessLogs(share.id)}
-                      className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                      className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-aibeop-subtle hover:bg-slate-50"
                     >
                       {expandedLogShareId === share.id
                         ? "열람 로그 닫기"
@@ -936,7 +936,7 @@ export function CasePackageShareSettingsPanel({
                     {share.allowPackagePdf ? (
                       <a
                         href={`/api/cases/${caseId}/package-shares/${share.id}/package-pdf`}
-                        className="ml-2 inline-flex rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                        className="ml-2 inline-flex rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-aibeop-subtle hover:bg-slate-50"
                       >
                         사건 패키지 요약본 다운로드
                       </a>
@@ -945,7 +945,7 @@ export function CasePackageShareSettingsPanel({
                     {expandedLogShareId === share.id ? (
                       <div className="mt-3 rounded-xl border border-slate-100 bg-slate-50 p-3">
                         {loadingLogsShareId === share.id ? (
-                          <p className="text-xs text-slate-500">
+                          <p className="text-xs text-aibeop-subtle">
                             로그를 불러오는 중입니다.
                           </p>
                         ) : accessLogsByShareId[share.id]?.length ? (
@@ -962,14 +962,14 @@ export function CasePackageShareSettingsPanel({
                                     {getAccessActionLabel(log.action)}
                                   </span>
 
-                                  <span className="text-xs text-slate-500">
+                                  <span className="text-xs text-aibeop-subtle">
                                     {formatDateTime(log.createdAt)}
                                   </span>
                                 </div>
 
-                                <dl className="mt-2 grid gap-1 text-xs text-slate-600">
+                                <dl className="mt-2 grid gap-1 text-xs text-aibeop-muted">
                                   <div>
-                                    <dt className="font-semibold text-slate-500">
+                                    <dt className="font-semibold text-aibeop-subtle">
                                       대상
                                     </dt>
                                     <dd>
@@ -979,7 +979,7 @@ export function CasePackageShareSettingsPanel({
                                   </div>
 
                                   <div>
-                                    <dt className="font-semibold text-slate-500">
+                                    <dt className="font-semibold text-aibeop-subtle">
                                       행위자
                                     </dt>
                                     <dd>
@@ -991,7 +991,7 @@ export function CasePackageShareSettingsPanel({
                                   </div>
 
                                   <div>
-                                    <dt className="font-semibold text-slate-500">
+                                    <dt className="font-semibold text-aibeop-subtle">
                                       결과
                                     </dt>
                                     <dd>{log.resultMessage ?? "-"}</dd>
@@ -1001,7 +1001,7 @@ export function CasePackageShareSettingsPanel({
                             ))}
                           </div>
                         ) : (
-                          <p className="text-xs text-slate-500">
+                          <p className="text-xs text-aibeop-subtle">
                             아직 열람 또는 다운로드 기록이 없습니다.
                           </p>
                         )}

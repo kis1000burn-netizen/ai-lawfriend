@@ -52,7 +52,7 @@ const BLOCK_REASON_LABELS: Record<VoiceReviewBlockReason, string> = {
 function statusBadge(status: LawyerVoiceReviewSnapshot["transcriptStatus"]) {
   switch (status) {
     case "NONE":
-      return { label: "음성 답변 없음", className: "bg-neutral-100 text-neutral-700" };
+      return { label: "음성 답변 없음", className: "bg-neutral-100 text-aibeop-subtle" };
     case "DRAFT":
       return { label: "사용자 확인 전", className: "bg-amber-100 text-amber-900" };
     case "CONFIRMED":
@@ -173,12 +173,12 @@ function VoiceReviewQuestionCard({
         data-question-key={item.questionKey}
       >
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <h3 className="text-sm font-semibold text-neutral-800">{item.questionLabel}</h3>
+          <h3 className="text-sm font-semibold text-aibeop-subtle">{item.questionLabel}</h3>
           <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${badge.className}`}>
             {badge.label}
           </span>
         </div>
-        <p className="mt-2 text-sm text-neutral-600">이 질문에는 음성 transcript가 없습니다.</p>
+        <p className="mt-2 text-sm text-aibeop-muted">이 질문에는 음성 transcript가 없습니다.</p>
       </article>
     );
   }
@@ -190,7 +190,7 @@ function VoiceReviewQuestionCard({
       data-voice-review-block-reason={blockReason ?? "none"}
     >
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h3 className="text-sm font-semibold text-neutral-900">{item.questionLabel}</h3>
+        <h3 className="text-sm font-semibold text-aibeop-text">{item.questionLabel}</h3>
         <div className="flex flex-wrap items-center gap-2">
           <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${badge.className}`}>
             {badge.label}
@@ -205,8 +205,8 @@ function VoiceReviewQuestionCard({
 
       <div className="mt-4 grid gap-3 md:grid-cols-3">
         <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-3">
-          <p className="text-xs font-semibold uppercase tracking-wide text-neutral-500">STT draft</p>
-          <p className="mt-2 whitespace-pre-wrap text-sm text-neutral-800">
+          <p className="text-xs font-semibold uppercase tracking-wide text-aibeop-subtle">STT draft</p>
+          <p className="mt-2 whitespace-pre-wrap text-sm text-aibeop-subtle">
             {normalizeVoiceReviewText(item.sttDraftText) || "—"}
           </p>
         </div>
@@ -214,15 +214,15 @@ function VoiceReviewQuestionCard({
           <p className="text-xs font-semibold uppercase tracking-wide text-emerald-800">
             confirmed transcript
           </p>
-          <p className="mt-2 whitespace-pre-wrap text-sm text-neutral-900">
+          <p className="mt-2 whitespace-pre-wrap text-sm text-aibeop-text">
             {confirmedText || "—"}
           </p>
         </div>
         <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+          <p className="text-xs font-semibold uppercase tracking-wide text-aibeop-muted">
             Interview answer
           </p>
-          <p className="mt-2 whitespace-pre-wrap text-sm text-neutral-900">
+          <p className="mt-2 whitespace-pre-wrap text-sm text-aibeop-text">
             {interviewAnswerText || "—"}
           </p>
         </div>
@@ -235,7 +235,7 @@ function VoiceReviewQuestionCard({
       ) : null}
 
       <div className="mt-4 flex flex-wrap items-center gap-3">
-        <label className="flex items-center gap-2 text-sm text-neutral-800">
+        <label className="flex items-center gap-2 text-sm text-aibeop-subtle">
           <input
             type="checkbox"
             checked={localReviewed}
@@ -249,7 +249,7 @@ function VoiceReviewQuestionCard({
           type="button"
           disabled={readOnly || creatingSupplement || item.transcriptStatus !== "CONFIRMED"}
           onClick={() => requestSupplementQuestion()}
-          className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm text-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm text-aibeop-subtle disabled:cursor-not-allowed disabled:opacity-50"
           data-voice-supplement-trigger="phase5h-ui-4-voice-lawyer-review-supplement"
         >
           {creatingSupplement ? "보완 질문 생성 중…" : "보완 질문"}

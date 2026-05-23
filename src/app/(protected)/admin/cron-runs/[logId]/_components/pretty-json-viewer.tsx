@@ -66,9 +66,9 @@ function JsonNode({
     return (
       <div className="py-1" style={{ paddingLeft: level * 16 }}>
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-xs font-medium text-slate-500">{name}</span>
+          <span className="text-xs font-medium text-aibeop-subtle">{name}</span>
           <PrimitiveBadge value={value as string | number | boolean | null} />
-          <span className="break-all text-sm text-slate-800">
+          <span className="break-all text-sm text-aibeop-subtle">
             {formatPrimitive(value as string | number | boolean | null)}
           </span>
         </div>
@@ -87,9 +87,9 @@ function JsonNode({
         onClick={() => setExpanded((prev) => !prev)}
         className="flex flex-wrap items-center gap-2 text-left"
       >
-        <span className="text-xs text-slate-400">{expanded ? "▼" : "▶"}</span>
-        <span className="text-xs font-semibold text-slate-600">{name}</span>
-        <span className="rounded-full bg-slate-200 px-2 py-0.5 text-[10px] text-slate-700">
+        <span className="text-xs text-aibeop-faint">{expanded ? "▼" : "▶"}</span>
+        <span className="text-xs font-semibold text-aibeop-muted">{name}</span>
+        <span className="rounded-full bg-slate-200 px-2 py-0.5 text-[10px] text-aibeop-subtle">
           {isArray ? `array(${entries.length})` : `object(${entries.length})`}
         </span>
       </button>
@@ -97,7 +97,7 @@ function JsonNode({
       {expanded && (
         <div className="mt-1">
           {entries.length === 0 ? (
-            <div className="py-1 pl-5 text-xs text-slate-400">비어 있음</div>
+            <div className="py-1 pl-5 text-xs text-aibeop-faint">비어 있음</div>
           ) : (
             entries.map(([childName, childValue]) => (
               <JsonNode
@@ -130,7 +130,7 @@ function PrimitiveBadge({
           : "boolean";
 
   return (
-    <span className="rounded-full border border-slate-200 bg-white px-2 py-0.5 text-[10px] text-slate-600">
+    <span className="rounded-full border border-slate-200 bg-white px-2 py-0.5 text-[10px] text-aibeop-muted">
       {label}
     </span>
   );

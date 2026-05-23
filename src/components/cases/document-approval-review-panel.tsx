@@ -48,7 +48,7 @@ export default function DocumentApprovalReviewPanel({ summary }: Props) {
       <div className="grid gap-3 md:grid-cols-2">
         {checklist.map((item) => (
           <div key={item.label} className="rounded-xl border bg-neutral-50 p-3">
-            <div className="text-xs text-neutral-500">{item.label}</div>
+            <div className="text-xs text-aibeop-subtle">{item.label}</div>
             <div className="mt-1 font-medium">{item.value}</div>
           </div>
         ))}
@@ -56,7 +56,7 @@ export default function DocumentApprovalReviewPanel({ summary }: Props) {
 
       <div className="mt-4 rounded-xl border border-dashed bg-neutral-50 p-4">
         <h4 className="mb-2 text-sm font-medium">승인 전 체크리스트</h4>
-        <ul className="space-y-2 text-sm text-neutral-700">
+        <ul className="space-y-2 text-sm text-aibeop-subtle">
           <li>• 최종 포함 문단이 실제 제출 문서 목적과 일치하는지 확인</li>
           <li>• 최근 AI 재생성된 문단의 diff를 검토했는지 확인</li>
           <li>• 사람이 수정한 핵심 문단은 잠금 처리 여부를 확인</li>

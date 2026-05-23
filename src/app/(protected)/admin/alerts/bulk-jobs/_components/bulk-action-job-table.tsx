@@ -36,9 +36,9 @@ function getStatusBadgeClass(status: string) {
     case "RUNNING":
       return "bg-blue-100 text-blue-700";
     case "CANCELED":
-      return "bg-slate-200 text-slate-700";
+      return "bg-slate-200 text-aibeop-subtle";
     default:
-      return "bg-slate-100 text-slate-600";
+      return "bg-slate-100 text-aibeop-muted";
   }
 }
 
@@ -62,17 +62,17 @@ export function BulkActionJobTable({
       <table className="min-w-full text-sm">
         <thead className="border-b border-slate-200 bg-slate-50">
           <tr>
-            <th className="w-10 px-2 py-3 text-left text-slate-600">
+            <th className="w-10 px-2 py-3 text-left text-aibeop-muted">
               <span className="sr-only">선택</span>
             </th>
-            <th className="px-4 py-3 text-left text-slate-600">Job ID</th>
-            <th className="px-4 py-3 text-left text-slate-600">액션</th>
-            <th className="px-4 py-3 text-left text-slate-600">상태</th>
-            <th className="px-4 py-3 text-left text-slate-600">실행자</th>
-            <th className="px-4 py-3 text-left text-slate-600">생성</th>
-            <th className="px-4 py-3 text-left text-slate-600">재시도 원본</th>
-            <th className="px-4 py-3 text-left text-slate-600">예약 재시도</th>
-            <th className="px-4 py-3 text-right text-slate-600">액션</th>
+            <th className="px-4 py-3 text-left text-aibeop-muted">Job ID</th>
+            <th className="px-4 py-3 text-left text-aibeop-muted">액션</th>
+            <th className="px-4 py-3 text-left text-aibeop-muted">상태</th>
+            <th className="px-4 py-3 text-left text-aibeop-muted">실행자</th>
+            <th className="px-4 py-3 text-left text-aibeop-muted">생성</th>
+            <th className="px-4 py-3 text-left text-aibeop-muted">재시도 원본</th>
+            <th className="px-4 py-3 text-left text-aibeop-muted">예약 재시도</th>
+            <th className="px-4 py-3 text-right text-aibeop-muted">액션</th>
           </tr>
         </thead>
         <tbody>
@@ -86,10 +86,10 @@ export function BulkActionJobTable({
                   aria-label={`${row.id} 선택`}
                 />
               </td>
-              <td className="max-w-[140px] truncate px-4 py-3 font-mono text-xs text-slate-700" title={row.id}>
+              <td className="max-w-[140px] truncate px-4 py-3 font-mono text-xs text-aibeop-subtle" title={row.id}>
                 {row.id}
               </td>
-              <td className="px-4 py-3 text-slate-700">{row.action}</td>
+              <td className="px-4 py-3 text-aibeop-subtle">{row.action}</td>
               <td className="px-4 py-3">
                 <span
                   className={`rounded-full px-2 py-1 text-xs ${getStatusBadgeClass(row.status)}`}
@@ -97,16 +97,16 @@ export function BulkActionJobTable({
                   {row.status}
                 </span>
               </td>
-              <td className="px-4 py-3 text-slate-600">
+              <td className="px-4 py-3 text-aibeop-muted">
                 {row.actor?.name || row.actor?.email || "-"}
               </td>
-              <td className="px-4 py-3 text-slate-600">
+              <td className="px-4 py-3 text-aibeop-muted">
                 {new Date(row.createdAt).toLocaleString("ko-KR")}
               </td>
-              <td className="max-w-[120px] truncate px-4 py-3 font-mono text-xs text-slate-500" title={row.retryOfJobId ?? ""}>
+              <td className="max-w-[120px] truncate px-4 py-3 font-mono text-xs text-aibeop-subtle" title={row.retryOfJobId ?? ""}>
                 {row.retryOfJobId ?? "-"}
               </td>
-              <td className="max-w-[140px] truncate px-4 py-3 text-xs text-slate-600">
+              <td className="max-w-[140px] truncate px-4 py-3 text-xs text-aibeop-muted">
                 {row.retryScheduledAt
                   ? new Date(row.retryScheduledAt).toLocaleString("ko-KR")
                   : "-"}
@@ -115,7 +115,7 @@ export function BulkActionJobTable({
                 <div className="flex flex-wrap justify-end gap-2">
                   <Link
                     href={`/admin/alerts/bulk-jobs/${row.id}`}
-                    className="rounded-lg border border-slate-300 px-3 py-1.5 text-xs text-slate-700 hover:bg-slate-50"
+                    className="rounded-lg border border-slate-300 px-3 py-1.5 text-xs text-aibeop-subtle hover:bg-slate-50"
                   >
                     상세
                   </Link>
@@ -124,7 +124,7 @@ export function BulkActionJobTable({
                     <button
                       type="button"
                       onClick={() => onRetry(row.id)}
-                      className="rounded-lg border border-slate-300 px-3 py-1.5 text-xs text-slate-700 hover:bg-slate-50"
+                      className="rounded-lg border border-slate-300 px-3 py-1.5 text-xs text-aibeop-subtle hover:bg-slate-50"
                     >
                       재시도
                     </button>
@@ -134,7 +134,7 @@ export function BulkActionJobTable({
                     <button
                       type="button"
                       onClick={() => onCancel(row.id)}
-                      className="rounded-lg border border-slate-300 px-3 py-1.5 text-xs text-slate-700 hover:bg-slate-50"
+                      className="rounded-lg border border-slate-300 px-3 py-1.5 text-xs text-aibeop-subtle hover:bg-slate-50"
                     >
                       취소
                     </button>

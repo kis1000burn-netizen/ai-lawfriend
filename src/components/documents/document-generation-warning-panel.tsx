@@ -61,18 +61,18 @@ export function DocumentGenerationWarningPanel({
                   WARNING
                 </span>
 
-                <p className="text-sm font-semibold text-slate-950">{field.label}</p>
+                <p className="text-sm font-semibold text-aibeop-text">{field.label}</p>
 
-                <code className="rounded bg-slate-100 px-1.5 py-0.5 text-xs text-slate-600">
+                <code className="rounded bg-slate-100 px-1.5 py-0.5 text-xs text-aibeop-muted">
                   {field.fieldKey}
                 </code>
               </div>
 
               {field.suggestedQuestions && field.suggestedQuestions.length > 0 ? (
                 <div className="mt-3">
-                  <p className="text-xs font-semibold text-slate-600">보완 질문</p>
+                  <p className="text-xs font-semibold text-aibeop-muted">보완 질문</p>
 
-                  <ul className="mt-1 list-disc space-y-1 pl-5 text-sm text-slate-700">
+                  <ul className="mt-1 list-disc space-y-1 pl-5 text-sm text-aibeop-subtle">
                     {field.suggestedQuestions.map((question) => (
                       <li key={question}>{question}</li>
                     ))}

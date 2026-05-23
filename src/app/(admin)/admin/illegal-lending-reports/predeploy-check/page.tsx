@@ -27,7 +27,7 @@ export default async function IllegalLendingPredeployCheckPage() {
             불법사금융 피해 신고서 모듈 배포 전 운영 점검
           </h1>
 
-          <p className="mt-3 text-sm leading-7 text-slate-300">
+          <p className="mt-3 text-sm leading-7 text-aibeop-disabled">
             운영 배포 전 스토리지 버킷 권한, PDF 한글 폰트, 변호사 자동배정
             후보군을 확인합니다. 아래 API를 관리자 로그인 상태에서 호출해 결과를
             확인하세요.

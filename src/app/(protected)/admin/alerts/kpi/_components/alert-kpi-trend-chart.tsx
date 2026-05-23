@@ -40,8 +40,8 @@ export function AlertKpiTrendChart({
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-4">
       <div className="mb-4">
-        <h3 className="text-sm font-semibold text-slate-800">경고 KPI 추이</h3>
-        <p className="mt-1 text-xs text-slate-500">
+        <h3 className="text-sm font-semibold text-aibeop-subtle">경고 KPI 추이</h3>
+        <p className="mt-1 text-xs text-aibeop-subtle">
           기간별 생성, 해결, 에스컬레이션, 고위험 건수 추이입니다.
         </p>
       </div>

@@ -82,7 +82,7 @@ export function BulkActionJobListClient({
   return (
     <div className="space-y-4">
       {loading && (
-        <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-500">
+        <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-aibeop-subtle">
           처리 중입니다...
         </div>
       )}
@@ -104,7 +104,7 @@ export function BulkActionJobListClient({
       />
 
       <div className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-3">
-        <div className="text-sm text-slate-500">
+        <div className="text-sm text-aibeop-subtle">
           페이지 {page} / {totalPages}
         </div>
 
@@ -113,7 +113,7 @@ export function BulkActionJobListClient({
             type="button"
             disabled={page <= 1}
             onClick={() => movePage(page - 1)}
-            className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm text-slate-700 disabled:opacity-50"
+            className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm text-aibeop-subtle disabled:opacity-50"
           >
             이전
           </button>
@@ -121,7 +121,7 @@ export function BulkActionJobListClient({
             type="button"
             disabled={page >= totalPages}
             onClick={() => movePage(page + 1)}
-            className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm text-slate-700 disabled:opacity-50"
+            className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm text-aibeop-subtle disabled:opacity-50"
           >
             다음
           </button>

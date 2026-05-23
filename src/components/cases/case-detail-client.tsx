@@ -401,13 +401,13 @@ export function CaseDetailClient({
       {showReviewPendingClientGuide ? (
         <section
           id="case-detail-review-client-banner"
-          className="scroll-mt-24 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-relaxed text-slate-800"
+          className="scroll-mt-24 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-relaxed text-aibeop-subtle"
           aria-label={`${CASE_STATUS_LABELS.REVIEW_PENDING} 의뢰인 안내`}
         >
-          <p className="mb-2 text-xs text-slate-600">
+          <p className="mb-2 text-xs text-aibeop-muted">
             <Link
               href={caseDetailHubReturnHref(localCase.id, "REVIEW_PENDING")}
-              className="font-medium text-slate-800 underline"
+              className="font-medium text-aibeop-subtle underline"
               title="문서 목록·타임라인 근처로 스크롤"
             >
               사건 상세로 돌아가기
@@ -532,7 +532,7 @@ export function CaseDetailClient({
 
             <div className="space-y-2">
               {localCase.documents.length === 0 ? (
-                <div className="rounded-xl border border-dashed p-4 text-sm text-gray-500">
+                <div className="rounded-xl border border-dashed p-4 text-sm text-aibeop-subtle">
                   생성된 문서가 없습니다.
                 </div>
               ) : (
@@ -550,7 +550,7 @@ export function CaseDetailClient({
                       }`}
                     >
                       <div className="text-sm font-semibold">{doc.title}</div>
-                      <div className="mt-1 text-xs text-gray-500">
+                      <div className="mt-1 text-xs text-aibeop-subtle">
                         {doc.type} ·{" "}
                         {DOCUMENT_STATUS_LABELS[doc.status as keyof typeof DOCUMENT_STATUS_LABELS] ??
                           doc.status}
@@ -581,7 +581,7 @@ export function CaseDetailClient({
               <div className="rounded-2xl border bg-white p-5 shadow-sm">
                 <div className="mb-4">
                   <h3 className="text-base font-semibold">문서 본문 미리보기</h3>
-                  <p className="mt-1 text-sm text-gray-500">
+                  <p className="mt-1 text-sm text-aibeop-subtle">
                     선택된 문단 구조를 기준으로 현재 문서 내용을 확인합니다.
                   </p>
                 </div>
@@ -591,11 +591,11 @@ export function CaseDetailClient({
                     <div key={p.id} className="rounded-xl border border-gray-200 p-4">
                       <div className="mb-2 flex items-center justify-between">
                         <div className="text-sm font-semibold">{p.title}</div>
-                        <span className="rounded-full bg-gray-100 px-2 py-1 text-xs text-gray-600">
+                        <span className="rounded-full bg-gray-100 px-2 py-1 text-xs text-aibeop-muted">
                           {p.status}
                         </span>
                       </div>
-                      <pre className="whitespace-pre-wrap text-sm leading-6 text-gray-800">
+                      <pre className="whitespace-pre-wrap text-sm leading-6 text-aibeop-subtle">
                         {p.content || "내용 없음"}
                       </pre>
                     </div>
@@ -604,7 +604,7 @@ export function CaseDetailClient({
               </div>
             </>
           ) : (
-            <div className="rounded-2xl border border-dashed bg-white p-10 text-center text-sm text-gray-500 shadow-sm">
+            <div className="rounded-2xl border border-dashed bg-white p-10 text-center text-sm text-aibeop-subtle shadow-sm">
               문서를 선택해 주세요.
             </div>
           )}
@@ -618,7 +618,7 @@ export function CaseDetailClient({
               onRefresh={refreshCase}
             />
           ) : (
-            <div className="rounded-2xl border border-dashed bg-white p-10 text-center text-sm text-gray-500 shadow-sm">
+            <div className="rounded-2xl border border-dashed bg-white p-10 text-center text-sm text-aibeop-subtle shadow-sm">
               문단 구조 패널은 문서 선택 후 표시됩니다.
             </div>
           )}

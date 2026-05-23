@@ -30,8 +30,8 @@ export default async function AdminCronPage() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Cron 실행 로그</h1>
-          <p className="mt-1 text-sm text-slate-500">
+          <h1 className="text-2xl font-bold text-aibeop-text">Cron 실행 로그</h1>
+          <p className="mt-1 text-sm text-aibeop-subtle">
             SLA / 에스컬레이션 스캔 실행 기록과 실패 원인을 확인합니다.
           </p>
         </div>

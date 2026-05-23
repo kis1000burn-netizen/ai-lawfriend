@@ -44,7 +44,7 @@ export function CaseAlertSummaryBanner({ caseId }: Props) {
 
   if (loading) {
     return (
-      <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-500 shadow-sm">
+      <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm text-aibeop-subtle shadow-sm">
         사건 경고 요약을 불러오는 중...
       </div>
     );

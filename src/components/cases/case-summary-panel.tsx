@@ -38,8 +38,8 @@ type Props = {
 function SummaryBlock({ title, body }: { title: string; body: string }) {
   return (
     <div className="rounded-xl border border-slate-100 bg-slate-50/50 p-4">
-      <div className="text-xs font-semibold text-slate-500">{title}</div>
-      <p className="mt-2 whitespace-pre-wrap text-slate-800">{body}</p>
+      <div className="text-xs font-semibold text-aibeop-subtle">{title}</div>
+      <p className="mt-2 whitespace-pre-wrap text-aibeop-subtle">{body}</p>
     </div>
   );
 }
@@ -48,8 +48,8 @@ function SummaryList({ title, items }: { title: string; items: string[] }) {
   if (!items.length) return null;
   return (
     <div className="rounded-xl border border-slate-100 bg-slate-50/50 p-4">
-      <div className="text-xs font-semibold text-slate-500">{title}</div>
-      <ul className="mt-2 list-inside list-disc space-y-1 text-slate-800">
+      <div className="text-xs font-semibold text-aibeop-subtle">{title}</div>
+      <ul className="mt-2 list-inside list-disc space-y-1 text-aibeop-subtle">
         {items.map((item, i) => (
           <li key={`${title}-${i}`}>{item}</li>
         ))}
@@ -92,8 +92,8 @@ export function CaseSummaryPanel({ caseId, interviewCompleted }: Props) {
     <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h2 className="text-lg font-semibold text-slate-900">사건 요약 (인터뷰 기반)</h2>
-          <p className="mt-1 text-sm text-slate-600">
+          <h2 className="text-lg font-semibold text-aibeop-text">사건 요약 (인터뷰 기반)</h2>
+          <p className="mt-1 text-sm text-aibeop-muted">
             {interviewCompleted
               ? "인터뷰 완료 후 답변을 바탕으로 한 1차 요약입니다. 참고용이며 최종 법률 판단을 대체하지 않습니다."
               : "인터뷰 완료 전에는 답변을 기준으로 한 미리보기입니다. 완료 후 동일 API로 정식 1차 요약 흐름에 맞게 활용할 수 있습니다."}
@@ -102,7 +102,7 @@ export function CaseSummaryPanel({ caseId, interviewCompleted }: Props) {
         <div className="flex flex-wrap gap-2">
           <Link
             href={`/cases/${caseId}/interview`}
-            className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+            className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-medium text-aibeop-subtle hover:bg-slate-50"
           >
             인터뷰 화면
           </Link>
@@ -125,7 +125,7 @@ export function CaseSummaryPanel({ caseId, interviewCompleted }: Props) {
 
       {summary ? (
         <div className="mt-4 space-y-4 text-sm">
-          <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-slate-500">
+          <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-aibeop-subtle">
             <span>생성 시각: {new Date(summary.generatedAt).toLocaleString("ko-KR")}</span>
             <span>
               · 생성 시점 사건 상태:{" "}
@@ -173,7 +173,7 @@ export function CaseSummaryPanel({ caseId, interviewCompleted }: Props) {
           </div>
         </div>
       ) : !error ? (
-        <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50/60 p-4 text-sm text-slate-600">
+        <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50/60 p-4 text-sm text-aibeop-muted">
           {interviewCompleted
             ? "위 버튼으로 인터뷰 답변을 바탕으로 한 1차 요약을 불러옵니다."
             : "답변이 없으면 항목이 비어 있을 수 있습니다. 미리보기로 형식을 확인할 수 있습니다."}

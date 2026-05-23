@@ -11,19 +11,19 @@ type Props = {
 
 export function ClientRecentCasesPreview({ items = [] }: Props) {
   return (
-    <section className="rounded-3xl border border-white/10 bg-white/[0.04] p-5">
+    <section className="rounded-3xl border border-aibeop-line bg-aibeop-card p-5 shadow-soft ring-1 ring-aibeop-line/70">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-sm font-semibold text-cyan-200">Recent Cases</p>
-          <h3 className="mt-1 text-xl font-bold text-white">최근 사건</h3>
-          <p className="mt-2 text-sm leading-6 text-slate-400">
+          <p className="text-sm font-bold text-aibeop-deep">Recent Cases</p>
+          <h3 className="mt-1 text-xl font-black text-aibeop-text">최근 사건</h3>
+          <p className="mt-2 text-sm font-semibold leading-6 text-aibeop-text">
             최근 정리한 사건과 진행 상태를 확인합니다.
           </p>
         </div>
 
         <Link
           href="/cases"
-          className="text-sm font-semibold text-cyan-200 hover:text-cyan-100"
+          className="text-sm font-bold text-aibeop-deep underline hover:text-aibeop-green"
         >
           전체 사건 보기 →
         </Link>

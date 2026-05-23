@@ -131,22 +131,22 @@ export function LawyerCasePackageLookupClient() {
   return (
     <main className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-4 py-8">
       <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-        <p className="text-sm font-semibold text-slate-500">
+        <p className="text-sm font-semibold text-aibeop-subtle">
           AI법친 변호사 열람
         </p>
 
-        <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-950">
+        <h1 className="mt-2 text-2xl font-bold tracking-tight text-aibeop-text">
           사건 패키지 고유번호 조회
         </h1>
 
-        <p className="mt-3 text-sm leading-6 text-slate-600">
+        <p className="mt-3 text-sm leading-6 text-aibeop-muted">
           의뢰인이 전달한 사건 패키지 고유번호를 입력하면, 허용된 범위 내에서
           사건 요약과 첨부자료 목록, 문서 초안의 기초를 확인할 수 있습니다.
         </p>
 
         <div className="mt-6 grid gap-4">
           <label className="grid gap-1">
-            <span className="text-xs font-semibold text-slate-600">
+            <span className="text-xs font-semibold text-aibeop-muted">
               사건 패키지 고유번호
             </span>
             <input
@@ -158,7 +158,7 @@ export function LawyerCasePackageLookupClient() {
           </label>
 
           <label className="grid gap-1">
-            <span className="text-xs font-semibold text-slate-600">
+            <span className="text-xs font-semibold text-aibeop-muted">
               접근 PIN
             </span>
             <input

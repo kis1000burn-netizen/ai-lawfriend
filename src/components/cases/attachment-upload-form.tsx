@@ -106,7 +106,7 @@ export default function AttachmentUploadForm({ caseId }: Props) {
   return (
     <form onSubmit={onSubmit} className="space-y-3">
       <div>
-        <label className="mb-1 block text-xs font-medium text-slate-600">
+        <label className="mb-1 block text-xs font-medium text-aibeop-muted">
           자료 분류
         </label>
         <select
@@ -150,7 +150,7 @@ export default function AttachmentUploadForm({ caseId }: Props) {
               style={{ width: `${progress}%` }}
             />
           </div>
-          <p className="text-xs text-slate-500">업로드 진행률: {progress}%</p>
+          <p className="text-xs text-aibeop-subtle">업로드 진행률: {progress}%</p>
         </div>
       ) : null}
 

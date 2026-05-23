@@ -34,8 +34,8 @@ export function CmbOperationsStudioDashboardView({ dashboard }: Readonly<Props>)
     <div className="space-y-8" data-testid="cmb-operations-studio-dashboard">
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">전체 revision</p>
-          <p className="mt-2 text-2xl font-semibold text-slate-900" data-testid="cmb-ops-total-revisions">
+          <p className="text-xs font-semibold uppercase tracking-wide text-aibeop-subtle">전체 revision</p>
+          <p className="mt-2 text-2xl font-semibold text-aibeop-text" data-testid="cmb-ops-total-revisions">
             {revisionBacklog.total}
           </p>
         </div>
@@ -56,7 +56,7 @@ export function CmbOperationsStudioDashboardView({ dashboard }: Readonly<Props>)
       </section>
 
       <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="text-sm font-semibold text-slate-900">Status queue</h2>
+        <h2 className="text-sm font-semibold text-aibeop-text">Status queue</h2>
         <dl className="mt-4 grid gap-4 sm:grid-cols-5">
           {(
             [
@@ -68,7 +68,7 @@ export function CmbOperationsStudioDashboardView({ dashboard }: Readonly<Props>)
             ] as const
           ).map(([label, count]) => (
             <div key={label}>
-              <dt className="font-mono text-xs text-slate-500">{label}</dt>
+              <dt className="font-mono text-xs text-aibeop-subtle">{label}</dt>
               <dd className="text-lg font-semibold">{count}</dd>
             </div>
           ))}
@@ -76,26 +76,26 @@ export function CmbOperationsStudioDashboardView({ dashboard }: Readonly<Props>)
       </section>
 
       <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="text-sm font-semibold text-slate-900">Publish/Lock 전이 funnel</h2>
+        <h2 className="text-sm font-semibold text-aibeop-text">Publish/Lock 전이 funnel</h2>
         <dl className="mt-4 grid gap-4 sm:grid-cols-3">
           <div>
-            <dt className="text-xs text-slate-500">→ VERIFY_PASS+</dt>
+            <dt className="text-xs text-aibeop-subtle">→ VERIFY_PASS+</dt>
             <dd className="text-lg font-semibold">{pct(transitionFunnel.rates.toVerifyPassPct)}</dd>
-            <dd className="text-xs text-slate-600">
+            <dd className="text-xs text-aibeop-muted">
               {transitionFunnel.reachedVerifyPass} / {transitionFunnel.totalRevisions}
             </dd>
           </div>
           <div>
-            <dt className="text-xs text-slate-500">→ LOCKED+</dt>
+            <dt className="text-xs text-aibeop-subtle">→ LOCKED+</dt>
             <dd className="text-lg font-semibold">{pct(transitionFunnel.rates.toLockedPct)}</dd>
-            <dd className="text-xs text-slate-600">
+            <dd className="text-xs text-aibeop-muted">
               {transitionFunnel.reachedLocked} / {transitionFunnel.totalRevisions}
             </dd>
           </div>
           <div>
-            <dt className="text-xs text-slate-500">→ PUBLISHED</dt>
+            <dt className="text-xs text-aibeop-subtle">→ PUBLISHED</dt>
             <dd className="text-lg font-semibold">{pct(transitionFunnel.rates.toPublishedPct)}</dd>
-            <dd className="text-xs text-slate-600">
+            <dd className="text-xs text-aibeop-muted">
               {transitionFunnel.reachedPublished} / {transitionFunnel.totalRevisions}
             </dd>
           </div>
@@ -103,14 +103,14 @@ export function CmbOperationsStudioDashboardView({ dashboard }: Readonly<Props>)
       </section>
 
       <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="text-sm font-semibold text-slate-900">caseType 커버리지</h2>
-        <p className="mt-1 text-xs text-slate-600">
+        <h2 className="text-sm font-semibold text-aibeop-text">caseType 커버리지</h2>
+        <p className="mt-1 text-xs text-aibeop-muted">
           registry {coverageSummary.registeredCaseTypes}종 · PUBLISHED {coverageSummary.withPublishedRevision} ·
           gap {coverageSummary.withoutPublishedRevision} · 검증 실패 {coverageSummary.withValidationFailure}
         </p>
         <div className="mt-4 overflow-x-auto">
           <table className="min-w-[720px] w-full border-collapse text-left text-sm">
-            <thead className="bg-slate-100 text-xs font-semibold uppercase tracking-wide text-slate-600">
+            <thead className="bg-slate-100 text-xs font-semibold uppercase tracking-wide text-aibeop-muted">
               <tr>
                 <th className="border-b border-slate-200 px-3 py-3">caseType</th>
                 <th className="border-b border-slate-200 px-3 py-3">revisions</th>
@@ -141,7 +141,7 @@ export function CmbOperationsStudioDashboardView({ dashboard }: Readonly<Props>)
                   <td className="px-3 py-2 text-right">
                     <Link
                       href={`/admin/cmb/case-types/${row.caseType}`}
-                      className="text-xs font-medium text-slate-700 underline"
+                      className="text-xs font-medium text-aibeop-subtle underline"
                     >
                       Preview
                     </Link>
@@ -155,11 +155,11 @@ export function CmbOperationsStudioDashboardView({ dashboard }: Readonly<Props>)
 
       {dashboard.publishEventsRecent.length > 0 ? (
         <section className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
-          <h2 className="border-b border-slate-200 px-4 py-3 text-sm font-semibold text-slate-900">
+          <h2 className="border-b border-slate-200 px-4 py-3 text-sm font-semibold text-aibeop-text">
             최근 Publish events
           </h2>
           <table className="min-w-[880px] w-full border-collapse text-left text-sm">
-            <thead className="bg-slate-100 text-xs font-semibold uppercase tracking-wide text-slate-600">
+            <thead className="bg-slate-100 text-xs font-semibold uppercase tracking-wide text-aibeop-muted">
               <tr>
                 <th className="border-b border-slate-200 px-3 py-3">시각</th>
                 <th className="border-b border-slate-200 px-3 py-3">caseType</th>
@@ -171,7 +171,7 @@ export function CmbOperationsStudioDashboardView({ dashboard }: Readonly<Props>)
             <tbody>
               {dashboard.publishEventsRecent.map((ev) => (
                 <tr key={ev.id} className="border-b border-slate-100 last:border-b-0">
-                  <td className="px-3 py-2 whitespace-nowrap text-xs text-slate-600">
+                  <td className="px-3 py-2 whitespace-nowrap text-xs text-aibeop-muted">
                     {new Date(ev.createdAt).toLocaleString("ko-KR")}
                   </td>
                   <td className="px-3 py-2 font-mono text-xs">
@@ -191,7 +191,7 @@ export function CmbOperationsStudioDashboardView({ dashboard }: Readonly<Props>)
         </section>
       ) : null}
 
-      <p className="text-xs text-slate-500">
+      <p className="text-xs text-aibeop-subtle">
         생성: {new Date(dashboard.generatedAt).toLocaleString("ko-KR")} · configJson 미노출
       </p>
     </div>

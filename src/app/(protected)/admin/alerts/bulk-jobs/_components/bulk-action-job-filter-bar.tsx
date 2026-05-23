@@ -40,7 +40,7 @@ export function BulkActionJobFilterBar() {
     <div className="rounded-2xl border border-slate-200 bg-white p-4">
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
         <div>
-          <label className="mb-1 block text-xs text-slate-500">상태</label>
+          <label className="mb-1 block text-xs text-aibeop-subtle">상태</label>
           <select
             className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
             value={status}
@@ -57,7 +57,7 @@ export function BulkActionJobFilterBar() {
         </div>
 
         <div>
-          <label className="mb-1 block text-xs text-slate-500">액션</label>
+          <label className="mb-1 block text-xs text-aibeop-subtle">액션</label>
           <select
             className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
             value={action}
@@ -72,7 +72,7 @@ export function BulkActionJobFilterBar() {
         </div>
 
         <div>
-          <label className="mb-1 block text-xs text-slate-500">우선순위</label>
+          <label className="mb-1 block text-xs text-aibeop-subtle">우선순위</label>
           <select
             className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
             value={priority}
@@ -87,7 +87,7 @@ export function BulkActionJobFilterBar() {
         </div>
 
         <div>
-          <label className="mb-1 block text-xs text-slate-500">실행자</label>
+          <label className="mb-1 block text-xs text-aibeop-subtle">실행자</label>
           <input
             className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
             value={actorQuery}
@@ -97,7 +97,7 @@ export function BulkActionJobFilterBar() {
         </div>
 
         <div>
-          <label className="mb-1 block text-xs text-slate-500">시작일</label>
+          <label className="mb-1 block text-xs text-aibeop-subtle">시작일</label>
           <input
             type="date"
             className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
@@ -107,7 +107,7 @@ export function BulkActionJobFilterBar() {
         </div>
 
         <div>
-          <label className="mb-1 block text-xs text-slate-500">종료일</label>
+          <label className="mb-1 block text-xs text-aibeop-subtle">종료일</label>
           <input
             type="date"
             className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
@@ -117,7 +117,7 @@ export function BulkActionJobFilterBar() {
         </div>
 
         <div>
-          <label className="mb-1 block text-xs text-slate-500">통합 검색</label>
+          <label className="mb-1 block text-xs text-aibeop-subtle">통합 검색</label>
           <input
             className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
             value={query}
@@ -128,7 +128,7 @@ export function BulkActionJobFilterBar() {
       </div>
 
       <div className="mt-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-        <label className="flex items-center gap-2 text-sm text-slate-600">
+        <label className="flex items-center gap-2 text-sm text-aibeop-muted">
           <input
             type="checkbox"
             checked={onlyRetry}
@@ -141,7 +141,7 @@ export function BulkActionJobFilterBar() {
           <button
             type="button"
             onClick={resetFilters}
-            className="rounded-xl border border-slate-300 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50"
+            className="rounded-xl border border-slate-300 px-4 py-2 text-sm text-aibeop-subtle hover:bg-slate-50"
           >
             초기화
           </button>

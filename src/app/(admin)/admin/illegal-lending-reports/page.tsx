@@ -37,14 +37,14 @@ export default async function AdminIllegalLendingReportsPage() {
               배포 전 운영 점검
             </Link>
           </div>
-          <p className="mt-2 text-sm text-slate-400">
+          <p className="mt-2 text-sm text-aibeop-faint">
             무료 신고서 작성센터에서 접수된 신고서 초안을 확인합니다.
           </p>
         </div>
 
         <div className="overflow-hidden rounded-3xl border border-slate-800">
           <table className="w-full border-collapse text-sm">
-            <thead className="bg-slate-900 text-left text-slate-300">
+            <thead className="bg-slate-900 text-left text-aibeop-disabled">
               <tr>
                 <th className="p-4">접수일</th>
                 <th className="p-4">신고인</th>
@@ -59,7 +59,7 @@ export default async function AdminIllegalLendingReportsPage() {
             <tbody>
               {reports.map((report) => (
                 <tr key={report.id} className="border-t border-slate-800">
-                  <td className="p-4 text-slate-400">
+                  <td className="p-4 text-aibeop-faint">
                     {report.createdAt.toLocaleString("ko-KR")}
                   </td>
                   <td className="p-4 font-semibold">
@@ -77,7 +77,7 @@ export default async function AdminIllegalLendingReportsPage() {
                       {report.status}
                     </span>
                   </td>
-                  <td className="max-w-md truncate p-4 text-slate-300">
+                  <td className="max-w-md truncate p-4 text-aibeop-disabled">
                     {report.damageSummary}
                   </td>
                   <td className="p-4">
@@ -95,7 +95,7 @@ export default async function AdminIllegalLendingReportsPage() {
                 <tr>
                   <td
                     colSpan={7}
-                    className="p-8 text-center text-slate-400"
+                    className="p-8 text-center text-aibeop-faint"
                   >
                     아직 접수된 신고서가 없습니다.
                   </td>

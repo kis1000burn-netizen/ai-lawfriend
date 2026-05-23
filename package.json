@@ -79,6 +79,7 @@
     "verify:gongbuho": "node scripts/verify-gongbuho.mjs && node scripts/run-gongbuho-verify.mjs",
     "verify:gongbuho-legal-knowledge-rc": "node scripts/verify-gongbuho-legal-knowledge-rc.mjs",
     "verify:aibeopchin-cmb": "node scripts/verify-aibeopchin-cmb.mjs",
+    "verify:aibeopchin-branding": "node scripts/verify-aibeopchin-branding.mjs",
     "verify:aibeopchin-cmb-rc": "node scripts/verify-aibeopchin-cmb-rc.mjs",
     "verify:aibeopchin-voice": "node scripts/verify-aibeopchin-voice.mjs",
     "verify:aibeopchin-voice-rc": "node scripts/verify-aibeopchin-voice-rc.mjs",

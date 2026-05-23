@@ -178,7 +178,7 @@ export default async function AdminLawyerVerificationsPage({
         className={`rounded-lg border px-3 py-1.5 text-xs font-medium ${
           active
             ? "border-slate-900 bg-slate-900 text-white"
-            : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+            : "border-slate-200 bg-white text-aibeop-subtle hover:bg-slate-50"
         }`}
       >
         {label}
@@ -198,7 +198,7 @@ export default async function AdminLawyerVerificationsPage({
         className={`rounded-lg border px-3 py-1.5 text-xs font-medium ${
           active
             ? "border-indigo-900 bg-indigo-900 text-white"
-            : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+            : "border-slate-200 bg-white text-aibeop-subtle hover:bg-slate-50"
         }`}
       >
         {label}
@@ -208,31 +208,31 @@ export default async function AdminLawyerVerificationsPage({
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
+      <div className="flex flex-wrap items-center gap-2 text-sm text-aibeop-subtle">
         <Link
           href={isAdminRole(sessionUser.role) ? "/admin" : "/dashboard"}
-          className="font-medium text-slate-700 underline hover:text-black"
+          className="font-medium text-aibeop-subtle underline hover:text-black"
         >
           {isAdminRole(sessionUser.role) ? "관리자 콘솔" : "대시보드"}
         </Link>
         <span aria-hidden>·</span>
-        <span className="text-slate-400">변호사 자격 검증</span>
+        <span className="text-aibeop-faint">변호사 자격 검증</span>
       </div>
 
       <div>
-        <h1 className="text-xl font-semibold text-slate-900">변호사 자격 검증</h1>
-        <p className="mt-1 text-sm text-slate-600">
+        <h1 className="text-xl font-semibold text-aibeop-text">변호사 자격 검증</h1>
+        <p className="mt-1 text-sm text-aibeop-muted">
           등록번호·지방변호사회·사무소 정보와 제출 증빙을 확인합니다.
           {canReviewLawyerVerification ? (
             <>
               {" "}
-              <strong className="font-semibold text-slate-900">승인·보완·반려·정지</strong>는
+              <strong className="font-semibold text-aibeop-text">승인·보완·반려·정지</strong>는
               플랫폼 관리자(ADMIN / SUPER_ADMIN)만 처리할 수 있습니다.
             </>
           ) : (
             <>
               {" "}
-              운영(STAFF)은 <strong className="font-semibold text-slate-900">조회</strong>만
+              운영(STAFF)은 <strong className="font-semibold text-aibeop-text">조회</strong>만
               가능합니다.
             </>
           )}
@@ -249,7 +249,7 @@ export default async function AdminLawyerVerificationsPage({
       </div>
 
       {counts.length > 0 ? (
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-aibeop-subtle">
           상태별 건수(전체 변호사 프로필):{" "}
           {counts
             .map((c) => `${STATUS_LABEL[c.verificationStatus]} ${c._count._all}`)
@@ -270,7 +270,7 @@ export default async function AdminLawyerVerificationsPage({
           className={`rounded-lg border px-3 py-1.5 text-xs font-medium ${
             !docGapActive
               ? "border-rose-900 bg-rose-900 text-white"
-              : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+              : "border-slate-200 bg-white text-aibeop-subtle hover:bg-slate-50"
           }`}
         >
           증빙누락 큐 끄기
@@ -280,7 +280,7 @@ export default async function AdminLawyerVerificationsPage({
           className={`rounded-lg border px-3 py-1.5 text-xs font-medium ${
             docGapActive
               ? "border-rose-900 bg-rose-900 text-white"
-              : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+              : "border-slate-200 bg-white text-aibeop-subtle hover:bg-slate-50"
           }`}
           title="등록된 LawyerVerificationDocument 행이 하나도 없음(가입 클레임 실패 등)"
         >
@@ -290,7 +290,7 @@ export default async function AdminLawyerVerificationsPage({
 
       <div className="overflow-x-auto rounded-xl border border-slate-200">
         <table className="min-w-full text-left text-sm">
-          <thead className="border-b border-slate-200 bg-slate-50 text-xs font-semibold text-slate-600">
+          <thead className="border-b border-slate-200 bg-slate-50 text-xs font-semibold text-aibeop-muted">
             <tr>
               <th className="px-3 py-2">상태</th>
               <th className="px-3 py-2">변호사</th>
@@ -305,7 +305,7 @@ export default async function AdminLawyerVerificationsPage({
           <tbody>
             {items.length === 0 ? (
               <tr>
-                <td colSpan={8} className="px-3 py-8 text-center text-slate-500">
+                <td colSpan={8} className="px-3 py-8 text-center text-aibeop-subtle">
                   표시할 항목이 없습니다. 필터를 바꿔 보세요.
                 </td>
               </tr>
@@ -318,15 +318,15 @@ export default async function AdminLawyerVerificationsPage({
                 const hasDocSignal = legacyN > 0 || privateN > 0 || migratedN > 0;
                 return (
                 <tr key={row.id} className="border-b border-slate-100 hover:bg-slate-50/80">
-                  <td className="px-3 py-2 font-medium text-slate-800">
+                  <td className="px-3 py-2 font-medium text-aibeop-subtle">
                     {STATUS_LABEL[row.verificationStatus]}
                   </td>
                   <td className="px-3 py-2">
-                    <div className="font-medium text-slate-900">{row.user.name}</div>
-                    <div className="text-xs text-slate-500">{row.user.email}</div>
-                    <div className="text-xs text-slate-400">계정 {row.user.status}</div>
+                    <div className="font-medium text-aibeop-text">{row.user.name}</div>
+                    <div className="text-xs text-aibeop-subtle">{row.user.email}</div>
+                    <div className="text-xs text-aibeop-faint">계정 {row.user.status}</div>
                   </td>
-                  <td className="px-3 py-2 text-slate-700">
+                  <td className="px-3 py-2 text-aibeop-subtle">
                     <div>{row.registrationNumber ?? "—"}</div>
                     {dup ? (
                       <div className="mt-1 flex flex-wrap gap-1">
@@ -341,16 +341,16 @@ export default async function AdminLawyerVerificationsPage({
                           </span>
                         ) : null}
                         {!dup.hasApprovedConflict && !dup.hasQueueConflict ? (
-                          <span className="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] text-slate-600">
+                          <span className="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] text-aibeop-muted">
                             동일 등록·회 {dup.otherCount}건
                           </span>
                         ) : null}
                       </div>
                     ) : null}
                   </td>
-                  <td className="px-3 py-2 text-slate-700">{row.barAssociation ?? "—"}</td>
-                  <td className="px-3 py-2 text-slate-700">{row.officeName ?? "—"}</td>
-                  <td className="px-3 py-2 text-slate-700">
+                  <td className="px-3 py-2 text-aibeop-subtle">{row.barAssociation ?? "—"}</td>
+                  <td className="px-3 py-2 text-aibeop-subtle">{row.officeName ?? "—"}</td>
+                  <td className="px-3 py-2 text-aibeop-subtle">
                     <div className="flex flex-wrap gap-1">
                       {legacyN > 0 ? (
                         <span
@@ -362,7 +362,7 @@ export default async function AdminLawyerVerificationsPage({
                       ) : null}
                       {privateN > 0 ? (
                         <span
-                          className="rounded bg-slate-200 px-1.5 py-0.5 text-[10px] font-semibold text-slate-800"
+                          className="rounded bg-slate-200 px-1.5 py-0.5 text-[10px] font-semibold text-aibeop-subtle"
                           title="storageKey 있음·아직 migratedAt 없음(신규 private 업로드)."
                         >
                           Private {privateN}
@@ -376,10 +376,10 @@ export default async function AdminLawyerVerificationsPage({
                           Migrated {migratedN}
                         </span>
                       ) : null}
-                      {!hasDocSignal ? <span className="text-slate-400">—</span> : null}
+                      {!hasDocSignal ? <span className="text-aibeop-faint">—</span> : null}
                     </div>
                   </td>
-                  <td className="px-3 py-2 text-slate-600">
+                  <td className="px-3 py-2 text-aibeop-muted">
                     {row.submittedAt
                       ? new Date(row.submittedAt).toLocaleString("ko-KR")
                       : "—"}

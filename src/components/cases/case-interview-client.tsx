@@ -208,7 +208,7 @@ export default function CaseInterviewClient({
 
   if (loading) {
     return (
-      <div className="rounded-xl border p-6 text-sm text-neutral-600">
+      <div className="rounded-xl border p-6 text-sm text-aibeop-muted">
         인터뷰 흐름을 불러오는 중입니다...
       </div>
     );
@@ -222,7 +222,7 @@ export default function CaseInterviewClient({
 
   if (!flow) {
     return (
-      <div className="rounded-xl border p-6 text-sm text-neutral-600">표시할 인터뷰가 없습니다.</div>
+      <div className="rounded-xl border p-6 text-sm text-aibeop-muted">표시할 인터뷰가 없습니다.</div>
     );
   }
 
@@ -239,7 +239,7 @@ export default function CaseInterviewClient({
       <section className="rounded-2xl border bg-white p-5 shadow-sm">
         <div className="mb-2 flex items-center justify-between">
           <h2 className="text-lg font-semibold">{flow.questionSetName}</h2>
-          <span className="text-sm text-neutral-500">
+          <span className="text-sm text-aibeop-subtle">
             {flow.progress.answeredVisible}/{flow.progress.totalVisible}
           </span>
         </div>
@@ -249,13 +249,13 @@ export default function CaseInterviewClient({
             style={{ width: `${flow.progress.percent}%` }}
           />
         </div>
-        <p className="mt-2 text-sm text-neutral-500">
+        <p className="mt-2 text-sm text-aibeop-subtle">
           현재 표시되는 질문 기준 진행률 {flow.progress.percent}%
         </p>
       </section>
 
       {visibleQuestions.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-neutral-200 bg-neutral-50/80 p-6 text-sm text-neutral-600">
+        <div className="rounded-xl border border-dashed border-neutral-200 bg-neutral-50/80 p-6 text-sm text-aibeop-muted">
           현재 표시할 질문이 없습니다. 질문셋 구성·가시성 조건이 충족되면 여기에 나타납니다.
         </div>
       ) : null}
@@ -276,11 +276,11 @@ export default function CaseInterviewClient({
                   <div>
                     <h3 className="font-semibold">{question.label}</h3>
                     {question.description ? (
-                      <p className="mt-1 text-sm text-neutral-500">{question.description}</p>
+                      <p className="mt-1 text-sm text-aibeop-subtle">{question.description}</p>
                     ) : null}
                   </div>
                   {question.required ? (
-                    <span className="rounded-full bg-neutral-100 px-2 py-1 text-xs text-neutral-600">
+                    <span className="rounded-full bg-neutral-100 px-2 py-1 text-xs text-aibeop-muted">
                       필수
                     </span>
                   ) : null}
@@ -432,8 +432,8 @@ export default function CaseInterviewClient({
 
       {showCompleteInterviewCta && !interviewReadOnly && flow ? (
         <section className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm">
-          <h2 className="text-base font-semibold text-slate-900">인터뷰 완료</h2>
-          <p className="mt-2 text-sm text-slate-600">
+          <h2 className="text-base font-semibold text-aibeop-text">인터뷰 완료</h2>
+          <p className="mt-2 text-sm text-aibeop-muted">
             필수 항목을 저장한 뒤 아래를 누르면 인터뷰가 완료되고, <strong>사건 상세</strong> 화면으로
             이동합니다. 상세에서 갱신된 사건 상태·다음 단계를 확인할 수 있습니다.
           </p>

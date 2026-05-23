@@ -28,7 +28,7 @@ export default async function CaseTimelinePanel({
     <section
       id="case-timeline"
       className="rounded-2xl border bg-white p-6 shadow-sm">
-      <h2 className="text-lg font-semibold text-slate-900">사건 타임라인 메모</h2>
+      <h2 className="text-lg font-semibold text-aibeop-text">사건 타임라인 메모</h2>
 
       {focusAlertId ? (
         <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
@@ -48,7 +48,7 @@ export default async function CaseTimelinePanel({
       </div>
 
       {memos.length === 0 ? (
-        <div className="mt-6 rounded-xl border border-dashed p-6 text-sm text-slate-500">
+        <div className="mt-6 rounded-xl border border-dashed p-6 text-sm text-aibeop-subtle">
           등록된 메모가 없습니다.
         </div>
       ) : (

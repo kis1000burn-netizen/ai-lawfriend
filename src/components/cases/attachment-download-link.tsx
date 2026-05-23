@@ -64,7 +64,7 @@ export default function AttachmentDownloadLink({
       disabled={loading}
       className={
         className ??
-        "inline p-0 text-left font-medium text-slate-900 underline decoration-slate-900/30 disabled:opacity-50"
+        "inline p-0 text-left font-medium text-aibeop-text underline decoration-slate-900/30 disabled:opacity-50"
       }
     >
       {loading ? "다운로드 중…" : children}

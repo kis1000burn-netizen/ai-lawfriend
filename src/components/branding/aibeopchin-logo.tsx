@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { AIBEOPCHIN_BRAND_COPY } from "@/lib/branding/aibeopchin-logo-config";
 import { AIBEOPCHIN_INTRO_TIMELINE } from "@/lib/branding/aibeopchin-intro-timeline";
+import { AibeopchinLogoRainbowText } from "@/components/branding/aibeopchin-logo-rainbow-text";
 import type { AibeopchinLogoMode, AibeopchinLogoSize } from "./aibeopchin-brand-types";
 
 type Props = {
@@ -150,14 +151,9 @@ export function AibeopchinLogo({
               <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-white/60 md:text-[11px]">
                 {AIBEOPCHIN_BRAND_COPY.eyebrow}
               </p>
-              <p
-                className={[
-                  "mt-1 font-black tracking-[-0.05em] text-white",
-                  titleClass[size],
-                ].join(" ")}
-              >
-                AI법친
-              </p>
+              <AibeopchinLogoRainbowText
+                className={["mt-1 font-black tracking-[-0.05em]", titleClass[size]].join(" ")}
+              />
               <p
                 className={[
                   "mt-1 font-medium text-white/72",

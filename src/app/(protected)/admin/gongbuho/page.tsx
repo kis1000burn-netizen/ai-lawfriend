@@ -34,13 +34,13 @@ export default async function AdminGongbuhoPacketsPage({ searchParams }: PagePro
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-xl font-semibold text-slate-900">공부호 패킷</h1>
-        <p className="mt-1 text-sm text-slate-600">
+        <h1 className="text-xl font-semibold text-aibeop-text">공부호 패킷</h1>
+        <p className="mt-1 text-sm text-aibeop-muted">
           운영(STAFF) 및 플랫폼 관리자가 GongbuhoPacket 목록을 조회합니다. packetJson 은 상세에서만
           표시합니다. Legal Knowledge 파이프라인 Intake·Brief는{" "}
           <Link
             href="/admin/gongbuho/legal-knowledge"
-            className="font-medium text-slate-900 underline"
+            className="font-medium text-aibeop-text underline"
           >
             Legal Knowledge
           </Link>{" "}

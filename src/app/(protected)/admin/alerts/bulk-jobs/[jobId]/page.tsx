@@ -80,41 +80,41 @@ export default async function BulkActionJobDetailPage({ params, searchParams }: 
   return (
     <div className="space-y-4">
       <div>
-        <div className="text-sm text-slate-500">관리자 / 경고 / Bulk Jobs</div>
-        <h1 className="mt-1 text-2xl font-semibold text-slate-900">BulkActionJob 상세</h1>
+        <div className="text-sm text-aibeop-subtle">관리자 / 경고 / Bulk Jobs</div>
+        <h1 className="mt-1 text-2xl font-semibold text-aibeop-text">BulkActionJob 상세</h1>
       </div>
 
       <div className="flex flex-wrap items-center gap-3">
         <BulkJobFailedItemsExportButton jobId={job.id} />
         <Link
           href={`/admin/alerts/bulk-jobs/${job.id}/settings`}
-          className="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
+          className="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-aibeop-subtle hover:bg-slate-50"
         >
           우선순위·동시성 설정
         </Link>
         {job.retryOfJobId ? (
           <Link
             href={`/admin/alerts/bulk-jobs/${job.retryOfJobId}/compare?retryJobId=${job.id}`}
-            className="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
+            className="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-aibeop-subtle hover:bg-slate-50"
           >
             원본/재시도 비교
           </Link>
         ) : null}
         <Link
           href="/admin/alerts/bulk-jobs/schedules"
-          className="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
+          className="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-aibeop-subtle hover:bg-slate-50"
         >
           예약 재시도
         </Link>
         <Link
           href="/admin/alerts/ops-queue"
-          className="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
+          className="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-aibeop-subtle hover:bg-slate-50"
         >
           운영 큐
         </Link>
         <Link
           href="/admin/alerts/ops-queue/dashboard"
-          className="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
+          className="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-aibeop-subtle hover:bg-slate-50"
         >
           운영 워크로드
         </Link>
@@ -129,13 +129,13 @@ export default async function BulkActionJobDetailPage({ params, searchParams }: 
       />
 
       <BulkActionJobRetryHistory rows={retries} />
-      <Suspense fallback={<div className="text-sm text-slate-500">타임라인 필터 로딩…</div>}>
+      <Suspense fallback={<div className="text-sm text-aibeop-subtle">타임라인 필터 로딩…</div>}>
         <BulkJobTimelineFilterBar />
       </Suspense>
       <BulkJobActivityTimeline events={activityTimeline} />
       <BulkActionJobNotificationsPanel rows={relatedNotifications} />
 
-      <Suspense fallback={<div className="text-sm text-slate-500">실패 항목을 불러오는 중…</div>}>
+      <Suspense fallback={<div className="text-sm text-aibeop-subtle">실패 항목을 불러오는 중…</div>}>
         <FailedJobItemsTable jobId={jobId} />
       </Suspense>
     </div>

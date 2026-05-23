@@ -58,28 +58,28 @@ export default async function AdminDocumentTemplatesPage({
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-semibold">문서 템플릿 관리자</h1>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-aibeop-subtle">
             섹션·문단·생성 규칙을 담은 템플릿 정의를 관리합니다.{" "}
-            <strong className="font-medium text-slate-700">초안</strong> 편집 후{" "}
-            <strong className="font-medium text-slate-700">게시</strong>하면 사건 문서 생성 시
-            선택되고, <strong className="font-medium text-slate-700">보관</strong>하면 목록·편집
+            <strong className="font-medium text-aibeop-subtle">초안</strong> 편집 후{" "}
+            <strong className="font-medium text-aibeop-subtle">게시</strong>하면 사건 문서 생성 시
+            선택되고, <strong className="font-medium text-aibeop-subtle">보관</strong>하면 목록·편집
             화면에서 읽기만 가능하며 사건 생성에도 나타나지 않습니다.{" "}
-            <span className="text-slate-600">
-              <strong className="font-medium text-slate-700">템플릿 생성</strong> 화면과{" "}
-              <strong className="font-medium text-slate-700">편집</strong> 화면 모두 같은 카탈로그
+            <span className="text-aibeop-muted">
+              <strong className="font-medium text-aibeop-subtle">템플릿 생성</strong> 화면과{" "}
+              <strong className="font-medium text-aibeop-subtle">편집</strong> 화면 모두 같은 카탈로그
               용어·게시 전 운영 안내를 씁니다.
             </span>
           </p>
-          <p className="mt-2 text-xs leading-relaxed text-gray-500">
+          <p className="mt-2 text-xs leading-relaxed text-aibeop-subtle">
             카탈로그 상태(초안·게시됨·보관됨) 라벨은{" "}
-            <Link href="/admin/question-sets" className="font-medium text-slate-700 underline">
+            <Link href="/admin/question-sets" className="font-medium text-aibeop-subtle underline">
               인터뷰 질문셋 관리
             </Link>
-            화면의 상태 열과 <strong className="font-medium text-slate-600">같은 한글 라벨</strong>을
-            씁니다. 목록은 <strong className="font-medium text-slate-600">수정일 최신 순</strong>이며, 한 페이지에{" "}
-            <strong className="font-medium text-slate-600">{PAGE_SIZE}건</strong>까지 표시합니다. 주소의{" "}
+            화면의 상태 열과 <strong className="font-medium text-aibeop-muted">같은 한글 라벨</strong>을
+            씁니다. 목록은 <strong className="font-medium text-aibeop-muted">수정일 최신 순</strong>이며, 한 페이지에{" "}
+            <strong className="font-medium text-aibeop-muted">{PAGE_SIZE}건</strong>까지 표시합니다. 주소의{" "}
             <span className="whitespace-nowrap font-mono text-[0.7rem]">?catalog=</span>
-            (DRAFT·PUBLISHED·ARCHIVED)는 저장소에 저장된 <strong className="font-medium text-slate-600">catalogStatus</strong>
+            (DRAFT·PUBLISHED·ARCHIVED)는 저장소에 저장된 <strong className="font-medium text-aibeop-muted">catalogStatus</strong>
             와 같은 값만 목록에 나오게 하는 필터입니다.{" "}
             <span className="whitespace-nowrap font-mono text-[0.7rem]">?page=</span>는 같은 필터 안에서
             다음·이전 묶음으로 넘길 때 쓰며, 칩을 바꾸면 1페이지로 돌아갑니다. 편집기에서 게시·보관 후 돌아오면 아래
@@ -92,9 +92,9 @@ export default async function AdminDocumentTemplatesPage({
             맞춘 뒤에도 실패하면 편집기에서 「저장」 여부를 먼저 확인하세요. 그 외 문단 내용·필수
             플래그 등은 이 단계에서 막지 않습니다.
           </p>
-          <p className="mt-1 text-xs text-gray-500">
+          <p className="mt-1 text-xs text-aibeop-subtle">
             다른 관리 화면:{" "}
-            <Link href="/admin" className="font-medium text-slate-700 underline">
+            <Link href="/admin" className="font-medium text-aibeop-subtle underline">
               관리자 콘솔
             </Link>
           </p>

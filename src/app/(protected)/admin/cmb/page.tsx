@@ -29,7 +29,7 @@ export default async function AdminCmbPage() {
         <div className="flex flex-wrap items-center gap-2">
           <Link
             href="/admin/cmb/operations-studio"
-            className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
+            className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-aibeop-subtle hover:bg-slate-50"
             data-testid="cmb-operations-studio-link"
           >
             Operations Studio

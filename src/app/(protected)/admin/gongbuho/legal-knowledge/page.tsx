@@ -31,8 +31,8 @@ export default async function AdminLegalKnowledgeIntakeListPage({
     <div className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-xl font-semibold text-slate-900">Legal Knowledge Intake</h1>
-          <p className="mt-1 text-sm text-slate-600">
+          <h1 className="text-xl font-semibold text-aibeop-text">Legal Knowledge Intake</h1>
+          <p className="mt-1 text-sm text-aibeop-muted">
             수요 후보(Intake) · Research Brief · Lawyer Review · 패킷 컴파일 파이프라인 운영
             화면입니다. UGC 원문은 저장·표시하지 않습니다.
           </p>
@@ -40,7 +40,7 @@ export default async function AdminLegalKnowledgeIntakeListPage({
         <div className="flex flex-wrap gap-2">
           <Link
             href="/admin/gongbuho/legal-knowledge/dashboard"
-            className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
+            className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-aibeop-subtle hover:bg-slate-50"
             data-testid="legal-knowledge-intelligence-dashboard-link"
           >
             Intelligence
@@ -56,7 +56,7 @@ export default async function AdminLegalKnowledgeIntakeListPage({
           ) : null}
           <Link
             href="/admin/gongbuho"
-            className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
+            className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-aibeop-subtle hover:bg-slate-50"
           >
             공부호 패킷
           </Link>

@@ -1,8 +1,11 @@
 import type { AibeopchinLogoV2Mode } from "@/components/branding/aibeopchin-logo-v2-types";
 
+export type LogoAccentTone = "default" | "thinking" | "verified" | "restricted";
+
 export type AibeopchinLogoV2ModeConfig = {
   label: string;
   description: string;
+  accentTone: LogoAccentTone;
   particles: boolean;
   orbit: boolean;
   pulse: "none" | "soft" | "medium";
@@ -17,6 +20,7 @@ export const AIBEOPCHIN_LOGO_V2_MODE_CONFIG: Record<
   intro: {
     label: "생성",
     description: "AI법친 로고가 처음 생성되는 인트로 상태입니다.",
+    accentTone: "thinking",
     particles: true,
     orbit: true,
     pulse: "medium",
@@ -26,6 +30,7 @@ export const AIBEOPCHIN_LOGO_V2_MODE_CONFIG: Record<
   idle: {
     label: "대기",
     description: "안정적으로 대기하는 기본 상태입니다.",
+    accentTone: "default",
     particles: true,
     orbit: false,
     pulse: "soft",
@@ -35,6 +40,7 @@ export const AIBEOPCHIN_LOGO_V2_MODE_CONFIG: Record<
   hover: {
     label: "반응",
     description: "사용자의 관심에 반응하는 상태입니다.",
+    accentTone: "default",
     particles: true,
     orbit: true,
     pulse: "soft",
@@ -44,6 +50,7 @@ export const AIBEOPCHIN_LOGO_V2_MODE_CONFIG: Record<
   thinking: {
     label: "정리 중",
     description: "사건 흐름을 이해하고 구조화하는 상태입니다.",
+    accentTone: "thinking",
     particles: true,
     orbit: true,
     pulse: "medium",
@@ -53,8 +60,9 @@ export const AIBEOPCHIN_LOGO_V2_MODE_CONFIG: Record<
   verified: {
     label: "검증",
     description: "기준이 정리되고 안정화된 상태입니다.",
+    accentTone: "verified",
     particles: false,
-    orbit: false,
+    orbit: true,
     pulse: "soft",
     opacity: 0.96,
     glow: "medium",
@@ -62,6 +70,7 @@ export const AIBEOPCHIN_LOGO_V2_MODE_CONFIG: Record<
   restricted: {
     label: "제한",
     description: "역할 또는 승인 상태에 따라 제한된 상태입니다.",
+    accentTone: "restricted",
     particles: false,
     orbit: false,
     pulse: "none",

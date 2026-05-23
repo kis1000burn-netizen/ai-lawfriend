@@ -195,8 +195,8 @@ export function SupplementRequestMvpClient({ caseId, role }: Props) {
       <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>
-            <h2 className="text-lg font-bold text-slate-950">보완 요청</h2>
-            <p className="mt-1 text-sm text-slate-600">
+            <h2 className="text-lg font-bold text-aibeop-text">보완 요청</h2>
+            <p className="mt-1 text-sm text-aibeop-muted">
               변호사는 보완 요청을 작성하고, 의뢰인은 본인 요청에 응답합니다.
             </p>
           </div>
@@ -283,11 +283,11 @@ export function SupplementRequestMvpClient({ caseId, role }: Props) {
 
       <div className="grid gap-6 lg:grid-cols-2">
         <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h3 className="text-base font-bold text-slate-950">요청 목록</h3>
+          <h3 className="text-base font-bold text-aibeop-text">요청 목록</h3>
 
           <div className="mt-4 space-y-3">
             {items.length === 0 ? (
-              <p className="rounded-xl border border-dashed border-slate-200 p-4 text-sm text-slate-500">
+              <p className="rounded-xl border border-dashed border-slate-200 p-4 text-sm text-aibeop-subtle">
                 아직 보완 요청이 없습니다.
               </p>
             ) : (
@@ -305,8 +305,8 @@ export function SupplementRequestMvpClient({ caseId, role }: Props) {
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <p className="font-semibold text-slate-950">{item.title}</p>
-                      <p className="mt-1 text-xs text-slate-500">{item.requestType}</p>
+                      <p className="font-semibold text-aibeop-text">{item.title}</p>
+                      <p className="mt-1 text-xs text-aibeop-subtle">{item.requestType}</p>
                     </div>
                     <SupplementRequestStatusBadge status={item.status} />
                   </div>
@@ -317,17 +317,17 @@ export function SupplementRequestMvpClient({ caseId, role }: Props) {
         </section>
 
         <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h3 className="text-base font-bold text-slate-950">요청 상세</h3>
+          <h3 className="text-base font-bold text-aibeop-text">요청 상세</h3>
 
           {selected ? (
             <div className="mt-4 space-y-4">
               <div>
                 <div className="flex flex-wrap items-center gap-2">
                   <SupplementRequestStatusBadge status={selected.status} />
-                  <span className="text-xs text-slate-500">{selected.requestType}</span>
+                  <span className="text-xs text-aibeop-subtle">{selected.requestType}</span>
                 </div>
-                <h4 className="mt-3 text-lg font-bold text-slate-950">{selected.title}</h4>
-                <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-slate-700">
+                <h4 className="mt-3 text-lg font-bold text-aibeop-text">{selected.title}</h4>
+                <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-aibeop-subtle">
                   {selected.description}
                 </p>
               </div>
@@ -339,7 +339,7 @@ export function SupplementRequestMvpClient({ caseId, role }: Props) {
                       key={toStatus}
                       type="button"
                       onClick={() => void transitionRequest(toStatus)}
-                      className="rounded-xl border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+                      className="rounded-xl border border-slate-300 px-3 py-2 text-sm font-semibold text-aibeop-subtle hover:bg-slate-50"
                     >
                       {label}
                     </button>
@@ -373,12 +373,12 @@ export function SupplementRequestMvpClient({ caseId, role }: Props) {
 
               {selected.responses && selected.responses.length > 0 ? (
                 <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                  <p className="text-sm font-bold text-slate-900">제출된 응답</p>
+                  <p className="text-sm font-bold text-aibeop-text">제출된 응답</p>
                   <div className="mt-3 space-y-2">
                     {selected.responses.map((resp) => (
                       <p
                         key={resp.id}
-                        className="rounded-xl bg-white px-3 py-2 text-sm text-slate-700"
+                        className="rounded-xl bg-white px-3 py-2 text-sm text-aibeop-subtle"
                       >
                         {resp.responseText ?? "JSON 응답"}
                       </p>
@@ -388,7 +388,7 @@ export function SupplementRequestMvpClient({ caseId, role }: Props) {
               ) : null}
             </div>
           ) : (
-            <p className="mt-4 text-sm text-slate-500">왼쪽 목록에서 보완 요청을 선택하세요.</p>
+            <p className="mt-4 text-sm text-aibeop-subtle">왼쪽 목록에서 보완 요청을 선택하세요.</p>
           )}
         </section>
       </div>

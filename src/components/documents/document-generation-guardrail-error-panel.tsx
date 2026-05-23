@@ -87,7 +87,7 @@ export function DocumentGenerationGuardrailErrorPanel({
               </div>
 
               {suggestion.suggestedQuestions.length > 0 ? (
-                <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-slate-700">
+                <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-aibeop-subtle">
                   {suggestion.suggestedQuestions.map((question) => (
                     <li key={question}>{question}</li>
                   ))}

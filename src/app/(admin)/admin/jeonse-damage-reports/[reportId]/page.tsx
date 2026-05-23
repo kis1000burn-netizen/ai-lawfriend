@@ -48,7 +48,7 @@ function InfoRow({
 }>) {
   return (
     <div className="grid gap-1 border-b border-slate-800 py-3 md:grid-cols-[180px_1fr]">
-      <div className="text-sm font-semibold text-slate-400">{label}</div>
+      <div className="text-sm font-semibold text-aibeop-faint">{label}</div>
       <div className="text-sm leading-6 text-slate-100">{value}</div>
     </div>
   );
@@ -113,7 +113,7 @@ export default async function AdminJeonseDamageReportDetailPage({
           <h1 className="mt-1 text-3xl font-bold">
             전세사기·보증금 반환 피해 서류 상세
           </h1>
-          <p className="mt-2 text-sm text-slate-400">접수번호: {report.id}</p>
+          <p className="mt-2 text-sm text-aibeop-faint">접수번호: {report.id}</p>
         </div>
 
         <div className="grid gap-6 lg:grid-cols-[1fr_420px]">
@@ -173,7 +173,7 @@ export default async function AdminJeonseDamageReportDetailPage({
               <h2 className="mb-4 text-xl font-bold">5. 피해 내용</h2>
               <InfoRow label="피해 유형" value={damageLabels || "미기재"} />
               <div className="mt-5">
-                <h3 className="mb-2 text-sm font-semibold text-slate-400">
+                <h3 className="mb-2 text-sm font-semibold text-aibeop-faint">
                   보증금 반환 요구 이력
                 </h3>
                 <div className="whitespace-pre-wrap rounded-2xl border border-slate-800 bg-slate-950 p-4 text-sm leading-7 text-slate-100">
@@ -181,7 +181,7 @@ export default async function AdminJeonseDamageReportDetailPage({
                 </div>
               </div>
               <div className="mt-5">
-                <h3 className="mb-2 text-sm font-semibold text-slate-400">
+                <h3 className="mb-2 text-sm font-semibold text-aibeop-faint">
                   피해 사실 상세
                 </h3>
                 <div className="whitespace-pre-wrap rounded-2xl border border-slate-800 bg-slate-950 p-4 text-sm leading-7 text-slate-100">
@@ -189,7 +189,7 @@ export default async function AdminJeonseDamageReportDetailPage({
                 </div>
               </div>
               <div className="mt-5">
-                <h3 className="mb-2 text-sm font-semibold text-slate-400">
+                <h3 className="mb-2 text-sm font-semibold text-aibeop-faint">
                   증거자료 목록
                 </h3>
                 <div className="whitespace-pre-wrap rounded-2xl border border-slate-800 bg-slate-950 p-4 text-sm leading-7 text-slate-100">
@@ -203,7 +203,7 @@ export default async function AdminJeonseDamageReportDetailPage({
             <JeonseDamageStatusForm reportId={report.id} currentStatus={report.status} />
             <a
               href={`/api/admin/jeonse-damage-reports/${report.id}/pdf`}
-              className="mt-3 inline-flex w-full justify-center rounded-xl bg-cyan-300 px-4 py-2 text-sm font-bold text-slate-950 hover:bg-cyan-200"
+              className="mt-3 inline-flex w-full justify-center rounded-xl bg-cyan-300 px-4 py-2 text-sm font-bold text-aibeop-text hover:bg-cyan-200"
             >
               PDF 다운로드
             </a>
@@ -227,7 +227,7 @@ export default async function AdminJeonseDamageReportDetailPage({
         <div className="mt-6 rounded-3xl border border-slate-800 bg-slate-900/80 p-6">
           <h2 className="mb-4 text-xl font-bold">6. 첨부파일</h2>
           {report.attachments.length === 0 ? (
-            <p className="text-sm text-slate-400">첨부파일이 없습니다.</p>
+            <p className="text-sm text-aibeop-faint">첨부파일이 없습니다.</p>
           ) : (
             <div className="space-y-3">
               {report.attachments.map((attachment) => (
@@ -240,13 +240,13 @@ export default async function AdminJeonseDamageReportDetailPage({
                       <p className="font-semibold text-slate-100">
                         {attachment.originalName}
                       </p>
-                      <p className="mt-1 text-xs text-slate-400">
+                      <p className="mt-1 text-xs text-aibeop-faint">
                         {attachment.attachmentType} ·{" "}
                         {(attachment.sizeBytes / 1024).toFixed(1)}KB ·{" "}
                         {attachment.createdAt.toLocaleString("ko-KR")}
                       </p>
                       {attachment.memo ? (
-                        <p className="mt-2 text-sm text-slate-300">{attachment.memo}</p>
+                        <p className="mt-2 text-sm text-aibeop-disabled">{attachment.memo}</p>
                       ) : null}
                     </div>
                     <a
@@ -265,7 +265,7 @@ export default async function AdminJeonseDamageReportDetailPage({
         <div className="mt-6 rounded-3xl border border-slate-800 bg-slate-900/80 p-6">
           <h2 className="mb-4 text-xl font-bold">7. 상태 변경 이력</h2>
           {report.statusHistories.length === 0 ? (
-            <p className="text-sm text-slate-400">아직 상태 변경 이력이 없습니다.</p>
+            <p className="text-sm text-aibeop-faint">아직 상태 변경 이력이 없습니다.</p>
           ) : (
             <div className="space-y-3">
               {report.statusHistories.map((history) => (
@@ -276,12 +276,12 @@ export default async function AdminJeonseDamageReportDetailPage({
                   <p className="text-sm font-semibold text-cyan-100">
                     {history.fromStatus ?? "최초"} → {history.toStatus}
                   </p>
-                  <p className="mt-1 text-xs text-slate-400">
+                  <p className="mt-1 text-xs text-aibeop-faint">
                     {history.createdAt.toLocaleString("ko-KR")} ·{" "}
                     {history.actorName ?? "관리자"}
                   </p>
                   {history.reason ? (
-                    <p className="mt-2 text-sm text-slate-300">{history.reason}</p>
+                    <p className="mt-2 text-sm text-aibeop-disabled">{history.reason}</p>
                   ) : null}
                 </div>
               ))}
@@ -292,11 +292,11 @@ export default async function AdminJeonseDamageReportDetailPage({
         <div className="mt-6 rounded-3xl border border-slate-800 bg-slate-900/80 p-6">
           <h2 className="mb-4 text-xl font-bold">8. 개인정보 열람·처리 감사로그</h2>
           {report.accessLogs.length === 0 ? (
-            <p className="text-sm text-slate-400">아직 감사로그가 없습니다.</p>
+            <p className="text-sm text-aibeop-faint">아직 감사로그가 없습니다.</p>
           ) : (
             <div className="overflow-hidden rounded-2xl border border-slate-800">
               <table className="w-full border-collapse text-sm">
-                <thead className="bg-slate-950 text-left text-slate-400">
+                <thead className="bg-slate-950 text-left text-aibeop-faint">
                   <tr>
                     <th className="p-3">일시</th>
                     <th className="p-3">행위</th>
@@ -324,7 +324,7 @@ export default async function AdminJeonseDamageReportDetailPage({
         <div className="mt-6 rounded-3xl border border-slate-800 bg-slate-900/80 p-6">
           <h2 className="mb-4 text-xl font-bold">9. 변호사 검토 요청 이력</h2>
           {report.lawyerReviewRequests.length === 0 ? (
-            <p className="text-sm text-slate-400">변호사 검토 요청 이력이 없습니다.</p>
+            <p className="text-sm text-aibeop-faint">변호사 검토 요청 이력이 없습니다.</p>
           ) : (
             <div className="space-y-3">
               {report.lawyerReviewRequests.map((request) => (
@@ -333,22 +333,22 @@ export default async function AdminJeonseDamageReportDetailPage({
                   className="rounded-2xl border border-slate-800 bg-slate-950 p-4"
                 >
                   <p className="font-semibold text-purple-100">{request.status}</p>
-                  <p className="mt-1 text-xs text-slate-400">
+                  <p className="mt-1 text-xs text-aibeop-faint">
                     {request.createdAt.toLocaleString("ko-KR")}
                   </p>
-                  <p className="mt-2 text-sm text-slate-300">
+                  <p className="mt-2 text-sm text-aibeop-disabled">
                     배정 변호사: {request.assignedLawyerName ?? "미배정"}
                   </p>
-                  <p className="mt-1 text-sm text-slate-300">
+                  <p className="mt-1 text-sm text-aibeop-disabled">
                     자동 배정: {request.autoAssigned ? "예" : "아니오"}
                   </p>
                   {request.assignmentReason ? (
-                    <p className="mt-1 text-sm text-slate-400">
+                    <p className="mt-1 text-sm text-aibeop-faint">
                       배정 사유: {request.assignmentReason}
                     </p>
                   ) : null}
                   {request.memo ? (
-                    <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-slate-300">
+                    <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-aibeop-disabled">
                       {request.memo}
                     </p>
                   ) : null}

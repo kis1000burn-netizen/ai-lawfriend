@@ -23,7 +23,7 @@ export default function AssignmentForm({ caseId, lawyers }: Props) {
 
   if (lawyers.length === 0) {
     return (
-      <p className="text-sm text-slate-500">
+      <p className="text-sm text-aibeop-subtle">
         배정 가능한 변호사 계정이 없습니다.
       </p>
     );

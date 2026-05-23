@@ -26,12 +26,12 @@ export default async function AdminVoicePrivacyOpsRequestDetailPage({ params }: 
       <div>
         <Link
           href="/admin/voice/privacy-requests"
-          className="text-sm font-medium text-slate-600 hover:text-slate-900"
+          className="text-sm font-medium text-aibeop-muted hover:text-aibeop-text"
         >
           ← 요청 목록
         </Link>
-        <h1 className="mt-2 text-xl font-semibold text-slate-900">Voice 민원 처리</h1>
-        <p className="mt-1 font-mono text-xs text-slate-500">{request.id}</p>
+        <h1 className="mt-2 text-xl font-semibold text-aibeop-text">Voice 민원 처리</h1>
+        <p className="mt-1 font-mono text-xs text-aibeop-subtle">{request.id}</p>
       </div>
       <VoicePrivacyOpsRequestDetailPanel
         request={{

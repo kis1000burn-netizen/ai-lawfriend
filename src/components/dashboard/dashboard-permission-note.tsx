@@ -7,7 +7,7 @@ export function DashboardPermissionNote({
 }: Props) {
   return (
     <div
-      className="rounded-2xl border border-amber-200/25 bg-amber-400/[0.09] px-4 py-3 text-sm leading-relaxed text-amber-50 sm:px-5 sm:py-3.5 sm:leading-6"
+      className="rounded-2xl border border-amber-300/60 bg-amber-50 px-4 py-3 text-sm font-semibold leading-relaxed text-amber-950 sm:px-5 sm:py-3.5 sm:leading-6"
       role="note"
     >
       {message}

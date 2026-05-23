@@ -43,12 +43,12 @@ export default async function AdminEscalationDetailPage({ params }: PageProps) {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">에스컬레이션 상세</h1>
-          <p className="mt-1 text-sm text-slate-500">{escalation.id}</p>
+          <h1 className="text-2xl font-bold text-aibeop-text">에스컬레이션 상세</h1>
+          <p className="mt-1 text-sm text-aibeop-subtle">{escalation.id}</p>
         </div>
         <Link
           href="/admin/alerts/escalations"
-          className="rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium text-slate-800"
+          className="rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium text-aibeop-subtle"
         >
           목록
         </Link>
@@ -56,40 +56,40 @@ export default async function AdminEscalationDetailPage({ params }: PageProps) {
 
       <div className="grid gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm md:grid-cols-2">
         <div>
-          <div className="text-xs text-slate-500">상태</div>
+          <div className="text-xs text-aibeop-subtle">상태</div>
           <div className="mt-1 font-medium">{escalation.status}</div>
         </div>
         <div>
-          <div className="text-xs text-slate-500">레벨</div>
+          <div className="text-xs text-aibeop-subtle">레벨</div>
           <div className="mt-1 font-medium">{escalation.level}</div>
         </div>
         <div className="md:col-span-2">
-          <div className="text-xs text-slate-500">메시지</div>
-          <div className="mt-1 whitespace-pre-wrap text-slate-900">{escalation.message}</div>
+          <div className="text-xs text-aibeop-subtle">메시지</div>
+          <div className="mt-1 whitespace-pre-wrap text-aibeop-text">{escalation.message}</div>
         </div>
         {escalation.releaseReason ? (
           <div className="md:col-span-2">
-            <div className="text-xs text-slate-500">해제 사유</div>
-            <div className="mt-1 text-slate-900">{escalation.releaseReason}</div>
+            <div className="text-xs text-aibeop-subtle">해제 사유</div>
+            <div className="mt-1 text-aibeop-text">{escalation.releaseReason}</div>
           </div>
         ) : null}
       </div>
 
       <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h2 className="text-lg font-semibold text-slate-900">연결 경고</h2>
+        <h2 className="text-lg font-semibold text-aibeop-text">연결 경고</h2>
         <div className="mt-3 space-y-2 text-sm">
           <div>
-            <span className="text-slate-500">제목: </span>
+            <span className="text-aibeop-subtle">제목: </span>
             {escalation.alertEvent.title}
           </div>
           <div>
-            <span className="text-slate-500">규칙: </span>
+            <span className="text-aibeop-subtle">규칙: </span>
             {escalation.alertEvent.rule
               ? `${escalation.alertEvent.rule.code} · ${escalation.alertEvent.rule.name}`
               : "-"}
           </div>
           <div>
-            <span className="text-slate-500">사건: </span>
+            <span className="text-aibeop-subtle">사건: </span>
             {caseRow ? (
               <Link href={`/cases/${caseRow.id}`} className="text-blue-700 underline">
                 {caseRow.title}

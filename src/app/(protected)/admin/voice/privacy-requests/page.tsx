@@ -27,8 +27,8 @@ export default async function AdminVoicePrivacyOpsRequestsPage({ searchParams }:
     <div className="space-y-6" data-testid="voice-privacy-ops-page">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-xl font-semibold text-slate-900">Voice 삭제·정정·STT 민원</h1>
-          <p className="mt-1 text-sm text-slate-600">
+          <h1 className="text-xl font-semibold text-aibeop-text">Voice 삭제·정정·STT 민원</h1>
+          <p className="mt-1 text-sm text-aibeop-muted">
             런북 §7.1〜7.3 — 운영 티켓 등록·처리. transcript 본문은 저장·표시하지 않습니다.
           </p>
         </div>
@@ -42,7 +42,7 @@ export default async function AdminVoicePrivacyOpsRequestsPage({ searchParams }:
           </Link>
           <Link
             href="/admin/voice/transcripts"
-            className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
+            className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-aibeop-subtle hover:bg-slate-50"
           >
             Transcript 운영
           </Link>

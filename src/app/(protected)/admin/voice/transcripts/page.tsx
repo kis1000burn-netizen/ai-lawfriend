@@ -35,8 +35,8 @@ export default async function AdminVoiceTranscriptOpsPage({ searchParams }: Page
     <div className="space-y-6" data-testid="voice-transcript-ops-page">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-xl font-semibold text-slate-900">Voice Transcript 운영</h1>
-          <p className="mt-1 text-sm text-slate-600">
+          <h1 className="text-xl font-semibold text-aibeop-text">Voice Transcript 운영</h1>
+          <p className="mt-1 text-sm text-aibeop-muted">
             Phase 7-A — transcript 메타·TTL backlog·trace 집계만 표시합니다. `draftText` 본문은 노출하지
             않습니다.
           </p>
@@ -44,13 +44,13 @@ export default async function AdminVoiceTranscriptOpsPage({ searchParams }: Page
         <div className="flex flex-wrap gap-2">
           <Link
             href="/admin/voice/privacy-requests"
-            className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
+            className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-aibeop-subtle hover:bg-slate-50"
           >
             삭제·정정 요청
           </Link>
           <Link
             href="/admin/operations/aibeopchin-7-dashboard"
-            className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
+            className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-aibeop-subtle hover:bg-slate-50"
           >
             운영 대시보드
           </Link>
@@ -71,7 +71,7 @@ export default async function AdminVoiceTranscriptOpsPage({ searchParams }: Page
           <option value="CONFIRMED">CONFIRMED</option>
           <option value="REJECTED">REJECTED</option>
         </select>
-        <label className="inline-flex items-center gap-2 text-sm text-slate-700">
+        <label className="inline-flex items-center gap-2 text-sm text-aibeop-subtle">
           <input type="checkbox" name="ttlOverdueOnly" value="1" defaultChecked={ttlOverdueOnly} />
           TTL 초과 초안만
         </label>

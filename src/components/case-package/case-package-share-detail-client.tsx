@@ -234,7 +234,7 @@ export function CasePackageShareDetailClient({
 
   if (isLoading && !share) {
     return (
-      <div className="rounded-2xl border bg-white p-6 text-sm text-slate-600 shadow-sm">
+      <div className="rounded-2xl border bg-white p-6 text-sm text-aibeop-muted shadow-sm">
         공유 상세 정보를 불러오는 중입니다.
       </div>
     );
@@ -250,7 +250,7 @@ export function CasePackageShareDetailClient({
 
   if (!share) {
     return (
-      <div className="rounded-2xl border bg-white p-6 text-sm text-slate-600 shadow-sm">
+      <div className="rounded-2xl border bg-white p-6 text-sm text-aibeop-muted shadow-sm">
         공유 정보를 찾을 수 없습니다.
       </div>
     );
@@ -262,8 +262,8 @@ export function CasePackageShareDetailClient({
         <div className="rounded-2xl border bg-white p-6 shadow-sm">
           <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
             <div>
-              <p className="text-xs font-semibold text-slate-500">사건 고유번호</p>
-              <p className="mt-1 font-mono text-2xl font-bold text-slate-950">{share.publicCode}</p>
+              <p className="text-xs font-semibold text-aibeop-subtle">사건 고유번호</p>
+              <p className="mt-1 font-mono text-2xl font-bold text-aibeop-text">{share.publicCode}</p>
             </div>
 
             <StatusBadge status={share.status} />
@@ -295,7 +295,7 @@ export function CasePackageShareDetailClient({
         </div>
 
         <div className="rounded-2xl border bg-white p-6 shadow-sm">
-          <h2 className="text-lg font-bold text-slate-950">공유 범위</h2>
+          <h2 className="text-lg font-bold text-aibeop-text">공유 범위</h2>
 
           <div className="mt-4 grid gap-2 md:grid-cols-2">
             <ScopeItem label="사건 요약" enabled={share.scope.allowSummary} />
@@ -322,8 +322,8 @@ export function CasePackageShareDetailClient({
         <div className="rounded-2xl border bg-white p-6 shadow-sm">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div>
-              <h2 className="text-lg font-bold text-slate-950">열람 / 다운로드 이력</h2>
-              <p className="mt-1 text-sm text-slate-600">
+              <h2 className="text-lg font-bold text-aibeop-text">열람 / 다운로드 이력</h2>
+              <p className="mt-1 text-sm text-aibeop-muted">
                 최근 100건까지 표시합니다. IP는 일부 마스킹됩니다.
               </p>
             </div>
@@ -331,7 +331,7 @@ export function CasePackageShareDetailClient({
             <button
               type="button"
               onClick={() => void loadAll()}
-              className="rounded-xl border px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+              className="rounded-xl border px-3 py-2 text-sm font-semibold text-aibeop-subtle hover:bg-slate-50"
             >
               새로고침
             </button>
@@ -346,13 +346,13 @@ export function CasePackageShareDetailClient({
           </div>
 
           {logs.length === 0 ? (
-            <div className="mt-5 rounded-xl bg-slate-50 p-4 text-sm text-slate-600">
+            <div className="mt-5 rounded-xl bg-slate-50 p-4 text-sm text-aibeop-muted">
               아직 열람 또는 다운로드 기록이 없습니다.
             </div>
           ) : (
             <div className="mt-5 overflow-hidden rounded-xl border">
               <table className="w-full text-left text-sm">
-                <thead className="bg-slate-50 text-xs font-semibold text-slate-500">
+                <thead className="bg-slate-50 text-xs font-semibold text-aibeop-subtle">
                   <tr>
                     <th className="px-4 py-3">시간</th>
                     <th className="px-4 py-3">행위</th>
@@ -364,17 +364,17 @@ export function CasePackageShareDetailClient({
                 <tbody className="divide-y">
                   {logs.map((log) => (
                     <tr key={log.id}>
-                      <td className="px-4 py-3 text-slate-600">
+                      <td className="px-4 py-3 text-aibeop-muted">
                         {formatDateTime(log.createdAt)}
                       </td>
                       <td className="px-4 py-3">
                         <ActionBadge action={log.action} />
                       </td>
-                      <td className="px-4 py-3 text-slate-600">{log.targetType}</td>
-                      <td className="px-4 py-3 text-slate-600">
+                      <td className="px-4 py-3 text-aibeop-muted">{log.targetType}</td>
+                      <td className="px-4 py-3 text-aibeop-muted">
                         {log.actor?.name ?? log.actor?.email ?? "알 수 없음"}
                       </td>
-                      <td className="px-4 py-3 text-slate-600">
+                      <td className="px-4 py-3 text-aibeop-muted">
                         {log.resultMessage ?? "-"}
                       </td>
                     </tr>
@@ -388,15 +388,15 @@ export function CasePackageShareDetailClient({
 
       <aside className="flex flex-col gap-6">
         <section className="rounded-2xl border bg-white p-6 shadow-sm">
-          <h2 className="text-lg font-bold text-slate-950">공유 취소</h2>
-          <p className="mt-2 text-sm leading-6 text-slate-600">
+          <h2 className="text-lg font-bold text-aibeop-text">공유 취소</h2>
+          <p className="mt-2 text-sm leading-6 text-aibeop-muted">
             공유를 취소하면 해당 고유번호로 더 이상 사건 패키지를 열람할 수
             없습니다. 취소 후 같은 고유번호는 재사용하지 않는 것이 원칙입니다.
           </p>
 
           <div className="mt-5 grid gap-4">
             <label className="grid gap-2">
-              <span className="text-sm font-semibold text-slate-700">취소 사유</span>
+              <span className="text-sm font-semibold text-aibeop-subtle">취소 사유</span>
               <select
                 value={selectedReason}
                 onChange={(event) => setSelectedReason(event.target.value)}
@@ -413,7 +413,7 @@ export function CasePackageShareDetailClient({
 
             {selectedReason === "기타" ? (
               <label className="grid gap-2">
-                <span className="text-sm font-semibold text-slate-700">기타 사유</span>
+                <span className="text-sm font-semibold text-aibeop-subtle">기타 사유</span>
                 <textarea
                   value={customReason}
                   onChange={(event) => setCustomReason(event.target.value)}
@@ -454,8 +454,8 @@ export function CasePackageShareDetailClient({
 function InfoItem({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-xl border bg-slate-50 p-4">
-      <p className="text-xs font-semibold text-slate-500">{label}</p>
-      <p className="mt-1 text-sm font-semibold text-slate-900">{value}</p>
+      <p className="text-xs font-semibold text-aibeop-subtle">{label}</p>
+      <p className="mt-1 text-sm font-semibold text-aibeop-text">{value}</p>
     </div>
   );
 }
@@ -463,12 +463,12 @@ function InfoItem({ label, value }: { label: string; value: string }) {
 function ScopeItem({ label, enabled }: { label: string; enabled: boolean }) {
   return (
     <div className="flex items-center justify-between rounded-xl border bg-slate-50 px-4 py-3 text-sm">
-      <span className="font-medium text-slate-700">{label}</span>
+      <span className="font-medium text-aibeop-subtle">{label}</span>
       <span
         className={
           enabled
             ? "rounded-full bg-green-100 px-2 py-1 text-xs font-semibold text-green-700"
-            : "rounded-full bg-slate-200 px-2 py-1 text-xs font-semibold text-slate-600"
+            : "rounded-full bg-slate-200 px-2 py-1 text-xs font-semibold text-aibeop-muted"
         }
       >
         {enabled ? "허용" : "비허용"}
@@ -480,8 +480,8 @@ function ScopeItem({ label, enabled }: { label: string; enabled: boolean }) {
 function Metric({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-xl border bg-slate-50 p-3">
-      <p className="text-xs font-semibold text-slate-500">{label}</p>
-      <p className="mt-1 text-lg font-bold text-slate-950">{value}</p>
+      <p className="text-xs font-semibold text-aibeop-subtle">{label}</p>
+      <p className="mt-1 text-lg font-bold text-aibeop-text">{value}</p>
     </div>
   );
 }
@@ -492,7 +492,7 @@ function StatusBadge({ status }: { status: string }) {
       ? "bg-green-100 text-green-700"
       : status === "REVOKED"
         ? "bg-red-100 text-red-700"
-        : "bg-slate-100 text-slate-700";
+        : "bg-slate-100 text-aibeop-subtle";
 
   return (
     <span className={`w-fit rounded-full px-3 py-1 text-xs font-bold ${className}`}>
@@ -509,7 +509,7 @@ function ActionBadge({ action }: { action: string }) {
         ? "bg-green-100 text-green-700"
         : action === "DENIED"
           ? "bg-red-100 text-red-700"
-          : "bg-slate-100 text-slate-700";
+          : "bg-slate-100 text-aibeop-subtle";
 
   return (
     <span className={`rounded-full px-2 py-1 text-xs font-bold ${className}`}>

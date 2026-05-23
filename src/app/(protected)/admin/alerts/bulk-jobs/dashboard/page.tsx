@@ -14,15 +14,15 @@ export default async function BulkJobDashboardPage() {
     <div className="space-y-6">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <div className="text-sm text-slate-500">관리자 / 경고 / Bulk Jobs</div>
-          <h1 className="mt-1 text-2xl font-semibold text-slate-900">BulkActionJob 운영 대시보드</h1>
-          <p className="mt-1 text-sm text-slate-500">
+          <div className="text-sm text-aibeop-subtle">관리자 / 경고 / Bulk Jobs</div>
+          <h1 className="mt-1 text-2xl font-semibold text-aibeop-text">BulkActionJob 운영 대시보드</h1>
+          <p className="mt-1 text-sm text-aibeop-subtle">
             retry storm, anomaly 추이, 동시성 병목을 빠르게 확인합니다.
           </p>
         </div>
         <Link
           href="/admin/alerts/bulk-jobs"
-          className="text-sm font-medium text-slate-700 underline-offset-4 hover:underline"
+          className="text-sm font-medium text-aibeop-subtle underline-offset-4 hover:underline"
         >
           ← 목록으로
         </Link>

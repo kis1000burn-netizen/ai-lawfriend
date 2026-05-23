@@ -15,8 +15,8 @@ function StatusBadge({ status }: { status: string }) {
           : status === "FAILED"
             ? "border-rose-200 bg-rose-50 text-rose-700"
             : status === "CANCELED"
-              ? "border-slate-200 bg-slate-50 text-slate-600"
-              : "border-slate-200 bg-slate-50 text-slate-600";
+              ? "border-slate-200 bg-slate-50 text-aibeop-muted"
+              : "border-slate-200 bg-slate-50 text-aibeop-muted";
 
   return (
     <span className={`rounded-lg border px-2 py-1 text-xs font-medium ${cls}`}>
@@ -54,9 +54,9 @@ export default async function BulkJobScheduleDetailPage({
   return (
     <div className="space-y-6">
       <div>
-        <div className="text-sm text-slate-500">관리자 / 경고 / Bulk Jobs / 예약 재시도</div>
-        <h1 className="mt-1 text-xl font-semibold text-slate-900">예약 재시도 상세</h1>
-        <p className="mt-1 text-sm text-slate-500">
+        <div className="text-sm text-aibeop-subtle">관리자 / 경고 / Bulk Jobs / 예약 재시도</div>
+        <h1 className="mt-1 text-xl font-semibold text-aibeop-text">예약 재시도 상세</h1>
+        <p className="mt-1 text-sm text-aibeop-subtle">
           예약 상태 확인, 취소, 재예약을 수행합니다.
         </p>
       </div>
@@ -66,12 +66,12 @@ export default async function BulkJobScheduleDetailPage({
           <StatusBadge status={schedule.status} />
         </div>
 
-        <div className="mt-4 grid gap-3 text-sm text-slate-600 md:grid-cols-2">
+        <div className="mt-4 grid gap-3 text-sm text-aibeop-muted md:grid-cols-2">
           <div>
             sourceJob:{" "}
             <Link
               href={`/admin/alerts/bulk-jobs/${schedule.sourceJobId}`}
-              className="text-slate-700 underline"
+              className="text-aibeop-subtle underline"
             >
               {schedule.sourceJobId}
             </Link>
@@ -86,7 +86,7 @@ export default async function BulkJobScheduleDetailPage({
             {schedule.createdRetryJobId ? (
               <Link
                 href={`/admin/alerts/bulk-jobs/${schedule.createdRetryJobId}`}
-                className="text-slate-700 underline"
+                className="text-aibeop-subtle underline"
               >
                 {schedule.createdRetryJobId}
               </Link>
