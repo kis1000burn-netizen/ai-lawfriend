@@ -37,6 +37,14 @@ export default async function LawyerLayout({ children }: Props) {
               <Link href="/lawyer/case-packages/lookup" className="hover:text-aibeop-text">
                 사건 고유번호 조회
               </Link>
+              {lawyerApproved ? (
+                <Link
+                  href="/lawyer/legal-knowledge/reviews"
+                  className="hover:text-aibeop-text"
+                >
+                  공부호 Legal Knowledge 검수
+                </Link>
+              ) : null}
               {canManageQuestionSets(user.role) ? (
                 <Link href="/admin/question-sets" className="hover:text-aibeop-text">
                   인터뷰 질문셋

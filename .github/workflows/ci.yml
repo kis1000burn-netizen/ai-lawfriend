@@ -1,4 +1,5 @@
 # Step 3 후보 4·③: CI에서 로컬 게이트 verify:349-12와 동일한 명령을 실행한다.
+# predeploy-fresh-build: dev 서버 없이 fresh build만 (AI Core predeploy ops — docs/operations/AIBEOPCHIN_PREDEPLOY_LOCAL_CI_RUNBOOK.md)
 # 증빙: docs/project-governance/IMPLEMENTATION_EVIDENCE.md [EVIDENCE-20260425-350]
 name: CI
 
@@ -11,6 +12,13 @@ on:
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+
+env:
+  DATABASE_URL: postgresql://ci:ci@127.0.0.1:5432/ci
+  JWT_SECRET: ci-jwt-secret-minimum-32-characters-long
+  CRON_SECRET: ci-cron-secret-minimum-32-characters
+  NEXT_PUBLIC_APP_VERSION: ci
+  APP_BASE_URL: http://localhost:3000
 
 jobs:
   verify-349-12:
@@ -29,5 +37,26 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Step 3 local gate (tsc, lint, canonical-sources, vitest)
-        run: npm run verify:349-12
+      - name: Step 3 local gate (tsc, lint, canonical-sources, vitest, staging policy)
+        run: npm run verify:349-12 && npm run test:staging-secrets-policy
+        env:
+          NODE_ENV: test
+
+  predeploy-fresh-build:
+    name: predeploy-fresh-build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Predeploy check (no dev server; build uses NODE_ENV=production via script)
+        run: npm run predeploy:check

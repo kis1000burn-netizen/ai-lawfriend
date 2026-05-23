@@ -1,0 +1,6 @@
+/**
+ * CMB evidenceTag ↔ IMPLEMENTATION_EVIDENCE 교차 (Phase 6-D 정적 게이트 보조)
+ */
+
+export const CMB_FOUNDATION_EVIDENCE_TAG =
+  "EVIDENCE-20260523-AIBEOPCHIN-CMB-LAYER-PHASE6-FOUNDATION" as const;

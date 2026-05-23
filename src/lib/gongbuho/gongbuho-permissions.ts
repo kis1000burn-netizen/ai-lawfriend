@@ -12,11 +12,19 @@ export type GongbuhoOperation =
   | "ARCHIVE"
   | "PROJECT_QUESTION_SET"
   | "CREATE_PACKET"
+  | "LEGAL_KNOWLEDGE_READ"
+  | "LEGAL_KNOWLEDGE_WRITE"
+  | "LEGAL_KNOWLEDGE_COMPILE"
   | "OPERATE_SEEDED_PACKET"
   | "RECOVER"
   | "FINAL_ADMIN";
 
-const STAFF_ALLOWED: GongbuhoOperation[] = ["LIST", "DETAIL", "PREVIEW"];
+const STAFF_ALLOWED: GongbuhoOperation[] = [
+  "LIST",
+  "DETAIL",
+  "PREVIEW",
+  "LEGAL_KNOWLEDGE_READ",
+];
 
 const ADMIN_ALLOWED: GongbuhoOperation[] = [
   ...STAFF_ALLOWED,
@@ -24,6 +32,8 @@ const ADMIN_ALLOWED: GongbuhoOperation[] = [
   "APPROVE",
   "ARCHIVE",
   "PROJECT_QUESTION_SET",
+  "LEGAL_KNOWLEDGE_WRITE",
+  "LEGAL_KNOWLEDGE_COMPILE",
   "OPERATE_SEEDED_PACKET",
 ];
 

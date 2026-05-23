@@ -8,6 +8,7 @@ import {
   findInterviewAnswersByCaseId,
   findInterviewCompletionByCaseId,
 } from "@/features/case-interview/case-interview.repository";
+import { assertVoiceDocumentFinalizeAllowed } from "@/lib/voice/voice-document-finalize-gate.service";
 import {
   buildInterviewSummary,
   getInterviewFlow,
@@ -32,8 +33,7 @@ import type {
   RegenerateParagraphResult,
 } from "@/features/document-drafts/document-draft.types";
 import { buildParagraphLineDiff } from "@/features/document-drafts/document-paragraph-diff.utils";
-import { regenerateParagraphsFallback } from "@/features/document-drafts/document-paragraph-ai.fallback";
-import { regenerateParagraphsWithAI } from "@/features/document-drafts/document-paragraph-ai.utils";
+import { invokeDraftParagraphRegenerateBatch } from "@/features/ai-core";
 import {
   createParagraphRewriteHistoryRepository,
   findParagraphRewriteHistoryById,
@@ -120,39 +120,18 @@ export async function regenerateDraftParagraphs(
     await assertCaseDocumentDraftNotApprovalLocked(input.documentId);
   }
 
-  const useOpenAI = Boolean(process.env.OPENAI_API_KEY?.trim());
-
-  const aiResult = useOpenAI
-    ? await regenerateParagraphsWithAI({
-        paragraphs: input.paragraphs,
-        templateType: input.templateType,
-        title: input.title,
-        targetParagraphIds: input.targetParagraphIds,
-        force: input.force,
-        instructionByParagraphId: input.instructionByParagraphId,
-      })
-    : (() => {
-        const fb = regenerateParagraphsFallback({
-          paragraphs: input.paragraphs,
-          templateType: input.templateType,
-          targetParagraphIds: input.targetParagraphIds,
-          force: input.force,
-          instructionByParagraphId: input.instructionByParagraphId,
-        });
-        const historyDrafts = fb.regeneratedIds.map((id) => {
-          const prev = input.paragraphs.find((p) => p.id === id);
-          const next = fb.paragraphs.find((p) => p.id === id);
-          return {
-            paragraphId: id,
-            sourceQuestionKey: prev?.sourceQuestionKey ?? null,
-            beforeContent: prev?.content ?? "",
-            afterContent: next?.content ?? "",
-            instruction: input.instructionByParagraphId?.[id] ?? null,
-            aiModel: "local-fallback",
-          };
-        });
-        return { ...fb, historyDrafts };
-      })();
+  const aiResult = await invokeDraftParagraphRegenerateBatch({
+    paragraphs: input.paragraphs,
+    templateType: input.templateType,
+    title: input.title,
+    targetParagraphIds: input.targetParagraphIds,
+    force: input.force,
+    instructionByParagraphId: input.instructionByParagraphId,
+    auditContext: {
+      actorUserId: input.actorUserId ?? currentUser.id,
+      caseId: input.caseId,
+    },
+  });
 
   const actorUserId = input.actorUserId ?? currentUser.id;
 
@@ -207,6 +186,8 @@ export async function finalizeDocumentDraft(
   if (!interviewCompleted) {
     throw new ValidationError("인터뷰 완료 후 문서 최종 생성이 가능합니다.");
   }
+
+  await assertVoiceDocumentFinalizeAllowed(input.caseId);
 
   const includedParagraphs = input.paragraphs.filter((paragraph) => paragraph.included);
 

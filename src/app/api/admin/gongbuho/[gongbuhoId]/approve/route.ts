@@ -6,6 +6,7 @@ import { ok, fail, toErrorResponse } from "@/lib/domain-api-response";
 import { assertGongbuhoOperation } from "@/lib/gongbuho/gongbuho-permissions";
 import { writeGongbuhoAuditLog } from "@/lib/gongbuho/gongbuho-audit-log";
 import { approveGongbuhoPacket } from "@/features/gongbuho/gongbuho-packet.service";
+import { finalizeLegalKnowledgePipelineOnPacketApproved } from "@/features/gongbuho/legal-knowledge-pipeline.service";
 
 export const dynamic = "force-dynamic";
 
@@ -38,6 +39,25 @@ export async function POST(_req: Request, context: RouteContext) {
           role: user.role,
         },
       });
+
+      const pipeline = await finalizeLegalKnowledgePipelineOnPacketApproved({
+        gongbuhoPacketId: result.packet.id,
+        actorUserId: user.id,
+      });
+      if (pipeline.completed && pipeline.intakeId) {
+        await writeGongbuhoAuditLog({
+          actorUserId: user.id,
+          event: "GONGBUHO_LEGAL_KNOWLEDGE_PIPELINE_COMPLETED",
+          entityType: "LEGAL_KNOWLEDGE_INTAKE",
+          entityId: pipeline.intakeId,
+          metadata: {
+            packetId: result.packet.id,
+            code: result.packet.code,
+            version: result.packet.version,
+            role: user.role,
+          },
+        });
+      }
     }
 
     return ok(result);

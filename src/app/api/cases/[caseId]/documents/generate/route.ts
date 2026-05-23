@@ -5,7 +5,14 @@ import { getSessionUser } from "@/lib/get-session-user";
 import { assertCaseAccess } from "@/lib/authz";
 import { buildPermissionContextForCase } from "@/features/cases/case.permissions";
 import { buildParagraphDraftSeeds } from "@/lib/document-template-engine";
-import { generateParagraphContent } from "@/lib/document-ai";
+import {
+  invokeDocumentParagraphGenerate,
+  persistAiCoreAudit,
+  buildAiAuditRecord,
+  AI_PROMPT_KEYS,
+  AI_CORE_TASK_TYPES,
+  type PublicSafeAiAuditRecord,
+} from "@/features/ai-core";
 import { getQuestionSetDefinitionByCodeVersion } from "@/lib/question-set-registry";
 import { getQuestionSetDefinitionFromDb } from "@/lib/question-set-repository";
 import {
@@ -17,7 +24,7 @@ import {
   getTemplateSourceRuntimeBlockerMessage,
 } from "@/lib/document-generation-trace";
 import { validateOfficialFormRequiredFields } from "@/features/document-generation/official-form-required-field-validator";
-import { buildDocumentGenerationPrompt } from "@/features/document-generation/build-document-generation-prompt";
+import { buildIntegratedDocumentContext } from "@/features/ai-core";
 import {
   finalizeGongbuhoDocumentRulesEvaluation,
   mergeLatestGongbuhoTraceDocumentGenerationResult,
@@ -232,7 +239,7 @@ export async function POST(
       buildOfficialFormGenerationContext(templateRecord);
     const attachmentSummary = await buildCaseAttachmentSummary(caseId);
 
-    const { prompt, guardrail } = buildDocumentGenerationPrompt({
+    const { prompt, guardrail } = buildIntegratedDocumentContext({
       documentType: template.type,
       templateTitle: template.title,
       caseSummary: buildCaseSummary(caseRecord),
@@ -249,11 +256,13 @@ export async function POST(
 
     const generatedParagraphs = await Promise.all(
       paragraphDraftSeeds.map(async (seed) => {
-        const content = await generateParagraphContent({
+        const { content, audit } = await invokeDocumentParagraphGenerate({
           title: seed.title,
           seedContent: seed.content,
-          aiPromptKey: seed.aiPromptKey,
-          prompt,
+          generationMode: seed.generationMode,
+          integratedPrompt: prompt,
+          templateAiPromptKey: seed.aiPromptKey ?? null,
+          guardrailPolicy: guardrail.policy,
         });
 
         return {
@@ -268,9 +277,11 @@ export async function POST(
           lockOnApproval: seed.lockOnApproval,
           supportsRegeneration: seed.supportsRegeneration,
           supportsRestore: seed.supportsRestore,
+          aiAudit: audit,
         };
       }),
     );
+    const aiAuditTrail: PublicSafeAiAuditRecord[] = generatedParagraphs.map((p) => p.aiAudit);
     const generatedBody = generatedParagraphs
       .map((paragraph) => paragraph.content)
       .filter(Boolean)
@@ -362,8 +373,9 @@ export async function POST(
           snapshotJson: {
             title: document.title,
             status: document.status,
-            paragraphs: generatedParagraphs,
+            paragraphs: generatedParagraphs.map(({ aiAudit: _aiAudit, ...p }) => p),
             guardrailTrace,
+            aiAuditTrail,
             gongbuhoDocumentRules: gongbuhoEvaluation,
           },
           approved: false,
@@ -398,6 +410,23 @@ export async function POST(
       return document;
     });
 
+    await persistAiCoreAudit({
+      actorUserId: sessionUser.id,
+      entityType: "CASE",
+      entityId: caseId,
+      record: buildAiAuditRecord({
+        operation: "DOCUMENT_PARAGRAPH_GENERATE",
+        taskType: AI_CORE_TASK_TYPES.DOCUMENT_GENERATION_INTEGRATED,
+        model: "batch",
+        promptKey: AI_PROMPT_KEYS.DOCUMENT_GENERATION_INTEGRATED,
+        generationMode: "AI_GENERATE",
+        guardrailPolicy: guardrail.policy,
+        guardrailPassed: true,
+        skippedLlm: aiAuditTrail.every((a) => a.skippedLlm),
+      }),
+      message: `Legal document generate (${aiAuditTrail.length} paragraphs)`,
+    });
+
     if (gongbuhoEvaluation.applied) {
       await mergeLatestGongbuhoTraceDocumentGenerationResult(caseId, {
         occurredAtIso: new Date().toISOString(),
@@ -414,6 +443,7 @@ export async function POST(
         generationWarnings: guardrail.warnings,
         missingWarningFields,
         guardrailTrace,
+        aiAuditTrail,
         gongbuhoDocumentRules: gongbuhoEvaluation,
         validation: {
           missingFields: missingWarningFields,

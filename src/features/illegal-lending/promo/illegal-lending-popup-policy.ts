@@ -17,22 +17,22 @@ export function getPromoPopupCooldownHours() {
 }
 
 export function shouldShowIllegalLendingPromoPopup() {
-  if (typeof globalThis === "undefined") return false;
+  if (typeof window === "undefined" || !window.localStorage) return false;
   if (!isPromoPopupEnabled()) return false;
 
-  const value = globalThis.localStorage.getItem(DISMISS_KEY);
+  const value = window.localStorage.getItem(DISMISS_KEY);
 
   if (!value) return true;
 
   const expiresAt = Number(value);
 
   if (!Number.isFinite(expiresAt)) {
-    globalThis.localStorage.removeItem(DISMISS_KEY);
+    window.localStorage.removeItem(DISMISS_KEY);
     return true;
   }
 
   if (expiresAt < Date.now()) {
-    globalThis.localStorage.removeItem(DISMISS_KEY);
+    window.localStorage.removeItem(DISMISS_KEY);
     return true;
   }
 
@@ -40,15 +40,15 @@ export function shouldShowIllegalLendingPromoPopup() {
 }
 
 export function dismissIllegalLendingPromoPopupForCooldown() {
-  if (typeof globalThis === "undefined") return;
+  if (typeof window === "undefined" || !window.localStorage) return;
 
   const cooldownMs = getPromoPopupCooldownHours() * 60 * 60 * 1000;
-  globalThis.localStorage.setItem(DISMISS_KEY, String(Date.now() + cooldownMs));
+  window.localStorage.setItem(DISMISS_KEY, String(Date.now() + cooldownMs));
 }
 
 export function dismissIllegalLendingPromoPopupForSession() {
-  if (typeof globalThis === "undefined") return;
+  if (typeof window === "undefined" || !window.localStorage) return;
 
   const sessionMs = 60 * 60 * 1000;
-  globalThis.localStorage.setItem(DISMISS_KEY, String(Date.now() + sessionMs));
+  window.localStorage.setItem(DISMISS_KEY, String(Date.now() + sessionMs));
 }

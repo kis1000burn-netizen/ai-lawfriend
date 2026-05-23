@@ -29,6 +29,13 @@
 - [PATCH_FINAL_CHECKLIST.md](../PATCH_FINAL_CHECKLIST.md)
 - [DEPLOY_PRECHECK.md](../DEPLOY_PRECHECK.md)
 
+**AI Core · predeploy 운영 (2026-05-23)**
+
+- [AIBEOPCHIN_PREDEPLOY_LOCAL_CI_RUNBOOK.md](./operations/AIBEOPCHIN_PREDEPLOY_LOCAL_CI_RUNBOOK.md)
+- [DB_MIGRATION_CHRONOLOGY.md](./operations/DB_MIGRATION_CHRONOLOGY.md)
+- [STAGING_SECRETS_CHECKLIST.md](./operations/STAGING_SECRETS_CHECKLIST.md)
+- [STAGING_SECRETS_LIVE_VERIFICATION_PHASE.md](./operations/STAGING_SECRETS_LIVE_VERIFICATION_PHASE.md) — **Phase A (다음)**
+
 ---
 
 ## 3. 문서별 역할
@@ -136,9 +143,13 @@
 먼저 볼 문서:
 
 - [ ] [DEPLOY_PRECHECK.md](../DEPLOY_PRECHECK.md)
+- [ ] (AI Core) [AIBEOPCHIN_PREDEPLOY_LOCAL_CI_RUNBOOK.md](./operations/AIBEOPCHIN_PREDEPLOY_LOCAL_CI_RUNBOOK.md) — **dev 종료 후** predeploy
+- [ ] [STAGING_SECRETS_CHECKLIST.md](./operations/STAGING_SECRETS_CHECKLIST.md) — staging env
+- [ ] [DB_MIGRATION_CHRONOLOGY.md](./operations/DB_MIGRATION_CHRONOLOGY.md) — 운영 DB migration
 
 확인 순서:
 
+- [ ] **`npm run dev` 종료** → build / predeploy
 - [ ] build / predeploy 스크립트
 - [ ] 환경 변수
 - [ ] health / release-meta

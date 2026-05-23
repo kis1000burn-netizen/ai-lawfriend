@@ -2,6 +2,7 @@
 
 import { DOCUMENT_STATUS_LABELS } from "@/lib/definitions";
 import type { UiFourPanelRole } from "@/lib/role-map";
+import type { VoiceDocumentFinalizeGateUiSnapshot } from "@/lib/voice/voice-document-finalize-gate-ui";
 
 type Props = {
   document: {
@@ -35,6 +36,8 @@ type Props = {
   onApprove: () => Promise<void> | void;
   onLock: () => Promise<void> | void;
   busy?: boolean;
+  voiceFinalizeGateBlocked?: boolean;
+  voiceFinalizeGateSnapshot?: VoiceDocumentFinalizeGateUiSnapshot | null;
 };
 
 export function DocumentReviewPanel({
@@ -43,6 +46,8 @@ export function DocumentReviewPanel({
   onApprove,
   onLock,
   busy,
+  voiceFinalizeGateBlocked = false,
+  voiceFinalizeGateSnapshot = null,
 }: Props) {
   const requiredParagraphsMissing = document.paragraphs.some((p) => !p.content?.trim());
   const canSeeTraceInternals = ["ADMIN", "LAWYER"].includes(currentRole);
@@ -59,6 +64,7 @@ export function DocumentReviewPanel({
 
   const approveDisabled =
     busy ||
+    voiceFinalizeGateBlocked ||
     requiredParagraphsMissing ||
     document.status === "LOCKED" ||
     document.status === "APPROVED" ||
@@ -223,7 +229,25 @@ export function DocumentReviewPanel({
       </div>
 
       {!isTerminal ? (
-        <div className="mt-5 flex flex-wrap gap-2">
+        <div className="mt-5 space-y-3">
+          {voiceFinalizeGateBlocked && voiceFinalizeGateSnapshot ? (
+            <p className="rounded-xl border border-rose-200 bg-rose-50 p-3 text-sm text-rose-950">
+              <span className="font-semibold">문서 승인 차단:</span>{" "}
+              {voiceFinalizeGateSnapshot.serverMessage ?? voiceFinalizeGateSnapshot.detail}
+              {voiceFinalizeGateSnapshot.actionHref ? (
+                <>
+                  {" "}
+                  <a
+                    href={voiceFinalizeGateSnapshot.actionHref}
+                    className="font-medium underline underline-offset-2"
+                  >
+                    {voiceFinalizeGateSnapshot.actionLabel ?? "해결 액션"}
+                  </a>
+                </>
+              ) : null}
+            </p>
+          ) : null}
+          <div className="flex flex-wrap gap-2">
           {canApprove ? (
             <button
               type="button"
@@ -245,6 +269,7 @@ export function DocumentReviewPanel({
               승인본 잠금
             </button>
           ) : null}
+          </div>
         </div>
       ) : null}
 

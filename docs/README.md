@@ -27,6 +27,7 @@
 현재 운영 문서 세트는 아래와 같이 구성됩니다.
 
 - [OPERATIONS_INDEX.md](./OPERATIONS_INDEX.md) — `docs/` (역할·상황별 진입)
+- [CMB Layer (Phase 6)](./cmb/README.md) — `verify:aibeopchin-cmb` · `verify:aibeopchin-cmb-rc` (RC)
 - [social-login-provider-setup.md](./social-login-provider-setup.md) — `docs/` (Google/Kakao/Naver 콘솔 값, env 템플릿, QA 체크리스트)
 - [project-governance/OFFICIAL_FORM_PHASE2_PHASE3_EXECUTION_GUIDE.md](./project-governance/OFFICIAL_FORM_PHASE2_PHASE3_EXECUTION_GUIDE.md) — `docs/project-governance/` (Phase 2 확정 검증 + Phase 3 실제 코드 반영 지시서)
 - [Release Candidate QA Lock Table](./project-governance/RELEASE_CANDIDATE_QA_LOCK_TABLE.md) — `docs/project-governance/` (Phase 4 진입 전 자동/수동 QA 잠금표)

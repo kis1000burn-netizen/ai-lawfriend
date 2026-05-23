@@ -13,6 +13,7 @@ import CaseInterviewClient from "@/components/cases/case-interview-client";
 import { CASE_STATUS_LABELS, INTERVIEW_STATUS_LABELS } from "@/lib/definitions";
 import { getAllowedCaseActions } from "@/lib/case-action-guard";
 import { prismaRoleToUiRole } from "@/lib/role-map";
+import { loadLawyerVoiceReviewFlagsByCaseId } from "@/lib/voice/voice-lawyer-review-flags.repository";
 
 type PageProps = {
   params: Promise<{
@@ -69,6 +70,36 @@ export default async function CaseInterviewPage({ params }: PageProps) {
     },
   }).COMPLETE_INTERVIEW;
 
+  const showLawyerVoiceReviewPanel =
+    currentUser.role === "LAWYER" ||
+    currentUser.role === "ADMIN" ||
+    currentUser.role === "STAFF" ||
+    currentUser.role === "SUPER_ADMIN";
+
+  const voiceTranscriptRows = showLawyerVoiceReviewPanel
+    ? (
+        await prisma.voiceTranscript.findMany({
+          where: { caseId: found.id },
+          orderBy: { createdAt: "desc" },
+          select: {
+            questionKey: true,
+            status: true,
+            draftText: true,
+            confirmedAt: true,
+          },
+        })
+      ).map((row) => ({
+        questionKey: row.questionKey,
+        status: row.status,
+        draftText: row.draftText,
+        confirmedAt: row.confirmedAt,
+      }))
+    : [];
+
+  const lawyerReviewFlags = showLawyerVoiceReviewPanel
+    ? await loadLawyerVoiceReviewFlagsByCaseId(found.id)
+    : {};
+
   return (
     <div className="space-y-6 p-6">
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -106,6 +137,9 @@ export default async function CaseInterviewPage({ params }: PageProps) {
         caseStatus={found.status}
         canEditInterview={canEditInterview}
         showCompleteInterviewCta={showCompleteInterviewCta}
+        showLawyerVoiceReviewPanel={showLawyerVoiceReviewPanel}
+        voiceTranscriptRows={voiceTranscriptRows}
+        lawyerReviewFlags={lawyerReviewFlags}
       />
     </div>
   );

@@ -123,7 +123,9 @@ export async function bindCaseGongbuhoInterview(
       );
     }
 
-    await updateCaseById(caseId, { questionSetId: hits[0]! });
+    await updateCaseById(caseId, {
+      interviewQuestionSet: { connect: { id: hits[0]! } },
+    });
 
     await mergeLatestGongbuhoTraceInterviewBinding({
       caseId,
@@ -178,7 +180,9 @@ export async function bindCaseGongbuhoInterview(
 
   assertQuestionSetOperationalForInterview(qsRow);
 
-  await updateCaseById(caseId, { questionSetId: qsRow.id });
+  await updateCaseById(caseId, {
+    interviewQuestionSet: { connect: { id: qsRow.id } },
+  });
 
   await mergeLatestGongbuhoTraceInterviewBinding({
     caseId,

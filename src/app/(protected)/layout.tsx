@@ -71,9 +71,20 @@ export default async function ProtectedLayout({ children }: Props) {
                 </Link>
               ) : null}
               {isStaffRole(user.role) || isPlatformAdmin ? (
-                <Link href="/admin/gongbuho" className="hover:text-aibeop-text">
-                  공부호 패킷
-                </Link>
+                <>
+                  <Link href="/admin/gongbuho" className="hover:text-aibeop-text">
+                    공부호 패킷
+                  </Link>
+                  <Link
+                    href="/admin/gongbuho/legal-knowledge"
+                    className="hover:text-aibeop-text"
+                  >
+                    Legal Knowledge
+                  </Link>
+                  <Link href="/admin/cmb" className="hover:text-aibeop-text">
+                    CMB Preview
+                  </Link>
+                </>
               ) : null}
               {isPlatformAdmin ? (
                 <>

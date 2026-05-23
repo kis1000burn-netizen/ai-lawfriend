@@ -2,7 +2,14 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { requireOkData } from "@/lib/client/api-error";
+import {
+  requireOkData,
+  readJsonApiErrorMessage,
+  readVoiceDocumentFinalizeBlockedFromJson,
+} from "@/lib/client/api-error";
+import { VoiceDocumentFinalizeGatePanel } from "@/components/cases/voice-document-finalize-gate-panel";
+import type { VoiceDocumentFinalizeGateUiSnapshot } from "@/lib/voice/voice-document-finalize-gate-ui";
+import { shouldShowVoiceDocumentFinalizeGatePanel } from "@/lib/voice/voice-document-finalize-gate-ui";
 import type { DocumentTemplateType } from "@/features/question-set/question-set.types";
 
 type PreviewParagraph = {
@@ -37,6 +44,7 @@ type HistoryItem = {
 
 type Props = {
   caseId: string;
+  voiceDocumentFinalizeGateSnapshot?: VoiceDocumentFinalizeGateUiSnapshot | null;
 };
 
 function sortParagraphs(paragraphs: PreviewParagraph[]) {
@@ -49,7 +57,10 @@ function formatHistoryDate(value: string | undefined) {
   return Number.isNaN(d.getTime()) ? value : d.toLocaleString("ko-KR");
 }
 
-export default function DocumentDraftClient({ caseId }: Props) {
+export default function DocumentDraftClient({
+  caseId,
+  voiceDocumentFinalizeGateSnapshot = null,
+}: Props) {
   const router = useRouter();
   const [loadingPreview, setLoadingPreview] = useState(false);
   const [loadingFinalize, setLoadingFinalize] = useState(false);
@@ -71,6 +82,11 @@ export default function DocumentDraftClient({ caseId }: Props) {
     () => sortParagraphs(preview?.paragraphs ?? []),
     [preview],
   );
+
+  const showVoiceDocumentFinalizeGatePanel =
+    voiceDocumentFinalizeGateSnapshot != null &&
+    shouldShowVoiceDocumentFinalizeGatePanel(voiceDocumentFinalizeGateSnapshot);
+  const voiceFinalizeGateBlocked = voiceDocumentFinalizeGateSnapshot?.allowed === false;
 
   async function handlePreview() {
     setLoadingPreview(true);
@@ -249,6 +265,12 @@ export default function DocumentDraftClient({ caseId }: Props) {
       });
 
       const raw = await res.json().catch(() => null);
+      if (!res.ok) {
+        const blocked = readVoiceDocumentFinalizeBlockedFromJson(raw);
+        throw new Error(
+          blocked?.message ?? readJsonApiErrorMessage(raw, "문서 최종 생성에 실패했습니다."),
+        );
+      }
       const payload = requireOkData<{
         document?: { id: string };
         data?: { document?: { id: string } };
@@ -273,6 +295,13 @@ export default function DocumentDraftClient({ caseId }: Props) {
 
   return (
     <div className="space-y-6">
+      {showVoiceDocumentFinalizeGatePanel && voiceDocumentFinalizeGateSnapshot ? (
+        <VoiceDocumentFinalizeGatePanel
+          caseId={caseId}
+          snapshot={voiceDocumentFinalizeGateSnapshot}
+          compact
+        />
+      ) : null}
       <section className="rounded-2xl border bg-white p-5 shadow-sm">
         <h2 className="text-lg font-semibold">문서 초안 생성</h2>
         <p className="mt-2 text-sm text-neutral-600">
@@ -552,12 +581,18 @@ export default function DocumentDraftClient({ caseId }: Props) {
               <button
                 type="button"
                 onClick={() => void handleFinalize()}
-                disabled={loadingFinalize || includedCount === 0}
+                disabled={loadingFinalize || includedCount === 0 || voiceFinalizeGateBlocked}
                 className="rounded-xl bg-black px-4 py-2 text-sm text-white disabled:opacity-50"
               >
                 {loadingFinalize ? "최종 생성 중..." : "최종 생성"}
               </button>
             </div>
+            {voiceFinalizeGateBlocked && voiceDocumentFinalizeGateSnapshot ? (
+              <p className="mt-3 rounded-xl border border-rose-200 bg-rose-50 p-3 text-sm text-rose-950">
+                Voice document finalize gate에 의해 최종 생성이 차단되었습니다.{" "}
+                {voiceDocumentFinalizeGateSnapshot.serverMessage}
+              </p>
+            ) : null}
           </section>
         </>
       ) : null}

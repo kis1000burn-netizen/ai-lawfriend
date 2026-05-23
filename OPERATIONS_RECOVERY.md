@@ -110,6 +110,7 @@
 
 ### 6.1 앱이 아예 빌드되지 않을 때
 
+- [ ] **`npm run dev` 실행 중이면 종료** — Windows Prisma `query_engine-*.dll.node` EPERM → [Predeploy 로컬 · CI 런북](docs/operations/AIBEOPCHIN_PREDEPLOY_LOCAL_CI_RUNBOOK.md) §2
 - [ ] import alias부터 수정
 - [ ] export 누락 수정
 - [ ] 타입명 보정

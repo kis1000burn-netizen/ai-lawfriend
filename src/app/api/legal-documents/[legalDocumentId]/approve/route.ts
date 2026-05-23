@@ -10,6 +10,7 @@ import {
   UnauthorizedError,
   ValidationError,
 } from "@/lib/errors";
+import { assertVoiceDocumentFinalizeAllowed } from "@/lib/voice/voice-document-finalize-gate.service";
 import type { CaseStatus as PrismaCaseStatus } from "@prisma/client";
 
 export async function POST(
@@ -82,6 +83,8 @@ export async function POST(
     if (!allowed) {
       throw new ForbiddenError("문서 승인 권한이 없습니다.");
     }
+
+    await assertVoiceDocumentFinalizeAllowed(document.caseId);
 
     const snapshotParagraphs = document.paragraphs.map((p) => ({
       id: p.id,

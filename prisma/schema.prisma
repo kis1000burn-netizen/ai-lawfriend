@@ -200,6 +200,46 @@ enum GongbuhoPacketStatus {
   ARCHIVED
 }
 
+/// Legal Knowledge Intake — `GONGBUHO_LEGAL_KNOWLEDGE_INTAKE_SPEC.md`
+enum LegalKnowledgeIntakeStatus {
+  DRAFT
+  MAPPING_PENDING
+  READY_FOR_RESEARCH
+  RESEARCH_IN_PROGRESS
+  LAWYER_REVIEW_PENDING
+  PACKET_DRAFT_LINKED
+  PACKET_APPROVED
+  PIPELINE_REJECTED
+  REJECTED
+  ARCHIVED
+}
+
+enum LegalKnowledgeResearchBriefStatus {
+  DRAFT
+  READY_FOR_LAWYER_REVIEW
+  REVISION_REQUESTED
+  SUPERSEDED
+  ARCHIVED
+}
+
+enum LegalKnowledgeLawyerReviewDecisionType {
+  APPROVE_FOR_PACKET_DRAFT
+  REQUEST_BRIEF_REVISION
+  REJECT
+}
+
+enum LegalKnowledgeLawyerReviewStatus {
+  PENDING
+  APPROVED
+  REVISION_REQUESTED
+  REJECTED
+}
+
+enum LegalKnowledgePacketIntent {
+  NEW_PACKET
+  EXTEND_EXISTING
+}
+
 /// Phase 5-B Voice intake draft — 문서 SSOT `docs/voice/VOICE_INTAKE_POLICY.md`.
 enum VoiceTranscriptStatus {
   CAPTURED
@@ -214,6 +254,30 @@ enum VoiceInteractionTraceEvent {
   VOICE_TRANSCRIPT_CONFIRMED
   VOICE_TRANSCRIPT_REJECTED
   VOICE_INTERVIEW_ANSWER_BOUND
+}
+
+/// Phase 7-A — Voice 운영·개인정보 민원(삭제/정정/STT) 요청 유형.
+enum VoicePrivacyOpsRequestType {
+  DELETION
+  CORRECTION
+  STT_COMPLAINT
+}
+
+/// Phase 7-A — 운영 처리 상태.
+enum VoicePrivacyOpsRequestStatus {
+  OPEN
+  IN_REVIEW
+  RESOLVED
+  REJECTED
+}
+
+/// Phase 7-A — 런북 §7.1/7.2 해결 코드(본문 로그 금지 · 감사 메타만).
+enum VoicePrivacyOpsResolutionCode {
+  DRAFT_PURGED
+  ESCALATED_LAWYER_REVIEW
+  USER_GUIDED_RECONFIRM
+  METADATA_ONLY_CLOSED
+  REQUEST_REJECTED
 }
 
 enum TimelineMemoType {
@@ -313,8 +377,18 @@ model User {
   lawyerProfilesReviewed      LawyerProfile[]                   @relation("LawyerProfileReviewer")
   gongbuhoPacketsCreated      GongbuhoPacket[]                  @relation("GongbuhoPacketCreatedBy")
   gongbuhoPacketsApproved     GongbuhoPacket[]                  @relation("GongbuhoPacketApprovedBy")
+  legalKnowledgeIntakesCreated LegalKnowledgeDemandIntake[]     @relation("LegalKnowledgeIntakeCreatedBy")
+  legalKnowledgeBriefsPrepared LegalKnowledgeResearchBrief[]   @relation("LegalKnowledgeBriefPreparedBy")
   voiceTranscriptsCreated     VoiceTranscript[]                 @relation("VoiceTranscriptCreatedBy")
   voiceInteractionTracesActor VoiceInteractionTrace[]           @relation("VoiceInteractionTraceActor")
+  voiceLawyerReviewCompletions VoiceLawyerReviewCompletion[]    @relation("VoiceLawyerReviewCompletionReviewer")
+  voicePrivacyOpsRequestsCreated  VoicePrivacyOpsRequest[]        @relation("VoicePrivacyOpsRequestCreatedBy")
+  voicePrivacyOpsRequestsAssigned VoicePrivacyOpsRequest[]        @relation("VoicePrivacyOpsRequestAssignedTo")
+  voicePrivacyOpsRequestsResolved VoicePrivacyOpsRequest[]        @relation("VoicePrivacyOpsRequestResolvedBy")
+  cmbRevisionsCreated          AibeopchinCmbConfigRevision[]    @relation("CmbRevisionCreatedBy")
+  cmbPublishEventsActed        AibeopchinCmbPublishEvent[]      @relation("CmbPublishEventActor")
+  createdCaseIntelligenceSnapshots CaseIntelligenceSnapshot[] @relation("CaseIntelligenceSnapshotCreator")
+  clientDisclosureReleases         CaseClientDisclosureRelease[] @relation("CaseClientDisclosureReleaseActor")
 
   @@index([email])
 }
@@ -621,6 +695,10 @@ model Case {
   gongbuhoTraces             GongbuhoTrace[]
   voiceTranscripts           VoiceTranscript[]
   voiceInteractionTraces     VoiceInteractionTrace[]
+  voiceLawyerReviewCompletions VoiceLawyerReviewCompletion[]
+  voicePrivacyOpsRequests      VoicePrivacyOpsRequest[]
+  intelligenceSnapshots        CaseIntelligenceSnapshot[]
+  clientDisclosureReleases     CaseClientDisclosureRelease[]
 
   /// 사건 인터뷰에 사용할 질문셋(선택). 미지정 시 전역 활성 단일 QuestionSet 규약 유지(Phase 3-D).
   questionSetId               String?
@@ -631,6 +709,46 @@ model Case {
   @@index([questionSetId])
   @@index([assignedLawyerUserId])
   @@index([assignedStaffUserId])
+}
+
+/// Phase 11-A — Case Intelligence Graph/Radar/Ledger revision snapshot (lawyer review console).
+model CaseIntelligenceSnapshot {
+  id                     String   @id @default(cuid())
+  caseId                 String
+  generatedAt            DateTime
+  caseSummaryAiMode      String
+  contentJson            Json
+  graphJson              Json
+  radarJson              Json
+  ledgerJson             Json
+  gongbuhoResolutionJson Json?
+  createdByUserId        String?
+  createdAt              DateTime @default(now())
+
+  case      Case  @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  createdBy User? @relation("CaseIntelligenceSnapshotCreator", fields: [createdByUserId], references: [id], onDelete: SetNull)
+
+  @@index([caseId, createdAt])
+}
+
+/// Phase 11-B — Client disclosure release audit (preview → release diff record).
+model CaseClientDisclosureRelease {
+  id               String   @id @default(cuid())
+  caseId           String
+  snapshotId       String?
+  caseStatus       String
+  previewVersion   String   @default("11-B.1")
+  disclosureVersion String  @default("10-C.1")
+  statementsJson   Json
+  diffJson         Json
+  releaseNotes     String?
+  releasedByUserId String
+  releasedAt       DateTime @default(now())
+
+  case       Case @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  releasedBy User @relation("CaseClientDisclosureReleaseActor", fields: [releasedByUserId], references: [id], onDelete: Cascade)
+
+  @@index([caseId, releasedAt])
 }
 
 model CasePackageShare {
@@ -751,6 +869,12 @@ model SupplementRequestItem {
   sortOrder      Int                   @default(0)
   expectedFormat String?
   maxLength      Int?
+  /// Phase 5-H-UI-4 — 인터뷰 `answersJson` 질문 키 바인딩
+  interviewQuestionKey String?
+  /// Phase 5-H-UI-4 — 출처 VoiceTranscript(선택)
+  voiceTranscriptId    String?
+  /// Phase 5-H-UI-4 — 생성 출처 마커(예: voice lawyer review)
+  sourceMarker         String?
   createdAt      DateTime              @default(now())
   updatedAt      DateTime              @updatedAt
 
@@ -1312,6 +1436,8 @@ model VoiceTranscript {
   createdBy   User                       @relation("VoiceTranscriptCreatedBy", fields: [createdByUserId], references: [id], onDelete: Cascade)
   interview   Interview?                 @relation(fields: [interviewId], references: [id], onDelete: SetNull)
   traces      VoiceInteractionTrace[]
+  lawyerReviewCompletions VoiceLawyerReviewCompletion[]
+  privacyOpsRequests      VoicePrivacyOpsRequest[]
 
   @@index([caseId, questionKey, status])
   @@index([caseId, status, expiresAt])
@@ -1336,6 +1462,183 @@ model VoiceInteractionTrace {
   @@index([voiceTranscriptId, createdAt])
 }
 
+/// Phase 5-H-UI-3 — 변호사 음성 transcript 검토 완료(질문 키별 · 확정 transcript ID에 바인딩).
+model VoiceLawyerReviewCompletion {
+  id                String   @id @default(cuid())
+  caseId            String
+  questionKey       String
+  voiceTranscriptId String
+  reviewedByUserId  String
+  reviewedAt        DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  case            Case            @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  voiceTranscript VoiceTranscript @relation(fields: [voiceTranscriptId], references: [id], onDelete: Cascade)
+  reviewedBy      User            @relation("VoiceLawyerReviewCompletionReviewer", fields: [reviewedByUserId], references: [id], onDelete: Cascade)
+
+  @@unique([caseId, questionKey])
+  @@index([caseId])
+  @@index([voiceTranscriptId])
+}
+
+/// Phase 7-A — Voice transcript 삭제·정정·STT 민원 운영 티켓(본문 미저장 · 메타만).
+model VoicePrivacyOpsRequest {
+  id                String                         @id @default(cuid())
+  caseId            String
+  voiceTranscriptId String?
+  requestType       VoicePrivacyOpsRequestType
+  status            VoicePrivacyOpsRequestStatus   @default(OPEN)
+  /// 의뢰인 연락 채널 등 식별 메타(본문 transcript 아님).
+  requesterChannel  String?
+  requesterNote     String                         @db.Text
+  opsNotes          String?                        @db.Text
+  resolutionCode    VoicePrivacyOpsResolutionCode?
+  evidenceTag       String?
+  createdByUserId   String
+  assignedToUserId  String?
+  resolvedAt        DateTime?
+  resolvedByUserId  String?
+  createdAt         DateTime                       @default(now())
+  updatedAt         DateTime                       @updatedAt
+
+  case            Case             @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  voiceTranscript VoiceTranscript? @relation(fields: [voiceTranscriptId], references: [id], onDelete: SetNull)
+  createdBy       User             @relation("VoicePrivacyOpsRequestCreatedBy", fields: [createdByUserId], references: [id], onDelete: Cascade)
+  assignedTo      User?            @relation("VoicePrivacyOpsRequestAssignedTo", fields: [assignedToUserId], references: [id], onDelete: SetNull)
+  resolvedBy      User?            @relation("VoicePrivacyOpsRequestResolvedBy", fields: [resolvedByUserId], references: [id], onDelete: SetNull)
+
+  @@index([status, createdAt])
+  @@index([caseId])
+  @@index([voiceTranscriptId])
+}
+
+/// Legal Knowledge Intake — 수요 신호(원문 금지). `GONGBUHO_LEGAL_KNOWLEDGE_INTAKE_SPEC.md`
+model LegalKnowledgeDemandIntake {
+  id                    String                       @id @default(cuid())
+  signalSource          String
+  observationWindowFrom DateTime                     @db.Date
+  observationWindowTo   DateTime                     @db.Date
+  querySignature        Json
+  questionType          Json
+  caseTypeMapping       Json
+  suggestedGongbuhoCode String?
+  demandStrength        String
+  intakeCompliance      Json
+  status                LegalKnowledgeIntakeStatus   @default(DRAFT)
+  operatorNote          String?
+  createdByUserId       String?
+  createdAt             DateTime                     @default(now())
+  updatedAt             DateTime                     @updatedAt
+
+  createdByUser  User?                              @relation("LegalKnowledgeIntakeCreatedBy", fields: [createdByUserId], references: [id], onDelete: SetNull)
+  researchBriefs LegalKnowledgeResearchBrief[]
+  lawyerReviews  LegalKnowledgeLawyerReviewDecision[]
+
+  @@index([status])
+  @@index([createdByUserId])
+}
+
+/// Legal Knowledge Research Brief — 공신력 근거 포인터. `GONGBUHO_LEGAL_KNOWLEDGE_PACKET_PIPELINE_SPEC.md`
+model LegalKnowledgeResearchBrief {
+  id                    String                            @id @default(cuid())
+  intakeId              String
+  demandKeywordSnapshot String
+  targetCaseType        String
+  packetIntent          LegalKnowledgePacketIntent
+  targetGongbuhoCode    String?
+  canonicalSourceRefs   Json
+  legalIssueOutline     String
+  structureHints        Json
+  researchCompliance    Json
+  status                LegalKnowledgeResearchBriefStatus @default(DRAFT)
+  preparedByUserId      String?
+  createdAt             DateTime                          @default(now())
+  updatedAt             DateTime                          @updatedAt
+
+  intake         LegalKnowledgeDemandIntake             @relation(fields: [intakeId], references: [id], onDelete: Restrict)
+  preparedByUser User?                                  @relation("LegalKnowledgeBriefPreparedBy", fields: [preparedByUserId], references: [id], onDelete: SetNull)
+  lawyerReviews  LegalKnowledgeLawyerReviewDecision[]
+
+  @@index([intakeId])
+  @@index([status])
+  @@index([preparedByUserId])
+}
+
+/// Legal Knowledge Lawyer Review — 변호사 검수 결정
+model LegalKnowledgeLawyerReviewDecision {
+  id                  String                                 @id @default(cuid())
+  researchBriefId     String
+  intakeId            String
+  decision            LegalKnowledgeLawyerReviewDecisionType
+  reviewerAttestation Json
+  reviewNotes         String
+  highRiskFlags       Json?
+  rejectionReasonCode String?
+  status              LegalKnowledgeLawyerReviewStatus       @default(PENDING)
+  gongbuhoPacketId    String?                                @unique
+  createdAt           DateTime                               @default(now())
+  updatedAt           DateTime                               @updatedAt
+
+  researchBrief LegalKnowledgeResearchBrief @relation(fields: [researchBriefId], references: [id], onDelete: Restrict)
+  intake        LegalKnowledgeDemandIntake    @relation(fields: [intakeId], references: [id], onDelete: Restrict)
+  gongbuhoPacket GongbuhoPacket?              @relation(fields: [gongbuhoPacketId], references: [id], onDelete: SetNull)
+
+  @@index([researchBriefId])
+  @@index([intakeId])
+}
+
+enum AibeopchinCmbConfigStatus {
+  DRAFT
+  REVIEW
+  VERIFY_PASS
+  LOCKED
+  PUBLISHED
+}
+
+/// CMB CaseType config revision — Publish/Lock workflow (Phase 6-F)
+model AibeopchinCmbConfigRevision {
+  id              String                   @id @default(cuid())
+  caseType        String
+  configId        String
+  version         String
+  status          AibeopchinCmbConfigStatus @default(DRAFT)
+  configJson      Json
+  evidenceTag     String
+  changeReason    String?
+  verifyPassedAt  DateTime?
+  lockedAt        DateTime?
+  publishedAt     DateTime?
+  createdByUserId String?
+  createdAt       DateTime                 @default(now())
+  updatedAt       DateTime                 @updatedAt
+
+  createdByUser User?                     @relation("CmbRevisionCreatedBy", fields: [createdByUserId], references: [id], onDelete: SetNull)
+  publishEvents AibeopchinCmbPublishEvent[]
+
+  @@unique([caseType, version])
+  @@index([caseType, status])
+  @@index([configId])
+}
+
+/// CMB status transition / publish audit trail
+model AibeopchinCmbPublishEvent {
+  id            String                   @id @default(cuid())
+  revisionId    String
+  fromStatus    AibeopchinCmbConfigStatus
+  toStatus      AibeopchinCmbConfigStatus
+  evidenceTag   String
+  changeReason  String?
+  verifyPassed  Boolean                  @default(false)
+  actorUserId   String
+  createdAt     DateTime                 @default(now())
+
+  revision AibeopchinCmbConfigRevision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+  actor    User                          @relation("CmbPublishEventActor", fields: [actorUserId], references: [id], onDelete: Cascade)
+
+  @@index([revisionId, createdAt])
+  @@index([actorUserId, createdAt])
+}
+
 /// 공부호 패킷 정의 — 본문은 `packetJson` 단일 블록(SSOT 동일 키). 인덱싱용 중복 필드만 컬럼으로 둠.
 model GongbuhoPacket {
   id       String               @id @default(cuid())
@@ -1356,6 +1659,7 @@ model GongbuhoPacket {
   updatedAt DateTime @updatedAt
 
   traces         GongbuhoTrace[]
+  legalKnowledgeLawyerReviewDecision LegalKnowledgeLawyerReviewDecision?
   createdByUser  User?           @relation("GongbuhoPacketCreatedBy", fields: [createdByUserId], references: [id], onDelete: SetNull)
   approvedByUser User?           @relation("GongbuhoPacketApprovedBy", fields: [approvedByUserId], references: [id], onDelete: SetNull)
 

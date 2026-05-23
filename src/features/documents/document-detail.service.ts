@@ -5,6 +5,7 @@ import type { ReviewDocumentInput, UpdateDocumentInput } from "@/features/docume
 import { assertApprovalReviewCompleted } from "@/features/documents/document-paragraphs.service";
 import { createDocumentParagraphSnapshot } from "@/features/documents/document-paragraph-versions.service";
 import { ValidationError } from "@/lib/errors";
+import { assertVoiceDocumentFinalizeAllowed } from "@/lib/voice/voice-document-finalize-gate.service";
 
 function httpError(status: number, message: string) {
   const error = new Error(message);
@@ -120,6 +121,7 @@ export const documentDetailService = {
     }
 
     if (input.action === "APPROVE") {
+      await assertVoiceDocumentFinalizeAllowed(document.caseId);
       await assertApprovalReviewCompleted(documentId);
       await createDocumentParagraphSnapshot({
         documentId,

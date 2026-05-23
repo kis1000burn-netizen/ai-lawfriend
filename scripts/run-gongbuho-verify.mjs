@@ -11,6 +11,7 @@ const vitestPath = resolve(cwd, "node_modules", "vitest", "vitest.mjs");
 
 const targets = [
   resolve(cwd, "src/features/gongbuho"),
+  resolve(cwd, "src/lib/gongbuho/legal-knowledge-pipeline-gates.test.ts"),
   resolve(cwd, "src/lib/validators/gongbuho-sample-library.test.ts"),
   resolve(cwd, "src/app/api/admin/gongbuho"),
   resolve(cwd, "src/app/api/cases/[caseId]/gongbuho"),

@@ -1,4 +1,5 @@
 import type { GongbuhoPacketStatus } from "@prisma/client";
+import Link from "next/link";
 import { GongbuhoPacketList } from "@/components/admin/gongbuho/gongbuho-packet-list";
 import { GongbuhoPacketListFilters } from "@/components/admin/gongbuho/gongbuho-packet-list-filters";
 import { requireStaffOrPlatformAdminPage } from "@/lib/auth/require-staff-or-platform-admin-page";
@@ -36,8 +37,14 @@ export default async function AdminGongbuhoPacketsPage({ searchParams }: PagePro
         <h1 className="text-xl font-semibold text-slate-900">공부호 패킷</h1>
         <p className="mt-1 text-sm text-slate-600">
           운영(STAFF) 및 플랫폼 관리자가 GongbuhoPacket 목록을 조회합니다. packetJson 은 상세에서만
-          표시합니다. 승인·아카이브·질문셋 투영은 Phase 4-B〜4-C 범위입니다. 상태·유형별 필터는 Phase
-          4-D와 동기화되어 있습니다(get 쿼리).
+          표시합니다. Legal Knowledge 파이프라인 Intake·Brief는{" "}
+          <Link
+            href="/admin/gongbuho/legal-knowledge"
+            className="font-medium text-slate-900 underline"
+          >
+            Legal Knowledge
+          </Link>{" "}
+          메뉴에서 운영합니다.
         </p>
       </div>
 

@@ -5,7 +5,11 @@ import { getSessionUser } from "@/lib/get-session-user";
 import { assertCaseAccess } from "@/lib/authz";
 import { buildPermissionContextForCase } from "@/features/cases/case.permissions";
 import { canRegenerateParagraph } from "@/lib/definitions";
-import { regenerateParagraphContent } from "@/lib/document-ai";
+import {
+  invokeDocumentParagraphRegenerate,
+  mapLegalDocumentTypeToTemplateType,
+  parseParagraphGenerationMode,
+} from "@/features/ai-core";
 import { ok, toErrorResponse } from "@/lib/domain-api-response";
 import {
   AppError,
@@ -82,11 +86,29 @@ export async function POST(
     }
 
     const beforeContent = paragraph.content;
-    const afterContent = await regenerateParagraphContent({
-      title: paragraph.title,
-      currentContent: beforeContent,
-      aiPromptKey: paragraph.aiPromptKey ?? undefined,
+    const isApprovedLocked = false;
+
+    const { content: afterContent } = await invokeDocumentParagraphRegenerate({
+      documentTitle: paragraph.document.title,
+      templateType: mapLegalDocumentTypeToTemplateType(paragraph.document.type),
+      generationMode: parseParagraphGenerationMode(paragraph.generationMode),
+      isApprovedLocked,
+      templateAiPromptKey: paragraph.aiPromptKey,
+      paragraph: {
+        id: paragraph.id,
+        title: paragraph.title,
+        content: beforeContent,
+        sectionKey: paragraph.sectionKey,
+        paragraphKey: paragraph.paragraphKey,
+      },
       instruction: body.instruction ?? undefined,
+      auditContext: {
+        actorUserId: sessionUser.id,
+        caseId: paragraph.document.caseId,
+        legalDocumentId,
+        paragraphId,
+        paragraphKey: paragraph.paragraphKey,
+      },
     });
 
     const latestVersionNo = paragraph.histories[0]?.versionNo ?? 0;

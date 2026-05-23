@@ -86,7 +86,7 @@ describe("buildCaseGongbuhoReviewUxModel", () => {
     const model = buildCaseGongbuhoReviewUxModel({
       viewerKind: "platform_admin",
       candidatesPayload: null,
-      interviewMeta: { linked: false },
+      interviewMeta: { linked: false as const },
       packetJsonResolved: null,
       traceDetail: null,
       latestLegalDocVersion: {
@@ -107,7 +107,7 @@ describe("buildCaseGongbuhoReviewUxModel", () => {
     const packetJson = { foo: true };
     const base = {
       candidatesPayload: null,
-      interviewMeta: { linked: false },
+      interviewMeta: { linked: false as const },
       packetJsonResolved: { packetJson },
       traceDetail: null,
       latestLegalDocVersion: null,

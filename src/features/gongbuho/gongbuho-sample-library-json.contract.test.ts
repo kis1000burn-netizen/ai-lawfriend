@@ -1,10 +1,13 @@
+/**
+ * @vitest-environment node
+ */
 import { readFileSync, readdirSync } from "node:fs";
-import { resolve } from "node:path";
+import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { projectGongbuhoQuestionFlowToQuestions } from "./project-gongbuho-question-flow";
 import { gongbuhoSampleLibraryPacketSchema } from "@/lib/validators/gongbuho-sample-library";
 
-const SAMPLE_DIR = resolve(process.cwd(), "docs/gongbuho/samples");
+const SAMPLE_DIR = path.resolve(process.cwd(), "docs/gongbuho/samples");
 
 function listSamples(): string[] {
   return readdirSync(SAMPLE_DIR)
@@ -20,7 +23,7 @@ describe("Gongbuho sample library JSON (Phase 4-D)", () => {
   });
 
   for (const fname of files) {
-    const filePath = resolve(SAMPLE_DIR, fname);
+    const filePath = path.resolve(SAMPLE_DIR, fname);
 
     it(`문법 파싱 + 라이브러리 Zod + questionFlow — ${fname}`, () => {
       const parsedJson = JSON.parse(readFileSync(filePath, "utf8")) as unknown;

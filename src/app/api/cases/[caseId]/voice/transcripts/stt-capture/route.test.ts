@@ -1,4 +1,5 @@
 import { describe, expect, it, vi, beforeEach } from "vitest";
+import { NextRequest } from "next/server";
 
 const mockUser = {
   id: "user-owner",
@@ -13,7 +14,7 @@ vi.mock("@/lib/get-session-user", () => ({
 }));
 
 const createVoiceCapture = vi.hoisted(() =>
-  vi.fn(async () => ({
+  vi.fn(async (_input?: unknown) => ({
     id: "tr_voice_1",
     caseId: "cjld2cyqh0001t9rmn839i921",
     questionKey: "key1",
@@ -24,7 +25,7 @@ const createVoiceCapture = vi.hoisted(() =>
 );
 
 vi.mock("@/features/voice/voice-transcript.service", () => ({
-  createVoiceTranscriptFromSttCapture: (...args: unknown[]) => createVoiceCapture(...args),
+  createVoiceTranscriptFromSttCapture: (input: unknown) => createVoiceCapture(input),
 }));
 
 import { POST } from "./route";
@@ -39,7 +40,7 @@ describe("POST /api/cases/[caseId]/voice/transcripts/stt-capture", () => {
 
   it("필수 필드 없으면 400 (Zod)", async () => {
     const res = await POST(
-      new Request("http://localhost/", {
+      new NextRequest("http://localhost/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({}),
@@ -52,7 +53,7 @@ describe("POST /api/cases/[caseId]/voice/transcripts/stt-capture", () => {
 
   it("유효한 바디면 서비스 호출 후 200", async () => {
     const res = await POST(
-      new Request("http://localhost/", {
+      new NextRequest("http://localhost/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

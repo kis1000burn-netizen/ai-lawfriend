@@ -62,18 +62,18 @@ export function getClientIllegalLendingPromoVariant(): IllegalLendingPromoVarian
     return configured;
   }
 
-  if (typeof globalThis === "undefined") {
+  if (typeof window === "undefined" || !window.localStorage) {
     return "A";
   }
 
-  const stored = globalThis.localStorage.getItem(STORAGE_KEY);
+  const stored = window.localStorage.getItem(STORAGE_KEY);
 
   if (stored === "A" || stored === "B") {
     return stored;
   }
 
   const variant: IllegalLendingPromoVariant = Math.random() < 0.5 ? "A" : "B";
-  globalThis.localStorage.setItem(STORAGE_KEY, variant);
+  window.localStorage.setItem(STORAGE_KEY, variant);
 
   return variant;
 }

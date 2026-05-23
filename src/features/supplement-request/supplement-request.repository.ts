@@ -118,6 +118,46 @@ export async function createSupplementRequestRepository(
   });
 }
 
+export type SupplementRequestItemCreateInput = {
+  requestId: string;
+  itemType: SupplementRequestType;
+  itemLabel: string;
+  itemPrompt: string;
+  interviewQuestionKey?: string | null;
+  voiceTranscriptId?: string | null;
+  sourceMarker?: string | null;
+  sortOrder?: number;
+};
+
+export async function createSupplementRequestItemRepository(
+  input: SupplementRequestItemCreateInput,
+) {
+  return prisma.supplementRequestItem.create({
+    data: {
+      requestId: input.requestId,
+      itemType: input.itemType,
+      itemLabel: input.itemLabel,
+      itemPrompt: input.itemPrompt,
+      interviewQuestionKey: input.interviewQuestionKey ?? null,
+      voiceTranscriptId: input.voiceTranscriptId ?? null,
+      sourceMarker: input.sourceMarker ?? null,
+      sortOrder: input.sortOrder ?? 0,
+    },
+    select: {
+      id: true,
+      requestId: true,
+      itemType: true,
+      itemLabel: true,
+      itemPrompt: true,
+      interviewQuestionKey: true,
+      voiceTranscriptId: true,
+      sourceMarker: true,
+      sortOrder: true,
+      createdAt: true,
+    },
+  });
+}
+
 export async function updateSupplementRequestRepository(
   input: SupplementRequestUpdateInput,
 ) {
@@ -173,6 +213,9 @@ export async function findSupplementRequestByIdRepository(requestId: string) {
           sortOrder: true,
           expectedFormat: true,
           maxLength: true,
+          interviewQuestionKey: true,
+          voiceTranscriptId: true,
+          sourceMarker: true,
           createdAt: true,
           updatedAt: true,
         },

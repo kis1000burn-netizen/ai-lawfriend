@@ -16,6 +16,7 @@ import {
   loadCaseGongbuhoReviewUxModel,
 } from "@/features/gongbuho/case-gongbuho-review-ux";
 import { CaseGongbuhoReviewCard } from "@/components/cases/case-gongbuho-review-card";
+import { buildVoiceDocumentFinalizeGateUiSnapshotForCase } from "@/lib/voice/voice-document-finalize-gate.service";
 
 export default async function CaseDetailPage({
   params,
@@ -73,6 +74,11 @@ export default async function CaseDetailPage({
   const serialized = serializeCaseDetail(caseRecord);
   const viewerKind = gongbuhoReviewUxViewerKindFromSessionRole(sessionUser.role);
   const gongbuhoReviewModel = await loadCaseGongbuhoReviewUxModel(caseId, viewerKind);
+  const uiRole = prismaRoleToUiRole(sessionUser.role);
+  const showVoiceDocumentFinalizeGatePanel = ["LAWYER", "ADMIN", "STAFF"].includes(uiRole);
+  const voiceDocumentFinalizeGateSnapshot = showVoiceDocumentFinalizeGatePanel
+    ? await buildVoiceDocumentFinalizeGateUiSnapshotForCase(caseId)
+    : null;
   const showSoftDelete = canRequestSoftDelete(sessionUser, {
     ownerUserId: caseRecord.ownerUserId,
     status: caseRecord.status,
@@ -124,8 +130,9 @@ export default async function CaseDetailPage({
         caseRecord={serialized}
         currentUser={{
           id: sessionUser.id,
-          role: prismaRoleToUiRole(sessionUser.role),
+          role: uiRole,
         }}
+        voiceDocumentFinalizeGateSnapshot={voiceDocumentFinalizeGateSnapshot}
       />
     </div>
   );

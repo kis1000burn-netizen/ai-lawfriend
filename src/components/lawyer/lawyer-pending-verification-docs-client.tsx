@@ -20,7 +20,9 @@ type Props = {
 export function LawyerPendingVerificationDocsClient({ documents: initialDocuments }: Props) {
   const router = useRouter();
   const [documents, setDocuments] = useState(initialDocuments);
-  const [type, setType] = useState(LAWYER_VERIFICATION_DOCUMENT_TYPE.BAR_REGISTRATION_CERTIFICATE);
+  const [type, setType] = useState<(typeof LAWYER_VERIFICATION_DOCUMENT_TYPE_ORDER)[number]>(
+    LAWYER_VERIFICATION_DOCUMENT_TYPE.BAR_REGISTRATION_CERTIFICATE,
+  );
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
 
@@ -116,7 +118,9 @@ export function LawyerPendingVerificationDocsClient({ documents: initialDocument
         <select
           className="w-full rounded-lg border border-aibeop-line bg-aibeop-card px-3 py-2 text-sm text-aibeop-text"
           value={type}
-          onChange={(e) => setType(e.target.value)}
+          onChange={(e) =>
+            setType(e.target.value as (typeof LAWYER_VERIFICATION_DOCUMENT_TYPE_ORDER)[number])
+          }
         >
           {LAWYER_VERIFICATION_DOCUMENT_TYPE_ORDER.map((t) => (
             <option key={t} value={t}>

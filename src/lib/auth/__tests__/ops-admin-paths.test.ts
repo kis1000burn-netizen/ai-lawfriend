@@ -12,6 +12,11 @@ describe("isAllowedStaffAdminPath (alias)", () => {
     expect(isAllowedStaffAdminPath("/admin/question-sets/x")).toBe(true);
     expect(isAllowedStaffAdminPath("/admin/gongbuho")).toBe(true);
     expect(isAllowedStaffAdminPath("/admin/gongbuho/cuid123")).toBe(true);
+    expect(isAllowedStaffAdminPath("/admin/voice/transcripts")).toBe(true);
+    expect(isAllowedStaffAdminPath("/admin/voice/privacy-requests/new")).toBe(true);
+    expect(isAllowedStaffAdminPath("/admin/cmb")).toBe(true);
+    expect(isAllowedStaffAdminPath("/admin/cmb/operations-studio")).toBe(true);
+    expect(isAllowedStaffAdminPath("/admin/cmb/case-types/FRAUD")).toBe(true);
   });
 
   it("느슨한 prefix 허용을 막는다", () => {

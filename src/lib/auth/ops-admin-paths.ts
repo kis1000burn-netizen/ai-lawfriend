@@ -16,6 +16,10 @@ export const STAFF_ADMIN_ALLOWED_PREFIXES = [
   "/admin/lawyer-verifications",
   /** 공부호 패킷 목록·상세(Phase 4-A) — 조회 전용 */
   "/admin/gongbuho",
+  /** Phase 7-A Voice transcript·privacy ops */
+  "/admin/voice",
+  /** Phase 6-E〜H CMB Preview · Operations Studio */
+  "/admin/cmb",
 ] as const;
 
 export function isAllowedStaffAdminPath(pathname: string): boolean {

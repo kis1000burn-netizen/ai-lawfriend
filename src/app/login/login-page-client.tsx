@@ -76,10 +76,11 @@ export default function LoginPageClient({ oauthProviders }: LoginPageClientProps
   async function handleSubmit(e: LoginFormSubmitEvent) {
     e.preventDefault();
 
-    await submit<typeof form, LoginResponse>({
+    await submit<typeof form & { redirect?: string }, LoginResponse>({
       endpoint: "/api/auth/login",
       body: {
-        ...form,
+        email: form.email,
+        password: form.password,
         redirect: searchParams.get("redirect") ?? undefined,
       },
       onSuccess: async (data) => {

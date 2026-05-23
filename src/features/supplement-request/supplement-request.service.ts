@@ -22,6 +22,7 @@ import type {
   SupplementRequestListQueryInput,
   UpdateSupplementRequestInput,
 } from "@/features/supplement-request/supplement-request.validators";
+import { mergeVoiceSupplementItemsToInterviewOnAccepted } from "@/features/voice/voice-lawyer-supplement.service";
 
 const SUPPLEMENT_TERMINAL_STATUSES = new Set<SupplementRequestStatus>([
   "CLOSED",
@@ -459,6 +460,14 @@ export async function changeSupplementRequestStatusService(
       reasonCode: normalizeNullable(input.reasonCode),
     },
   });
+
+  if (input.toStatus === "ACCEPTED") {
+    await mergeVoiceSupplementItemsToInterviewOnAccepted(
+      currentUser,
+      found.caseId,
+      found.id,
+    );
+  }
 
   return updated;
 }

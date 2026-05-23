@@ -43,6 +43,44 @@ export function readJsonApiErrorEnvelope(
   return { message, code, pendingAccountRole };
 }
 
+/** Phase 5-H-UI-6 — `VoiceDocumentFinalizeBlockedError` 403 envelope 파싱 */
+export function readVoiceDocumentFinalizeBlockedFromJson(json: unknown): {
+  message: string;
+  blockReason?: string;
+  questionKey?: string;
+  supplementRequestId?: string;
+  gate?: string;
+} | null {
+  if (!json || typeof json !== "object") return null;
+  const o = json as Record<string, unknown>;
+  const message = readJsonApiErrorMessage(json);
+  const details =
+    o.details && typeof o.details === "object"
+      ? (o.details as Record<string, unknown>)
+      : null;
+  const gate = details && typeof details.gate === "string" ? details.gate : undefined;
+  const blockReasonFromDetails =
+    details && typeof details.blockReason === "string" ? details.blockReason : undefined;
+  const blockReasonFromCode = typeof o.code === "string" && o.code.startsWith("H-BLOCK-") ? o.code : undefined;
+  const blockReason = blockReasonFromDetails ?? blockReasonFromCode;
+
+  if (gate !== "document finalize" && !blockReason) {
+    return null;
+  }
+
+  return {
+    message,
+    blockReason,
+    questionKey:
+      details && typeof details.questionKey === "string" ? details.questionKey : undefined,
+    supplementRequestId:
+      details && typeof details.supplementRequestId === "string"
+        ? details.supplementRequestId
+        : undefined,
+    gate: gate ?? "document finalize",
+  };
+}
+
 /**
  * `fetch` 직후 `res.json()` 본문(`raw`)에 대해, HTTP 성공 + `{ ok: true, data }`를 엄격히 확인한 뒤 `data`를 반환.
  * 그렇지 않으면 `readJsonApiErrorMessage` 기반 `Error`를 던짐(슬라이스 1·domain envelope 클라이언트 공통).

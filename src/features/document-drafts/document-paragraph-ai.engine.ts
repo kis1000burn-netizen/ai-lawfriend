@@ -1,41 +1,10 @@
-import type { DocumentTemplateType } from "@/features/question-set/question-set.types";
-import type { DraftPreviewParagraph } from "./document-draft.types";
-import { getOpenAIClient, getParagraphRewriteModel } from "@/lib/openai";
-import {
-  buildParagraphRewriteInput,
-  buildParagraphRewriteInstructions,
-} from "./document-paragraph-ai.prompts";
+/**
+ * @deprecated Phase 8-D — OpenAI 호출은 ai-core-openai.provider SSOT.
+ * @see DOCUMENT_PARAGRAPH_AI_DEPRECATED_SHIM_MARKER
+ */
+export const DOCUMENT_PARAGRAPH_AI_DEPRECATED_SHIM_MARKER =
+  "PHASE8D_DOCUMENT_PARAGRAPH_AI_DEPRECATED_SHIM" as const;
 
-export async function rewriteParagraphWithOpenAI(params: {
-  templateType: DocumentTemplateType;
-  title: string;
-  paragraph: DraftPreviewParagraph;
-  userInstruction?: string | null;
-}) {
-  const client = getOpenAIClient();
-  const model = getParagraphRewriteModel();
-
-  const response = await client.responses.create({
-    model,
-    instructions: buildParagraphRewriteInstructions({
-      templateType: params.templateType,
-    }),
-    input: buildParagraphRewriteInput({
-      templateType: params.templateType,
-      title: params.title,
-      paragraph: params.paragraph,
-      userInstruction: params.userInstruction,
-    }),
-  });
-
-  const outputText = (response.output_text ?? "").trim();
-
-  if (!outputText) {
-    throw new Error("AI 재생성 결과가 비어 있습니다.");
-  }
-
-  return {
-    model,
-    text: outputText,
-  };
-}
+export {
+  invokeOpenAiDocumentParagraphRewrite as rewriteParagraphWithOpenAI,
+} from "@/features/ai-core/ai-core-openai.provider";

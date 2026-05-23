@@ -68,7 +68,11 @@ async function main() {
   let migrated = 0;
 
   for (const row of rows) {
-    const result = await migrateLawyerVerificationDocumentRow(prisma, row, dryRun);
+    const result = await migrateLawyerVerificationDocumentRow(
+      prisma as Parameters<typeof migrateLawyerVerificationDocumentRow>[0],
+      row,
+      dryRun,
+    );
     if (result.ok) {
       if (!dryRun) migrated += 1;
       const p = result.wouldMigrate ?? result.migrated;

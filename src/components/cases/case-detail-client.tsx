@@ -14,12 +14,18 @@ import { CaseStatusCard } from "@/components/cases/case-status-card";
 import { CaseStatusActions } from "@/components/cases/case-status-actions";
 import { DocumentCreateModal } from "@/components/cases/document-create-modal";
 import { DocumentReviewPanel } from "@/components/cases/document-review-panel";
+import { VoiceDocumentFinalizeGatePanel } from "@/components/cases/voice-document-finalize-gate-panel";
 import { ParagraphStructurePanel } from "@/components/cases/paragraph-structure-panel";
 import { TimelinePanel } from "@/components/cases/timeline-panel";
 import { CaseSummaryPanel } from "@/components/cases/case-summary-panel";
+import { ClientDisclosureDeliveryPanel } from "@/components/cases/client-disclosure-delivery-panel";
 import { CasePackageShareSettingsPanel } from "@/components/case-package/case-package-share-settings-panel";
 import type { SerializedCaseDetail } from "@/lib/cases/case-detail-serialize";
-import { requireOkData } from "@/lib/client/api-error";
+import {
+  requireOkData,
+  readJsonApiErrorMessage,
+  readVoiceDocumentFinalizeBlockedFromJson,
+} from "@/lib/client/api-error";
 import { postDocumentDelivery } from "@/lib/client/post-document-delivery";
 import {
   caseDetailHubReturnHref,
@@ -27,6 +33,8 @@ import {
   supplementHubLinkTitle,
 } from "@/features/cases/case.utils";
 import type { UiFourPanelRole } from "@/lib/role-map";
+import type { VoiceDocumentFinalizeGateUiSnapshot } from "@/lib/voice/voice-document-finalize-gate-ui";
+import { shouldShowVoiceDocumentFinalizeGatePanel } from "@/lib/voice/voice-document-finalize-gate-ui";
 
 type CaseDetailClientProps = {
   caseRecord: SerializedCaseDetail;
@@ -34,6 +42,7 @@ type CaseDetailClientProps = {
     id: string;
     role: UiFourPanelRole;
   };
+  voiceDocumentFinalizeGateSnapshot?: VoiceDocumentFinalizeGateUiSnapshot | null;
 };
 
 function needsStatusReason(action: string) {
@@ -61,6 +70,7 @@ function resolveStatusReason(action: string, reason?: string) {
 export function CaseDetailClient({
   caseRecord,
   currentUser,
+  voiceDocumentFinalizeGateSnapshot = null,
 }: Readonly<CaseDetailClientProps>) {
   const [localCase, setLocalCase] = useState(caseRecord);
   const [selectedDocumentId, setSelectedDocumentId] = useState<string | null>(
@@ -236,9 +246,15 @@ export function CaseDetailClient({
         method: "POST",
       });
       const raw = await res.json().catch(() => null);
+      if (!res.ok) {
+        const blocked = readVoiceDocumentFinalizeBlockedFromJson(raw);
+        throw new Error(blocked?.message ?? readJsonApiErrorMessage(raw, "문서 승인에 실패했습니다."));
+      }
       requireOkData(res, raw, "문서 승인에 실패했습니다.");
       await refreshCase();
       alert("문서가 승인되었습니다.");
+    } catch (error) {
+      alert(error instanceof Error ? error.message : "문서 승인에 실패했습니다.");
     } finally {
       setIsBusy(false);
     }
@@ -268,8 +284,20 @@ export function CaseDetailClient({
 
   const supplementHubPath = supplementHubHref(localCase.id, localCase.status, currentUser.role);
 
+  const showVoiceDocumentFinalizeGatePanel =
+    voiceDocumentFinalizeGateSnapshot != null &&
+    shouldShowVoiceDocumentFinalizeGatePanel(voiceDocumentFinalizeGateSnapshot);
+
+  const voiceFinalizeGateBlocked = voiceDocumentFinalizeGateSnapshot?.allowed === false;
+
   return (
     <div className="space-y-6 p-0">
+      {showVoiceDocumentFinalizeGatePanel && voiceDocumentFinalizeGateSnapshot ? (
+        <VoiceDocumentFinalizeGatePanel
+          caseId={localCase.id}
+          snapshot={voiceDocumentFinalizeGateSnapshot}
+        />
+      ) : null}
       {localCase.status === "INTAKE_PENDING" ? (
         <section
           id="case-detail-intake-banner"
@@ -447,7 +475,35 @@ export function CaseDetailClient({
         </div>
       </div>
 
-      <CaseSummaryPanel caseId={localCase.id} interviewCompleted={facts.interviewCompleted} />
+      {currentUser.role === "CLIENT" ? (
+        <ClientDisclosureDeliveryPanel caseId={localCase.id} />
+      ) : (
+        <CaseSummaryPanel caseId={localCase.id} interviewCompleted={facts.interviewCompleted} />
+      )}
+
+      {facts.interviewCompleted &&
+      ["ADMIN", "LAWYER", "STAFF"].includes(currentUser.role) ? (
+        <section className="rounded-2xl border border-indigo-100 bg-indigo-50/40 p-4 shadow-sm">
+          <h3 className="text-sm font-semibold text-indigo-950">사건 지능 검토 (Graph · Radar · Ledger)</h3>
+          <p className="mt-1 text-sm text-indigo-900/80">
+            AI가 구조화한 Claim·Radar·모순 신호를 변호사가 확인·기각·수정합니다.
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <Link
+              href={`/cases/${localCase.id}/intelligence-review`}
+              className="inline-flex rounded-xl bg-indigo-700 px-4 py-2 text-sm font-semibold text-white"
+            >
+              Lawyer Review Console
+            </Link>
+            <Link
+              href={`/cases/${localCase.id}/client-disclosure-preview`}
+              className="inline-flex rounded-xl border border-emerald-600 bg-white px-4 py-2 text-sm font-semibold text-emerald-800"
+            >
+              Client Disclosure Preview
+            </Link>
+          </div>
+        </section>
+      ) : null}
 
       <CasePackageShareSettingsPanel caseId={localCase.id} />
 
@@ -518,6 +574,8 @@ export function CaseDetailClient({
                 onApprove={() => handleApproveDocument(selectedDocument.id)}
                 onLock={() => handleLockDocument(selectedDocument.id)}
                 busy={isBusy}
+                voiceFinalizeGateBlocked={voiceFinalizeGateBlocked}
+                voiceFinalizeGateSnapshot={voiceDocumentFinalizeGateSnapshot}
               />
 
               <div className="rounded-2xl border bg-white p-5 shadow-sm">

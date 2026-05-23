@@ -99,6 +99,17 @@ npm run build
 ```
 
 - [ ] 통과
+- [ ] **`npm run dev` 종료 후** 실행 — [Predeploy 로컬 · CI 런북](./docs/operations/AIBEOPCHIN_PREDEPLOY_LOCAL_CI_RUNBOOK.md) §1·§2 (Windows Prisma DLL lock)
+- [ ] CI는 dev 서버 없이 fresh build — [`.github/workflows/ci.yml`](./.github/workflows/ci.yml) `predeploy-fresh-build`
+
+### 5.3.1 Predeploy 통합 (권장)
+
+```bash
+npm run predeploy:check
+```
+
+- [ ] 통과 (`build`=`production`, `test`=`test` — `scripts/predeploy-check.ts`)
+- [ ] dev 서버 **미실행** 상태에서 실행
 
 ### 5.4 사전 검수 스크립트
 
@@ -267,3 +278,5 @@ rg "parseProductionEnv\(\)" src app
 - [PATCH_FINAL_CHECKLIST.md](./PATCH_FINAL_CHECKLIST.md)
 - [OPERATIONS_RECOVERY.md](./OPERATIONS_RECOVERY.md)
 - [docs/post-patch-verification.md](./docs/post-patch-verification.md)
+- [docs/operations/AIBEOPCHIN_PREDEPLOY_LOCAL_CI_RUNBOOK.md](./docs/operations/AIBEOPCHIN_PREDEPLOY_LOCAL_CI_RUNBOOK.md)
+- [docs/operations/STAGING_SECRETS_CHECKLIST.md](./docs/operations/STAGING_SECRETS_CHECKLIST.md)

@@ -10,6 +10,7 @@ import type { InterviewFlowPayload } from "@/features/question-set/question-set.
 import { ConflictError, ForbiddenError, NotFoundError, ValidationError } from "@/lib/errors";
 import { prisma } from "@/lib/prisma";
 import { computeVoiceTranscriptDraftExpiresAt } from "@/lib/voice/voice-transcript-policy";
+import { invalidateVoiceLawyerReviewForQuestion } from "@/lib/voice/voice-lawyer-review-flags.repository";
 
 /** Phase 5-D — 라우트/검증 스크립트 정적 마커 */
 export const VOICE_PHASE5_D_SERVICE_MARKER = "phase5-d-stt-confirm-interview-binding";
@@ -185,6 +186,10 @@ export async function confirmVoiceTranscriptAndBindInterviewAnswer(
       },
     });
 
+    await tx.voiceLawyerReviewCompletion.deleteMany({
+      where: { caseId, questionKey: row.questionKey },
+    });
+
     await appendVoiceTrace(tx, {
       caseId,
       voiceTranscriptId: row.id,
@@ -251,6 +256,10 @@ export async function rejectVoiceTranscriptDraft(user: SessionUser, caseId: stri
         status: VoiceTranscriptStatus.REJECTED,
         rejectedAt: now,
       },
+    });
+
+    await tx.voiceLawyerReviewCompletion.deleteMany({
+      where: { caseId, questionKey: row.questionKey },
     });
 
     await appendVoiceTrace(tx, {

@@ -302,11 +302,11 @@ export function InterviewVoiceGuidedPanel({
     setMicNotice(null);
 
     rec.onstart = () => setListening(true);
-    rec.onerror = (ev: Event) => {
+    rec.onerror = ((ev: Event) => {
       abortRecognition();
       const mapped = speechRecognitionErrorToUserNotice(ev);
       setMicNotice(mapped ?? MESSAGE_SPEECH_GENERIC_FAIL_KO);
-    };
+    }) as typeof rec.onerror;
     rec.onend = () => abortRecognition();
 
     rec.onresult = (event: unknown) => {

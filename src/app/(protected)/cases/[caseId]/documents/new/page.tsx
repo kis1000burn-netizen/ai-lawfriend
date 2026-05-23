@@ -5,6 +5,8 @@ import { redirectLawyerToVerificationUnlessApproved } from "@/lib/auth/session";
 import { requireSessionUser } from "@/lib/auth/require-session-user";
 import { getCaseAccessContext } from "@/features/cases/case.permissions";
 import DocumentDraftClient from "@/components/cases/document-draft-client";
+import { buildVoiceDocumentFinalizeGateUiSnapshotForCase } from "@/lib/voice/voice-document-finalize-gate.service";
+import { prismaRoleToUiRole } from "@/lib/role-map";
 
 type PageProps = {
   params: Promise<{
@@ -28,6 +30,11 @@ export default async function CaseDocumentDraftPage({ params }: PageProps) {
     notFound();
   }
 
+  const uiRole = prismaRoleToUiRole(currentUser.role);
+  const voiceDocumentFinalizeGateSnapshot = ["LAWYER", "ADMIN", "STAFF"].includes(uiRole)
+    ? await buildVoiceDocumentFinalizeGateUiSnapshotForCase(caseId)
+    : null;
+
   return (
     <div className="mx-auto max-w-6xl space-y-6 py-2">
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -49,7 +56,10 @@ export default async function CaseDocumentDraftPage({ params }: PageProps) {
         </div>
       </div>
 
-      <DocumentDraftClient caseId={caseId} />
+      <DocumentDraftClient
+        caseId={caseId}
+        voiceDocumentFinalizeGateSnapshot={voiceDocumentFinalizeGateSnapshot}
+      />
     </div>
   );
 }

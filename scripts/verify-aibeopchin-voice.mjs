@@ -14,6 +14,8 @@ function main() {
   const mustHave = [
     "enum VoiceTranscriptStatus",
     "enum VoiceInteractionTraceEvent",
+    "model VoiceLawyerReviewCompletion",
+    "interviewQuestionKey",
     "CAPTURED",
     "NEEDS_CONFIRMATION",
     "CONFIRMED",
@@ -236,7 +238,7 @@ function main() {
     throw new Error("docs/voice/README.md must include Phase **5-I** privacy runbook row");
   }
   if (!readme.includes("| **5-J** |")) {
-    throw new Error("docs/voice/README.md roadmap must include Phase **5-J** backlog / RC");
+    throw new Error("docs/voice/README.md roadmap must include Phase **5-J** Voice RC");
   }
 
   if (!readme.includes("./VOICE_PRIVACY_RETENTION_RUNBOOK.md")) {
@@ -384,6 +386,326 @@ function main() {
     throw new Error(`IMPLEMENTATION_EVIDENCE.md missing ${tag5h}`);
   }
 
-  console.log("verify:aibeopchin-voice PASS (Phase 5-B〜5-H static gates; Phase 5-I privacy runbook enforced)");
+  const panel5hUiPath = "src/components/cases/lawyer-voice-review-panel.tsx";
+  assertFileExists(panel5hUiPath);
+  const panel5hUi = readFile(panel5hUiPath);
+  const panel5hUiFragments = [
+    "LawyerVoiceReviewPanel",
+    "VOICE_LAWYER_REVIEW_PANEL_MARKER_PHASE5H_UI",
+    "STT draft",
+    "confirmed transcript",
+    "Interview answer",
+    "document finalize gate",
+    "VOICE_LAWYER_REVIEW_UX_SPEC.md",
+    "H-BLOCK-TRANSCRIPT-NOT-CONFIRMED",
+    "H-BLOCK-MISMATCH-NOT-REVIEWED",
+    "H-BLOCK-LAWYER-VOICE-REVIEW-REQUIRED",
+  ];
+  for (const fragment of panel5hUiFragments) {
+    if (!panel5hUi.includes(fragment)) {
+      throw new Error(`${panel5hUiPath} missing Phase 5-H-UI fragment "${fragment}"`);
+    }
+  }
+
+  const policy5hUiFragments = [
+    "H-BLOCK-TRANSCRIPT-NOT-CONFIRMED",
+    "H-BLOCK-MISMATCH-NOT-REVIEWED",
+    "H-BLOCK-LAWYER-VOICE-REVIEW-REQUIRED",
+    "resolveVoiceReviewBlockReason",
+    "canFinalizeDocumentAfterVoiceReview",
+  ];
+  for (const fragment of policy5hUiFragments) {
+    if (!policy5h.includes(fragment)) {
+      throw new Error(`voice-lawyer-review-ux-policy.ts missing Phase 5-H-UI marker "${fragment}"`);
+    }
+  }
+
+  const tag5hUi = "EVIDENCE-20260523-AIBEOPCHIN-PHASE5H-UI-LAWYER-VOICE-REVIEW-PANEL";
+  if (!impl.includes(tag5hUi)) {
+    throw new Error(`IMPLEMENTATION_EVIDENCE.md missing ${tag5hUi}`);
+  }
+
+  const gate5hUi2Path = "src/lib/voice/voice-document-finalize-gate.service.ts";
+  assertFileExists(gate5hUi2Path);
+  const gate5hUi2 = readFile(gate5hUi2Path);
+  const gate5hUi2Fragments = [
+    "phase5h-ui-2-voice-document-finalize-gate",
+    "assertVoiceDocumentFinalizeAllowed",
+    "evaluateVoiceDocumentFinalizeGate",
+    "resolveVoiceDocumentFinalizeBlockReason",
+    "document finalize",
+    "H-BLOCK-TRANSCRIPT-NOT-CONFIRMED",
+    "H-BLOCK-MISMATCH-NOT-REVIEWED",
+    "H-BLOCK-LAWYER-VOICE-REVIEW-REQUIRED",
+  ];
+  for (const fragment of gate5hUi2Fragments) {
+    if (!gate5hUi2.includes(fragment)) {
+      throw new Error(`${gate5hUi2Path} missing Phase 5-H-UI-2 fragment "${fragment}"`);
+    }
+  }
+
+  const approveRoute = readFile("src/app/api/legal-documents/[legalDocumentId]/approve/route.ts");
+  if (!approveRoute.includes("assertVoiceDocumentFinalizeAllowed")) {
+    throw new Error("legal-documents approve route must call assertVoiceDocumentFinalizeAllowed");
+  }
+
+  const detailService = readFile("src/features/documents/document-detail.service.ts");
+  if (!detailService.includes("assertVoiceDocumentFinalizeAllowed")) {
+    throw new Error("document-detail.service review APPROVE must call assertVoiceDocumentFinalizeAllowed");
+  }
+
+  const draftService = readFile("src/features/document-drafts/document-draft.service.ts");
+  if (!draftService.includes("assertVoiceDocumentFinalizeAllowed")) {
+    throw new Error("finalizeDocumentDraft must call assertVoiceDocumentFinalizeAllowed");
+  }
+
+  const reviewRepoPath = "src/lib/voice/voice-lawyer-review-flags.repository.ts";
+  assertFileExists(reviewRepoPath);
+  const reviewRepo = readFile(reviewRepoPath);
+  if (!reviewRepo.includes("PHASE5H_UI_3_VOICE_LAWYER_REVIEW_FLAGS_REPOSITORY_LOCK")) {
+    throw new Error(`${reviewRepoPath} missing Phase 5-H-UI-3 repository lock marker`);
+  }
+  if (!reviewRepo.includes("VoiceLawyerReviewCompletion")) {
+    throw new Error(`${reviewRepoPath} must persist VoiceLawyerReviewCompletion rows`);
+  }
+
+  const reviewServicePath = "src/features/voice/voice-lawyer-review.service.ts";
+  assertFileExists(reviewServicePath);
+  const reviewService = readFile(reviewServicePath);
+  if (!reviewService.includes("VOICE_LAWYER_REVIEW_SERVICE_MARKER_PHASE5H_UI_3")) {
+    throw new Error(`${reviewServicePath} missing Phase 5-H-UI-3 service marker`);
+  }
+
+  const reviewRoutePath = "src/app/api/cases/[caseId]/voice/lawyer-reviews/route.ts";
+  assertFileExists(reviewRoutePath);
+  if (!readFile(reviewRoutePath).includes("setLawyerVoiceReviewCompletion")) {
+    throw new Error(`${reviewRoutePath} must call setLawyerVoiceReviewCompletion`);
+  }
+
+  if (!gate5hUi2.includes("includeLawyerReviewRequired: true")) {
+    throw new Error(`${gate5hUi2Path} must enable includeLawyerReviewRequired for Phase 5-H-UI-3`);
+  }
+  if (!gate5hUi2.includes("phase5h-ui-3-voice-document-finalize-lawyer-review-required")) {
+    throw new Error(`${gate5hUi2Path} missing Phase 5-H-UI-3 finalize gate marker`);
+  }
+
+  if (!panel5hUi.includes("/voice/lawyer-reviews")) {
+    throw new Error(`${panel5hUiPath} must persist lawyer review via /voice/lawyer-reviews API`);
+  }
+
+  const tag5hUi3 = "EVIDENCE-20260523-AIBEOPCHIN-PHASE5H-UI-3-VOICE-LAWYER-REVIEW-PERSISTENCE";
+  if (!impl.includes(tag5hUi3)) {
+    throw new Error(`IMPLEMENTATION_EVIDENCE.md missing ${tag5hUi3}`);
+  }
+
+  const tag5hUi2 = "EVIDENCE-20260523-AIBEOPCHIN-PHASE5H-UI-2-VOICE-DOCUMENT-FINALIZE-GATE";
+  if (!impl.includes(tag5hUi2)) {
+    throw new Error(`IMPLEMENTATION_EVIDENCE.md missing ${tag5hUi2}`);
+  }
+
+  const supplementServicePath = "src/features/voice/voice-lawyer-supplement.service.ts";
+  assertFileExists(supplementServicePath);
+  const supplementService = readFile(supplementServicePath);
+  const supplementFragments = [
+    "VOICE_LAWYER_SUPPLEMENT_SERVICE_MARKER_PHASE5H_UI_4",
+    "VOICE_LAWYER_SUPPLEMENT_SOURCE_MARKER",
+    "createVoiceLawyerSupplementQuestion",
+    "mergeVoiceSupplementItemsToInterviewOnAccepted",
+    "phase5h-ui-4-voice-lawyer-review-supplement",
+  ];
+  for (const fragment of supplementFragments) {
+    if (!supplementService.includes(fragment)) {
+      throw new Error(`${supplementServicePath} missing Phase 5-H-UI-4 fragment "${fragment}"`);
+    }
+  }
+
+  const supplementRoutePath = "src/app/api/cases/[caseId]/voice/supplement-questions/route.ts";
+  assertFileExists(supplementRoutePath);
+  if (!readFile(supplementRoutePath).includes("createVoiceLawyerSupplementQuestion")) {
+    throw new Error(`${supplementRoutePath} must call createVoiceLawyerSupplementQuestion`);
+  }
+
+  const supplementRequestService = readFile("src/features/supplement-request/supplement-request.service.ts");
+  if (!supplementRequestService.includes("mergeVoiceSupplementItemsToInterviewOnAccepted")) {
+    throw new Error("supplement-request.service must merge voice supplements on ACCEPTED");
+  }
+
+  if (!panel5hUi.includes("/voice/supplement-questions")) {
+    throw new Error(`${panel5hUiPath} must create supplements via /voice/supplement-questions API`);
+  }
+  if (!panel5hUi.includes("data-voice-supplement-trigger")) {
+    throw new Error(`${panel5hUiPath} missing Phase 5-H-UI-4 supplement trigger marker`);
+  }
+
+  const tag5hUi4 = "EVIDENCE-20260523-AIBEOPCHIN-PHASE5H-UI-4-VOICE-LAWYER-SUPPLEMENT-QUESTION";
+  if (!impl.includes(tag5hUi4)) {
+    throw new Error(`IMPLEMENTATION_EVIDENCE.md missing ${tag5hUi4}`);
+  }
+
+  const openSupplementRepoPath = "src/lib/voice/voice-open-supplement-gate.repository.ts";
+  assertFileExists(openSupplementRepoPath);
+  const openSupplementRepo = readFile(openSupplementRepoPath);
+  const openSupplementFragments = [
+    "VOICE_OPEN_SUPPLEMENT_GATE_REPOSITORY_MARKER_PHASE5H_UI_5",
+    "loadOpenVoiceOriginSupplementsByCaseId",
+    "TERMINAL_SUPPLEMENT_REQUEST_STATUSES",
+    "VOICE_LAWYER_SUPPLEMENT_SOURCE_MARKER",
+  ];
+  for (const fragment of openSupplementFragments) {
+    if (!openSupplementRepo.includes(fragment)) {
+      throw new Error(`${openSupplementRepoPath} missing Phase 5-H-UI-5 fragment "${fragment}"`);
+    }
+  }
+
+  if (!gate5hUi2.includes("evaluateOpenVoiceSupplementDocumentFinalizeGate")) {
+    throw new Error(`${gate5hUi2Path} must evaluate open voice supplements for Phase 5-H-UI-5`);
+  }
+  if (!gate5hUi2.includes("H-BLOCK-OPEN-SUPPLEMENT-UNRESOLVED")) {
+    throw new Error(`${gate5hUi2Path} missing H-BLOCK-OPEN-SUPPLEMENT-UNRESOLVED (H-BLOCK-02)`);
+  }
+  if (!gate5hUi2.includes("phase5h-ui-5-voice-open-supplement-finalize-gate")) {
+    throw new Error(`${gate5hUi2Path} missing Phase 5-H-UI-5 finalize gate marker`);
+  }
+  if (!policy5h.includes("H-BLOCK-OPEN-SUPPLEMENT-UNRESOLVED")) {
+    throw new Error("voice-lawyer-review-ux-policy.ts missing H-BLOCK-OPEN-SUPPLEMENT-UNRESOLVED");
+  }
+
+  const tag5hUi5 = "EVIDENCE-20260523-AIBEOPCHIN-PHASE5H-UI-5-VOICE-OPEN-SUPPLEMENT-FINALIZE-GATE";
+  if (!impl.includes(tag5hUi5)) {
+    throw new Error(`IMPLEMENTATION_EVIDENCE.md missing ${tag5hUi5}`);
+  }
+
+  const gateUiPath = "src/lib/voice/voice-document-finalize-gate-ui.ts";
+  assertFileExists(gateUiPath);
+  const gateUi = readFile(gateUiPath);
+  const gateUiFragments = [
+    "VOICE_DOCUMENT_FINALIZE_GATE_UI_MARKER_PHASE5H_UI_6",
+    "VOICE_DOCUMENT_FINALIZE_BLOCK_MESSAGES",
+    "resolveVoiceDocumentFinalizeGateUiSnapshot",
+    "shouldShowVoiceDocumentFinalizeGatePanel",
+  ];
+  for (const fragment of gateUiFragments) {
+    if (!gateUi.includes(fragment)) {
+      throw new Error(`${gateUiPath} missing Phase 5-H-UI-6 fragment "${fragment}"`);
+    }
+  }
+
+  const gatePanelPath = "src/components/cases/voice-document-finalize-gate-panel.tsx";
+  assertFileExists(gatePanelPath);
+  const gatePanel = readFile(gatePanelPath);
+  if (!gatePanel.includes("data-voice-document-finalize-gate-panel")) {
+    throw new Error(`${gatePanelPath} missing Phase 5-H-UI-6 panel marker`);
+  }
+  if (!gatePanel.includes("data-document-finalize-gate")) {
+    throw new Error(`${gatePanelPath} must expose document finalize gate state`);
+  }
+
+  const gateRoutePath = "src/app/api/cases/[caseId]/voice/document-finalize-gate/route.ts";
+  assertFileExists(gateRoutePath);
+  if (!readFile(gateRoutePath).includes("buildVoiceDocumentFinalizeGateUiSnapshotForCase")) {
+    throw new Error(`${gateRoutePath} must return gate UI snapshot`);
+  }
+
+  if (!gate5hUi2.includes("buildVoiceDocumentFinalizeGateUiSnapshotForCase")) {
+    throw new Error(`${gate5hUi2Path} missing Phase 5-H-UI-6 snapshot builder`);
+  }
+
+  const caseDetailClient = readFile("src/components/cases/case-detail-client.tsx");
+  if (!caseDetailClient.includes("VoiceDocumentFinalizeGatePanel")) {
+    throw new Error("case-detail-client must render VoiceDocumentFinalizeGatePanel");
+  }
+  if (!caseDetailClient.includes("readVoiceDocumentFinalizeBlockedFromJson")) {
+    throw new Error("case-detail-client must align approve 403 with gate UI messages");
+  }
+
+  const tag5hUi6 = "EVIDENCE-20260523-AIBEOPCHIN-PHASE5H-UI-6-VOICE-DOCUMENT-FINALIZE-GATE-UI";
+  if (!impl.includes(tag5hUi6)) {
+    throw new Error(`IMPLEMENTATION_EVIDENCE.md missing ${tag5hUi6}`);
+  }
+
+  // Phase 7-A — Voice Operations & E2E Hardening
+  if (!readme.includes("**7-A**")) {
+    throw new Error("docs/voice/README.md must reference Phase **7-A**");
+  }
+
+  const spec7aPath = "docs/voice/VOICE_PHASE7A_OPS_E2E_SPEC.md";
+  assertFileExists(spec7aPath);
+  const spec7a = readFile(spec7aPath);
+  const spec7aTerms = [
+    "Phase 7-A",
+    "E2E_VOICE_OPS_SMOKE",
+    "/admin/voice/transcripts",
+    "VoicePrivacyOpsRequest",
+    "draftText",
+    "[EVIDENCE-20260523-AIBEOPCHIN-PHASE7A-VOICE-OPS-E2E-HARDENING]",
+  ];
+  for (const term of spec7aTerms) {
+    if (!spec7a.includes(term)) {
+      throw new Error(`Missing term "${term}" in ${spec7aPath}`);
+    }
+  }
+
+  const opsPolicyPath = "src/lib/voice/voice-ops-policy.ts";
+  assertFileExists(opsPolicyPath);
+  const opsPolicy = readFile(opsPolicyPath);
+  if (!opsPolicy.includes("VOICE_PHASE7A_OPS_POLICY_MARKER")) {
+    throw new Error(`${opsPolicyPath} must expose Phase 7-A SSOT marker`);
+  }
+  if (!opsPolicy.includes("VOICE_OPS_TRANSCRIPT_BODY_EXPOSURE_ALLOWED = false")) {
+    throw new Error(`${opsPolicyPath} must forbid ops transcript body exposure`);
+  }
+
+  const opsServicePath = "src/features/voice/voice-ops.service.ts";
+  assertFileExists(opsServicePath);
+  const opsService = readFile(opsServicePath);
+  if (!opsService.includes("VOICE_PHASE7A_OPS_SERVICE_MARKER")) {
+    throw new Error(`${opsServicePath} missing Phase 7-A service marker`);
+  }
+  if (opsService.includes("draftText: true")) {
+    throw new Error(`${opsServicePath} must not select draftText for ops listing`);
+  }
+
+  const phase7aMigration = "prisma/migrations/20260524210000_voice_phase7a_ops/migration.sql";
+  assertFileExists(phase7aMigration);
+  const migration7a = readFile(phase7aMigration);
+  if (!migration7a.includes("VoicePrivacyOpsRequest")) {
+    throw new Error(`${phase7aMigration} must create VoicePrivacyOpsRequest`);
+  }
+  if (!schema.includes("model VoicePrivacyOpsRequest")) {
+    throw new Error("prisma/schema.prisma missing model VoicePrivacyOpsRequest (Phase 7-A)");
+  }
+
+  const adminTranscriptsRoute = "src/app/api/admin/voice/transcripts/route.ts";
+  assertFileExists(adminTranscriptsRoute);
+  if (!readFile(adminTranscriptsRoute).includes("listVoiceTranscriptOpsRows")) {
+    throw new Error(`${adminTranscriptsRoute} must list ops transcript metadata`);
+  }
+
+  const adminPrivacyRoute = "src/app/api/admin/voice/privacy-requests/route.ts";
+  assertFileExists(adminPrivacyRoute);
+  if (!readFile(adminPrivacyRoute).includes("createVoicePrivacyOpsRequest")) {
+    throw new Error(`${adminPrivacyRoute} must create privacy ops requests`);
+  }
+
+  const adminTranscriptsPage = "src/app/(protected)/admin/voice/transcripts/page.tsx";
+  assertFileExists(adminTranscriptsPage);
+  if (!readFile(adminTranscriptsPage).includes("VoiceTranscriptOpsSummaryCards")) {
+    throw new Error(`${adminTranscriptsPage} must render ops dashboard`);
+  }
+
+  const e2eVoice = readFile("tests/e2e/voice-guided-interview-smoke.spec.ts");
+  if (!e2eVoice.includes("E2E_VOICE_OPS_SMOKE")) {
+    throw new Error("voice-guided-interview-smoke.spec.ts must gate Phase 7-A ops smoke");
+  }
+  if (!e2eVoice.includes("/api/admin/voice/transcripts")) {
+    throw new Error("voice-guided-interview-smoke.spec.ts must cover admin voice ops API gates");
+  }
+
+  const tag7a = "EVIDENCE-20260523-AIBEOPCHIN-PHASE7A-VOICE-OPS-E2E-HARDENING";
+  if (!impl.includes(tag7a)) {
+    throw new Error(`IMPLEMENTATION_EVIDENCE.md missing ${tag7a}`);
+  }
+
+  console.log("verify:aibeopchin-voice PASS (Phase 5-B〜5-H + Phase 7-A ops/E2E static gates; Phase 5-I privacy runbook enforced)");
 }
 main();

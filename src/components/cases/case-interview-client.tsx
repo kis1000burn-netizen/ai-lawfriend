@@ -6,6 +6,12 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { requireOkData } from "@/lib/client/api-error";
 import { InterviewVoiceGuidedPanel } from "@/components/cases/interview-voice-guided-panel";
+import {
+  LawyerVoiceReviewPanel,
+  type LawyerVoiceReviewSnapshot,
+} from "@/components/cases/lawyer-voice-review-panel";
+import { buildLawyerVoiceReviewSnapshots } from "@/lib/voice/voice-lawyer-review-snapshot";
+import type { VoiceTranscriptRowSnapshot } from "@/lib/voice/voice-lawyer-review-snapshot";
 import type { VoicePromptSpec } from "@/features/question-set/question-set.types";
 
 type QuestionOption = {
@@ -61,6 +67,12 @@ type Props = {
   canEditInterview?: boolean;
   /** 서버 `getAllowedCaseActions`·`COMPLETE_INTERVIEW` — 사건 상세 액션 패널과 동일 조건 */
   showCompleteInterviewCta?: boolean;
+  /** Phase 5-H-UI: 변호사·운영 역할에서 음성 transcript 검토 패널 표시 */
+  showLawyerVoiceReviewPanel?: boolean;
+  /** Phase 5-H-UI: 서버에서 전달한 VoiceTranscript 스냅샷(질문 키별 최신) */
+  voiceTranscriptRows?: VoiceTranscriptRowSnapshot[];
+  /** Phase 5-H-UI-3: 질문 키별 변호사 검토 완료 플래그 */
+  lawyerReviewFlags?: Record<string, boolean>;
 };
 
 function renderInputValue(value: unknown, type: Question["type"]) {
@@ -75,6 +87,9 @@ export default function CaseInterviewClient({
   caseStatus,
   canEditInterview = true,
   showCompleteInterviewCta = false,
+  showLawyerVoiceReviewPanel = false,
+  voiceTranscriptRows = [],
+  lawyerReviewFlags = {},
 }: Props) {
   const router = useRouter();
   const isTerminalCase =
@@ -118,6 +133,17 @@ export default function CaseInterviewClient({
   }, [caseId, initialFlow, fetchFlow]);
 
   const visibleQuestions = useMemo(() => flow?.visibleQuestions ?? [], [flow]);
+
+  const lawyerVoiceReviewItems = useMemo((): LawyerVoiceReviewSnapshot[] => {
+    if (!flow || !showLawyerVoiceReviewPanel) return [];
+    const labels = Object.fromEntries(flow.questions.map((q) => [q.key, q.label]));
+    return buildLawyerVoiceReviewSnapshots({
+      transcripts: voiceTranscriptRows,
+      answers: flow.answers ?? {},
+      questionLabels: labels,
+      lawyerReviewedByQuestionKey: lawyerReviewFlags,
+    }).filter((item) => item.transcriptStatus !== "NONE");
+  }, [flow, lawyerReviewFlags, showLawyerVoiceReviewPanel, voiceTranscriptRows]);
 
   const handleCompleteInterview = useCallback(async () => {
     setCompletingInterview(true);
@@ -399,6 +425,10 @@ export default function CaseInterviewClient({
           );
         })}
       </section>
+
+      {showLawyerVoiceReviewPanel ? (
+        <LawyerVoiceReviewPanel caseId={caseId} items={lawyerVoiceReviewItems} readOnly={interviewReadOnly} />
+      ) : null}
 
       {showCompleteInterviewCta && !interviewReadOnly && flow ? (
         <section className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm">

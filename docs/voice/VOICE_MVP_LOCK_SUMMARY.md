@@ -36,13 +36,13 @@ Phase **5‑A〜5‑F** 및 **5‑F FINAL**(제품 규격·문구 보정)까지 
 
 실행 결과·표는 증빙 **[EVIDENCE-20260523-AIBEOPCHIN-PHASE5G-VOICE-MVP-LOCK-PREDEPLOY-QA]** 최상단 §4 및 [`VOICE_PREDEPLOY_QA_CHECKLIST.md`](./VOICE_PREDEPLOY_QA_CHECKLIST.md)와 동일 기준이다.
 
-## 5. 다음 로드맵(Phase **5‑G** 이후 실행 순서)
+## 5. 로드맵(Phase **5‑G** 이후)
 
-1. **Phase 5‑I** — 개인정보·보존 런북 증빙 **[EVIDENCE-20260523-AIBEOPCHIN-PHASE5I-VOICE-PRIVACY-RETENTION-OPERATIONS-RUNBOOK]** ([`VOICE_PRIVACY_RETENTION_RUNBOOK.md`](./VOICE_PRIVACY_RETENTION_RUNBOOK.md)·[`VOICE_TTL_CLEANUP_POLICY.md`](./VOICE_TTL_CLEANUP_POLICY.md)) — 번호 순서 상 **I** 이지만 변호사 UX 전 **선행** 권장.
-2. **Phase 5‑H** — 변호사 transcript 검토 UX·차단.
-3. (선후 합의) **Phase 5‑J** — Voice Release Candidate.
+1. **Phase 5‑I** — 개인정보·보존 런북 — **완료(LOCKED)**.
+2. **Phase 5‑H** — 변호사 transcript 검토 UX·gate·UI — **완료(LOCKED)**.
+3. **Phase 5‑J** — Voice RC / Predeploy Closure — **완료(LOCKED)** · [`VOICE_RC_LOCK_SUMMARY.md`](./VOICE_RC_LOCK_SUMMARY.md).
 
-[`README.md`](./README.md) Phase 상태표·설명 참조.
+[`README.md`](./README.md) Phase 상태표·검증(`verify:aibeopchin-voice-rc`) 참조.
 
 ## 6. 변경 이력
 

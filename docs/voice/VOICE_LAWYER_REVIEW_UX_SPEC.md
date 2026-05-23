@@ -46,9 +46,11 @@ Phase **5‑H**는 Phase **5‑I**에서 잠근 **개인정보·보관** 기준 
 
 ## 4. 보완 질문 생성 (Supplement question)
 
-- 트리거: 확정 transcript vs 인터뷰 답변 **불일치**, 또는 변호사 **수동**.
-- 결과물은 **기존 supplement / interview 질의 흐름**에 합류(예: `supplement` 경로 또는 질문셋 재요청 패턴 — **실제 라우트는 구현 과제에서 본 명세와 대조**).
-- **키워드** `Supplement`(제품 검색용) — 구현 후 이벤트명은 별도 ADR 가능.
+- 트리거: 확정 transcript vs 인터뷰 답변 **불일치**, 또는 변호사 **수동**(CONFIRMED transcript 존재 시).
+- 결과물은 **기존 supplement / interview 질의 흐름**에 합류 — Phase **5-H-UI-4** 구현.
+- API: `POST /api/cases/:caseId/voice/supplement-questions` → `SupplementRequest` + Item 생성 · 기본 **SENT** 발송.
+- Item 메타: `interviewQuestionKey` · `voiceTranscriptId` · `sourceMarker=phase5h-ui-4-voice-lawyer-review-supplement`.
+- Supplement **ACCEPTED** 시 Voice-origin item 응답만 `saveInterviewAnswer()`로 인터뷰에 반영.
 
 ---
 
@@ -59,7 +61,7 @@ Phase **5‑H**는 Phase **5‑I**에서 잠근 **개인정보·보관** 기준 
 | ID | 차단 조건 |
 | --- | --- |
 | H-BLOCK-01 | 해당 질문 키에 대해 **`CONFIRMED` VoiceTranscript**가 있는데 변호사 **검토 완료** 플래그가 없음 |
-| H-BLOCK-02 | 확정 transcript와 **Interview answer** 불일치 + **제안 또는 보완 질문** 미처리 상태 |
+| H-BLOCK-02 | 확정 transcript와 **Interview answer** 불일치 + **제안 또는 보완 질문** 미처리 상태 → 서버 코드 **`H-BLOCK-OPEN-SUPPLEMENT-UNRESOLVED`** (Phase **5-H-UI-5**) |
 | H-BLOCK-03 | TTL 만료·REJECT 초안만 존재하고 **확정 경로 불명** 상태(의뢰인 재발화 필요) |
 
 (제품 카피는 한국어 우선 가능하나 검증 문자열 및 API 문맥에서는 **block**(차단)·**unblock** 용어를 병행할 수 있다.)
@@ -68,23 +70,60 @@ Phase **5‑H**는 Phase **5‑I**에서 잠근 **개인정보·보관** 기준 
 
 ---
 
-## 6. 코드 / 화면 연결 후보 (구현 버킷)
+## 6. 코드 / 화면 연결 (Phase 5-H-UI 반영)
 
-| 후보 영역 | 용도 | 비고 |
+| 영역 | 경로 | 용도 |
 | --- | --- | --- |
-| **사건 상세** (`cases/[caseId]`) 또는 **인터뷰 회고** 패널 | 변호사가 사건 진입 후 음성·인터뷰 맥락 진입점 | 라우팅 그룹 `(lawyer)` vs `(protected)` **역할별** 검증 유지 |
-| **Lawyer-only transcript review panel** | draft / confirmed / 답변 3축 카드 또는 탭 · **변호사 전용** 노출 | `LAWYER` 할당 검증 필요 |
-| **Confirmed transcript diff view** | 줄·토큰 수준 단순 비교 또는 섹션 정렬(side-by-side) | Diff 라이브러리·a11y는 구현 과제 |
-| **Supplement question trigger** 질문 | §4 규격에 따라 supplement 플로 **시작 또는 큐 적재** | 기존 `supplement` API·플로와 합류 |
+| 변호사 검토 패널 | [`src/components/cases/lawyer-voice-review-panel.tsx`](../../src/components/cases/lawyer-voice-review-panel.tsx) | draft / confirmed / Interview answer 3축 비교 · document finalize gate 안내 |
+| 인터뷰 화면 연결 | [`src/components/cases/case-interview-client.tsx`](../../src/components/cases/case-interview-client.tsx) | LAWYER·ADMIN·STAFF 역할 시 패널 하단 노출 |
+| 정책·차단 코드 | [`src/lib/voice/voice-lawyer-review-ux-policy.ts`](../../src/lib/voice/voice-lawyer-review-ux-policy.ts) | `H-BLOCK-*` · `resolveVoiceReviewBlockReason` · `canFinalizeDocumentAfterVoiceReview` |
+| 검토 완료 영속화 | [`VoiceLawyerReviewCompletion`](../../prisma/schema.prisma) · [`POST .../voice/lawyer-reviews`](../../src/app/api/cases/[caseId]/voice/lawyer-reviews/route.ts) | Phase **5-H-UI-3** |
+| 보완 질문 API | [`POST .../voice/supplement-questions`](../../src/app/api/cases/[caseId]/voice/supplement-questions/route.ts) · [`voice-lawyer-supplement.service.ts`](../../src/features/voice/voice-lawyer-supplement.service.ts) | Phase **5-H-UI-4** |
+| 스냅샷 빌더 | [`src/lib/voice/voice-lawyer-review-snapshot.ts`](../../src/lib/voice/voice-lawyer-review-snapshot.ts) | Prisma VoiceTranscript → 패널 입력 |
+| document finalize gate | [`voice-document-finalize-gate.service.ts`](../../src/lib/voice/voice-document-finalize-gate.service.ts) · [`voice-open-supplement-gate.repository.ts`](../../src/lib/voice/voice-open-supplement-gate.repository.ts) | Phase **5-H-UI-2/3/5** 서버 차단 |
+| Document Finalize Gate UI | [`voice-document-finalize-gate-panel.tsx`](../../src/components/cases/voice-document-finalize-gate-panel.tsx) · [`GET .../voice/document-finalize-gate`](../../src/app/api/cases/[caseId]/voice/document-finalize-gate/route.ts) | Phase **5-H-UI-6** |
 
-후속 단계에서는 위 표의 **실제 파일 경로**를 PR 설명과 **증빙**에 교차 링크한다.
+후속: Phase **5-J Voice RC** — [`VOICE_RC_LOCK_SUMMARY.md`](./VOICE_RC_LOCK_SUMMARY.md) · **LOCKED**.
 
 ---
 
-## 7. 검증 (정적 게이트)
+## 7. 검증 (정적·서버 게이트)
 
-- `npm run verify:aibeopchin-voice` — 본 명세 존재·필수 문구·`VOICE_LAWYER_REVIEW_UX_SPEC_MARKER_PHASE5H` 존재
+- `npm run verify:aibeopchin-voice` — 본 명세·5-H-UI〜**5-H-UI-6 gate UI**·document finalize gate 마커
 - `npm run test -- src/lib/voice/voice-lawyer-review-ux-policy.test.ts`
+- `npm run test -- src/lib/voice/voice-document-finalize-gate.service.test.ts`
+- `npm run test -- src/lib/voice/voice-document-finalize-gate-ui.test.ts`
+- `npm run test -- src/lib/voice/voice-open-supplement-gate.repository.test.ts`
+- `npm run test -- src/features/voice/voice-lawyer-supplement.service.test.ts`
+
+### 7.1 서버 document finalize gate (Phase 5-H-UI-2)
+
+| 진입점 | 함수 |
+| --- | --- |
+| `POST /api/legal-documents/:id/approve` | `assertVoiceDocumentFinalizeAllowed(caseId)` |
+| `documentDetailService.reviewDocument(APPROVE)` | 동일 |
+| `finalizeDocumentDraft()` | 동일 |
+
+차단 시 **403** · `VoiceDocumentFinalizeBlockedError` · details: `{ blockReason, questionKey, supplementRequestId?, gate: "document finalize" }`.
+
+### 7.2 open Supplement gate (Phase 5-H-UI-5 · 명세 H-BLOCK-02)
+
+| 조건 | 차단 코드 |
+| --- | --- |
+| Voice-origin Supplement `sourceMarker=phase5h-ui-4-voice-lawyer-review-supplement` · status ∉ {ACCEPTED, CLOSED, CANCELLED, EXPIRED} | `H-BLOCK-OPEN-SUPPLEMENT-UNRESOLVED` |
+
+Voice transcript gate(5-H-UI-2/3) 통과 **후** `loadOpenVoiceOriginSupplementsByCaseId` → `evaluateOpenVoiceSupplementDocumentFinalizeGate` 순으로 평가한다.
+
+### 7.3 Document Finalize Gate UI (Phase 5-H-UI-6)
+
+| 영역 | 경로 |
+| --- | --- |
+| Block Reason Panel | [`voice-document-finalize-gate-panel.tsx`](../../src/components/cases/voice-document-finalize-gate-panel.tsx) |
+| Snapshot API | `GET /api/cases/:caseId/voice/document-finalize-gate` |
+| 사건 상세 | [`case-detail-client.tsx`](../../src/components/cases/case-detail-client.tsx) — 승인 전 gate 안내·버튼 disable |
+| 초안 finalize | [`document-draft-client.tsx`](../../src/components/cases/document-draft-client.tsx) |
+
+UI 문구 SSOT: `VOICE_DOCUMENT_FINALIZE_BLOCK_MESSAGES` (`voice-document-finalize-gate-ui.ts`) — 서버 403과 동일.
 
 ---
 
