@@ -23,6 +23,10 @@ import type {
   UpdateSupplementRequestInput,
 } from "@/features/supplement-request/supplement-request.validators";
 import { mergeVoiceSupplementItemsToInterviewOnAccepted } from "@/features/voice/voice-lawyer-supplement.service";
+import {
+  canClientRespondToSupplement,
+  isSupplementVisibleToClient,
+} from "@/features/supplement-request/supplement-request.portal";
 
 const SUPPLEMENT_TERMINAL_STATUSES = new Set<SupplementRequestStatus>([
   "CLOSED",
@@ -269,9 +273,13 @@ export async function listSupplementRequestsService(
   await getCaseAccessContext(currentUser, caseId);
 
   const allRows = await listSupplementRequestsRepository(caseId);
+  const roleFiltered =
+    currentUser.role === "USER"
+      ? allRows.filter((row) => isSupplementVisibleToClient(row.status))
+      : allRows;
   const filtered = query.status
-    ? allRows.filter((row) => row.status === query.status)
-    : allRows;
+    ? roleFiltered.filter((row) => row.status === query.status)
+    : roleFiltered;
 
   const start = (query.page - 1) * query.pageSize;
   const items = filtered.slice(start, start + query.pageSize);
@@ -291,7 +299,35 @@ export async function getSupplementRequestDetailService(
   currentUser: SessionUser,
   requestId: string,
 ) {
-  return getReadableRequestOrThrow(currentUser, requestId);
+  const found = await getReadableRequestOrThrow(currentUser, requestId);
+
+  if (
+    currentUser.role === "USER" &&
+    currentUser.id === found.targetUserId &&
+    !isSupplementVisibleToClient(found.status)
+  ) {
+    throw new NotFoundError("보완요청을 찾을 수 없습니다.");
+  }
+
+  return found;
+}
+
+export async function markSupplementRequestViewedByClientService(
+  currentUser: SessionUser,
+  requestId: string,
+) {
+  const found = await getReadableRequestOrThrow(currentUser, requestId);
+  ensureResponsePermission(currentUser, found);
+
+  if (found.status !== "SENT") {
+    return found;
+  }
+
+  return changeSupplementRequestStatusService(currentUser, requestId, {
+    toStatus: "CLIENT_VIEWED",
+    reasonCode: "CLIENT_PORTAL_VIEW",
+    reasonMemo: "의뢰인 포털에서 보완요청 열람",
+  });
 }
 
 export async function updateSupplementRequestService(
@@ -351,6 +387,10 @@ export async function createSupplementResponseService(
 
   if (SUPPLEMENT_TERMINAL_STATUSES.has(found.status)) {
     throw new ValidationError("종료된 보완요청에는 응답할 수 없습니다.");
+  }
+
+  if (!canClientRespondToSupplement(found.status)) {
+    throw new ValidationError("현재 상태에서는 보완 응답을 제출할 수 없습니다.");
   }
 
   const normalizedText = normalizeNullable(input.responseText);
@@ -467,6 +507,19 @@ export async function changeSupplementRequestStatusService(
       found.caseId,
       found.id,
     );
+  }
+
+  if (input.toStatus === "SENT") {
+    const { notifySupplementRequestSent } = await import(
+      "@/features/client-portal/client-portal-notification.service"
+    );
+    await notifySupplementRequestSent({
+      caseId: found.caseId,
+      requestId: found.id,
+      targetUserId: found.targetUserId,
+      title: found.title,
+      auditActorUserId: currentUser.id,
+    });
   }
 
   return updated;

@@ -1,7 +1,7 @@
 # AI법친 Predeploy 로컬 · CI 실행 런북
 
 **목적**: `npm run predeploy:check` 및 production build를 **코드 결함 없이** 재현하기 위한 실행 절차.  
-**범위**: AI Core RC(12-A) 이후 배포 후보 검증 · Windows 로컬 · GitHub Actions CI.
+**범위**: Full Legal Ops Platform RC(16-A) master gate · Windows 로컬 · GitHub Actions CI.
 
 **증빙**: `[EVIDENCE-20260523-AIBEOPCHIN-AI-CORE-PREDEPLOY-OPS-CHECK]`
 

@@ -133,10 +133,31 @@ export default async function ProtectedLayout({ children }: Props) {
                     알림함
                   </Link>
                   <Link
+                    href="/admin/operations/retry-jobs"
+                    className="hover:text-aibeop-deep"
+                  >
+                    Retry Queue
+                  </Link>
+                  <Link
+                    href="/admin/operations/monitoring"
+                    className="hover:text-aibeop-deep"
+                  >
+                    Ops Console
+                  </Link>
+                  <Link
+                    href="/admin/operations/data-governance"
+                    className="hover:text-aibeop-deep"
+                  >
+                    Data Governance
+                  </Link>
+                  <Link
                     href="/admin/operations/aibeopchin-7-dashboard"
                     className="hover:text-aibeop-deep"
                   >
                     운영 모니터링
+                  </Link>
+                  <Link href="/admin/tenants" className="hover:text-aibeop-deep">
+                    Tenant / Plan
                   </Link>
                   <Link href="/admin/system" className="hover:text-aibeop-deep">
                     시스템 점검

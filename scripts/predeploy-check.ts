@@ -23,18 +23,10 @@ function validateEnvironment() {
 
 function main() {
   validateEnvironment();
-  run("Voice RC predeploy closure gate", "npm run verify:aibeopchin-voice-rc");
   run(
-    "Gongbuho Legal Knowledge RC predeploy closure gate",
-    "npm run verify:gongbuho-legal-knowledge-rc",
+    "Full Legal Ops Platform RC master gate (Phase 16-A)",
+    "npm run verify:aibeopchin-full-legal-ops-platform-rc",
   );
-  run("CMB RC predeploy closure gate", "npm run verify:aibeopchin-cmb-rc");
-  run("AI Core RC predeploy closure gate", "npm run verify:aibeopchin-ai-core-rc");
-  run("Supplement migration predeploy gate", "npm run verify:supplement-migration-predeploy");
-  run("Canonical sources (CaseStatus SSOT)", "npm run verify:canonical-sources");
-  run("Type check", "npx tsc --noEmit");
-  run("Lint", "npm run lint");
-  run("Unit tests", "npm run test", { NODE_ENV: "test" });
   console.log(
     "\n[PREDEPLOY] Build — stop `npm run dev` first (Windows: Prisma DLL lock). See docs/operations/AIBEOPCHIN_PREDEPLOY_LOCAL_CI_RUNBOOK.md §1",
   );

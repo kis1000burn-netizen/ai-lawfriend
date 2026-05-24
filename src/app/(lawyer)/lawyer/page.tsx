@@ -4,15 +4,22 @@ import { DashboardShell } from "@/components/dashboard/dashboard-shell";
 import { LawyerDashboardHome } from "@/components/dashboard/lawyer/lawyer-dashboard-home";
 import { requireApprovedLawyer } from "@/lib/auth/session";
 import { fetchLawyerDashboardMetrics } from "@/lib/dashboard/dashboard-metrics";
+import { getLitigationCommandCenterDashboardPreviewWithTitles } from "@/features/document-intelligence/litigation-command-center-list-summary.service";
 
 export default async function LawyerPage() {
   const user = await requireApprovedLawyer();
-  const lawyerDashboardMetrics = await fetchLawyerDashboardMetrics(user);
+  const [lawyerDashboardMetrics, commandCenterPreview] = await Promise.all([
+    fetchLawyerDashboardMetrics(user),
+    getLitigationCommandCenterDashboardPreviewWithTitles(user, 5),
+  ]);
 
   return (
     <DashboardShell>
       <div className="flex flex-col gap-10 pb-8">
-        <LawyerDashboardHome metrics={lawyerDashboardMetrics} />
+        <LawyerDashboardHome
+          metrics={lawyerDashboardMetrics}
+          commandCenterPreview={commandCenterPreview}
+        />
 
         <DashboardLegacyBridge />
 

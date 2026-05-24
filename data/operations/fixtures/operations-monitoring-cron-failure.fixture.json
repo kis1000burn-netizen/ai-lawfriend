@@ -1,0 +1,13 @@
+{
+  "fixtureId": "operations-monitoring-cron-failure",
+  "phase": "17-F",
+  "description": "Sample cron job failure for post-deploy monitoring triage",
+  "sample": {
+    "id": "cron_fixture_sample_001",
+    "jobCode": "LITIGATION_DEADLINE_REMINDER",
+    "jobName": "Litigation deadline reminder dispatch",
+    "status": "FAILED",
+    "message": "Queue dispatch timeout (fixture)",
+    "startedAt": "2026-05-24T09:00:00.000Z"
+  }
+}

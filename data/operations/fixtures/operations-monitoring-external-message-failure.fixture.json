@@ -1,0 +1,15 @@
+{
+  "fixtureId": "operations-monitoring-external-message-failure",
+  "phase": "17-F",
+  "description": "Sample Kakao/Email external message failure — notification domain",
+  "domain": "NOTIFICATION",
+  "sample": {
+    "id": "extmsg_fixture_sample_001",
+    "caseId": "case_fixture_001",
+    "channel": "KAKAO_ALIMTALK",
+    "status": "FAILED",
+    "failureReason": "Provider template not registered (fixture)",
+    "recipientUserId": "user_fixture_client_001",
+    "createdAt": "2026-05-24T10:30:00.000Z"
+  }
+}

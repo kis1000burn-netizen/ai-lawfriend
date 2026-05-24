@@ -96,8 +96,9 @@ npm run verify:aibeopchin-full-ai-core-rc
 npm run predeploy:check
 ```
 
-배포된 staging URL — `ops:staging-secrets-live-check`가 health + role smoke 포함.  
-개별 역할 smoke: `PLAYWRIGHT_BASE_URL` + `OPS_SMOKE_CASE_ID` + `OPS_SMOKE_*` → `npm run ops:ai-core-role-smoke`
+배포된 staging URL — Phase **16-B** master: `npm run ops:staging-deploy-readiness-live-check` (env + migration status + role + portal + upload).  
+레거시 AI Core only: `ops:staging-secrets-live-check` (health + role smoke).  
+개별 smoke: `PLAYWRIGHT_BASE_URL` + `OPS_SMOKE_CASE_ID` + `OPS_SMOKE_*` → [AIBEOPCHIN_STAGING_DEPLOY_READINESS_RUNBOOK.md](./AIBEOPCHIN_STAGING_DEPLOY_READINESS_RUNBOOK.md)
 
 ---
 

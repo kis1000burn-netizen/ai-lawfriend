@@ -1,0 +1,16 @@
+{
+  "fixtureId": "operations-monitoring-audit-issue",
+  "phase": "17-F",
+  "description": "Sample audit issue for operator triage — AI analyze failure on a case",
+  "domain": "AI_USAGE",
+  "sample": {
+    "id": "audit_fixture_sample_001",
+    "action": "LITIGATION_ANALYZE_FAILED",
+    "domain": "AI_USAGE",
+    "actorUserId": "user_fixture_lawyer_001",
+    "entityType": "Case",
+    "entityId": "case_fixture_001",
+    "message": "Document analysis pipeline failed (fixture)",
+    "createdAt": "2026-05-24T10:15:00.000Z"
+  }
+}

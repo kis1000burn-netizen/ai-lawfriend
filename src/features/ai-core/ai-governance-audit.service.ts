@@ -24,6 +24,7 @@ import {
   evaluateAiGovernanceMeterGate,
   recordAiGovernanceFeatureUsage,
 } from "./ai-governance-usage-meter.service";
+import { recordTenantAiUsageFromGovernanceInvoke } from "@/features/platform/tenant-metering/tenant-metering-bridge.service";
 
 export const PHASE10B_AI_GOVERNANCE_AUDIT_SERVICE_MARKER =
   "PHASE10B_AI_GOVERNANCE_AUDIT_SERVICE" as const;
@@ -184,6 +185,13 @@ export async function recordAiGovernanceInvokeAudit(input: {
     actorUserId: input.currentUser.id,
     caseId: input.caseId,
     record,
+  });
+
+  await recordTenantAiUsageFromGovernanceInvoke({
+    caseId: input.caseId,
+    feature: input.feature,
+    llmInvoked: input.llmInvoked,
+    tokensUsed: input.tokensUsed ?? 0,
   });
 
   return record;

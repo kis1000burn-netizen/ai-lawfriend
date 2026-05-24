@@ -1,6 +1,7 @@
 import { execSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
+import { assertPredeployMasterOrGate } from "./lib/predeploy-gate-assertions.mjs";
 
 const root = process.cwd();
 
@@ -99,9 +100,7 @@ function main() {
     throw new Error("docs/cmb/README.md must include Phase **6-G** RC LOCKED row");
   }
 
-  if (!predeploy.includes("verify:aibeopchin-cmb-rc")) {
-    throw new Error("scripts/predeploy-check.ts must run verify:aibeopchin-cmb-rc (Phase 6-G)");
-  }
+  assertPredeployMasterOrGate(predeploy, "verify:aibeopchin-cmb-rc", "Phase 6-G CMB RC");
 
   console.log(
     "verify:aibeopchin-cmb-rc PASS (Phase 6-G CMB RC / Predeploy Closure; includes verify:aibeopchin-cmb)",

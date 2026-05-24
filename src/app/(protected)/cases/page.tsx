@@ -10,6 +10,7 @@ import {
   supplementHubLinkTitle,
 } from "@/features/cases/case.utils";
 import { prismaRoleToUiRole } from "@/lib/role-map";
+import { CaseListCommandCenterWidget } from "@/components/cases/case-list-command-center-widget";
 
 type CasesPageProps = {
   searchParams: Promise<{
@@ -38,6 +39,7 @@ export default async function CasesPage({ searchParams }: CasesPageProps) {
   });
 
   const uiRole = prismaRoleToUiRole(currentUser.role);
+  const showCommandCenterColumn = ["LAWYER", "ADMIN", "STAFF"].includes(uiRole);
 
   return (
     <div className="mx-auto max-w-6xl space-y-6">
@@ -145,6 +147,11 @@ export default async function CasesPage({ searchParams }: CasesPageProps) {
                 >
                   보완 안내
                 </th>
+                {showCommandCenterColumn ? (
+                  <th scope="col" className="px-4 py-3">
+                    소송 지휘실
+                  </th>
+                ) : null}
               </tr>
             </thead>
             <tbody className="divide-y bg-white">
@@ -190,6 +197,15 @@ export default async function CasesPage({ searchParams }: CasesPageProps) {
                       </span>
                     )}
                   </td>
+                  {showCommandCenterColumn ? (
+                    <td className="px-4 py-3 align-top">
+                      <CaseListCommandCenterWidget
+                        caseId={item.id}
+                        caseTitle={item.title}
+                        summary={item.commandCenterSummary}
+                      />
+                    </td>
+                  ) : null}
                 </tr>
               ))}
             </tbody>

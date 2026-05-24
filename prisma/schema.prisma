@@ -22,6 +22,103 @@ enum UserStatus {
   DELETED
 }
 
+/// Product Phase 22-A — Tenant (organization / law firm) lifecycle
+enum TenantStatus {
+  ACTIVE
+  SUSPENDED
+  ARCHIVED
+}
+
+/// Product Phase 22-A — Role within a tenant (distinct from platform UserRole)
+enum TenantMembershipRole {
+  OWNER
+  ADMIN
+  LAWYER
+  STAFF
+}
+
+/// Product Phase 22-B — SaaS plan tier per tenant
+enum TenantPlanTier {
+  FREE
+  STARTER
+  PRO
+  ENTERPRISE
+}
+
+/// Product Phase 22-B — Tenant plan subscription status
+enum TenantPlanStatus {
+  ACTIVE
+  PAST_DUE
+  SUSPENDED
+}
+
+/// Product Phase 22-C — Tenant usage metering event kind
+enum TenantUsageEventKind {
+  AI_TOKEN_USAGE
+  LLM_CALL
+  EXTERNAL_MESSAGE
+  DOCUMENT_PROCESSING
+  FILE_UPLOAD
+  CLIENT_PORTAL_ACTIVE
+}
+
+/// Product Phase 22-C — Usage quantity unit
+enum TenantUsageEventUnit {
+  COUNT
+  TOKENS
+  BYTES
+}
+
+/// Product Phase 22-D — Billing ledger entry status
+enum BillingLedgerStatus {
+  DRAFT
+  POSTED
+  VOIDED
+  ADJUSTED
+}
+
+/// Product Phase 22-D — Billable charge category
+enum BillingChargeCategory {
+  AI_TOKEN
+  LLM_CALL
+  EXTERNAL_MESSAGE
+  DOCUMENT_PROCESSING
+  FILE_UPLOAD
+  FILE_STORAGE
+  CLIENT_PORTAL
+  MANUAL_ADJUSTMENT
+}
+
+/// Product Phase 29-B — Customer success activity type
+enum CustomerSuccessActivityType {
+  ONBOARDING_MEETING
+  TRAINING_SESSION
+  FEATURE_INQUIRY
+  INCIDENT_NOTICE
+  EXPANSION_PROPOSAL
+  RENEWAL_DISCUSSION
+  COMPLAINT_RISK_RESPONSE
+}
+
+/// Product Phase 29-C — Renewal / churn risk level
+enum ChurnRiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+/// Product Phase 23-A — Case pack type for AI evaluation dataset
+enum AiEvaluationCasePackType {
+  LOAN
+  LEASE
+  DIVORCE
+  DAMAGES
+  LABOR
+  CRIMINAL
+  GENERIC
+}
+
 /// 변호사 **전문가 권한** 승인 상태 — `User.status`(계정 활성)와 분리한다.
 enum LawyerVerificationStatus {
   NOT_SUBMITTED
@@ -115,6 +212,145 @@ enum AttachmentStatus {
   DELETED
 }
 
+/// Phase 13-B — Legal Document Intelligence upload/extract
+enum LitigationExtractionStatus {
+  PENDING
+  EXTRACTING
+  EXTRACTED
+  FAILED
+}
+
+enum LitigationExtractionMethod {
+  NATIVE
+  OCR
+  HYBRID
+  PLAIN_TEXT
+}
+
+enum LitigationClassificationStatus {
+  PENDING
+  CLASSIFYING
+  CLASSIFIED
+  FAILED
+}
+
+enum LitigationSourceParty {
+  CLIENT
+  OPPONENT
+  COURT
+  THIRD_PARTY
+  UNKNOWN
+}
+
+enum LitigationStage {
+  PRE_FILING
+  COMPLAINT_FILED
+  ANSWER_RECEIVED
+  PREPARATORY_BRIEF
+  JUDGMENT
+  APPEAL
+  UNKNOWN
+}
+
+enum LitigationSensitivityLevel {
+  GENERAL
+  SENSITIVE
+  LAWYER_ONLY
+}
+
+enum LitigationAnalysisReadiness {
+  READY
+  NEEDS_OCR
+  LOW_QUALITY
+  ENCRYPTED
+  UNSUPPORTED
+}
+
+enum LitigationDocumentAnalysisStatus {
+  PENDING
+  ANALYZING
+  AI_ANALYZED
+  FAILED
+}
+
+enum LitigationOpponentBriefAnalysisStatus {
+  PENDING
+  ANALYZING
+  AI_ANALYZED
+  FAILED
+}
+
+enum LitigationEvidenceMappingStatus {
+  PENDING
+  RUNNING
+  AI_MAPPED
+  FAILED
+}
+
+enum LitigationDocumentIntelligenceReviewPhase {
+  PHASE_13D
+  PHASE_13E
+  PHASE_13F
+  PHASE_15B
+  PHASE_15C
+}
+
+enum LitigationDeadlineStatus {
+  OPEN
+  COMPLETED
+  CANCELLED
+}
+
+enum LitigationDeadlineNotificationChannel {
+  IN_APP
+  EMAIL
+  KAKAO_ALIMTALK
+}
+
+enum LitigationDeadlineNotificationStatus {
+  SCHEDULED
+  SENT
+  FAILED
+  CANCELLED
+  SKIPPED_NO_CONSENT
+}
+
+enum LitigationDeadlineReminderOffset {
+  D14
+  D7
+  D3
+  D1
+  D0
+}
+
+enum LitigationTaskStatus {
+  OPEN
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum LitigationTaskKind {
+  RISK
+  ISSUE
+  EVIDENCE_GAP
+  REBUTTAL
+  GENERAL
+}
+
+enum LitigationDraftContextStatus {
+  DRAFT
+  READY
+  ARCHIVED
+}
+
+enum LitigationOpsLinkTargetType {
+  DEADLINE
+  TASK
+  SUPPLEMENT
+  DRAFT_CONTEXT
+}
+
 /// 사건 첨부자료 분류 (FILE-1B) — CaseStatus·전이와 무관
 enum CaseAttachmentCategory {
   EVIDENCE
@@ -156,6 +392,63 @@ enum SupplementRequestStatus {
   CLOSED
   CANCELLED
   EXPIRED
+}
+
+/// Phase 15-A — Client portal access grant
+enum CaseClientPortalAccessStatus {
+  ACTIVE
+  SUSPENDED
+  REVOKED
+}
+
+/// Phase 15-A — Client submission workflow (not confirmed case material until ACCEPTED)
+enum ClientSubmissionStatus {
+  DRAFT
+  SUBMITTED
+  RECEIVED
+  UNDER_REVIEW
+  ACCEPTED
+  NEEDS_MORE_INFO
+  REJECTED
+}
+
+enum ClientSubmissionKind {
+  SUPPLEMENT
+  FREE_UPLOAD
+  CHAT_ATTACHMENT
+}
+
+enum CaseConversationThreadType {
+  GENERAL
+  SUPPLEMENT
+}
+
+enum CaseSharedDocumentStatus {
+  ACTIVE
+  REVOKED
+  EXPIRED
+}
+
+enum CaseDocumentDeliveryChannel {
+  IN_APP
+  EMAIL
+  KAKAO_ALIMTALK
+  SMS
+}
+
+enum CaseDocumentDeliveryStatus {
+  PENDING
+  SENT
+  FAILED
+  SKIPPED_NO_CONSENT
+  VIEWED
+}
+
+enum ExternalMessageStatus {
+  PENDING
+  SENT
+  FAILED
+  SKIPPED_NO_CONSENT
 }
 
 enum SupplementRequestType {
@@ -344,6 +637,7 @@ model User {
   cases               Case[]             @relation("UserCases")
   auditLogs           AuditLog[]         @relation("UserAuditLogs")
   uploadedAttachments CaseAttachment[]   @relation("UserUploadedCaseAttachments")
+  litigationUploadedFiles LitigationUploadedFile[] @relation("UserLitigationUploadedFiles")
   timelineMemos       CaseTimelineMemo[] @relation("UserCaseTimelineMemos")
   assignedCases       CaseAssignment[]   @relation("UserAssignedCases")
   createdAssignments  CaseAssignment[]   @relation("UserCreatedAssignments")
@@ -389,6 +683,31 @@ model User {
   cmbPublishEventsActed        AibeopchinCmbPublishEvent[]      @relation("CmbPublishEventActor")
   createdCaseIntelligenceSnapshots CaseIntelligenceSnapshot[] @relation("CaseIntelligenceSnapshotCreator")
   clientDisclosureReleases         CaseClientDisclosureRelease[] @relation("CaseClientDisclosureReleaseActor")
+  evidenceMappingItemReviews     LitigationEvidenceMappingItemReview[] @relation("UserEvidenceMappingItemReviews")
+  documentIntelligenceReviewDecisions LitigationDocumentIntelligenceReviewDecision[] @relation("UserDocumentIntelligenceReviewDecisions")
+  litigationDeadlinesCreated          LitigationDeadline[] @relation("UserLitigationDeadlinesCreated")
+  litigationTasksCreated              LitigationTask[] @relation("UserLitigationTasksCreated")
+  litigationTasksAssigned             LitigationTask[] @relation("UserLitigationTasksAssigned")
+  litigationDraftContextsCreated      LitigationDraftContext[] @relation("UserLitigationDraftContextsCreated")
+  documentIntelligenceOpsSyncs        LitigationDocumentIntelligenceOpsSync[] @relation("UserDocumentIntelligenceOpsSyncs")
+  clientPortalAccessGrants            CaseClientPortalAccess[] @relation("CaseClientPortalAccessClient")
+  clientPortalAccessInvites           CaseClientPortalAccess[] @relation("CaseClientPortalAccessInviter")
+  clientSubmissions                   ClientSubmission[] @relation("ClientSubmissionSubmitter")
+  clientSubmissionReviews             ClientSubmission[] @relation("ClientSubmissionReviewer")
+  conversationMessagesSent            CaseConversationMessage[] @relation("CaseConversationMessageSender")
+  sharedDocumentsProvided             CaseSharedDocument[] @relation("CaseSharedDocumentSharer")
+  sharedDocumentsReceived             CaseSharedDocument[] @relation("CaseSharedDocumentRecipient")
+  documentDeliveriesReceived          CaseDocumentDelivery[] @relation("CaseDocumentDeliveryRecipient")
+  documentDeliveriesCreated           CaseDocumentDelivery[] @relation("CaseDocumentDeliveryCreator")
+  externalMessageLogsReceived         ExternalMessageLog[] @relation("ExternalMessageLogRecipient")
+  clientNotificationPreference        ClientNotificationPreference?
+  clientPushSubscriptions             ClientPushSubscription[]
+  tenantMemberships                   TenantMembership[]
+  aiLawyerReviewFeedbacksGiven        AiLawyerReviewFeedback[]          @relation("AiLawyerReviewFeedbackLawyer")
+  deadlineNotificationsReceived       LitigationDeadlineNotification[] @relation("LitigationDeadlineNotificationRecipient")
+  deadlineNotificationsCreated        LitigationDeadlineNotification[] @relation("LitigationDeadlineNotificationCreator")
+  retryJobsResolved                   RetryJob[] @relation("RetryJobResolvedBy")
+  documentPipelineJobsResolved        DocumentPipelineJob[] @relation("DocumentPipelineJobResolvedBy")
 
   @@index([email])
 }
@@ -665,6 +984,7 @@ model WorkerHeartbeat {
 
 model Case {
   id                   String     @id @default(cuid())
+  tenantId             String?
   ownerUserId          String
   title                String
   description          String?
@@ -679,7 +999,9 @@ model Case {
   updatedAt            DateTime   @updatedAt
 
   owner                      User                              @relation("UserCases", fields: [ownerUserId], references: [id], onDelete: Cascade)
+  tenant                     Tenant?                           @relation(fields: [tenantId], references: [id], onDelete: SetNull)
   attachments                CaseAttachment[]
+  litigationUploadedFiles    LitigationUploadedFile[]
   timelineMemos              CaseTimelineMemo[]
   assignments                CaseAssignment[]
   opsQueueTickets            OpsQueueTicket[]
@@ -699,12 +1021,31 @@ model Case {
   voicePrivacyOpsRequests      VoicePrivacyOpsRequest[]
   intelligenceSnapshots        CaseIntelligenceSnapshot[]
   clientDisclosureReleases     CaseClientDisclosureRelease[]
+  evidenceMappings             LitigationEvidenceMapping[]
+  documentIntelligenceReviewDecisions LitigationDocumentIntelligenceReviewDecision[]
+  litigationDeadlines                LitigationDeadline[]
+  litigationTasks                    LitigationTask[]
+  litigationDraftContexts            LitigationDraftContext[]
+  documentIntelligenceOpsSyncs     LitigationDocumentIntelligenceOpsSync[]
+  documentIntelligenceOpsLinks       LitigationDocumentIntelligenceOpsLink[]
+  clientPortalAccesses               CaseClientPortalAccess[]
+  clientSubmissions                  ClientSubmission[]
+  conversationThreads                CaseConversationThread[]
+  conversationMessages               CaseConversationMessage[]
+  sharedDocuments                    CaseSharedDocument[]
+  deadlineNotifications              LitigationDeadlineNotification[]
+  documentDeliveries                 CaseDocumentDelivery[]
+  externalMessageLogs                ExternalMessageLog[]
+  retryJobs                          RetryJob[]
+  documentPipelineJobs               DocumentPipelineJob[]
+  aiLawyerReviewFeedbacks            AiLawyerReviewFeedback[]
 
   /// 사건 인터뷰에 사용할 질문셋(선택). 미지정 시 전역 활성 단일 QuestionSet 규약 유지(Phase 3-D).
   questionSetId               String?
   interviewQuestionSet       QuestionSet? @relation("CaseInterviewQuestionSet", fields: [questionSetId], references: [id], onDelete: SetNull)
 
   @@index([ownerUserId, status, createdAt])
+  @@index([tenantId, status, createdAt])
   @@index([status, createdAt])
   @@index([questionSetId])
   @@index([assignedLawyerUserId])
@@ -852,6 +1193,8 @@ model SupplementRequest {
   responses  SupplementResponse[]
   statusLogs SupplementRequestStatusLog[]
   auditLogs  SupplementRequestAuditLog[]
+  clientSubmissions ClientSubmission[]
+  conversationThreads CaseConversationThread[]
 
   @@index([caseId, status, createdAt])
   @@index([requesterUserId, createdAt])
@@ -985,6 +1328,506 @@ model CaseAttachment {
 
   @@index([caseId, status, createdAt])
   @@index([uploaderUserId, createdAt])
+}
+
+model LitigationUploadedFile {
+  id                     String                     @id @default(cuid())
+  caseId                 String
+  uploaderUserId         String
+  originalFileName       String
+  storedName             String
+  mimeType               String
+  sizeBytes              Int
+  storagePath            String
+  sha256                 String
+  extractionStatus       LitigationExtractionStatus @default(PENDING)
+  extractionQualityScore Float?
+  pageCount              Int?
+  createdAt              DateTime                   @default(now())
+  updatedAt              DateTime                   @updatedAt
+
+  case        Case                       @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  uploader    User                       @relation("UserLitigationUploadedFiles", fields: [uploaderUserId], references: [id], onDelete: Cascade)
+  extractions LitigationExtractedText[]
+  classifications LitigationDocumentClassification[]
+  analyses LitigationDocumentAnalysis[]
+  opponentBriefAnalyses LitigationOpponentBriefAnalysis[]
+  documentPipelineJobs  DocumentPipelineJob[]
+  clientSubmissionFiles ClientSubmissionFile[]
+  messageAttachments    CaseMessageAttachment[]
+
+  @@index([caseId, createdAt])
+  @@index([caseId, extractionStatus])
+}
+
+model LitigationDocumentAnalysis {
+  id                     String                           @id @default(cuid())
+  uploadedFileId         String
+  revision               Int                              @default(1)
+  classificationRevision Int?
+  analysisStatus         LitigationDocumentAnalysisStatus
+  documentType           String
+  analysisJson           Json
+  errorMessage           String?
+  analyzedAt             DateTime                         @default(now())
+
+  uploadedFile LitigationUploadedFile @relation(fields: [uploadedFileId], references: [id], onDelete: Cascade)
+
+  @@unique([uploadedFileId, revision])
+  @@index([uploadedFileId, analyzedAt])
+}
+
+model LitigationOpponentBriefAnalysis {
+  id                String                              @id @default(cuid())
+  uploadedFileId    String
+  revision          Int                                 @default(1)
+  documentAnalysisRevision Int?
+  analysisStatus    LitigationOpponentBriefAnalysisStatus
+  documentType      String
+  analysisJson      Json
+  errorMessage      String?
+  analyzedAt        DateTime                            @default(now())
+
+  uploadedFile LitigationUploadedFile @relation(fields: [uploadedFileId], references: [id], onDelete: Cascade)
+
+  @@unique([uploadedFileId, revision])
+  @@index([uploadedFileId, analyzedAt])
+}
+
+model LitigationEvidenceMapping {
+  id            String                          @id @default(cuid())
+  caseId        String
+  revision      Int                             @default(1)
+  mappingStatus LitigationEvidenceMappingStatus
+  mappingJson   Json
+  errorMessage  String?
+  mappedAt      DateTime                        @default(now())
+
+  case    Case                                  @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  reviews LitigationEvidenceMappingItemReview[]
+
+  @@unique([caseId, revision])
+  @@index([caseId, mappedAt])
+}
+
+model LitigationEvidenceMappingItemReview {
+  id               String   @id @default(cuid())
+  mappingId        String
+  itemId           String
+  itemKind         String
+  reviewStatus     String
+  reviewedByUserId String?
+  reviewNote       String?
+  reviewedAt       DateTime @default(now())
+
+  mapping  LitigationEvidenceMapping @relation(fields: [mappingId], references: [id], onDelete: Cascade)
+  reviewer User?                     @relation("UserEvidenceMappingItemReviews", fields: [reviewedByUserId], references: [id], onDelete: SetNull)
+
+  @@unique([mappingId, itemId])
+  @@index([mappingId, itemKind])
+}
+
+model LitigationDocumentIntelligenceReviewDecision {
+  id               String                                    @id @default(cuid())
+  caseId           String
+  itemId           String
+  sourcePhase      LitigationDocumentIntelligenceReviewPhase
+  sourceFileId     String?
+  itemCategory     String
+  aiText           String                                    @db.Text
+  reviewStatus     String
+  editedText       String?                                   @db.Text
+  rejectionReason  String?
+  reviewNote       String?
+  ledgerEntryJson  Json?
+  payloadJson      Json?
+  reviewedByUserId String?
+  reviewedAt       DateTime?
+  createdAt        DateTime                                  @default(now())
+  updatedAt        DateTime                                  @updatedAt
+
+  case     Case  @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  reviewer User? @relation("UserDocumentIntelligenceReviewDecisions", fields: [reviewedByUserId], references: [id], onDelete: SetNull)
+
+  @@unique([caseId, itemId])
+  @@index([caseId, reviewStatus])
+  @@index([caseId, sourcePhase])
+}
+
+model LitigationDeadline {
+  id               String                   @id @default(cuid())
+  caseId           String
+  title            String
+  description      String?                  @db.Text
+  candidateDueText String?
+  dueAt            DateTime?
+  courtName        String?
+  hearingKind      String?
+  clientVisible    Boolean                  @default(true)
+  status           LitigationDeadlineStatus @default(OPEN)
+  reviewDecisionId String?
+  sourceItemId     String
+  sourcePhase      String?
+  createdByUserId  String?
+  createdAt        DateTime                 @default(now())
+  updatedAt        DateTime                 @updatedAt
+
+  case          Case                             @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  creator       User?                            @relation("UserLitigationDeadlinesCreated", fields: [createdByUserId], references: [id], onDelete: SetNull)
+  notifications LitigationDeadlineNotification[]
+
+  @@unique([caseId, sourceItemId])
+  @@index([caseId, status])
+  @@index([caseId, dueAt])
+}
+
+/// Phase 15-D — Scheduled deadline reminders (client consent gated for external channels)
+model LitigationDeadlineNotification {
+  id              String                               @id @default(cuid())
+  caseId          String
+  deadlineId      String
+  recipientUserId String
+  recipientRole   UserRole
+  channel         LitigationDeadlineNotificationChannel
+  reminderOffset  LitigationDeadlineReminderOffset
+  scheduledAt     DateTime
+  sentAt          DateTime?
+  status          LitigationDeadlineNotificationStatus @default(SCHEDULED)
+  failureReason   String?
+  createdByUserId String?
+  createdAt       DateTime                             @default(now())
+  updatedAt       DateTime                             @updatedAt
+
+  case      Case               @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  deadline  LitigationDeadline @relation(fields: [deadlineId], references: [id], onDelete: Cascade)
+  recipient User               @relation("LitigationDeadlineNotificationRecipient", fields: [recipientUserId], references: [id], onDelete: Cascade)
+  creator   User?              @relation("LitigationDeadlineNotificationCreator", fields: [createdByUserId], references: [id], onDelete: SetNull)
+
+  @@unique([deadlineId, recipientUserId, channel, reminderOffset])
+  @@index([caseId, scheduledAt])
+  @@index([deadlineId, status])
+  @@index([recipientUserId, status])
+}
+
+/// Phase 15-D — Client notification opt-in (Kakao requires explicit consent)
+model ClientNotificationPreference {
+  id                                String   @id @default(cuid())
+  userId                            String   @unique
+  kakaoOptIn                        Boolean  @default(false)
+  emailOptIn                        Boolean  @default(true)
+  smsOptIn                          Boolean  @default(false)
+  webPushOptIn                      Boolean  @default(false)
+  litigationDeadlineReminderEnabled Boolean  @default(true)
+  documentShareNoticeEnabled        Boolean  @default(true)
+  createdAt                         DateTime @default(now())
+  updatedAt                         DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+/// Phase 21-D — Web Push subscription (endpoint keys only; no message body stored)
+model ClientPushSubscription {
+  id        String   @id @default(cuid())
+  userId    String
+  endpoint  String   @unique @db.VarChar(2000)
+  p256dh    String   @db.VarChar(500)
+  auth      String   @db.VarChar(500)
+  userAgent String?  @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+/// Product Phase 22-A — Tenant (law firm / organization) SSOT
+model Tenant {
+  id          String       @id @default(cuid())
+  slug        String       @unique
+  legalName   String
+  displayName String?
+  status      TenantStatus @default(ACTIVE)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  memberships TenantMembership[]
+  cases       Case[]
+  plan           TenantPlan?
+  usageEvents    TenantUsageEvent[]
+  billingLedgers BillingUsageLedger[]
+  billingPeriodCloses BillingLedgerPeriodClose[]
+  customerSuccessActivities CustomerSuccessActivity[]
+
+  @@index([status])
+}
+
+/// Product Phase 29-B — Customer success activity log (CS / ops touchpoints)
+model CustomerSuccessActivity {
+  id           String                      @id @default(cuid())
+  tenantId     String
+  activityType CustomerSuccessActivityType
+  summary      String
+  ownerUserId  String?
+  riskSignal   String?
+  nextActionAt DateTime?
+  createdAt    DateTime                    @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, createdAt])
+  @@index([tenantId, activityType])
+}
+
+/// Product Phase 22-C — Append-only tenant usage metering event (not billing ledger)
+model TenantUsageEvent {
+  id         String               @id @default(cuid())
+  tenantId   String
+  periodKey  String
+  kind       TenantUsageEventKind
+  quantity   Int                  @default(1)
+  unit       TenantUsageEventUnit @default(COUNT)
+  caseId     String?
+  metadata   Json?
+  recordedAt DateTime             @default(now())
+
+  tenant       Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  billingEntry BillingUsageLedger?
+
+  @@index([tenantId, periodKey, kind])
+  @@index([tenantId, caseId, kind, periodKey])
+  @@index([tenantId, recordedAt])
+}
+
+/// Product Phase 22-D — Billing-safe usage ledger (not invoice)
+model BillingUsageLedger {
+  id               String               @id @default(cuid())
+  tenantId         String
+  meteringEventId  String?              @unique
+  billingPeriodKey String
+  chargeCategory   BillingChargeCategory
+  billableQuantity Int
+  unitCostSnapshot Json
+  planSnapshot     Json
+  status           BillingLedgerStatus  @default(DRAFT)
+  adjustmentOfId   String?
+  voidReason       String?
+  adjustmentReason String?
+  actorUserId      String?
+  postedAt         DateTime?
+  voidedAt         DateTime?
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+
+  tenant        Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  meteringEvent TenantUsageEvent?   @relation(fields: [meteringEventId], references: [id], onDelete: SetNull)
+  adjustmentOf  BillingUsageLedger? @relation("BillingLedgerAdjustment", fields: [adjustmentOfId], references: [id], onDelete: SetNull)
+  adjustments   BillingUsageLedger[] @relation("BillingLedgerAdjustment")
+
+  @@index([tenantId, billingPeriodKey, status])
+  @@index([tenantId, chargeCategory, billingPeriodKey])
+}
+
+/// Product Phase 22-D — Closed billing period guard (no new/changed ledger entries)
+model BillingLedgerPeriodClose {
+  id               String   @id @default(cuid())
+  tenantId         String
+  billingPeriodKey String
+  closedAt         DateTime @default(now())
+  closedByUserId   String?
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, billingPeriodKey])
+}
+
+/// Product Phase 23-A — AI evaluation golden dataset entry (quality regression SSOT)
+model AiEvaluationDatasetEntry {
+  id               String                   @id @default(cuid())
+  code             String                   @unique
+  packType         AiEvaluationCasePackType
+  feature          String
+  title            String
+  inputContext     Json
+  expectedCriteria Json
+  isActive         Boolean                  @default(true)
+  createdAt        DateTime                 @default(now())
+  updatedAt        DateTime                 @updatedAt
+
+  @@index([packType, feature, isActive])
+}
+
+/// Product Phase 23-B — Lawyer review feedback on AI outputs (quality loop SSOT)
+enum AiLawyerReviewFeedbackRating {
+  ACCEPT
+  MINOR_EDIT
+  MAJOR_EDIT
+  REJECT
+}
+
+model AiLawyerReviewFeedback {
+  id              String                       @id @default(cuid())
+  caseId          String
+  lawyerUserId    String
+  feature         String
+  evaluationCode  String?
+  aiOutputHash    String
+  rating          AiLawyerReviewFeedbackRating
+  feedbackNotes   String?
+  correctionHints Json?
+  createdAt       DateTime                     @default(now())
+
+  case   Case @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  lawyer User @relation("AiLawyerReviewFeedbackLawyer", fields: [lawyerUserId], references: [id], onDelete: Cascade)
+
+  @@index([caseId, feature, createdAt])
+  @@index([lawyerUserId, createdAt])
+  @@index([evaluationCode])
+}
+
+/// Product Phase 22-B — Tenant plan tier · feature overrides
+model TenantPlan {
+  id           String           @id @default(cuid())
+  tenantId     String           @unique
+  tier         TenantPlanTier   @default(FREE)
+  status       TenantPlanStatus @default(ACTIVE)
+  /// Tenant-level feature flag overrides (merged on top of tier defaults)
+  featureFlags Json             @default("{}")
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tier, status])
+}
+
+/// Product Phase 22-A — User membership in a tenant
+model TenantMembership {
+  id        String               @id @default(cuid())
+  tenantId  String
+  userId    String
+  role      TenantMembershipRole
+  isPrimary Boolean              @default(false)
+  isActive  Boolean              @default(true)
+  joinedAt  DateTime             @default(now())
+  endedAt   DateTime?
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, userId])
+  @@index([userId, isActive])
+  @@index([tenantId, role, isActive])
+}
+
+model LitigationTask {
+  id               String               @id @default(cuid())
+  caseId           String
+  title            String
+  description      String?              @db.Text
+  taskKind         LitigationTaskKind
+  status           LitigationTaskStatus @default(OPEN)
+  reviewDecisionId String?
+  sourceItemId     String
+  sourcePhase      String?
+  assigneeUserId   String?
+  createdByUserId  String?
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+
+  case     Case  @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  assignee User? @relation("UserLitigationTasksAssigned", fields: [assigneeUserId], references: [id], onDelete: SetNull)
+  creator  User? @relation("UserLitigationTasksCreated", fields: [createdByUserId], references: [id], onDelete: SetNull)
+
+  @@unique([caseId, sourceItemId])
+  @@index([caseId, status])
+  @@index([assigneeUserId, status])
+}
+
+model LitigationDraftContext {
+  id                 String                       @id @default(cuid())
+  caseId             String
+  title              String
+  contextJson        Json
+  reviewDecisionIds  Json
+  status             LitigationDraftContextStatus @default(DRAFT)
+  createdByUserId    String?
+  createdAt          DateTime                     @default(now())
+  updatedAt          DateTime                     @updatedAt
+
+  case    Case  @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  creator User? @relation("UserLitigationDraftContextsCreated", fields: [createdByUserId], references: [id], onDelete: SetNull)
+
+  @@index([caseId, status])
+}
+
+model LitigationDocumentIntelligenceOpsSync {
+  id             String   @id @default(cuid())
+  caseId         String
+  revision       Int      @default(1)
+  syncJson       Json
+  syncedByUserId String?
+  syncedAt       DateTime @default(now())
+
+  case   Case  @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  syncer User? @relation("UserDocumentIntelligenceOpsSyncs", fields: [syncedByUserId], references: [id], onDelete: SetNull)
+
+  @@unique([caseId, revision])
+  @@index([caseId, syncedAt])
+}
+
+model LitigationDocumentIntelligenceOpsLink {
+  id               String                      @id @default(cuid())
+  caseId           String
+  reviewDecisionId String
+  sourceItemId     String
+  targetType       LitigationOpsLinkTargetType
+  targetId         String
+  createdAt        DateTime                    @default(now())
+
+  case Case @relation(fields: [caseId], references: [id], onDelete: Cascade)
+
+  @@unique([caseId, sourceItemId, targetType])
+  @@index([caseId, reviewDecisionId])
+}
+
+model LitigationDocumentClassification {
+  id                   String                         @id @default(cuid())
+  uploadedFileId       String
+  revision             Int                            @default(1)
+  classificationStatus LitigationClassificationStatus
+  documentType         String
+  sourceParty          LitigationSourceParty
+  litigationStage      LitigationStage
+  sensitivityLevel     LitigationSensitivityLevel
+  analysisReadiness    LitigationAnalysisReadiness
+  confidence           Float
+  recommendedNextTasks Json
+  citationsJson        Json
+  errorMessage         String?
+  classifiedAt         DateTime                       @default(now())
+
+  uploadedFile LitigationUploadedFile @relation(fields: [uploadedFileId], references: [id], onDelete: Cascade)
+
+  @@unique([uploadedFileId, revision])
+  @@index([uploadedFileId, classifiedAt])
+}
+
+model LitigationExtractedText {
+  id               String                     @id @default(cuid())
+  uploadedFileId   String
+  revision         Int                        @default(1)
+  extractionMethod LitigationExtractionMethod
+  pagesJson        Json
+  qualityScore     Float
+  qualityFlags     Json                       @default("[]")
+  errorMessage     String?
+  extractedAt      DateTime                   @default(now())
+
+  uploadedFile LitigationUploadedFile @relation(fields: [uploadedFileId], references: [id], onDelete: Cascade)
+
+  @@unique([uploadedFileId, revision])
+  @@index([uploadedFileId, extractedAt])
 }
 
 model CaseTimelineMemo {
@@ -2201,6 +3044,8 @@ model LegalDocument {
   generationTrace DocumentGenerationTrace?
   paragraphs      LegalDocumentParagraph[]
   versions        LegalDocumentVersion[]
+  clientShares    CaseSharedDocument[]
+  documentDeliveries CaseDocumentDelivery[]
 
   @@index([caseId, type])
   @@index([status])
@@ -2394,4 +3239,309 @@ model DocumentTemplate {
   @@index([catalogStatus])
   @@index([sourceId])
   @@index([sourceProvider])
+}
+
+/// Phase 15-A — Client portal access (case owner + invited clients)
+model CaseClientPortalAccess {
+  id              String                       @id @default(cuid())
+  caseId          String
+  clientUserId    String
+  invitedByUserId String?
+  accessStatus    CaseClientPortalAccessStatus @default(ACTIVE)
+  lastAccessedAt  DateTime?
+  createdAt       DateTime                     @default(now())
+  updatedAt       DateTime                     @updatedAt
+
+  case      Case  @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  client    User  @relation("CaseClientPortalAccessClient", fields: [clientUserId], references: [id], onDelete: Cascade)
+  invitedBy User? @relation("CaseClientPortalAccessInviter", fields: [invitedByUserId], references: [id], onDelete: SetNull)
+
+  @@unique([caseId, clientUserId])
+  @@index([clientUserId, accessStatus])
+}
+
+/// Phase 15-A — Client submission bundle (answer + files, not confirmed case material until ACCEPTED)
+model ClientSubmission {
+  id                  String               @id @default(cuid())
+  caseId              String
+  supplementRequestId String?
+  submittedByUserId   String
+  reviewedByUserId    String?
+  kind                ClientSubmissionKind @default(SUPPLEMENT)
+  status              ClientSubmissionStatus @default(DRAFT)
+  message             String?              @db.Text
+  reviewMemo          String?              @db.Text
+  submittedAt         DateTime?
+  receivedAt          DateTime?
+  reviewedAt          DateTime?
+  acceptedAt          DateTime?
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+
+  case              Case               @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  supplementRequest SupplementRequest? @relation(fields: [supplementRequestId], references: [id], onDelete: SetNull)
+  submitter         User               @relation("ClientSubmissionSubmitter", fields: [submittedByUserId], references: [id], onDelete: Cascade)
+  reviewer          User?              @relation("ClientSubmissionReviewer", fields: [reviewedByUserId], references: [id], onDelete: SetNull)
+  files             ClientSubmissionFile[]
+
+  @@index([caseId, status, createdAt])
+  @@index([supplementRequestId, status])
+  @@index([submittedByUserId, createdAt])
+}
+
+model ClientSubmissionFile {
+  id               String   @id @default(cuid())
+  submissionId     String
+  uploadedFileId   String
+  originalFileName String
+  fileType         String?
+  description      String?  @db.Text
+  sharedWithLawyer Boolean  @default(true)
+  createdAt        DateTime @default(now())
+
+  submission   ClientSubmission       @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  uploadedFile LitigationUploadedFile @relation(fields: [uploadedFileId], references: [id], onDelete: Cascade)
+
+  @@index([submissionId, createdAt])
+  @@index([uploadedFileId])
+}
+
+/// Phase 15-A — Case-scoped secure conversation thread
+model CaseConversationThread {
+  id                  String                     @id @default(cuid())
+  caseId              String
+  threadType          CaseConversationThreadType @default(GENERAL)
+  supplementRequestId String?
+  title               String?
+  lastMessageAt       DateTime?
+  createdAt           DateTime                   @default(now())
+  updatedAt           DateTime                   @updatedAt
+
+  case              Case               @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  supplementRequest SupplementRequest? @relation(fields: [supplementRequestId], references: [id], onDelete: SetNull)
+  messages          CaseConversationMessage[]
+
+  @@index([caseId, lastMessageAt])
+  @@index([supplementRequestId])
+}
+
+model CaseConversationMessage {
+  id              String   @id @default(cuid())
+  threadId        String
+  caseId          String
+  senderUserId    String
+  senderRole      UserRole
+  body            String   @db.Text
+  attachmentIds   Json?
+  readByJson      Json?
+  isPinnedForRecord Boolean @default(false)
+  createdAt       DateTime @default(now())
+
+  thread CaseConversationThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  case   Case                   @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  sender User                   @relation("CaseConversationMessageSender", fields: [senderUserId], references: [id], onDelete: Cascade)
+  attachments CaseMessageAttachment[]
+
+  @@index([threadId, createdAt])
+  @@index([caseId, createdAt])
+  @@index([senderUserId, createdAt])
+}
+
+/// Phase 15-A — Lawyer-shared document for client portal
+model CaseSharedDocument {
+  id                    String                   @id @default(cuid())
+  caseId                String
+  documentId            String
+  sharedByUserId        String
+  sharedWithClientUserId String
+  shareStatus           CaseSharedDocumentStatus @default(ACTIVE)
+  sharedAt              DateTime                 @default(now())
+  expiresAt             DateTime?
+  firstViewedAt         DateTime?
+  createdAt             DateTime                 @default(now())
+  updatedAt             DateTime                 @updatedAt
+
+  case           Case          @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  document       LegalDocument @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  sharedBy       User          @relation("CaseSharedDocumentSharer", fields: [sharedByUserId], references: [id], onDelete: Cascade)
+  sharedWithClient User        @relation("CaseSharedDocumentRecipient", fields: [sharedWithClientUserId], references: [id], onDelete: Cascade)
+  deliveries     CaseDocumentDelivery[]
+
+  @@index([caseId, shareStatus, sharedAt])
+  @@index([sharedWithClientUserId, shareStatus])
+}
+
+/// Phase 15-F — Secure document delivery (login-gated link, no raw file in external channel)
+model CaseDocumentDelivery {
+  id                    String                      @id @default(cuid())
+  caseId                String
+  sharedDocumentId      String
+  documentId            String
+  recipientClientUserId String
+  deliveryChannel       CaseDocumentDeliveryChannel
+  deliveryStatus        CaseDocumentDeliveryStatus  @default(PENDING)
+  secureLinkTokenHash   String
+  tokenExpiresAt        DateTime
+  sentAt                DateTime?
+  viewedAt              DateTime?
+  failureReason         String?                     @db.Text
+  createdByUserId       String
+  createdAt             DateTime                    @default(now())
+  updatedAt             DateTime                    @updatedAt
+
+  case             Case               @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  sharedDocument   CaseSharedDocument @relation(fields: [sharedDocumentId], references: [id], onDelete: Cascade)
+  document         LegalDocument      @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  recipientClient  User               @relation("CaseDocumentDeliveryRecipient", fields: [recipientClientUserId], references: [id], onDelete: Cascade)
+  createdBy        User               @relation("CaseDocumentDeliveryCreator", fields: [createdByUserId], references: [id], onDelete: Cascade)
+  externalMessages ExternalMessageLog[]
+
+  @@index([caseId, deliveryStatus])
+  @@index([sharedDocumentId, deliveryChannel])
+  @@index([recipientClientUserId, deliveryStatus])
+}
+
+/// Phase 15-F — External channel dispatch log (Kakao Alimtalk stub / email / SMS)
+model ExternalMessageLog {
+  id                 String                    @id @default(cuid())
+  caseId             String
+  recipientUserId    String
+  deliveryId         String?
+  channel            CaseDocumentDeliveryChannel
+  provider           String                    @default("STUB")
+  templateCode       String?
+  payloadSummaryJson Json
+  status             ExternalMessageStatus     @default(PENDING)
+  failureReason      String?                   @db.Text
+  sentAt             DateTime?
+  createdAt          DateTime                  @default(now())
+  updatedAt          DateTime                  @updatedAt
+
+  case      Case                  @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  recipient User                  @relation("ExternalMessageLogRecipient", fields: [recipientUserId], references: [id], onDelete: Cascade)
+  delivery  CaseDocumentDelivery? @relation(fields: [deliveryId], references: [id], onDelete: SetNull)
+
+  @@index([caseId, channel, status])
+  @@index([recipientUserId, createdAt])
+  @@index([deliveryId])
+}
+
+/// Phase 15-C — Chat message file attachment (non-confirmed until lawyer adopts)
+model CaseMessageAttachment {
+  id               String   @id @default(cuid())
+  messageId        String
+  uploadedFileId   String
+  originalFileName String
+  createdAt        DateTime @default(now())
+
+  message      CaseConversationMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  uploadedFile LitigationUploadedFile  @relation(fields: [uploadedFileId], references: [id], onDelete: Cascade)
+
+  @@index([messageId, createdAt])
+  @@index([uploadedFileId])
+}
+
+/// Phase 18-A — Platform retry queue (failed jobs persist; operator-approved safe retry).
+enum RetryJobSourceType {
+  CRON
+  EXTERNAL_MESSAGE
+  BULK_ACTION
+  DOCUMENT_PIPELINE
+  AI_GOVERNANCE
+  AI_CALL
+  MANUAL
+}
+
+enum RetryJobStatus {
+  FAILED
+  PENDING_RETRY
+  RETRYING
+  SUCCEEDED
+  CANCELED
+  EXHAUSTED
+}
+
+enum RetryJobSafetyClass {
+  SAFE_AUTO
+  OPERATOR_APPROVAL
+  BLOCKED
+}
+
+model RetryJob {
+  id               String              @id @default(cuid())
+  sourceType       RetryJobSourceType
+  sourceRefId      String?
+  jobCode          String
+  caseId           String?
+  status           RetryJobStatus      @default(FAILED)
+  safetyClass      RetryJobSafetyClass @default(OPERATOR_APPROVAL)
+  retryable        Boolean             @default(false)
+  attemptCount     Int                 @default(0)
+  maxAttempts      Int                 @default(3)
+  failureReason    String?             @db.Text
+  failurePayload   Json?
+  lastAttemptAt    DateTime?
+  nextRetryAt      DateTime?
+  resolvedAt       DateTime?
+  resolvedByUserId String?
+  operatorNote     String?             @db.Text
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+
+  case       Case? @relation(fields: [caseId], references: [id], onDelete: SetNull)
+  resolvedBy User? @relation("RetryJobResolvedBy", fields: [resolvedByUserId], references: [id], onDelete: SetNull)
+
+  @@unique([sourceType, sourceRefId])
+  @@index([status, createdAt])
+  @@index([caseId, createdAt])
+  @@index([jobCode, status])
+}
+
+/// Phase 18-C — Document pipeline stage failure & safe resume (no re-upload · no overwrite).
+enum DocumentPipelineStage {
+  UPLOAD
+  EXTRACT
+  CLASSIFY
+  ANALYZE
+  OPPONENT_BRIEF
+}
+
+enum DocumentPipelineJobStatus {
+  FAILED
+  PENDING_RECOVERY
+  RECOVERING
+  SUCCEEDED
+  BLOCKED
+  EXHAUSTED
+}
+
+model DocumentPipelineJob {
+  id                     String                    @id @default(cuid())
+  uploadedFileId         String
+  caseId                 String
+  failedStage            DocumentPipelineStage
+  resumeFromStage        DocumentPipelineStage
+  status                 DocumentPipelineJobStatus @default(FAILED)
+  failureReason          String?                   @db.Text
+  failurePayload         Json?
+  completedStagesJson    Json?
+  lawyerReviewLocked     Boolean                   @default(false)
+  clientDisclosureLocked Boolean                   @default(false)
+  duplicateGuardKey      String
+  attemptCount           Int                       @default(0)
+  maxAttempts            Int                       @default(3)
+  resolvedAt             DateTime?
+  resolvedByUserId       String?
+  operatorNote           String?                   @db.Text
+  createdAt              DateTime                  @default(now())
+  updatedAt              DateTime                  @updatedAt
+
+  uploadedFile LitigationUploadedFile @relation(fields: [uploadedFileId], references: [id], onDelete: Cascade)
+  case         Case                   @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  resolvedBy   User?                  @relation("DocumentPipelineJobResolvedBy", fields: [resolvedByUserId], references: [id], onDelete: SetNull)
+
+  @@unique([duplicateGuardKey])
+  @@index([uploadedFileId, failedStage])
+  @@index([caseId, status, createdAt])
+  @@index([status, createdAt])
 }

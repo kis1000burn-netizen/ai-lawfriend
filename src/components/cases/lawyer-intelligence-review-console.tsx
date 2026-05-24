@@ -6,7 +6,9 @@
  */
 import Link from "next/link";
 import { useCallback, useMemo, useState } from "react";
+import { DocumentIntelligenceReviewConsole } from "@/components/cases/document-intelligence-review-console";
 import type { CaseIntelligenceReviewSnapshot } from "@/features/ai-core/case-intelligence-review.service";
+import type { DocumentIntelligenceReviewQueueResponse } from "@/features/document-intelligence/document-intelligence-review.schema";
 import type { LawyerJudgmentBoundaryEntry } from "@/features/ai-core/lawyer-judgment-boundary-ledger.schema";
 import { requireOkData } from "@/lib/client/api-error";
 
@@ -17,10 +19,12 @@ type Props = {
   caseId: string;
   caseTitle: string;
   initialSnapshot: CaseIntelligenceReviewSnapshot | null;
+  initialDocumentIntelligenceQueue: DocumentIntelligenceReviewQueueResponse | null;
   readOnly: boolean;
 };
 
 type Filter = "PENDING" | "ALL" | "CLAIM" | "RADAR_SIGNAL" | "CONTRADICTION_EDGE";
+type ConsoleTab = "intelligence" | "document-intelligence";
 
 const SUBJECT_LABELS: Record<LawyerJudgmentBoundaryEntry["subjectKind"], string> = {
   CLAIM: "Claim",
@@ -45,8 +49,10 @@ export function LawyerIntelligenceReviewConsole({
   caseId,
   caseTitle,
   initialSnapshot,
+  initialDocumentIntelligenceQueue,
   readOnly,
 }: Readonly<Props>) {
+  const [activeTab, setActiveTab] = useState<ConsoleTab>("intelligence");
   const [snapshot, setSnapshot] = useState(initialSnapshot);
   const [filter, setFilter] = useState<Filter>("PENDING");
   const [busy, setBusy] = useState(false);
@@ -197,7 +203,41 @@ export function LawyerIntelligenceReviewConsole({
         )}
       </section>
 
-      {!snapshot && !readOnly ? (
+      <section className="flex flex-wrap gap-2 border-b border-aibeop-line pb-2">
+        <button
+          type="button"
+          onClick={() => setActiveTab("intelligence")}
+          className={`rounded-full px-4 py-1.5 text-sm font-semibold ${
+            activeTab === "intelligence"
+              ? "bg-aibeop-primary text-white"
+              : "bg-aibeop-soft text-aibeop-muted"
+          }`}
+        >
+          Graph · Radar · Ledger
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab("document-intelligence")}
+          className={`rounded-full px-4 py-1.5 text-sm font-semibold ${
+            activeTab === "document-intelligence"
+              ? "bg-aibeop-primary text-white"
+              : "bg-aibeop-soft text-aibeop-muted"
+          }`}
+          data-testid="doc-intel-review-tab"
+        >
+          서류·증거 분석
+        </button>
+      </section>
+
+      {activeTab === "document-intelligence" ? (
+        <DocumentIntelligenceReviewConsole
+          caseId={caseId}
+          readOnly={readOnly}
+          initialQueue={initialDocumentIntelligenceQueue}
+        />
+      ) : null}
+
+      {activeTab === "intelligence" && !snapshot && !readOnly ? (
         <section className="rounded-2xl border border-dashed border-aibeop-line bg-aibeop-soft/40 p-6 text-center">
           <button
             type="button"
@@ -210,7 +250,7 @@ export function LawyerIntelligenceReviewConsole({
         </section>
       ) : null}
 
-      {snapshot ? (
+      {activeTab === "intelligence" && snapshot ? (
         <>
           <section className="flex flex-wrap gap-2">
             {(

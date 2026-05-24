@@ -8,6 +8,7 @@ import { AI_PROMPT_REGISTRY_VERSION } from "./ai-prompt-registry";
 import type { AiProviderId } from "./ai-provider-ssot";
 import type { ParagraphGenerationMode } from "@/lib/definitions/document-template";
 import type { DocumentGenerationPolicy } from "@/features/document-generation/document-generation-policy";
+import { redactAiAuditMetadata } from "@/lib/data-governance/data-redaction.service";
 
 export const AI_AUDIT_MARKER = "PHASE8A_AI_AUDIT" as const;
 
@@ -82,7 +83,7 @@ export type PublicSafeAiAuditRecord = Pick<
 >;
 
 export function toPublicSafeAiAuditRecord(record: AiAuditRecord): PublicSafeAiAuditRecord {
-  return {
+  const safe = {
     operation: record.operation,
     taskType: record.taskType,
     providerId: record.providerId,
@@ -97,6 +98,7 @@ export function toPublicSafeAiAuditRecord(record: AiAuditRecord): PublicSafeAiAu
     skippedLlm: record.skippedLlm,
     skipReason: record.skipReason,
   };
+  return redactAiAuditMetadata(safe) as PublicSafeAiAuditRecord;
 }
 
 export type PersistAiCoreAuditInput = {

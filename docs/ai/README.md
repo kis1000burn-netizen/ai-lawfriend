@@ -25,6 +25,20 @@
 | **11-C** | **IMPLEMENTED** | Client portal delivery · release-only binding · `verify:aibeopchin-client-disclosure-delivery` |
 | **11-D** | **RC LOCKED** | Client Disclosure RC · `verify:aibeopchin-client-disclosure-rc` · ai-core-rc Tier 4 |
 | **12-A** | **RC LOCKED** | Full AI Core RC · `verify:aibeopchin-full-ai-core-rc` · ai-core-rc master (Tier 1〜4) |
+| **13-A** | **SPEC LOCKED** | Legal Document Intelligence Engine · 업로드→분류→분석 SSOT · `verify:aibeopchin-legal-document-intelligence` |
+| **13-B** | **IMPLEMENTED** | Upload & Text Extraction · OCR boundary · page storage · `verify:aibeopchin-legal-document-intelligence-phase13b` |
+| **13-C** | **IMPLEMENTED** | Document Classification · 유형·출처·단계·민감도 · `verify:aibeopchin-legal-document-intelligence-phase13c` |
+| **13-D** | **IMPLEMENTED** | Legal Document Analysis · 요약·주장·쟁점·위험 후보 · `verify:aibeopchin-legal-document-intelligence-phase13d` |
+| **13-E** | **IMPLEMENTED** | Opponent Brief Analyzer · 답변서·준비서면 · `verify:aibeopchin-legal-document-intelligence-phase13e` |
+| **13-F** | **IMPLEMENTED** | Evidence & Claim Mapping · 충돌·부족증거 · `verify:aibeopchin-legal-document-intelligence-phase13f` |
+| **13-G** | **IMPLEMENTED** | Lawyer Review Gate · 검토 큐 · Ledger · `verify:aibeopchin-legal-document-intelligence-phase13g` |
+| **13-H** | **IMPLEMENTED** | Litigation Ops Integration · 기일·업무·보완·서면 · `verify:aibeopchin-legal-document-intelligence-phase13h` |
+| **13-I** | **RC LOCKED** | Legal Document Intelligence RC · 13-A〜13-H 봉인 · `verify:aibeopchin-legal-document-intelligence-rc` |
+| **14-A** | **IMPLEMENTED** | Litigation Command Center · 소송 지휘실 UI · `verify:aibeopchin-legal-document-intelligence-phase14a` |
+| **14-B** | **IMPLEMENTED** | Litigation Command Center Actions · 업무·기일·보완·초안 · `verify:aibeopchin-legal-document-intelligence-phase14b` |
+| **14-C** | **IMPLEMENTED** | Command Center Action Feedback UX · toast·낙관적 UI·피드 · `verify:aibeopchin-legal-document-intelligence-phase14c` |
+| **14-D** | **IMPLEMENTED** | Command Center Dashboard Widget · 사건 목록·변호사 대시보드 · `verify:aibeopchin-legal-document-intelligence-phase14d` |
+| **14-E** | **RC LOCKED** | Litigation Command Center RC · 14-A〜14-D 봉인 · `verify:aibeopchin-litigation-command-center-rc` |
 
 | 문서 | Phase | 설명 |
 | --- | --- | --- |
@@ -50,6 +64,15 @@
 | [AIBEOPCHIN_CLIENT_DISCLOSURE_PREDEPLOY_CLOSURE_CHECKLIST.md](./AIBEOPCHIN_CLIENT_DISCLOSURE_PREDEPLOY_CLOSURE_CHECKLIST.md) | **11-D** | Client Disclosure 배포 전 체크 |
 | [AIBEOPCHIN_FULL_AI_CORE_RC_LOCK_SUMMARY.md](./AIBEOPCHIN_FULL_AI_CORE_RC_LOCK_SUMMARY.md) | **12-A** | Full AI Core RC · Tier 1〜4 master 봉인 |
 | [AIBEOPCHIN_FULL_AI_CORE_PREDEPLOY_MASTER_CHECKLIST.md](./AIBEOPCHIN_FULL_AI_CORE_PREDEPLOY_MASTER_CHECKLIST.md) | **12-A** | Full AI Core 배포 전 master 체크 |
+| [AIBEOPCHIN_LEGAL_DOCUMENT_INTELLIGENCE_SPEC.md](./AIBEOPCHIN_LEGAL_DOCUMENT_INTELLIGENCE_SPEC.md) | **13-A** | AI 서류·증거 분석 엔진 · Master Spec |
+| [AIBEOPCHIN_UPLOAD_FILE_ANALYSIS_PIPELINE_SPEC.md](./AIBEOPCHIN_UPLOAD_FILE_ANALYSIS_PIPELINE_SPEC.md) | **13-B/C** | 업로드 · OCR/추출 · 문서 분류 |
+| [AIBEOPCHIN_OPPONENT_BRIEF_ANALYSIS_SPEC.md](./AIBEOPCHIN_OPPONENT_BRIEF_ANALYSIS_SPEC.md) | **13-E** | 상대방 답변서·준비서면 분석 |
+| [AIBEOPCHIN_COURT_DOCUMENT_ANALYSIS_SPEC.md](./AIBEOPCHIN_COURT_DOCUMENT_ANALYSIS_SPEC.md) | **13-D/E** | 법원 명령·기일·보정 |
+| [AIBEOPCHIN_EVIDENCE_MAPPING_SPEC.md](./AIBEOPCHIN_EVIDENCE_MAPPING_SPEC.md) | **13-F** | 증거‑주장 매핑 · 충돌 탐지 |
+| [AIBEOPCHIN_LEGAL_DOCUMENT_INTELLIGENCE_RC_LOCK_SUMMARY.md](./AIBEOPCHIN_LEGAL_DOCUMENT_INTELLIGENCE_RC_LOCK_SUMMARY.md) | **13-I** | Legal Document Intelligence RC · 13-A〜13-H 봉인 |
+| [AIBEOPCHIN_LEGAL_DOCUMENT_INTELLIGENCE_PREDEPLOY_CLOSURE_CHECKLIST.md](./AIBEOPCHIN_LEGAL_DOCUMENT_INTELLIGENCE_PREDEPLOY_CLOSURE_CHECKLIST.md) | **13-I** | Legal Document Intelligence 배포 전 체크 |
+| [AIBEOPCHIN_LITIGATION_COMMAND_CENTER_RC_LOCK_SUMMARY.md](./AIBEOPCHIN_LITIGATION_COMMAND_CENTER_RC_LOCK_SUMMARY.md) | **14-E** | Litigation Command Center RC · 14-A〜14-D 봉인 |
+| [AIBEOPCHIN_LITIGATION_COMMAND_CENTER_PREDEPLOY_CLOSURE_CHECKLIST.md](./AIBEOPCHIN_LITIGATION_COMMAND_CENTER_PREDEPLOY_CLOSURE_CHECKLIST.md) | **14-E** | Litigation Command Center 배포 전 체크 |
 | [AIBEOPCHIN_PREDEPLOY_LOCAL_CI_RUNBOOK.md](../operations/AIBEOPCHIN_PREDEPLOY_LOCAL_CI_RUNBOOK.md) | **Ops** | dev 종료 · Prisma DLL · NODE_ENV · CI fresh build |
 | [DB_MIGRATION_CHRONOLOGY.md](../operations/DB_MIGRATION_CHRONOLOGY.md) | **Ops** | incremental migration vs greenfield |
 | [STAGING_SECRETS_CHECKLIST.md](../operations/STAGING_SECRETS_CHECKLIST.md) | **Ops** | staging secrets · AI Core env |
@@ -79,11 +102,25 @@ npm run verify:aibeopchin-client-disclosure-preview
 npm run verify:aibeopchin-client-disclosure-delivery
 npm run verify:aibeopchin-client-disclosure-rc
 npm run verify:aibeopchin-full-ai-core-rc
+npm run verify:aibeopchin-legal-document-intelligence
+npm run verify:aibeopchin-legal-document-intelligence-phase13b
+npm run verify:aibeopchin-legal-document-intelligence-phase13c
+npm run verify:aibeopchin-legal-document-intelligence-phase13d
+npm run verify:aibeopchin-legal-document-intelligence-phase13e
+npm run verify:aibeopchin-legal-document-intelligence-phase13f
+npm run verify:aibeopchin-legal-document-intelligence-phase13g
+npm run verify:aibeopchin-legal-document-intelligence-phase13h
+npm run verify:aibeopchin-legal-document-intelligence-rc
+npm run verify:aibeopchin-legal-document-intelligence-phase14a
+npm run verify:aibeopchin-legal-document-intelligence-phase14b
+npm run verify:aibeopchin-legal-document-intelligence-phase14c
+npm run verify:aibeopchin-legal-document-intelligence-phase14d
+npm run verify:aibeopchin-litigation-command-center-rc
 npm run verify:aibeopchin-ai-core-rc
 npm run predeploy:check
 ```
 
-증빙: `[EVIDENCE-20260523-AIBEOPCHIN-AI-CORE-PHASE12A-FULL-AI-CORE-RC-CLOSURE]` · Client Disclosure: `[EVIDENCE-20260523-AIBEOPCHIN-AI-CORE-PHASE11D-CLIENT-DISCLOSURE-RC-CLOSURE]`
+증빙: `[EVIDENCE-20260524-AIBEOPCHIN-AI-CORE-PHASE13A-LEGAL-DOCUMENT-INTELLIGENCE-SPEC-LOCK]` · Full AI Core: `[EVIDENCE-20260523-AIBEOPCHIN-AI-CORE-PHASE12A-FULL-AI-CORE-RC-CLOSURE]` · Client Disclosure: `[EVIDENCE-20260523-AIBEOPCHIN-AI-CORE-PHASE11D-CLIENT-DISCLOSURE-RC-CLOSURE]`
 
 ## 관련
 

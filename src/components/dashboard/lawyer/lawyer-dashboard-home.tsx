@@ -1,5 +1,6 @@
 import { DashboardLivingHeader } from "@/components/dashboard/dashboard-living-header";
 import { DashboardSectionHeading } from "@/components/dashboard/dashboard-section-heading";
+import { LawyerCommandCenterPreview } from "@/components/dashboard/lawyer/lawyer-command-center-preview";
 import { LawyerCaseRadar } from "@/components/dashboard/lawyer/lawyer-case-radar";
 import { LawyerDashboardEmptyGuide } from "@/components/dashboard/lawyer/lawyer-dashboard-empty-guide";
 import { LawyerDashboardPendingApproval } from "@/components/dashboard/lawyer/lawyer-dashboard-pending-approval";
@@ -10,13 +11,20 @@ import {
   EMPTY_LAWYER_DASHBOARD_METRICS,
   type LawyerDashboardMetrics,
 } from "@/lib/dashboard/dashboard-metrics";
+import type { LitigationCommandCenterListSummary } from "@/features/document-intelligence/litigation-command-center-list-summary.schema";
+
+type CommandCenterPreviewItem = LitigationCommandCenterListSummary & {
+  caseTitle: string;
+};
 
 type Props = {
   metrics?: LawyerDashboardMetrics;
+  commandCenterPreview?: CommandCenterPreviewItem[];
 };
 
 export function LawyerDashboardHome({
   metrics = EMPTY_LAWYER_DASHBOARD_METRICS,
+  commandCenterPreview = [],
 }: Props) {
   const showEmptyGuide = shouldShowLawyerEmptyGuide(metrics);
 
@@ -37,6 +45,10 @@ export function LawyerDashboardHome({
           metrics={metrics}
           showPreviewEmpty={!showEmptyGuide}
         />
+      </section>
+
+      <section>
+        <LawyerCommandCenterPreview items={commandCenterPreview} />
       </section>
 
       <section className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:gap-8">

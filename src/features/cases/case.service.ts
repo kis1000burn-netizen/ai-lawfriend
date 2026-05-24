@@ -18,6 +18,8 @@ import {
   findRecentAccessibleCases,
   updateCaseById,
 } from "@/features/cases/case.repository";
+import { getLitigationCommandCenterListSummariesForCases } from "@/features/document-intelligence/litigation-command-center-list-summary.service";
+import { prismaRoleToUiRole } from "@/lib/role-map";
 
 function normalizeNullable(value?: string) {
   if (typeof value === "undefined") return undefined;
@@ -76,8 +78,20 @@ export async function listCasesService(
   const totalPages =
     total === 0 ? 0 : Math.ceil(total / query.pageSize);
 
+  const uiRole = prismaRoleToUiRole(currentUser.role);
+  const summaries =
+    ["LAWYER", "ADMIN", "STAFF"].includes(uiRole)
+      ? await getLitigationCommandCenterListSummariesForCases(
+          currentUser,
+          items.map((item) => item.id),
+        )
+      : {};
+
   return {
-    items,
+    items: items.map((item) => ({
+      ...item,
+      commandCenterSummary: summaries[item.id] ?? null,
+    })),
     pagination: {
       page: query.page,
       pageSize: query.pageSize,

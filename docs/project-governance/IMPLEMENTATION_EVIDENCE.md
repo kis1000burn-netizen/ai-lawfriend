@@ -1,3 +1,3114 @@
+## [EVIDENCE-20260524-AIBEOPCHIN-ENTERPRISE-SCALE-PHASE30F-RC]
+
+### 1. 목적
+
+Product Phase **30-F** — **Enterprise Scale RC**. 30-A~E bundled verify · lock summary · 29-F/28-F/22-F cross-link · deployment gate marker.
+
+### 2. Scope
+
+- `enterprise-scale-rc-lock.ts` · `enterprise-scale-rc-lock.test.ts`
+- `run-enterprise-scale-rc-block.mjs` · `verify:aibeopchin-enterprise-scale-rc`
+- Lock summary: `AIBEOPCHIN_ENTERPRISE_SCALE_RC_LOCK_SUMMARY.md`
+- Runbook: `AIBEOPCHIN_ENTERPRISE_SCALE_RC_RUNBOOK.md`
+
+**한 줄 기준**: Enterprise deployment model·multi-tenant governance·partner/branch network·enterprise security review·scale monitoring/capacity forecast를 하나의 Product Phase 30 RC로 묶어 엔터프라이즈 스케일 게이트·Phase 29-F cross-link를 잠근다.
+
+**선행**: Product 29-F · 28-F · 22-F · 30-A~E
+
+**버전** **`30-F.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-enterprise-scale-rc
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-ENTERPRISE-SCALE-PHASE30E-SCALE-MONITORING-CAPACITY]
+
+### 1. 목적
+
+Product Phase **30-E** — **Scale Monitoring / Capacity Forecast**. weighted utilization · headroom days · capacityForecastReady.
+
+### 2. Scope
+
+- `scale-monitoring-capacity-forecast.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildScaleMonitoringCapacityForecast`
+- Runbook: `AIBEOPCHIN_SCALE_MONITORING_CAPACITY_FORECAST_RUNBOOK.md`
+
+**버전** **`30-E.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-enterprise-scale-phase30e
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-ENTERPRISE-SCALE-PHASE30D-ENTERPRISE-SECURITY-REVIEW]
+
+### 1. 목적
+
+Product Phase **30-D** — **Enterprise Security Review Pack**. SSO·audit·encryption·DR review items · securityReviewPackReady.
+
+### 2. Scope
+
+- `enterprise-security-review-pack.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildEnterpriseSecurityReviewPack`
+- Runbook: `AIBEOPCHIN_ENTERPRISE_SECURITY_REVIEW_PACK_RUNBOOK.md`
+
+**버전** **`30-D.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-enterprise-scale-phase30d
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-ENTERPRISE-SCALE-PHASE30C-PARTNER-BRANCH-NETWORK]
+
+### 1. 목적
+
+Product Phase **30-C** — **Partner / Branch Network Operations**. hub·branch·co-counsel nodes · branchNetworkOpsReady.
+
+### 2. Scope
+
+- `partner-branch-network.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildPartnerBranchNetworkOperations`
+- Runbook: `AIBEOPCHIN_PARTNER_BRANCH_NETWORK_OPERATIONS_RUNBOOK.md`
+
+**버전** **`30-C.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-enterprise-scale-phase30c
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-ENTERPRISE-SCALE-PHASE30B-MULTI-TENANT-GOVERNANCE]
+
+### 1. 목적
+
+Product Phase **30-B** — **Multi-tenant Governance / Role Delegation**. branch admin·partner viewer·audit delegate · governanceDelegationReady.
+
+### 2. Scope
+
+- `multi-tenant-governance.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildMultiTenantGovernanceRoleDelegation`
+- Runbook: `AIBEOPCHIN_MULTI_TENANT_GOVERNANCE_RUNBOOK.md`
+
+**버전** **`30-B.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-enterprise-scale-phase30b
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-ENTERPRISE-SCALE-PHASE30A-ENTERPRISE-DEPLOYMENT-MODEL]
+
+### 1. 목적
+
+Product Phase **30-A** — **Enterprise Deployment Model**. dedicated VPC·SSO·data residency·DR tier options · deploymentModelReady.
+
+### 2. Scope
+
+- `enterprise-deployment-model.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildEnterpriseDeploymentModel`
+- Runbook: `AIBEOPCHIN_ENTERPRISE_DEPLOYMENT_MODEL_RUNBOOK.md`
+
+**버전** **`30-A.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-enterprise-scale-phase30a
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-REVENUE-OPS-PHASE29F-RC]
+
+### 1. 목적
+
+Product Phase **29-F** — **Revenue Ops / Customer Success RC**. 29-A~E bundled verify · lock summary · 28-F/22-F/19-B cross-link · **no invoice/payment mutation**.
+
+### 2. Scope
+
+- `revenue-ops-rc-lock.ts` · `revenue-ops-rc-lock.test.ts`
+- `run-revenue-ops-rc-block.mjs` · `verify:aibeopchin-revenue-ops-rc`
+- Lock summary: `AIBEOPCHIN_REVENUE_OPS_RC_LOCK_SUMMARY.md`
+- Runbook: `AIBEOPCHIN_REVENUE_OPS_RC_RUNBOOK.md`
+- Prisma: `CustomerSuccessActivity` (29-B)
+
+**한 줄 기준**: 유료 tenant의 매출 상태·사용 활성도·고객 성공 활동·갱신·이탈 위험·확장 기회를 운영 지표로 관리하고 Customer Success RC로 봉인한다.
+
+**선행**: Product 28-F · 27-F · 22-F · 29-A~E
+
+**버전** **`29-F.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-revenue-ops-rc
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-REVENUE-OPS-PHASE29E-EXECUTIVE-PARTNER-SUCCESS-REPORT]
+
+### 1. 목적
+
+Product Phase **29-E** — **Executive / Partner Success Report**. aggregate-only · PII redacted · executiveReportReady.
+
+### 2. Scope
+
+- `executive-partner-report.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildExecutivePartnerSuccessReport`
+- Runbook: `AIBEOPCHIN_EXECUTIVE_PARTNER_SUCCESS_REPORT_RUNBOOK.md`
+
+**버전** **`29-E.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-revenue-ops-phase29e
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-REVENUE-OPS-PHASE29D-EXPANSION-OPPORTUNITY-TRACKER]
+
+### 1. 목적
+
+Product Phase **29-D** — **Expansion Opportunity Tracker**. seat·AI·messaging·enterprise expansion signals.
+
+### 2. Scope
+
+- `expansion-opportunity.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildExpansionOpportunityTracker`
+- Runbook: `AIBEOPCHIN_EXPANSION_OPPORTUNITY_TRACKER_RUNBOOK.md`
+
+**버전** **`29-D.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-revenue-ops-phase29d
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-REVENUE-OPS-PHASE29C-RENEWAL-CHURN-RISK-MONITOR]
+
+### 1. 목적
+
+Product Phase **29-C** — **Renewal / Churn Risk Monitor**. LOW/MEDIUM/HIGH/CRITICAL · recommendedActions.
+
+### 2. Scope
+
+- `renewal-churn-risk.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildRenewalChurnRiskMonitor`
+- Runbook: `AIBEOPCHIN_RENEWAL_CHURN_RISK_MONITOR_RUNBOOK.md`
+
+**버전** **`29-C.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-revenue-ops-phase29c
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-REVENUE-OPS-PHASE29B-CUSTOMER-SUCCESS-ACTIVITY-LOG]
+
+### 1. 목적
+
+Product Phase **29-B** — **Customer Success Activity Log**. Prisma `CustomerSuccessActivity` · csActivityLogReady.
+
+### 2. Scope
+
+- `customer-success-activity.schema.ts` · `policy.ts` · `repository.ts` · `service.ts`
+- Service: `recordCustomerSuccessActivity`
+- Runbook: `AIBEOPCHIN_CUSTOMER_SUCCESS_ACTIVITY_LOG_RUNBOOK.md`
+
+**버전** **`29-B.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-revenue-ops-phase29b
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-REVENUE-OPS-PHASE29A-ACCOUNT-HEALTH-SCORE]
+
+### 1. 목적
+
+Product Phase **29-A** — **Revenue Account Health Score**. usage·SLA·satisfaction weighted score.
+
+### 2. Scope
+
+- `account-health.schema.ts` · `registry.ts` · `policy.ts` · `account-health-score.service.ts`
+- Service: `buildRevenueAccountHealthScore`
+- Runbook: `AIBEOPCHIN_REVENUE_ACCOUNT_HEALTH_RUNBOOK.md`
+
+**선행**: Product 28-F · 22-F metering
+
+**버전** **`29-A.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-revenue-ops-phase29a
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-PAID-SCALE-PHASE28F-RC]
+
+### 1. 목적
+
+Product Phase **28-F** — **Paid Conversion / Scale RC**. 28-A~E bundled verify · lock summary · operator runbook · 27-F/26-F cross-link.
+
+### 2. Scope
+
+- `paid-conversion-scale-rc-lock.ts` · `paid-conversion-scale-rc-lock.test.ts`
+- `run-paid-conversion-scale-rc-block.mjs` · `verify:aibeopchin-paid-conversion-scale-rc`
+- Lock summary: `AIBEOPCHIN_PAID_CONVERSION_SCALE_RC_LOCK_SUMMARY.md`
+- Runbook: `AIBEOPCHIN_PAID_CONVERSION_SCALE_RC_RUNBOOK.md`
+
+**한 줄 기준**: Paid conversion contract pack·production tenant migration·SLA/support tier·sales/onboarding handoff·scale risk review를 하나의 Product Phase 28 RC로 묶어 유료 전환·스케일 게이트·Phase 27-F cross-link를 잠근다.
+
+**선행**: Product 27-F · 26-F · 28-A~E
+
+**버전** **`28-F.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-paid-conversion-scale-rc
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-PAID-SCALE-PHASE28E-SCALE-RISK-REVIEW]
+
+### 1. 목적
+
+Product Phase **28-E** — **Scale Risk Review**. capacity axes · scaleRiskAcceptable gate.
+
+### 2. Scope
+
+- `scale-risk-review.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildScaleRiskReview`
+- Runbook: `AIBEOPCHIN_SCALE_RISK_REVIEW_RUNBOOK.md`
+
+**버전** **`28-E.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-paid-conversion-scale-phase28e
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-PAID-SCALE-PHASE28D-SALES-ONBOARDING-HANDOFF-PACK]
+
+### 1. 목적
+
+Product Phase **28-D** — **Sales / Onboarding Handoff Pack**. sales→go-live handoff · handoffPackReady gate.
+
+### 2. Scope
+
+- `sales-onboarding-handoff-pack.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildSalesOnboardingHandoffPack`
+- Runbook: `AIBEOPCHIN_SALES_ONBOARDING_HANDOFF_PACK_RUNBOOK.md`
+
+**버전** **`28-D.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-paid-conversion-scale-phase28d
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-PAID-SCALE-PHASE28C-SLA-SUPPORT-TIER-POLICY]
+
+### 1. 목적
+
+Product Phase **28-C** — **SLA / Support Tier Policy**. Standard·Professional·Enterprise · slaPolicyReady gate.
+
+### 2. Scope
+
+- `sla-support-tier-policy.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildSlaSupportTierPolicy`
+- Runbook: `AIBEOPCHIN_SLA_SUPPORT_TIER_POLICY_RUNBOOK.md`
+
+**버전** **`28-C.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-paid-conversion-scale-phase28c
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-PAID-SCALE-PHASE28B-PRODUCTION-TENANT-MIGRATION-CHECKLIST]
+
+### 1. 목적
+
+Product Phase **28-B** — **Production Tenant Migration Checklist**. pilot→prod migration · migrationChecklistReady gate.
+
+### 2. Scope
+
+- `production-tenant-migration-checklist.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildProductionTenantMigrationChecklist`
+- Runbook: `AIBEOPCHIN_PRODUCTION_TENANT_MIGRATION_CHECKLIST_RUNBOOK.md`
+
+**버전** **`28-B.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-paid-conversion-scale-phase28b
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-PAID-SCALE-PHASE28A-PAID-CONVERSION-CONTRACT-PACK]
+
+### 1. 목적
+
+Product Phase **28-A** — **Paid Conversion Contract Pack**. MSA·DPA·billing · contractPackReady gate.
+
+### 2. Scope
+
+- `paid-conversion-contract-pack.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildPaidConversionContractPack`
+- Runbook: `AIBEOPCHIN_PAID_CONVERSION_CONTRACT_PACK_RUNBOOK.md`
+
+**선행**: Product 27-F · 26-F
+
+**버전** **`28-A.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-paid-conversion-scale-phase28a
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-PILOT-OPS-PHASE27F-RC]
+
+### 1. 목적
+
+Product Phase **27-F** — **Pilot Operations RC**. 27-A~E bundled verify · lock summary · operator runbook · 26-F/25-F cross-link.
+
+### 2. Scope
+
+- `pilot-operations-rc-lock.ts` · `pilot-operations-rc-lock.test.ts`
+- `run-pilot-operations-rc-block.mjs` · `verify:aibeopchin-pilot-operations-rc`
+- Lock summary: `AIBEOPCHIN_PILOT_OPERATIONS_RC_LOCK_SUMMARY.md`
+- Runbook: `AIBEOPCHIN_PILOT_OPERATIONS_RC_RUNBOOK.md`
+
+**한 줄 기준**: Pilot usage monitoring·feedback intake·lawyer/client satisfaction·issue triage/hotfix loop·conversion readiness review를 하나의 Product Phase 27 RC로 묶어 파일럿 운영·상용 전환 게이트·Phase 26-F cross-link를 잠근다.
+
+**선행**: Product 26-F · 25-F · 27-A~E
+
+**버전** **`27-F.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-pilot-operations-rc
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-PILOT-OPS-PHASE27E-CONVERSION-READINESS-REVIEW]
+
+### 1. 목적
+
+Product Phase **27-E** — **Conversion Readiness Review**. weighted score ≥85 · conversionReady gate.
+
+### 2. Scope
+
+- `conversion-readiness-review.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildConversionReadinessReview`
+- Runbook: `AIBEOPCHIN_CONVERSION_READINESS_REVIEW_RUNBOOK.md`
+
+**버전** **`27-E.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-pilot-operations-phase27e
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-PILOT-OPS-PHASE27D-ISSUE-TRIAGE-HOTFIX-LOOP]
+
+### 1. 목적
+
+Product Phase **27-D** — **Pilot Issue Triage & Hotfix Loop**. intake→postmortem · hotfixLoopReady gate.
+
+### 2. Scope
+
+- `pilot-issue-triage-hotfix-loop.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildPilotIssueTriageHotfixLoop`
+- Runbook: `AIBEOPCHIN_PILOT_ISSUE_TRIAGE_HOTFIX_LOOP_RUNBOOK.md`
+
+**버전** **`27-D.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-pilot-operations-phase27d
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-PILOT-OPS-PHASE27C-SATISFACTION-REVIEW]
+
+### 1. 목적
+
+Product Phase **27-C** — **Lawyer / Client Satisfaction Review**. weighted NPS axes · satisfactionReviewComplete gate.
+
+### 2. Scope
+
+- `lawyer-client-satisfaction-review.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildLawyerClientSatisfactionReview`
+- Runbook: `AIBEOPCHIN_LAWYER_CLIENT_SATISFACTION_REVIEW_RUNBOOK.md`
+
+**버전** **`27-C.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-pilot-operations-phase27c
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-PILOT-OPS-PHASE27B-FEEDBACK-INTAKE]
+
+### 1. 목적
+
+Product Phase **27-B** — **Pilot Feedback Intake**. multi-channel intake · feedbackIntakeReady gate.
+
+### 2. Scope
+
+- `pilot-feedback-intake.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildPilotFeedbackIntakeSummary`
+- Runbook: `AIBEOPCHIN_PILOT_FEEDBACK_INTAKE_RUNBOOK.md`
+
+**버전** **`27-B.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-pilot-operations-phase27b
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-PILOT-OPS-PHASE27A-USAGE-MONITORING]
+
+### 1. 목적
+
+Product Phase **27-A** — **Pilot Usage Monitoring**. tenant usage metrics · pilotUsageMonitoringReady gate.
+
+### 2. Scope
+
+- `pilot-usage-monitoring.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildPilotUsageMonitoringSnapshot`
+- Runbook: `AIBEOPCHIN_PILOT_USAGE_MONITORING_RUNBOOK.md`
+
+**선행**: Product 26-F · 25-F
+
+**버전** **`27-A.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-pilot-operations-phase27a
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-PILOT-PHASE26F-RC]
+
+### 1. 목적
+
+Product Phase **26-F** — **Pilot Launch RC**. 26-A~E bundled verify · lock summary · operator runbook · 25-F/16-D cross-link.
+
+### 2. Scope
+
+- `pilot-launch-rc-lock.ts` · `pilot-launch-rc-lock.test.ts`
+- `run-pilot-launch-rc-block.mjs` · `verify:aibeopchin-pilot-launch-rc`
+- Lock summary: `AIBEOPCHIN_PILOT_LAUNCH_RC_LOCK_SUMMARY.md`
+- Runbook: `AIBEOPCHIN_PILOT_LAUNCH_RC_RUNBOOK.md`
+
+**한 줄 기준**: Staging E2E commercial smoke·real tenant pilot·legal/terms/privacy review·support/CS/incident desk·production launch day runbook를 하나의 Product Phase 26 RC로 묶어 파일럿 출시 전 검증·운영 runbook·Phase 25-F/16-D cross-link를 잠근다.
+
+**선행**: Product 25-F · Code 16-D · 26-A~E
+
+**버전** **`26-F.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-pilot-launch-rc
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-PILOT-PHASE26E-PRODUCTION-LAUNCH-DAY-RUNBOOK]
+
+### 1. 목적
+
+Product Phase **26-E** — **Production Launch Day Runbook**. T-7~T+24h milestones · launchDayReady gate.
+
+### 2. Scope
+
+- `production-launch-day-runbook.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildProductionLaunchDayRunbook`
+- Runbook: `AIBEOPCHIN_PRODUCTION_LAUNCH_DAY_RUNBOOK.md`
+
+**버전** **`26-E.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-pilot-launch-phase26e
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-PILOT-PHASE26D-SUPPORT-CS-INCIDENT-DESK-SETUP]
+
+### 1. 목적
+
+Product Phase **26-D** — **Support / CS / Incident Desk Setup**. support desk · on-call · incident escalation.
+
+### 2. Scope
+
+- `support-cs-incident-desk-setup.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildSupportCsIncidentDeskSetup`
+- Runbook: `AIBEOPCHIN_SUPPORT_CS_INCIDENT_DESK_SETUP_RUNBOOK.md`
+
+**버전** **`26-D.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-pilot-launch-phase26d
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-PILOT-PHASE26C-LEGAL-TERMS-PRIVACY-FINAL-REVIEW]
+
+### 1. 목적
+
+Product Phase **26-C** — **Legal / Terms / Privacy Final Review**. terms · privacy · DPA · disclaimer approval.
+
+### 2. Scope
+
+- `legal-terms-privacy-final-review.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildLegalTermsPrivacyFinalReview`
+- Runbook: `AIBEOPCHIN_LEGAL_TERMS_PRIVACY_FINAL_REVIEW_RUNBOOK.md`
+
+**버전** **`26-C.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-pilot-launch-phase26c
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-PILOT-PHASE26B-REAL-TENANT-PILOT-SETUP]
+
+### 1. 목적
+
+Product Phase **26-B** — **Real Tenant Pilot Setup**. pilot tenant `pilot-lawfirm-001` · pilotTenantReady gate.
+
+### 2. Scope
+
+- `real-tenant-pilot-setup.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildRealTenantPilotSetupForSlug`
+- Runbook: `AIBEOPCHIN_REAL_TENANT_PILOT_SETUP_RUNBOOK.md`
+
+**버전** **`26-B.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-pilot-launch-phase26b
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-PILOT-PHASE26A-STAGING-E2E-COMMERCIAL-SMOKE]
+
+### 1. 목적
+
+Product Phase **26-A** — **Staging End-to-End Commercial Smoke**. tenant→billing E2E · stagingCommercialReady gate.
+
+### 2. Scope
+
+- `staging-e2e-commercial-smoke.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildStagingE2eCommercialSmoke`
+- Runbook: `AIBEOPCHIN_STAGING_E2E_COMMERCIAL_SMOKE_RUNBOOK.md`
+
+**선행**: Product 25-F · Code 16-D
+
+**버전** **`26-A.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-pilot-launch-phase26a
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-PRODUCTION-PHASE25F-RC]
+
+### 1. 목적
+
+Product Phase **25-F** — **Production Launch RC**. 25-A~E bundled verify · lock summary · operator runbook · 24-F/16-D cross-link.
+
+### 2. Scope
+
+- `production-launch-rc-lock.ts` · `production-launch-rc-lock.test.ts`
+- `run-production-launch-rc-block.mjs` · `verify:aibeopchin-production-launch-rc`
+- Lock summary: `AIBEOPCHIN_PRODUCTION_LAUNCH_RC_LOCK_SUMMARY.md`
+- Runbook: `AIBEOPCHIN_PRODUCTION_LAUNCH_RC_RUNBOOK.md`
+
+**한 줄 기준**: Production launch checklist·tenant onboarding·operator training·live provider smoke·commercial ops readiness review를 하나의 Product Phase 25 RC로 묶어 상용 출시 전 검증·운영 runbook·Phase 16-D/24-F cross-link를 잠근다.
+
+**선행**: Product 24-F · Code 16-D · 25-A~E
+
+**버전** **`25-F.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-production-launch-rc
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-PRODUCTION-PHASE25E-COMMERCIAL-OPS-READINESS-REVIEW]
+
+### 1. 목적
+
+Product Phase **25-E** — **Commercial Ops Readiness Review**. weighted score · pass threshold 85 · commercialReady gate.
+
+### 2. Scope
+
+- `commercial-ops-readiness-review.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildCommercialOpsReadinessReview`
+- Runbook: `AIBEOPCHIN_COMMERCIAL_OPS_READINESS_REVIEW_RUNBOOK.md`
+
+**버전** **`25-E.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-production-launch-phase25e
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-PRODUCTION-PHASE25D-LIVE-PROVIDER-SMOKE-PLAN]
+
+### 1. 목적
+
+Product Phase **25-D** — **Live Provider Smoke Plan**. EMAIL/KAKAO/HEALTH/OAUTH smoke · liveProviderReady gate.
+
+### 2. Scope
+
+- `live-provider-smoke-plan.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildLiveProviderSmokePlan`
+- Runbook: `AIBEOPCHIN_LIVE_PROVIDER_SMOKE_PLAN_RUNBOOK.md`
+
+**버전** **`25-D.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-production-launch-phase25d
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-PRODUCTION-PHASE25C-OPERATOR-TRAINING-ADMIN-PLAYBOOK]
+
+### 1. 목적
+
+Product Phase **25-C** — **Operator Training / Admin Playbook**. admin paths · operatorReady gate.
+
+### 2. Scope
+
+- `operator-training-admin-playbook.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildOperatorTrainingAdminPlaybook`
+- Runbook: `AIBEOPCHIN_OPERATOR_TRAINING_ADMIN_PLAYBOOK_RUNBOOK.md`
+
+**버전** **`25-C.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-production-launch-phase25c
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-PRODUCTION-PHASE25B-TENANT-ONBOARDING-RUNBOOK]
+
+### 1. 목적
+
+Product Phase **25-B** — **Tenant Onboarding Runbook**. demo tenant `aibeopchin-demo` · readyForCommercialUse gate.
+
+### 2. Scope
+
+- `tenant-onboarding-runbook.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildTenantOnboardingRunbookForSlug`
+- Runbook: `AIBEOPCHIN_TENANT_ONBOARDING_RUNBOOK.md`
+
+**버전** **`25-B.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-production-launch-phase25b
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-PRODUCTION-PHASE25A-LAUNCH-CHECKLIST]
+
+### 1. 목적
+
+Product Phase **25-A** — **Production Launch Checklist**. RC gate checklist · GO/NO-GO recommendation.
+
+### 2. Scope
+
+- `production-launch-checklist.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildProductionLaunchChecklist` · `goNoGoRecommendation`
+- Runbook: `AIBEOPCHIN_PRODUCTION_LAUNCH_CHECKLIST_RUNBOOK.md`
+
+**선행**: Code 16-D Go/No-Go · Product 24-F
+
+**버전** **`25-A.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-production-launch-phase25a
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-LITIGATION-PHASE24F-RC]
+
+### 1. 목적
+
+Product Phase **24-F** — **Litigation Operations RC**. 24-A~E bundled verify · lock summary · operator runbook · 23-F/14-E cross-link.
+
+### 2. Scope
+
+- `litigation-operations-rc-lock.ts` · `litigation-operations-rc-lock.test.ts`
+- `run-litigation-ops-rc-block.mjs` · `verify:aibeopchin-litigation-ops-rc`
+- Lock summary: `AIBEOPCHIN_LITIGATION_OPERATIONS_RC_LOCK_SUMMARY.md`
+- Runbook: `AIBEOPCHIN_LITIGATION_OPERATIONS_RC_RUNBOOK.md`
+
+**한 줄 기준**: 소송 Task/Deadline 자동화·법원 제출 준비 pack·변호사 workbench·기일/제출 checklist·의뢰인 소송 진행 sync를 하나의 Product Phase 24 RC로 묶어 배포 전 검증·운영 runbook·Phase 14/15-E litigation cross-link를 잠근다.
+
+**선행**: Product 23-F · Code 14-E · 24-A~E
+
+**버전** **`24-F.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-litigation-ops-rc
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-LITIGATION-PHASE24E-CLIENT-LITIGATION-PROGRESS-SYNC]
+
+### 1. 목적
+
+Product Phase **24-E** — **Client-facing Litigation Progress Sync**. clientVisible deadlines · milestones · 15-E display line.
+
+### 2. Scope
+
+- `client-litigation-progress-sync.schema.ts` · `policy.ts` · `service.ts`
+- Service: `syncClientLitigationProgressForCase`
+- Runbook: `AIBEOPCHIN_CLIENT_LITIGATION_PROGRESS_SYNC_RUNBOOK.md`
+
+**버전** **`24-E.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-litigation-ops-phase24e
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-LITIGATION-PHASE24D-HEARING-SUBMISSION-CHECKLIST]
+
+### 1. 목적
+
+Product Phase **24-D** — **Hearing / Submission Checklist**. HEARING/SUBMISSION templates · completion rate.
+
+### 2. Scope
+
+- `hearing-submission-checklist.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildHearingSubmissionChecklistForCase`
+- Runbook: `AIBEOPCHIN_HEARING_SUBMISSION_CHECKLIST_RUNBOOK.md`
+
+**버전** **`24-D.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-litigation-ops-phase24d
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-LITIGATION-PHASE24C-LAWYER-WORKBENCH-INTEGRATION]
+
+### 1. 목적
+
+Product Phase **24-C** — **Lawyer Workbench Integration**. litigation snapshot · command center deep link.
+
+### 2. Scope
+
+- `lawyer-workbench-integration.schema.ts` · `policy.ts` · `service.ts`
+- Service: `getLawyerWorkbenchLitigationSnapshot`
+- Runbook: `AIBEOPCHIN_LAWYER_WORKBENCH_INTEGRATION_RUNBOOK.md`
+
+**버전** **`24-C.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-litigation-ops-phase24c
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-LITIGATION-PHASE24B-COURT-FILING-PREPARATION-PACK]
+
+### 1. 목적
+
+Product Phase **24-B** — **Court Filing Preparation Pack**. filing type templates · readiness score.
+
+### 2. Scope
+
+- `court-filing-preparation-pack.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `buildCourtFilingPreparationPackForCase`
+- Runbook: `AIBEOPCHIN_COURT_FILING_PREPARATION_PACK_RUNBOOK.md`
+
+**버전** **`24-B.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-litigation-ops-phase24b
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-LITIGATION-PHASE24A-TASK-DEADLINE-AUTOMATION]
+
+### 1. 목적
+
+Product Phase **24-A** — **Litigation Task / Deadline Automation**. automation rules · auto prep tasks · overdue escalation · audit.
+
+### 2. Scope
+
+- `litigation-task-deadline-automation.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Service: `runLitigationTaskDeadlineAutomationForCase`
+- Audit: `LITIGATION_TASK_DEADLINE_AUTOMATION_RUN`
+- Runbook: `AIBEOPCHIN_LITIGATION_TASK_DEADLINE_AUTOMATION_RUNBOOK.md`
+
+**선행**: Code 13-H · 14-E · 15-E
+
+**버전** **`24-A.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-litigation-ops-phase24a
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-AI-QUALITY-PHASE23F-RC]
+
+### 1. 목적
+
+Product Phase **23-F** — **AI Quality / Case Pack RC**. 23-A~E bundled verify · lock summary · operator runbook · 22-F/10-D cross-link · client-safe redaction gate.
+
+### 2. Scope
+
+- `ai-quality-case-pack-rc-lock.ts` · `ai-quality-case-pack-rc-lock.test.ts`
+- `run-ai-quality-rc-block.mjs` · `verify:aibeopchin-ai-quality-rc`
+- Lock summary: `AIBEOPCHIN_AI_QUALITY_CASE_PACK_RC_LOCK_SUMMARY.md`
+- Runbook: `AIBEOPCHIN_AI_QUALITY_CASE_PACK_RC_RUNBOOK.md`
+
+**한 줄 기준**: AI 출력 품질 evaluation·변호사 feedback loop·Case Pack builder·Evidence/Timeline/Issue pack·Client-safe progress pack을 하나의 Product Phase 23 RC로 묶어 배포 전 검증·운영 runbook·Phase 10-C client-safe redaction 게이트를 잠근다.
+
+**선행**: Product 22-F · AI Core 10-D · 23-A~E
+
+**버전** **`23-F.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-ai-quality-rc
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-AI-QUALITY-PHASE23E-CLIENT-SAFE-CASE-PROGRESS-PACK]
+
+### 1. 목적
+
+Product Phase **23-E** — **Client-safe Case Progress Pack**. milestone · progress summary · 10-C blocked categories · disclosure release gate.
+
+### 2. Scope
+
+- `client-safe-case-progress-pack.schema.ts` · `policy.ts` · `service.ts`
+- Service: `buildClientSafeCaseProgressPackForCase`
+- Runbook: `AIBEOPCHIN_CLIENT_SAFE_CASE_PROGRESS_PACK_RUNBOOK.md`
+
+**선행**: 10-C client-safe disclosure · 23-A~D
+
+**버전** **`23-E.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-ai-quality-phase23e
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-AI-QUALITY-PHASE23D-EVIDENCE-TIMELINE-ISSUE-PACK]
+
+### 1. 목적
+
+Product Phase **23-D** — **Evidence / Timeline / Issue Pack**. attachments · timeline memos · issue cross-links.
+
+### 2. Scope
+
+- `evidence-timeline-issue-pack.schema.ts` · `policy.ts` · `service.ts`
+- Service: `buildEvidenceTimelineIssuePackForCase`
+- Runbook: `AIBEOPCHIN_EVIDENCE_TIMELINE_ISSUE_PACK_RUNBOOK.md`
+
+**버전** **`23-D.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-ai-quality-phase23d
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-AI-QUALITY-PHASE23C-CASE-PACK-BUILDER]
+
+### 1. 목적
+
+Product Phase **23-C** — **Case Pack Builder**. pack type templates · `buildCasePackForCase` · `buildCasePackageDto` integration.
+
+### 2. Scope
+
+- `case-pack-builder.schema.ts` · `registry.ts` · `policy.ts` · `service.ts`
+- Templates: LOAN · LEASE · DIVORCE · DAMAGES · LABOR · CRIMINAL · GENERIC
+- Runbook: `AIBEOPCHIN_CASE_PACK_BUILDER_RUNBOOK.md`
+
+**버전** **`23-C.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-ai-quality-phase23c
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-AI-QUALITY-PHASE23B-LAWYER-REVIEW-FEEDBACK-LOOP]
+
+### 1. 목적
+
+Product Phase **23-B** — **Lawyer Review Feedback Loop**. Prisma feedback model · lawyer rating · quality regression trigger · audit.
+
+### 2. Scope
+
+- Prisma: `AiLawyerReviewFeedback` · migration `20260526100000_ai_lawyer_review_feedback_phase23b`
+- `lawyer-review-feedback-loop.schema.ts` · `policy.ts` · `repository.ts` · `service.ts`
+- Audit: `AI_LAWYER_REVIEW_FEEDBACK_RECORDED`
+- Runbook: `AIBEOPCHIN_LAWYER_REVIEW_FEEDBACK_LOOP_RUNBOOK.md`
+
+**버전** **`23-B.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-ai-quality-phase23b
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-AI-QUALITY-PHASE23A-OUTPUT-QUALITY-EVALUATION]
+
+### 1. 목적
+
+Product Phase **23-A** — **AI Output Quality Evaluation**. Golden dataset · deterministic output quality scoring · governance feature mapping.
+
+### 2. Scope
+
+- Prisma: `AiEvaluationDatasetEntry` · migration `20260526090000_ai_evaluation_dataset_phase23a`
+- Dataset: `ai-evaluation-dataset.*`
+- Scoring: `ai-output-quality-evaluation.*` · `evaluateAiOutputQuality`
+- Golden samples: LOAN · LEASE · DIVORCE · DAMAGES · LABOR · CRIMINAL
+- Runbook: `AIBEOPCHIN_AI_OUTPUT_QUALITY_EVALUATION_RUNBOOK.md`
+
+**한 줄 기준**: AI governance feature별 golden dataset과 output quality scoring을 정의해 AI 법률 출력 회귀의 단일 SSOT로 쓸 수 있게 한다.
+
+**선행**: Product 20~22 · AI Core 10-A governance features
+
+**버전** **`23-A.2`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-ai-quality-phase23a
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-AI-QUALITY-PHASE23A-EVALUATION-DATASET]
+
+### 1. 목적
+
+Product Phase **23-A** — **AI Evaluation Dataset**. Prisma entry model · case pack types · governance feature mapping · golden registry · catalog service.
+
+### 2. Scope
+
+- Prisma: `AiEvaluationDatasetEntry` · migration `20260526090000_ai_evaluation_dataset_phase23a`
+- `ai-evaluation-dataset.schema.ts` · `registry.ts` · `policy.ts` · `repository.ts` · `service.ts`
+- Golden samples: LOAN · LEASE · DIVORCE · DAMAGES · LABOR · CRIMINAL
+- Seed: `seed-ai-evaluation-dataset.ts`
+- Runbook: `AIBEOPCHIN_AI_EVALUATION_DATASET_RUNBOOK.md`
+
+**한 줄 기준**: AI governance feature별 evaluation dataset schema와 case pack typed golden samples를 정의해, 이후 quality scoring·guard 회귀의 단일 기준 데이터셋으로 쓸 수 있게 한다.
+
+**선행**: Product 20~22 · AI Core 10-A governance features
+
+**의도적 제외**: quality scoring · hallucination/citation eval · feedback loop (23-B~F)
+
+**버전** **`23-A.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-ai-quality-phase23a
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-TENANT-PHASE22F-RC]
+
+### 1. 목적
+
+Product Phase **22-F** — **Tenant / Plan / Metering RC**. 22-A~E bundled verify · lock summary · operator runbook · 20-F/21-F cross-link · no automatic invoice gate.
+
+### 2. Scope
+
+- `tenant-plan-metering-rc-lock.ts` · `tenant-plan-metering-rc-lock.test.ts`
+- `run-tenant-rc-block.mjs` · `verify:aibeopchin-tenant-rc`
+- Lock summary: `AIBEOPCHIN_TENANT_PLAN_METERING_RC_LOCK_SUMMARY.md`
+- Runbook: `AIBEOPCHIN_TENANT_PLAN_METERING_RC_RUNBOOK.md`
+
+**한 줄 기준**: 법무법인·변호사·의뢰인 사용 구조를 tenant 단위로 분리하고, 요금제·기능 권한·사용량 집계·과금 안전 원장·운영자 plan console을 하나의 사업화 RC로 묶어 배포 전 검증·운영 runbook·청구서 미발행 원장 정책을 잠근다.
+
+**선행**: Product 20-F · 21-F · 22-A~E
+
+**버전** **`22-F.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-tenant-rc
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-TENANT-PHASE22E-ADMIN-PLAN-CONSOLE]
+
+### 1. 목적
+
+Product Phase **22-E** — **Admin Plan Console**. `/admin/tenants` · plan/usage/ledger console · plan & feature override · ledger adjustment · period close UI guard · audit.
+
+### 2. Scope
+
+- Pages: `/admin/tenants` · `/admin/tenants/[tenantId]/plan`
+- API: tenants list · plan snapshot · plan PATCH · feature-overrides PATCH · billing-ledger adjustment POST
+- Service: `admin-tenant-plan-console.service.ts`
+- UI: `admin-tenant-list-table.tsx` · `admin-tenant-plan-console.tsx`
+- Nav: `(protected)/layout.tsx` — Tenant / Plan link
+- Runbook: `AIBEOPCHIN_ADMIN_TENANT_PLAN_CONSOLE_RUNBOOK.md`
+
+**한 줄 기준**: 운영자가 tenant별 plan, feature entitlement, usage summary, billing ledger, period close 상태를 한 화면에서 조회하고, 허용된 범위 안에서 plan 변경·feature override·ledger adjustment를 감사 기록과 함께 수행할 수 있게 한다.
+
+**선행**: 22-A~D
+
+**Audit**: `TENANT_PLAN_UPDATED` · `TENANT_FEATURE_OVERRIDE_UPDATED` · `BILLING_LEDGER_ADJUSTED`
+
+**의도적 제외**: invoice · payment · bundled RC (22-F)
+
+**버전** **`22-E.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-tenant-phase22e
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-TENANT-PHASE22D-BILLING-USAGE-LEDGER]
+
+### 1. 목적
+
+Product Phase **22-D** — **Billing-safe Usage Ledger**. metering → ledger promote · idempotency · snapshots · status lifecycle · period close · manual adjustment audit · no automatic invoice.
+
+### 2. Scope
+
+- Prisma: `BillingUsageLedger` · `BillingLedgerPeriodClose` · migration `20260525220000_billing_usage_ledger_phase22d`
+- `billing-usage-ledger.schema.ts` · `billing-usage-ledger.policy.ts` · `billing-unit-cost.registry.ts`
+- Service: promote · post · void · manual adjustment · period close · summary
+- Bridge: `recordTenantUsageEvent` → DRAFT ledger auto-promote
+- Runbook: `AIBEOPCHIN_BILLING_USAGE_LEDGER_RUNBOOK.md`
+
+**한 줄 기준**: tenant usage metering event를 과금 가능한 ledger entry로 변환하되, 중복 청구 방지·정정·void·audit·period lock을 통해 청구 분쟁에 안전한 원장 구조를 만든다.
+
+**선행**: 22-A · 22-B · 22-C
+
+**중요**: 22-D는 청구서 발행이 아님 — 안전한 사용량 원장
+
+**의도적 제외**: invoice · payment · admin console (22-E~F)
+
+**버전** **`22-D.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-tenant-phase22d
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-TENANT-PHASE22C-USAGE-METERING]
+
+### 1. 목적
+
+Product Phase **22-C** — **Usage Metering**. TenantUsageEvent persist · monthly window · aggregation · 22-B plan limit comparison · over-limit warnings · billing ledger 분리.
+
+### 2. Scope
+
+- Prisma: `TenantUsageEvent` · migration `20260525210000_tenant_usage_metering_phase22c`
+- `tenant-usage.schema.ts` · `tenant-usage.policy.ts` · `tenant-metering.repository.ts` · `tenant-metering.service.ts`
+- Aggregation: `getTenantUsageSummary` · `getTenantUsageOverLimitWarnings`
+- Wire: external messaging send · AI governance invoke bridge
+- Runbook: `AIBEOPCHIN_TENANT_USAGE_METERING_RUNBOOK.md`
+
+**한 줄 기준**: tenant별 AI 호출, 외부 메시징, 문서 처리, 파일 업로드, 모바일 포털 사용량을 metering event로 기록하고, 22-B plan limit과 비교 가능한 usage summary를 제공한다.
+
+**선행**: 22-A · 22-B
+
+**의도적 제외**: billing-safe ledger · admin console (22-D~F)
+
+**버전** **`22-C.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-tenant-phase22c
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-TENANT-PHASE22B-PLAN-ENTITLEMENT]
+
+### 1. 목적
+
+Product Phase **22-B** — **Plan / Feature Entitlement**. tenant plan tier · feature registry · limits · API/UI hooks · denial audit.
+
+### 2. Scope
+
+- Prisma: `TenantPlan` · migration `20260525200000_tenant_plan_entitlement_phase22b`
+- `tenant-plan.schema.ts` · `tenant-plan.registry.ts` — FREE/STARTER/PRO/ENTERPRISE
+- `tenant-entitlement.policy.ts` · `tenant-entitlement.service.ts` · `tenant-entitlement.repository.ts`
+- API hook: `enforceTenantApiEntitlement` · seat/case limit enforcement
+- UI hook: `resolveTenantUiEntitlements`
+- External messaging wire: `assertExternalMessagingEntitlement` in adapter send
+- Audit: `TENANT_ENTITLEMENT_DENIED`
+- Runbook: `AIBEOPCHIN_TENANT_PLAN_ENTITLEMENT_RUNBOOK.md`
+
+**한 줄 기준**: tenant별 plan tier, feature flag, seat limit, case limit, AI usage entitlement를 정의하고, API/UI가 동일한 entitlement 정책을 기준으로 기능 접근을 허용·차단하게 한다.
+
+**선행**: 22-A · Product 20~21
+
+**의도적 제외**: usage metering persist · billing ledger · admin console (22-C~F)
+
+**버전** **`22-B.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-tenant-phase22b
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-TENANT-PHASE22A-ORGANIZATION-BASELINE]
+
+### 1. 목적
+
+Product Phase **22-A** — **Tenant / Organization Model**. Prisma Tenant/Membership · Case tenant 스코프 · policy/repository SSOT · demo seed.
+
+### 2. Scope
+
+- Prisma: `Tenant` · `TenantMembership` · `Case.tenantId` · migration `20260525190000_tenant_organization_phase22a`
+- `tenant-organization.schema.ts` · `tenant-organization.policy.ts` · `tenant-organization.repository.ts`
+- `seed-tenant-organization.ts` — demo slug `aibeopchin-demo`
+- Runbook: `AIBEOPCHIN_TENANT_ORGANIZATION_BASELINE_RUNBOOK.md`
+
+**한 줄 기준**: 법무법인·변호사·스태프 사용 구조를 tenant 단위로 분리하고, 멤버십·사건 tenant 스코프의 데이터·policy 기준선을 잠근다.
+
+**선행**: Product 20~21
+
+**의도적 제외**: Plan · entitlement · metering · billing ledger · admin console (22-B~F)
+
+**버전** **`22-A.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-tenant-phase22a
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-CLIENT-MOBILE-PHASE21F-RC]
+
+### 1. 목적
+
+Product Phase **21-F** — **Client Mobile / PWA RC**. 21-A~E bundled verify · Phase 20 deep link regression · PWA cache denylist · push live send OFF · operator checklist.
+
+### 2. Scope
+
+- `client-mobile-pwa-rc-lock.ts` — RC SSOT · sub-phase verify · Phase 20 cross-link
+- `run-client-mobile-rc-block.mjs` · `verify:aibeopchin-client-mobile-rc`
+- Lock summary: `AIBEOPCHIN_CLIENT_MOBILE_PWA_RC_LOCK_SUMMARY.md`
+- Runbook: `AIBEOPCHIN_CLIENT_MOBILE_PWA_RC_RUNBOOK.md`
+- `.env.example` — `CLIENT_PORTAL_VAPID_PUBLIC_KEY` · `CLIENT_PORTAL_WEB_PUSH_LIVE_SEND`
+
+**한 줄 기준**: 모바일 의뢰인 포털, 업로드 UX, PWA 설치, push-ready surface, 접근성·저사양 smoke를 하나의 Client Mobile / PWA RC로 묶어 배포 전 검증·운영 runbook·보안 cache 정책을 잠근다.
+
+**선행**: Product 20-F · 21-A~E
+
+**버전** **`21-F.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-client-mobile-rc
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-CLIENT-MOBILE-PHASE21E-ACCESSIBILITY-SMOKE]
+
+### 1. 목적
+
+Product Phase **21-E** — **Mobile Accessibility / Low-end Device Smoke**. viewport · typography · focus · touch targets · slow upload UX · offline a11y · nav/push labels · low-end shell · cache denylist regression.
+
+### 2. Scope
+
+- `client-portal-mobile-a11y.policy.ts` — touch target · slow upload · cache regression SSOT
+- Component a11y patches: bottom nav · upload panel · push panel · offline · notification center · PWA banner
+- RTL smoke: `client-mobile-bottom-nav.test.tsx` · `client-mobile-upload-panel.test.tsx`
+- Runbook: `AIBEOPCHIN_CLIENT_MOBILE_ACCESSIBILITY_SMOKE_RUNBOOK.md`
+
+**한 줄 기준**: 의뢰인이 저사양 모바일·느린 네트워크·작은 화면·접근성 환경에서도 보완요청 확인, 자료 업로드, 공유문서 열람, 대화, 기일 확인을 끊김 없이 수행할 수 있는지 smoke 기준으로 검증한다.
+
+**선행**: 21-A~D · Phase 20-F
+
+**버전** **`21-E.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-client-mobile-phase21e
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-CLIENT-MOBILE-PHASE21D-PUSH-NOTIFICATION-SURFACE]
+
+### 1. 목적
+
+Product Phase **21-D** — **Push-ready Notification Surface**. permission · subscription API · preference · notification center · Phase 20 link · push payload policy · SW skeleton · live send OFF.
+
+### 2. Scope
+
+- `client-portal-push-notification.*` — policy · repository · service · tests
+- API: `/api/client/push-subscriptions` · `/api/client/notification-preferences` · `/api/client/notifications`
+- UI: `ClientPortalPushNotificationPanel` · `ClientPortalNotificationCenter`
+- Prisma: `webPushOptIn` · `ClientPushSubscription`
+- `client-portal-notification.service` — IN_APP center entry + web push dispatch prep
+- `public/client/sw.js` — push · notificationclick skeleton
+- Runbook: `AIBEOPCHIN_CLIENT_MOBILE_PUSH_NOTIFICATION_SURFACE_RUNBOOK.md`
+
+**한 줄 기준**: 의뢰인 모바일/PWA 포털에서 알림 권한·구독 상태·알림함 surface를 준비하되, 실제 push 발송은 consent·template·redaction·Phase 20 messaging 정책과 연결된 뒤 제한적으로 연다.
+
+**선행**: 21-C · Phase 20-F · 19-B redaction
+
+**버전** **`21-D.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-client-mobile-phase21d
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-CLIENT-MOBILE-PHASE21C-PWA-INSTALL]
+
+### 1. 목적
+
+Product Phase **21-C** — **PWA Install / Home Screen**. manifest · service worker · install prompt · offline fallback · last visit restore · cache denylist.
+
+### 2. Scope
+
+- `client-portal-pwa.policy.ts` — manifest paths · denylist · last visit restore SSOT
+- `public/manifest.webmanifest` · `public/client/sw.js` · `public/pwa/client-portal-icon.svg`
+- `client-portal-pwa-shell.tsx` — install banner · SW register
+- `client-portal-pwa-restore-redirect.tsx` · `ClientPortalClient` — save/restore last case+tab
+- `/client/offline` — offline fallback (민감 데이터 미캐시 안내)
+- `/client/layout.tsx` — manifest metadata · appleWebApp · themeColor
+- Runbook: `AIBEOPCHIN_CLIENT_MOBILE_PWA_INSTALL_RUNBOOK.md`
+
+**한 줄 기준**: 의뢰인이 모바일 홈 화면에 AI법친 client portal을 설치하고, 로그인 후 사건 포털·제출·공유·대화·기일 화면으로 빠르게 재진입할 수 있게 한다.
+
+**선행**: 21-A · 21-B · Phase 20-F
+
+**버전** **`21-C.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-client-mobile-phase21c
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-CLIENT-MOBILE-PHASE21B-UPLOAD-UX]
+
+### 1. 목적
+
+Product Phase **21-B** — **Mobile Upload UX**. 카메라 촬영 · 다중 선택 · 진행률 · 재시도 · 제출 완료 · 보완요청 연결 · 이탈 방지 · 19-B/19-D · 17/18 failure meta.
+
+### 2. Scope
+
+- `client-portal-mobile-upload.*` — policy · XHR client · tests
+- `use-client-portal-mobile-upload-queue.ts` — queue · retry · beforeunload
+- `client-mobile-upload-panel.tsx` — mobile upload UI
+- `ClientPortalClient` — supplement · free upload · chat integration
+- Runbook: `AIBEOPCHIN_CLIENT_MOBILE_UPLOAD_UX_RUNBOOK.md`
+
+**한 줄 기준**: 의뢰인이 모바일에서 카메라 촬영·사진/파일 다중 선택·업로드 진행률·실패 재시도·제출 완료 확인까지 한 흐름으로 증거자료를 제출할 수 있게 한다.
+
+**선행**: 21-A · Phase 15 portal · 13-B upload limits
+
+**버전** **`21-B.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-client-mobile-phase21b
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-CLIENT-MOBILE-PHASE21A-PORTAL-BASELINE]
+
+### 1. 목적
+
+Product Phase **21-A** — **Mobile Client Portal Baseline**. Phase 20 알림 딥링크 진입 · 모바일 `/client` 셸 · 기일 탭 · 사건 목록 · bottom nav.
+
+### 2. Scope
+
+- `client-portal-mobile.policy.ts` — tab SSOT · Phase 20 alias mapping
+- `/client/layout.tsx` — viewport · safe-area mobile shell
+- `/client/cases` · `/client/cases/[caseId]` — list + deep link searchParams
+- `ClientMobileBottomNav` · deadlines tab in `ClientPortalClient`
+- Runbook: `AIBEOPCHIN_CLIENT_MOBILE_PORTAL_BASELINE_RUNBOOK.md`
+
+**한 줄 기준**: Phase 20 알림 링크로 진입한 의뢰인이 모바일에서 보완요청·제출·공유·대화·기일을 하나의 포털 셸에서 바로 사용할 수 있게 한다.
+
+**선행**: Phase 15 Client Portal Full RC · Product 20-F Real Messaging RC
+
+**버전** **`21-A.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-client-mobile-phase21a
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-REAL-MESSAGING-PHASE20F-RC]
+
+### 1. 목적
+
+Product Phase **20-F** — **Real Messaging RC**. 20-A~E를 하나의 배포 전 Real Messaging 게이트로 묶고, 15-F/18-B/19-B 호환 · env example · operator checklist · limited live send policy를 잠근다.
+
+### 2. Scope
+
+- `real-messaging-rc-lock.ts` · `real-messaging-live-send.policy.ts` — RC SSOT · live send gates
+- Bundled verify: 20-A~E sub-verify + 18-B redelivery policy test
+- Runbook: `AIBEOPCHIN_REAL_MESSAGING_RC_RUNBOOK.md`
+- Lock summary: `AIBEOPCHIN_REAL_MESSAGING_RC_LOCK_SUMMARY.md`
+
+**한 줄 기준**: ExternalMessageAdapter, Email/Kakao provider, webhook status sync, secure delivery integration, redelivery, redaction, consent gate를 하나의 Real Messaging RC로 묶어 배포 전 검증·운영 체크리스트·실발송 제한 기준을 잠근다.
+
+**선행**: 15-F · 18-B · 19-B · 20-A~E
+
+**버전** **`20-F.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-real-messaging-rc
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-REAL-MESSAGING-PHASE20E-SECURE-DELIVERY-INTEGRATION]
+
+### 1. 목적
+
+Product Phase **20-E** — **Secure Delivery Integration**. 15-F secure delivery 흐름을 20-A~D 실 메시징 계층에 연결 — consent gate · secure link · view audit · ExternalMessageLog · webhook status sync.
+
+### 2. Scope
+
+- `secure-delivery-message.*` — policy · builder · service · test
+- `case-document-delivery-notification.service.ts` — CaseDocumentDelivery → ExternalMessageLog
+- `client-portal-notification.service.ts` — supplement · deadline · portal message
+- Hooks: `secure-document-delivery.service.ts` · `supplement-request.service.ts` · `litigation-deadline-reminder.service.ts` · `case-conversation.service.ts`
+- Runbook: `AIBEOPCHIN_REAL_MESSAGING_SECURE_DELIVERY_INTEGRATION_RUNBOOK.md`
+
+**한 줄 기준**: 15-F의 보안 문서 전달·보완요청·기일 알림·포털 메시지를 20-A~D 실 메시징 계층에 연결하되, consent gate·secure link·view audit·ExternalMessageLog·webhook status sync가 하나의 안전한 전달 흐름으로 이어지게 한다.
+
+**선행**: 15-F · 20-A~D · 18-B · 19-B
+
+**버전** **`20-E.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-real-messaging-phase20e
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-REAL-MESSAGING-PHASE20D-WEBHOOK-STATUS-SYNC]
+
+### 1. 목적
+
+Product Phase **20-D** — **Provider Webhook / Status Sync**. Email/Kakao delivery callback metadata-only ingress · signature · idempotency · status mapping · ExternalMessageLog sync · delivery prep · AuditLog · 18-B redelivery re-eval.
+
+### 2. Scope
+
+- `external-message-webhook.*` — schema · signature · mapper · service · test
+- API: `/api/webhooks/external-messages/email` · `/api/webhooks/external-messages/kakao`
+- Forbidden: raw webhook payload · recipient phone/email persist
+- Runbook: `AIBEOPCHIN_REAL_MESSAGING_WEBHOOK_STATUS_SYNC_RUNBOOK.md`
+
+**한 줄 기준**: 이메일·카카오 provider의 delivery callback/webhook을 metadata only로 수신하고, signature·idempotency·status mapping·redaction을 거쳐 ExternalMessageLog와 delivery 상태를 안전하게 동기화한다.
+
+**선행**: 20-A~C · 18-B · 19-B · 15-F
+
+**버전** **`20-D.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-real-messaging-phase20d
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-REAL-MESSAGING-PHASE20C-KAKAO-ADAPTER]
+
+### 1. 목적
+
+Product Phase **20-C** — **Real External Messaging Kakao Adapter**. 20-A 계약 위 KAKAO 알림톡 · template registry · variable allowlist · consent guard · phone masking · response redaction · ExternalMessageLog SENT/FAILED.
+
+### 2. Scope
+
+- `external-message-kakao-*` — config · registry · consent · builder · transport · adapter
+- Stricter than 20-B: registered templateCode only · allowlisted variables · `consentVerified === true`
+- `mapExternalMessageChannelToDeliveryChannel` — KAKAO → KAKAO_ALIMTALK
+- Runbook: `AIBEOPCHIN_REAL_MESSAGING_KAKAO_ADAPTER_RUNBOOK.md`
+
+**한 줄 기준**: 20-A adapter 계약 위 KAKAO 알림톡 provider를 연결하되, 승인된 templateCode와 allowlisted variables만 사용하고, 동의·phone masking·response redaction 후 ExternalMessageLog에 SENT/FAILED로 기록한다.
+
+**선행**: 20-A · 20-B · 18-B · 19-B · 15-F
+
+**버전** **`20-C.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-real-messaging-phase20c
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-REAL-MESSAGING-PHASE20B-EMAIL-ADAPTER]
+
+### 1. 목적
+
+Product Phase **20-B** — **Real External Messaging Email Adapter**. 20-A dry-run 계약 위 EMAIL provider(SMTP/SendGrid) · safe subject/body · allowlist · masking · response redaction · ExternalMessageLog SENT/FAILED.
+
+### 2. Scope
+
+- `external-message-email-config.ts` — EMAIL_PROVIDER env 분기
+- `external-message-smtp-adapter.ts` — SMTP 1차 adapter (injectable transport)
+- `external-message-sendgrid-adapter.ts` — SendGrid HTTP adapter
+- `external-message-email-body-builder.ts` — 보안 링크 중심 · 법률 본문 금지
+- `external-message-email-template-allowlist.ts` — templateKey allowlist
+- `external-message-provider-response-redaction.ts` — provider raw response redaction
+- `external-message-log.service.ts` — ExternalMessageLog SENT/FAILED · 19-B redaction
+- Runbook: `AIBEOPCHIN_REAL_MESSAGING_EMAIL_ADAPTER_RUNBOOK.md`
+
+**한 줄 기준**: Dry-run 계약 위 EMAIL provider를 연결하되, 법률 본문 원문 없이 보안 링크 중심으로 발송하고, provider 응답은 redaction 후 ExternalMessageLog에 SENT/FAILED로 기록한다.
+
+**선행**: 20-A · 18-B · 19-B
+
+**버전** **`20-B.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-real-messaging-phase20b
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-REAL-MESSAGING-PHASE20A-ADAPTER-CONTRACT]
+
+### 1. 목적
+
+Product Phase **20-A** — **Real External Messaging Adapter Contract**. 실 카카오·이메일 발송 **전** provider-agnostic SSOT · dry-run adapter · 18-B/19-B 호환.
+
+### 2. Scope
+
+- `src/features/platform/external-messaging/*` — schema · contract · result · error · policy · dry-run · service
+- Forbidden: raw payload · legal body · attachment direct send · no consent · no templateKey/idempotency
+- `buildExternalMessageLogSafeSummary` — ExternalMessageLog prep · 19-B redaction
+- Runbook: `AIBEOPCHIN_REAL_MESSAGING_ADAPTER_CONTRACT_RUNBOOK.md`
+
+**한 줄 기준**: 카카오·이메일 provider가 달라도 AI법친 내부는 동일한 ExternalMessageAdapter 계약으로 발송 요청·검증·결과 매핑·오류 분류·로그 기록을 처리한다.
+
+**선행**: 15-F · 18-B · 19-B/F
+
+**버전** **`20-A.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-real-messaging-phase20a
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-DATA-GOVERNANCE-PHASE19F-RC]
+
+### 1. 목적
+
+Phase **19-F** — **Data Governance RC / Purge Execution Unlock**. 19-A~E bundled verify + purge unlock **8 gate** 정의. **기본 dry-run**, actual delete/blob reclaim **미실행**.
+
+### 2. Scope
+
+- `data-governance-rc-lock.ts` — RC SSOT · sub-verify · Phase 18 cross-link
+- `data-governance-purge-execution.policy.ts` — 8 unlock gates
+- `data-governance-purge-preview.service.ts` · `data-governance-purge-dry-run.service.ts`
+- Admin: purge RC panel · preview/dry-run APIs
+- `run-data-governance-rc-block.mjs` · `verify:aibeopchin-data-governance-rc`
+- Docs: `AIBEOPCHIN_DATA_GOVERNANCE_RC_LOCK_SUMMARY.md` · `AIBEOPCHIN_DATA_GOVERNANCE_RC_RUNBOOK.md`
+
+**한 줄 기준**: 19-A~E를 RC로 묶고 purge/delete/blob reclaim unlock 조건을 정의 — dry-run 기본, limited execution은 게이트 통과 후만.
+
+**선행**: Phase **19-A~E** · **18-E** Reliability RC
+
+**버전** **`19-F.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-data-governance-rc
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-DATA-GOVERNANCE-PHASE19E-ADMIN-VISIBILITY]
+
+### 1. 목적
+
+Phase **19-E** — **Admin Data Governance Visibility**. 19-A~D policy eligibility를 운영자 Admin 콘솔에 read-only 표시. **purge/delete/blob reclaim 실행은 19-F RC까지 UI·job 잠금.**
+
+### 2. Scope
+
+- `data-governance-rc-lock.ts` — paths · UI execution lock
+- `data-governance-visibility.service.ts` — DB sample + 19-D evaluate* + orphan dry-run
+- `data-governance-console.tsx` — Admin UI (disabled action buttons)
+- Page: `/admin/operations/data-governance`
+- API: `GET /api/admin/operations/data-governance-snapshot`
+- Runbook: `AIBEOPCHIN_DATA_GOVERNANCE_VISIBILITY_RUNBOOK.md`
+
+**한 줄 기준**: 실제 purge 전 운영자가 삭제·만료·legal hold·orphan 후보를 조회할 수 있어야 한다.
+
+**선행**: Phase **19-A** · **19-D**
+
+**버전** **`19-E.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-data-governance-phase19e
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-DATA-GOVERNANCE-PHASE19D-ATTACHMENT-LIFECYCLE-EXPIRY]
+
+### 1. 목적
+
+Phase **19-D** — **Attachment Lifecycle / Expiry**. 첨부·추출본문·공유문서·보안전달 링크에 대해 **만료·보존·삭제 가능성**을 분리 판정. 실제 purge/delete는 **19-F RC**까지 잠금.
+
+### 2. Scope
+
+- `attachment-lifecycle-policy.ts` — 6 models + legal hold guard + expiry eligibility
+- `attachment-lifecycle-orphan-detection.service.ts` — storage orphan dry-run
+- `attachment-lifecycle.validator.ts` · `.test.ts`
+- Integration: `secure-document-delivery.service.ts` → `resolveCaseSharedDocumentEffectiveStatus`
+- Runbook: `AIBEOPCHIN_ATTACHMENT_LIFECYCLE_EXPIRY_RUNBOOK.md`
+
+**한 줄 기준**: 첨부파일·추출본문·공유문서·보안전달 링크는 사건 보존 정책과 공개/공유 상태를 기준으로 만료·보존·삭제 가능성을 분리해 통제한다.
+
+**선행**: Phase **19-A**
+
+**버전** **`19-D.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-data-governance-phase19d
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-DATA-GOVERNANCE-PHASE19C-AUDIT-LOG-RETENTION-EXPORT]
+
+### 1. 목적
+
+Phase **19-C** — **AuditLog Retention & Export**. 운영 감사 핵심 증거인 AuditLog에 대해 **보존 기간·export 권한·마스킹·다운로드 감사** 정책 SSOT.
+
+### 2. Scope
+
+- `audit-log-retention-policy.ts` — 730일 · retention floor · purge eligibility (19-F까지 잠금)
+- `audit-log-export-policy.ts` — ADMIN only · max 5000 rows · max 365일 span · export audit action
+- `audit-log-export-redaction.service.ts` — 19-B delegate + message truncate + actor email mask
+- `audit-log-retention.validator.ts` · `.test.ts`
+- Integration: `audit-log.service.ts` (XLSX → `writeAuditLog`) · `audit-log.repository.ts` (retention floor)
+- Runbook: `AIBEOPCHIN_AUDIT_LOG_RETENTION_EXPORT_RUNBOOK.md`
+
+**한 줄 기준**: AuditLog는 운영 감사의 핵심 증거이므로 보존 기간·export 권한·마스킹·다운로드 감사 기록을 정책으로 통제한다.
+
+**선행**: Phase **19-A** · **19-B**
+
+**버전** **`19-C.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-data-governance-phase19c
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-DATA-GOVERNANCE-PHASE19B-PII-LEGAL-REDACTION]
+
+### 1. 목적
+
+Phase **19-B** — **PII / Legal Sensitive Redaction**. 19-A registry tier를 **운영 출력 경로**에 적용 — display · export · audit · failurePayload · AI metadata.
+
+### 2. Scope
+
+- `data-redaction-policy.schema.ts` · `.registry.ts`
+- `data-redaction.service.ts` · `.validator.ts`
+- Output paths: AuditLog.metadata · RetryJob.failurePayload · ExternalMessageLog · DocumentPipelineJob · AI audit · VoiceTranscript · CaseIntelligenceSnapshot · LitigationExtractedText
+- Integration: `writeAuditLog` · audit export · retry-job persist · voice ops · AI public-safe audit
+- Runbook: `AIBEOPCHIN_DATA_REDACTION_RUNBOOK.md`
+
+**한 줄 기준**: PII·법률 민감 데이터는 표시·export·audit·failurePayload·AI metadata 경로에서 원문 노출 금지
+
+**선행**: Phase **19-A** Data Retention Policy
+
+**버전** **`19-B.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-data-governance-phase19b
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-DATA-GOVERNANCE-PHASE19A-DATA-RETENTION-POLICY]
+
+### 1. 목적
+
+Phase **19-A** — **Data Retention Policy (헌법)**. **purge job 이전** 데이터 분류·보존·purge eligibility SSOT 잠금. 19-B~F의 기준 문서.
+
+### 2. Scope
+
+- `docs/platform/AIBEOPCHIN_DATA_GOVERNANCE_PHASE19_ROADMAP.md`
+- `data-retention-policy.schema.ts` · `.registry.ts` · `.validator.ts`
+- `DATA_RETENTION_PURGE_EXECUTION_LOCKED_PHASE19A` — purge execution deferred
+- Anchor models: Case · Voice · Litigation · AuditLog · RetryJob · ExternalMessageLog 등
+- Crosswalk: Voice 5-I · case-package · client-safe · Phase 18 reliability logs
+
+**한 줄 기준**: 운영 중 쌓이는 민감 데이터·로그·첨부·AI 사용 기록을 분류하고, 보존·삭제·마스킹·감사를 안전 정책 SSOT로 통제
+
+**선행**: Phase **18-E** Reliability RC · Phase **17** Operations Monitoring
+
+**버전** **`19-A.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-data-governance-phase19a
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-RELIABILITY-PHASE18E-RC]
+
+### 1. 목적
+
+Phase **18-E** — **Reliability RC**. 18-A~D를 **하나의 배포 전 신뢰성 게이트**로 묶고, Phase **17** monitoring과 cross-link.
+
+### 2. Scope
+
+- `reliability-rc-lock.ts` · `.test.ts`
+- `scripts/lib/run-reliability-rc-block.mjs` · `verify:aibeopchin-reliability-rc`
+- `AIBEOPCHIN_RELIABILITY_RC_LOCK_SUMMARY.md` · `AIBEOPCHIN_RELIABILITY_RC_RUNBOOK.md`
+- Sub-verify bundle: 18-A · 18-B · 18-C · 18-D
+- Phase 17 cross-link: monitoring triage → retry-jobs recovery
+
+**한 줄 기준**: 운영 중 실패한 cron·외부알림·문서 파이프라인·AI 호출을 각각 안전 정책에 따라 복구·차단·재시도·수동검토
+
+**선행**: Phase **17** Operations Monitoring RC
+
+**버전** **`18-E.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-reliability-rc
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-RELIABILITY-PHASE18D-AI-FALLBACK-CIRCUIT-BREAKER]
+
+### 1. 목적
+
+Phase **18-D** — **AI Fallback & Circuit Breaker**. provider 장애·rate limit·timeout·budget·safety denial 시 **무작정 재시도하지 않고** fallback / 차단 / 수동 전환 / circuit breaker 적용.
+
+### 2. Scope
+
+- `ai-fallback-circuit-breaker.schema.ts` · `.policy.ts` · `.service.ts`
+- `ai-circuit-state.store.ts` — in-process provider circuit (OPEN/HALF_OPEN/CLOSED)
+- `classifyAiFailureReason` · `evaluateAiFallbackPolicy` · `handleAiProviderCallFailure`
+- RetryJob `AI_CALL` sourceType + migration
+- AI runtime 연동: `ai-core-runtime.service.ts` · `case-summary-ai-core-runtime.service.ts`
+- Audit: `AI_FALLBACK_INVOKED` · `AI_CIRCUIT_BREAKER_OPENED`
+- Runbook: `AIBEOPCHIN_AI_FALLBACK_CIRCUIT_BREAKER_RUNBOOK.md`
+
+**원칙**: task별 fallback · safety/budget no-retry · circuit open on repeated failure · client public fallback blocked
+
+**선행**: Phase **18-A** · **18-B** · **18-C**
+
+**버전** **`18-D.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-reliability-phase18d
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-RELIABILITY-PHASE18C-DOCUMENT-PIPELINE-RECOVERY]
+
+### 1. 목적
+
+Phase **18-C** — **Document Pipeline Recovery**. 업로드·OCR·추출·분류·분석 실패 시 **단계 보존형 안전 재개** — 재분석이 아니라 `resumeFromStage`만 실행.
+
+### 2. Scope
+
+- Prisma `DocumentPipelineJob` + migration
+- `document-pipeline-recovery.schema.ts` · `.policy.ts` · `.service.ts`
+- `POST /api/admin/operations/document-pipeline-jobs/{id}/recover`
+- Audit: `DOCUMENT_PIPELINE_OPERATOR_RECOVERED` · `DOCUMENT_PIPELINE_RECOVERY_FAILED`
+- Sync: `syncFailedDocumentPipelineJobs` on retry-jobs page
+- Runbook: `AIBEOPCHIN_DOCUMENT_PIPELINE_RECOVERY_RUNBOOK.md`
+
+**원칙**: no re-upload · no OCR/extract overwrite · task-scoped retry · lawyer lock · client disclosure lock · duplicate guard · AuditLog
+
+**선행**: Phase **18-A** · **18-B**
+
+**버전** **`18-C.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-reliability-phase18c
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-RELIABILITY-PHASE18B-EXTERNAL-MESSAGE-REDELIVERY]
+
+### 1. 목적
+
+Phase **18-B** — **External Message Safe Re-delivery**. Kakao/Email/알림 FAILED → RetryJob linkage · duplicate guard · metadata-only operator re-delivery.
+
+### 2. Scope
+
+- `external-message-redelivery.schema.ts` · `.policy.ts` · `.service.ts`
+- `POST /api/admin/operations/external-messages/{id}/redeliver`
+- Audit: `EXTERNAL_MESSAGE_OPERATOR_REDELIVERED` · `EXTERNAL_MESSAGE_REDELIVERY_SKIPPED`
+- Sync: `syncFailedExternalMessagesToRetryJobs` on retry-jobs page
+
+**선행**: Phase **18-A**
+
+**버전** **`18-B.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-reliability-phase18b
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-RELIABILITY-PHASE18A-RETRY-JOB-RECOVERY]
+
+### 1. 목적
+
+Phase **18-A** — **Retry Queue / Failed Job Recovery**. 실패 작업 persist · 운영자 triage · safety policy · operator-approved retry queue.
+
+### 2. Scope
+
+- Prisma `RetryJob` model + migration
+- `retry-job.schema.ts` · `retry-job-policy.ts` · `retry-job.service.ts`
+- Admin `/admin/operations/retry-jobs` · API retry-jobs
+- Cron FAIL → retry queue sync (idempotent)
+- Audit: `RETRY_JOB_OPERATOR_QUEUED`
+
+**선행**: Phase **17** operations monitoring
+
+**버전** **`18-A.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-reliability-phase18a
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-OPERATIONS-MONITORING-PHASE17F-LIVE-SMOKE]
+
+### 1. 목적
+
+Phase **17-F** — **Live Ops Smoke Expansion**. 17-E RC 위에 monitoring snapshot live check 강화 · ADMIN auth regression · triage fixtures · dashboard render smoke.
+
+### 2. Scope
+
+- `ops:operations-monitoring-live-smoke` — health · auth regression · snapshot shape · 7-dashboard API · page render
+- `ops:post-deploy-monitoring-live-check` — 17-F lib delegate (admin optional)
+- Fixtures: audit issue · cron failure · external message failure
+- `verify:operations-monitoring-fixtures` · `test:operations-monitoring-fixtures`
+
+**버전** **`17-F.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-operations-monitoring-rc
+npm run ops:operations-monitoring-live-smoke   # OPS_SMOKE_ADMIN_*
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-OPERATIONS-MONITORING-PHASE17-PRODUCTION-RC]
+
+### 1. 목적
+
+Phase **17** — **Operations Monitoring / Incident Response**. 16-D Go/No-Go 이후 production 운영에서 **누가·언제·어떤 사건·AI/문서/알림/파일** triage · 장애 대응 · rollback drill · Admin Ops Console.
+
+### 2. Sub-phases
+
+| Phase | Scope |
+| --- | --- |
+| **17-A** | Live monitoring snapshot + 7.0 dashboard |
+| **17-B** | Observer domains (audit · AI · external msg · cron) |
+| **17-C** | Incident response & rollback drill runbook |
+| **17-D** | `/admin/operations/monitoring` Admin Ops Console |
+| **17-E** | `verify:aibeopchin-operations-monitoring-rc` |
+
+**코드**
+- `operations-monitoring-rc-lock.ts` · `operations-monitoring-snapshot.service.ts` · `operations-observer.constants.ts`
+- `GET /api/admin/operations/monitoring-snapshot` · 7-dashboard API ADMIN auth
+- `ops:post-deploy-monitoring-live-check`
+
+**선행**: Phase **16-C** + **16-D**
+
+**버전** **`17-E.1`** → **17-F.1** (Live Ops Smoke Expansion)
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-operations-monitoring-rc
+npm run ops:post-deploy-monitoring-live-check
+npm run ops:operations-monitoring-live-smoke
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-PRODUCTION-GO-NO-GO-PHASE16D-LAUNCH]
+
+### 1. 목적
+
+Phase **16-D** — **Production Go/No-Go Decision & Launch Record**. 16-C cutover readiness 이후 **누가·언제·어떤 commit으로 production 배포를 승인(GO) 또는 보류(NO-GO)했는지** launch record로 남긴다.
+
+### 2. Scope
+
+**Go/No-Go RC Lock**
+- `src/features/platform/production-go-no-go-launch-rc-lock.ts` — SSOT
+- `verify:aibeopchin-production-go-no-go-launch-rc` — static governance gates
+
+**Launch 산출물**
+- Go/No-Go decision checklist · launch record template · runbook
+- `docs/platform/launch-records/` — 완성 launch record 보관
+
+**필드**: deployApprover · deployApprovedAt · deployTargetCommit · rollbackTargetCommit · live mode · knownLimitations · launchNote · goNoGoDecision
+
+**선행**: Phase **16-A** + **16-B** + **16-C** evidence tags
+
+**버전** **`16-D.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-production-go-no-go-launch-rc
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-PRODUCTION-RELEASE-READINESS-PHASE16C-CUTOVER]
+
+### 1. 목적
+
+Phase **16-C** — **Production Release Readiness / Cutover Checklist**. 16-B staging live smoke 이후 production env · DB backup/migration/rollback · Kakao/Email provider 전환 · OAuth redirect · storage/document-intelligence 권한 · role smoke 계정 · minimum rollback 기준 · release note · post-deploy monitoring을 **단일 production cutover RC**로 봉인.
+
+### 2. Scope
+
+**Production RC Lock**
+- `src/features/platform/production-release-readiness-rc-lock.ts` — cutover SSOT
+- `verify:aibeopchin-production-release-readiness-rc` — static gates
+- `verify:production-env-readiness` — production env shape · `--db-ping` · `--oauth-smoke`
+- `ops:production-release-cutover-live-check` — env + migrate status + role + portal + upload
+
+**Cutover 산출물**
+- Cutover checklist · runbook · release note template · post-deploy monitoring checklist
+- Rollback: `minimum-rollback-playbook.md` · `rollbackTargetCommit`
+
+**선행**: Phase **16-A** + **16-B** evidence tags
+
+**버전** **`16-C.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-production-release-readiness-rc
+# production cutover 후:
+npm run ops:production-release-cutover-live-check
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-STAGING-DEPLOY-READINESS-PHASE16B-LIVE-SMOKE]
+
+### 1. 목적
+
+Phase **16-B** — **Staging Deploy Readiness & Live Smoke**. 16-A predeploy RC 이후 staging env · DB migration deploy · OAuth/callback · role/portal/upload live smoke · build artifact · rollback checklist를 **단일 staging readiness RC**로 봉인.
+
+### 2. Scope
+
+**Staging RC Lock**
+- `src/features/platform/staging-deploy-readiness-rc-lock.ts` — env · migration · live smoke · rollback SSOT
+- `verify:aibeopchin-staging-deploy-readiness-rc` — static gates (scripts · docs · migration dirs · lock Vitest)
+- `verify:staging-migration-deploy-readiness` — `db:deploy` · Phase 15 migration dirs · optional `--status`
+- `ops:staging-deploy-readiness-live-check` — secrets+db+oauth → migrate status → role → portal → upload
+
+**Live smoke stack**
+- `ops:ai-core-role-smoke` (19 checks)
+- `ops:staging-client-portal-smoke` — `/api/client/cases*` · messages · submissions · deadlines
+- `ops:staging-document-upload-smoke` — multipart upload 201
+
+**선행**: Phase **16-A** `[EVIDENCE-20260524-AIBEOPCHIN-FULL-LEGAL-OPS-PLATFORM-PHASE16A-PREDEPLOY-RC]`
+
+**버전** **`16-B.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-staging-deploy-readiness-rc
+# staging 배포 후:
+npm run ops:staging-deploy-readiness-live-check
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-FULL-LEGAL-OPS-PLATFORM-PHASE16A-PREDEPLOY-RC]
+
+### 1. 목적
+
+Phase **16-A** — **Full Legal Ops Platform Predeploy RC**. Voice · Gongbuho · CMB · AI Core · Legal Document Intelligence · Litigation Command Center · Client Collaboration Portal Full RC 및 supplement/canonical · tsc/lint/test를 **단일 master verify**로 묶고, `predeploy:check`는 env + master + build만 실행.
+
+### 2. Scope
+
+**Platform RC Lock**
+- `src/features/platform/full-legal-ops-platform-rc-lock.ts` — domain RC 7축 · platform gates · static gates SSOT
+- `scripts/lib/run-full-legal-ops-platform-rc-block.mjs` — domain RC 순차 + supplement/canonical + tsc/lint/test
+- `verify:aibeopchin-full-legal-ops-platform-rc` — Phase 16-A master gate
+- `scripts/predeploy-check.ts` — **개별 domain RC 중복 호출 제거** → master gate + build
+
+**Domain RC 스택 (master 내부)**
+1. Voice RC
+2. Gongbuho Legal Knowledge RC
+3. CMB RC
+4. AI Core RC
+5. Legal Document Intelligence RC
+6. Litigation Command Center RC
+7. Client Collaboration Portal Full RC
+
+**Platform gates (master 내부)**
+- `verify:supplement-migration-predeploy`
+- `verify:canonical-sources`
+- `npx tsc --noEmit` · `npm run lint` · `npm run test`
+
+**Post-predeploy ops**
+- `ops:ai-core-role-smoke` — dev server + seed DB 필요 (정적 RC는 스크립트·문서 존재만 검증)
+
+**버전** **`16-A.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-full-legal-ops-platform-rc
+npm run predeploy:check
+# (선택) npm run dev → npm run ops:ai-core-role-smoke
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-CLIENT-COLLABORATION-PORTAL-PHASE15G-FULL-RC-PREDEPLOY-CLOSURE]
+
+### 1. 목적
+
+Phase **15-G** — **Collaboration Portal Full RC / Predeploy Closure**. 15-D Partial RC 이후 확장된 **15-E(기일·알림)** · **15-F(보안 문서·카카ao)** 를 포함하여 의뢰인 협업 포털 **전체(15-A〜F)** 를 단일 verify gate·predeploy로 봉인.
+
+### 2. Scope
+
+**Full RC Lock**
+- `client-collaboration-portal-full-rc-lock.ts` — migration 5종 · safety principles · audit SSOT
+- `verify:aibeopchin-client-collaboration-portal-full-rc` — phase15a + 15e + 15f 순차 + Vitest
+- `scripts/predeploy-check.ts` — **Full RC gate** (15-D partial gate 대체)
+
+**Full RC 잠금 기준**
+- 자료 제출 · 채팅 · adopt-record · Review Queue · downstream 차단
+- 기일 알림 · ClientNotificationPreference · LitigationDeadlineNotification
+- 보안 문서 · CaseDocumentDelivery · ExternalMessageLog
+- 동의/수신거부 · **원본 파일 미첨부** · secure link · 열람 로그
+
+**Migration 순서 (Full)**
+1. 15a → 15bc → 15c2 → 15e(phase15d dir) → 15f
+
+**버전** **`15-G.1`** (`CLIENT_PORTAL_VERSION` · `LITIGATION_COMMAND_CENTER_VERSION`)
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-client-collaboration-portal-full-rc
+npm run verify:aibeopchin-client-collaboration-portal-rc
+npm run predeploy:check
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-SECURE-DOCUMENT-KAKAO-NOTICE-PHASE15F]
+
+### 1. 목적
+
+Phase **15-F** — 변호사가 **LegalDocument**를 의뢰인에게 **CaseSharedDocument / CaseDocumentDelivery**로 공유하고, 카카오 알림톡(스텁)은 **원본 미첨부·로그인 보안 링크**만 전달. `ClientNotificationPreference` · `ExternalMessageLog` · 만료 · 열람 로그.
+
+### 2. Scope
+
+**Prisma**
+- `CaseDocumentDelivery` — secureLinkTokenHash, tokenExpiresAt, channel, status
+- `ExternalMessageLog` — provider stub, payloadSummaryJson (containsFileAttachment: false)
+- `ClientNotificationPreference.documentShareNoticeEnabled`
+- `CaseSharedDocument.firstViewedAt`
+
+**Feature** `src/features/secure-document-delivery/`
+
+**API**
+- `POST /api/cases/[caseId]/shared-documents`
+- `POST /api/cases/[caseId]/shared-documents/[shareId]/send-kakao`
+- `GET /api/client/cases/[caseId]/shared-documents/[shareId]`
+- `POST /api/client/cases/[caseId]/shared-documents/[shareId]/mark-viewed`
+
+**UI**
+- Command Center `lcc-section-shared-documents`
+- Client Portal 공유 자료함 · 보안 열람
+
+**안전 원칙**
+- 카카오 미동의 → SKIPPED_NO_CONSENT + IN_APP fallback
+- 메시지 본문에 파일 원본 미포함
+- 로그인 후 열람 · token hash · 만료시간 · AuditLog
+
+**버전** **`15-F.1`**
+
+### 3. 검증
+
+```bash
+npx prisma generate
+npm run verify:aibeopchin-secure-document-kakao-notice-phase15f
+npm run test -- src/features/secure-document-delivery
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-CLIENT-COLLABORATION-PORTAL-PHASE15D-RC-PREDEPLOY-CLOSURE]
+
+### 1. 목적
+
+Phase **15-D** — Client-Lawyer **Collaboration Portal Partial RC** (15-A〜15-C.3). **predeploy gate는 Phase 15-G Full RC가 대체.**
+
+### 2. Scope
+
+**RC Lock**
+- `client-collaboration-portal-rc-lock.ts` — migration 순서 · audit actions · verify scripts SSOT
+- `verify:aibeopchin-client-collaboration-portal-rc` — 15-A〜C.3 + RC 문서 + Vitest
+
+**Migration 적용 순서 (Partial RC)**
+1. `20260525140000_client_portal_collaboration_phase15a`
+2. `20260525150000_client_portal_phase15bc_intake_chat`
+3. `20260525160000_client_portal_phase15c2_review_gate`
+
+**RC 잠금 기준**
+- 의뢰인 포털 접근권한 · 보완요청 추적 · 파일 업로드/제출
+- 채팅/첨부 · adopt-record · 13-G Review Queue
+- 변호사 확정 전 downstream 차단 · AuditLog / Action Feed
+
+**버전** Partial RC 시점 **`15-D.1`** → Full RC **15-G.1**로 상향
+
+**Full RC (15-G)에서 추가 봉인**
+- **15-E** — Court Schedule & Client Reminder
+- **15-F** — Secure Document Sharing & Kakao Notice
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-client-collaboration-portal-rc
+npm run verify:aibeopchin-client-collaboration-portal-full-rc
+npm run verify:aibeopchin-client-supplement-tracking-phase15a
+npm run test -- src/features/client-portal
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-COURT-SCHEDULE-CLIENT-REMINDER-PHASE15E]
+
+### 1. 목적
+
+Phase **15-E** — 변호사 Command Center에서 **재판기일·마감 직접 등록**, **의뢰인 알림 예약(D-14/7/3/1/0)**, 의뢰인 포털 **다음 재판기일 표시**. 카카오·이메일은 동의·예약·로그만(실발송은 15-F).
+
+### 2. Scope
+
+**Prisma**
+- `LitigationDeadline` — `courtName`, `hearingKind`, `clientVisible`
+- `LitigationDeadlineNotification` — channel, offset, scheduledAt, status, failureReason
+- `ClientNotificationPreference` — kakaoOptIn, emailOptIn, litigationDeadlineReminderEnabled
+
+**Feature**
+- `src/features/litigation-deadline-reminder/` — schema · repository · service · audit
+
+**API**
+- `POST /api/cases/[caseId]/deadlines` — 수동 기일 등록
+- `POST /api/cases/[caseId]/deadlines/[deadlineId]/notify-client` — 알림 예약
+- `GET /api/client/cases/[caseId]/deadlines` — 의뢰인 기일 목록
+
+**Command Center**
+- `lcc-section-deadlines` — 기일 등록 폼 · `CommandCenterDeadlineRow` (알림 예약 · D-7 · 카카오 대기 건수)
+- Action feed — `LITIGATION_DEADLINE_MANUAL_CREATED` · `LITIGATION_DEADLINE_NOTIFY_SCHEDULED` · `LITIGATION_DEADLINE_IN_APP_SENT`
+
+**Client Portal**
+- `nextCourtDeadlineDisplay` — 사건 상세 헤더 다음 재판기일
+
+**안전 원칙 (15-E 경계)**
+- 의뢰인 미동의 시 `SKIPPED_NO_CONSENT` 로그
+- KAKAO/EMAIL은 SCHEDULED stub (15-F에서 ExternalMessageLog·보안 링크)
+- IN_APP만 due 시 즉시 audit + SENT
+
+**버전** **`15-E.1`**
+
+### 3. 검증
+
+```bash
+npx prisma generate
+npm run verify:aibeopchin-court-schedule-client-reminder-phase15e
+npm run test -- src/features/litigation-deadline-reminder
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-COMMAND-CENTER-CHAT-ADOPT-PHASE15C3]
+
+### 1. 목적
+
+Phase **15-C.3** — Litigation Command Center **사건 대화** 섹션에서 변호사가 채팅 메시지·첨부를 **사건기록/증거 후보**로 채택하고, **13-G Review Queue**로 이동하는 UX.
+
+### 2. Scope
+
+**API**
+- `POST .../messages/[messageId]/adopt-record` — `scope: body | attachment | all`, `uploadedFileId`
+- `case-conversation-adopt.service.ts` — 중복 채택 방지 · AuditLog · reviewItemIds 반환
+
+**Command Center**
+- `conversationMessages[]` — bodyAdopted · attachment.adopted · reviewItemId
+- UI `lcc-section-conversation` — 채택 버튼 · Review Queue 링크
+- Action feed — `CASE_CONVERSATION_MESSAGE_ADOPTED` · `CASE_CONVERSATION_ATTACHMENT_ADOPTED`
+
+**Review Queue**
+- `buildPortalReviewItemsFromStoredDecisions` — 부분 채택(첨부만)도 큐에 표시
+
+**버전** **`15-C.3.1`**
+
+### 3. 검증
+
+```bash
+npm run verify:aibeopchin-client-supplement-tracking-phase15a
+npm run test -- src/features/client-portal/case-conversation-adopt.service.test.ts
+npm run test -- src/features/document-intelligence/litigation-command-center
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-CLIENT-STATEMENT-REVIEW-GATE-PHASE15C2]
+
+### 1. 목적
+
+Phase **15-C.2** — `adopt-record` 및 제출 **ACCEPTED** 시 **CLIENT_STATEMENT** 후보를 **13-G Review Queue**에 등록. 포털 채택(1차)과 검토 확정(2차)을 분리하여, **LAWYER_CONFIRMED 전까지 downstream 확정자료로 사용하지 않음**.
+
+### 2. Scope
+
+**DB (migration `20260525160000_client_portal_phase15c2_review_gate`)**
+- `LitigationDocumentIntelligenceReviewPhase` — `PHASE_15B` · `PHASE_15C`
+
+**Review Gate SSOT**
+- `client-portal-review-candidate.service.ts` — itemId 규칙 · enqueue · queue builder merge
+- `document-intelligence-review.schema.ts` — `client_statement` category · `CLIENT_STATEMENT` ledger · version **`13-G.2`**
+
+**연동**
+- `adoptCaseConversationMessageAsRecordService` → `enqueueChatMessageReviewCandidates`
+- `reviewSubmission(ACCEPTED)` → `enqueueClientSubmissionReviewCandidates`
+- `buildDocumentIntelligenceReviewQueue` — portalSources 병합
+- Intelligence Review UI — `의뢰인 제출` / `채팅` 필터 · `의뢰인 진술` 라벨
+
+**버전**
+- `CLIENT_PORTAL_VERSION` · `LITIGATION_COMMAND_CENTER_VERSION` → **`15-C.2.1`**
+
+### 3. 15-C.2 경계
+
+| 허용 | 금지 |
+| --- | --- |
+| adopt/ACCEPTED → NEEDS_LAWYER_REVIEW 큐 등록 | adopt 즉시 downstreamUsable |
+| 13-G confirm → LAWYER_CONFIRMED → ops sync | 채팅/제출 자동 사건기록 |
+
+### 4. 검증
+
+```bash
+npm run verify:aibeopchin-client-supplement-tracking-phase15a
+npm run test -- src/features/client-portal/client-portal-review-candidate.service.test.ts
+npm run test -- src/features/document-intelligence/document-intelligence-review-queue.builder.test.ts
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-CLIENT-FILE-UPLOAD-PHASE15B]
+
+### 1. 목적
+
+Phase **15-B** — 의뢰인이 **보완요청별·사건 단위**로 서류·증거를 업로드·설명·제출하고, **담당 변호사/스태프**에게 공유. 업로드 파일은 **13-B~13-I LitigationUploadedFile → extract → classify → analyze** 파이프라인으로 연결되되 **변호사 채택 전까지 확정 사건자료 아님**.
+
+### 2. Scope
+
+**DB (migration `20260525150000_client_portal_phase15bc_intake_chat`)**
+- `ClientSubmissionFile.description` — 파일 설명
+- `ClientSubmissionReview` 연동 준비
+
+**상태 SSOT**
+- `client-submission-status.portal.ts` — `CLIENT_DRAFT` … `ACCEPTED_AS_CASE_RECORD` / `NEEDS_MORE_INFO` / `REJECTED`
+
+**서비스**
+- `saveClientSubmissionDraftService` · `submitFreeUploadService` · `receiveClientSubmissionService` · `startReviewClientSubmissionService`
+- `client-submission-intake.service.ts` — 수신/검토/채택 시 DI 큐 + AuditLog
+
+**API**
+- `POST /api/client/cases/[caseId]/submissions/draft` · `.../free-upload`
+- `POST .../client-submissions/[id]/receive` · `.../start-review` · accept · request-more-info · reject
+
+**UI**
+- 의뢰인 포털 **자료 제출** 탭 (사건 단위 free-upload + 공유 범위 안내)
+- Command Center **의뢰인 제출자료** — 수신/검토/채택/추가요청(메모 입력)
+- schema version **`15-B/C.1`**
+
+### 3. 15-B 경계
+
+| 허용 | 금지 |
+| --- | --- |
+| SUBMITTED → LAWYER_RECEIVED → UNDER_REVIEW → ACCEPTED | 업로드 즉시 사건자료 |
+| DI 파이프라인 큐 (비확정) | 의뢰인이 Command Center 접근 |
+
+### 4. 검증
+
+```bash
+npm run verify:aibeopchin-client-supplement-tracking-phase15a
+npm run test -- src/features/client-portal/client-submission-status.portal.test.ts
+npm run test -- src/features/document-intelligence/litigation-command-center
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-CASE-CONVERSATION-PHASE15C]
+
+### 1. 목적
+
+Phase **15-C** — 사건 단위 **보안 채팅**. 의뢰인·변호사·STAFF가 메시지·첨부를 주고받고, **읽음·AuditLog** 기록. 채팅은 **변호사 사건기록 채택 전까지 확정 사실 아님**.
+
+### 2. Scope
+
+**DB**
+- `CaseMessageAttachment` — 채팅 첨부 ↔ `LitigationUploadedFile`
+
+**서비스**
+- `case-conversation.service.ts` — 메시지 CRUD · 첨부 · `adoptCaseConversationMessageAsRecordService` (Review Queue 후속 stub)
+
+**API**
+- `GET/POST /api/client/cases/[caseId]/messages` (`attachmentIds`)
+- `GET/POST /api/cases/[caseId]/messages`
+- `POST .../messages/[messageId]/adopt-record`
+
+**UI**
+- 의뢰인 포털 **사건 대화** 탭 — 메시지 + 파일 첨부
+- Command Center **채팅 미확인** 배지 (`caseUnreadMessageCount`)
+
+### 3. 15-C 경계
+
+| 허용 | 금지 |
+| --- | --- |
+| 채팅 + 첨부 (비확정) | 메시지 자동 CLIENT_STATEMENT |
+| 변호사 adopt-record (감사) | 알림 push (후속) |
+
+### 4. 검증
+
+```bash
+npm run verify:aibeopchin-client-supplement-tracking-phase15a
+npm run test -- src/features/client-portal
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-CLIENT-LAWYER-COLLABORATION-PORTAL-PHASE15A]
+
+### 1. 목적
+
+Phase **15-A (full)** — 변호사 내부 운영 플랫폼에서 **변호사-의뢰인 협업 포털**로 확장. 의뢰인이 보완요청 확인·요청별 파일+답변 제출·제출 이력·공유 자료·사건 단위 채팅을 이용하고, 제출 자료는 **13-B~13-I LitigationUploadedFile 파이프라인**으로 연결되되 **변호사 검토·채택 전까지 확정 사건자료 아님**. Command Center에 **보완자료 도착** 반영.
+
+### 2. Scope
+
+**DB (migration `20260525140000_client_portal_collaboration_phase15a`)**
+- `CaseClientPortalAccess` · `ClientSubmission` · `ClientSubmissionFile`
+- `CaseConversationThread` · `CaseConversationMessage` · `CaseSharedDocument`
+
+**의뢰인 API (`/api/client/cases/...`)**
+- 사건 목록/요약 · 보완요청 · `submit`(파일+메시지) · 파일 업로드 · 공유 문서 · 메시지 · 제출 이력
+
+**변호사 API**
+- `GET/POST .../client-submissions` · accept / request-more-info / reject
+- `GET/POST .../messages`
+
+**UI**
+- `/client/cases/[caseId]` — 6탭 포털(진행·보완·업로드·공유·채팅·이력) + 법친이 안내
+- Command Center `clientSubmissionPendingCount` · 「보완자료 도착」 섹션
+- schema version **`15-A.2`**
+
+### 3. 15-A 경계
+
+| 허용 | 금지 |
+| --- | --- |
+| CLIENT_SUBMITTED → 변호사 검토 → ACCEPTED 후 사건자료 | 업로드 즉시 확정자료 |
+| 채팅 = 비확정 커뮤니케이션 | 채팅 자동 CLIENT_STATEMENT |
+| Supplement SENT → portal submit → Command Center | 의뢰인 Command Center 전체 접근 |
+
+### 4. 검증
+
+```bash
+npm run verify:aibeopchin-client-supplement-tracking-phase15a
+npm run test -- src/features/client-portal
+npm run test -- src/features/document-intelligence/litigation-command-center
+```
+
+### 5. Result (2026-05-24)
+
+| 항목 | 결과 |
+| --- | --- |
+| Prisma migration + generate | **로컬 적용** |
+| verify + Vitest | **로컬 PASS** |
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-CLIENT-SUPPLEMENT-TRACKING-PHASE15A]
+
+### 1. 목적
+
+Phase **15-A** — 변호사가 `SupplementRequest` **DRAFT→SENT** 발송 후, **의뢰인 포털**에서 보완요청 수신→응답 제출→제출 완료 흐름을 추적하고, **Litigation Command Center**에 `CLIENT_RESPONDED` 반영·재검토 CTA·피드·목록 우선순위까지 연결.
+
+### 2. Scope
+
+- `supplement-request.portal.ts` — CLIENT 숨김/응답 가능 상태 SSOT · Command Center flag 매핑
+- `markSupplementRequestViewedByClientService` — GET detail 시 `SENT→CLIENT_VIEWED`
+- `ClientSupplementTrackingClient` · `ClientSupplementTrackingPanel` — 의뢰인 추적 UI · 사건 상세 배너
+- `startCommandCenterSupplementReviewService` — `CLIENT_RESPONDED→UNDER_REVIEW` + AuditLog + optimistic
+- `litigation-command-center-list-summary` — `supplementAwaitingReviewCount` · priority 「보완 응답」
+- Command Center schema version **`15-A.1`**
+
+### 3. 15-A 경계
+
+| 허용 | 금지 |
+| --- | --- |
+| 의뢰인 SENT 이후 노출 · 응답 게이트 | 의뢰인 DRAFT 열람 |
+| Command Center 재검토 시작 CTA | 15-A 신규 Prisma migration |
+| batch summary responded count | 의뢰인 Command Center 접근 |
+
+### 4. 검증
+
+```bash
+npm run verify:aibeopchin-client-supplement-tracking-phase15a
+npm run test -- src/features/supplement-request/supplement-request.portal
+npm run test -- src/features/document-intelligence/litigation-command-center
+```
+
+### 5. Result (2026-05-24)
+
+| 항목 | 결과 |
+| --- | --- |
+| `verify:aibeopchin-client-supplement-tracking-phase15a` | **PASS** (로컬) |
+| Vitest portal + command-center | **PASS** (로컬) |
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-LITIGATION-COMMAND-CENTER-PHASE14E-RC-PREDEPLOY-CLOSURE]
+
+### 1. 목적
+
+Phase **14-E** — Litigation Command Center **14-A〜14-D** 전체를 RC로 봉인. 변호사 업무 운영 화면 축(조회·액션·피드백·대시보드 위젯)을 단일 verify gate + predeploy gate로 고정.
+
+### 2. Scope
+
+- `verify:aibeopchin-litigation-command-center-rc` — 14-A〜14-D phase verify 순차 + RC 문서·rc-lock·policy·audit·UI smoke
+- `litigation-command-center-rc-lock.ts` — phase verify · audit action · UI testid · 13-H migration dependency SSOT
+- `AIBEOPCHIN_LITIGATION_COMMAND_CENTER_RC_LOCK_SUMMARY.md` · `..._PREDEPLOY_CLOSURE_CHECKLIST.md`
+- `predeploy:check` — Legal Document Intelligence RC 다음 Litigation Command Center RC gate 추가
+
+### 3. 14-E 경계
+
+| 허용 | 금지 |
+| --- | --- |
+| 14-A〜14-D 정적 verify 묶음 | RC 전 15-A downstream |
+| readOnly/actionsEnabled · AuditLog · batch summary | 목록每건 full GET N+1 |
+| 13-H migration 의존 | 14-E 신규 migration 없이 스키마 변경 |
+
+### 4. 검증
+
+```bash
+npm run verify:aibeopchin-litigation-command-center-rc
+npm run test -- src/features/document-intelligence/litigation-command-center
+```
+
+### 5. Result (2026-05-24)
+
+| 항목 | 결과 |
+| --- | --- |
+| `verify:aibeopchin-litigation-command-center-rc` | **PASS** |
+| Vitest `litigation-command-center*` + rc-lock | **20 tests PASS** |
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-LEGAL-DOCUMENT-INTELLIGENCE-PHASE14D-LITIGATION-COMMAND-CENTER-DASHBOARD-WIDGET]
+
+### 1. 목적
+
+Phase **14-D** — 사건 상세 진입 전 **변호사·스태프 대시보드/사건 목록**에서 Command Center 우선순위를 한눈에 표시. 기일 임박·오늘 업무·검토 대기·보완 DRAFT/SENT·상대방 서면 분석 상태 + **소송 지휘실 열기** 빠른 진입.
+
+### 2. Scope
+
+- `litigation-command-center-list-summary.*` — batch summary service (N+1 방지)
+- `GET /api/cases/litigation-command-center-summaries?caseIds=...`
+- `listCasesService` — `commandCenterSummary` embed (LAWYER/STAFF/ADMIN)
+- `CaseListCommandCenterWidget` — `/cases` 목록 「소송 지휘실」 컬럼
+- `LawyerCommandCenterPreview` — `/lawyer` 대시보드 우선 확인 사건
+
+### 3. 14-D 경계
+
+| 허용 | 금지 |
+| --- | --- |
+| 인터뷰 완료 + 권한 있는 사건 summary | CLIENT 목록 widget |
+| batch Prisma groupBy/findMany | 목록每건 full Command Center GET |
+| priorityScore 정렬 preview | 미인터뷰 사건 지휘실 CTA |
+
+### 4. 검증
+
+```bash
+npm run verify:aibeopchin-legal-document-intelligence-phase14d
+npm run test -- src/features/document-intelligence/litigation-command-center-list-summary
+```
+
+### 5. Result (2026-05-24)
+
+| 항목 | 결과 |
+| --- | --- |
+| `verify:aibeopchin-legal-document-intelligence-phase14d` | **PASS** |
+| Vitest `litigation-command-center-list-summary` | **3 tests PASS** |
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-LEGAL-DOCUMENT-INTELLIGENCE-PHASE14C-LITIGATION-COMMAND-CENTER-ACTION-FEEDBACK]
+
+### 1. 목적
+
+Phase **14-C** — Litigation Command Center(14-B) 액션에 **피드백 UX**를 추가. 변호사가 버튼을 눌렀는지·처리됐는지·실패했는지·무엇이 바뀌었는지 즉시 체감. AuditLog와 화면 피드 일치.
+
+### 2. Scope
+
+- `useLitigationCommandCenterActions` — toast · 낙관적 UI · 실패 롤백 · per-action pending
+- `litigation-command-center-action-feed.ts` — AuditLog `LITIGATION_CMD_CENTER_*` → feed item 매핑
+- `GET litigation-command-center` 응답 `recentActionFeed` (최근 12건)
+- Client — 최근 실행 작업 피드 · `열람 전용`/`작업 가능` 모드 배너 · 버튼 loading/disabled
+
+### 3. 14-C 경계
+
+| 허용 | 금지 |
+| --- | --- |
+| 낙관적 UI + 실패 시 snapshot 롤백 | 실패 후 낙관적 상태 유지 |
+| AuditLog 기반 feed + optimistic pending | feed와 audit action 불일치 |
+| readOnly/actionsEnabled UX 분리 표시 | readOnly에서 액션 버튼 활성 |
+
+### 4. 검증
+
+```bash
+npm run verify:aibeopchin-legal-document-intelligence-phase14c
+npm run test -- src/features/document-intelligence/litigation-command-center
+```
+
+### 5. Result (2026-05-24)
+
+| 항목 | 결과 |
+| --- | --- |
+| `verify:aibeopchin-legal-document-intelligence-phase14c` | **PASS** |
+| Vitest `litigation-command-center*` | **13 tests PASS** |
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-LEGAL-DOCUMENT-INTELLIGENCE-PHASE14B-LITIGATION-COMMAND-CENTER-ACTIONS]
+
+### 1. 목적
+
+Phase **14-B** — Litigation Command Center(14-A)에서 변호사·스태프가 **실제 업무를 처리**하는 액션 레이어. 업무 상태·기일·보완요청·준비서면 초안 생성을 Command Center 안에서 실행하고 AuditLog로 추적.
+
+### 2. Scope
+
+- `PATCH .../litigation-command-center/tasks/[taskId]` — OPEN/IN_PROGRESS/COMPLETED
+- `PATCH .../litigation-command-center/deadlines/[deadlineId]` — 완료·연기(dueAt)·메모(description)
+- `POST .../supplements/[requestId]/send` — 보완요청 DRAFT→SENT
+- `POST .../draft-contexts/[draftContextId]/generate-draft` — 준비서면 초안 생성 + context READY
+- `LitigationCommandCenterClient` — 섹션별 액션 버튼 · Review Console 바로가기 · `actionsEnabled` gate
+- AuditLog: `LITIGATION_CMD_CENTER_*` 4종
+
+### 3. 14-B 경계
+
+| 허용 | 금지 |
+| --- | --- |
+| LAWYER/STAFF/ADMIN 액션 | CLIENT·readOnly 액션 |
+| DRAFT 보완요청 발송 | SENT 이후 재발송 |
+| 확정 draft context 초안 생성 | 미확정 AI 후보 downstream |
+| 증거·상대방 서면 → Review Console 링크 | 미검토 항목 자동 확정 |
+
+### 4. 검증
+
+```bash
+npm run verify:aibeopchin-legal-document-intelligence-phase14b
+npm run test -- src/features/document-intelligence/litigation-command-center
+```
+
+### 5. Result (2026-05-24)
+
+| 항목 | 결과 |
+| --- | --- |
+| `verify:aibeopchin-legal-document-intelligence-phase14b` | **PASS** |
+| Vitest `litigation-command-center` + `litigation-command-center-actions` | **8 tests PASS** |
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-LEGAL-DOCUMENT-INTELLIGENCE-PHASE14A-LITIGATION-COMMAND-CENTER]
+
+### 1. 목적
+
+Phase **14-A** — Legal Document Intelligence RC(13-I) 위에 **Litigation Command Center** UI/UX. 사건 상세에서 기일·업무·상대방 서면·증거 매핑·검토 큐·운영 연동·보완요청·준비서면 컨텍스트를 한 화면에 통합. 미확정 AI 후보는 표시하되 downstream 실행은 차단·확정/후보 UI 분리.
+
+### 2. Scope
+
+- `GET /api/cases/[caseId]/litigation-command-center` · `/cases/[caseId]/litigation-command-center`
+- `litigation-command-center.service.ts` — 13-E/F/G/H + SupplementRequest 통합 조회
+- narrative summary — phaseLabel · headline · nextDeadlineText
+- `LitigationCommandCenterClient` — 9개 섹션 + ops sync(13-H) + 검토 콘솔 링크
+- 사건 상세 **소송 지휘실 열기** 버튼
+
+### 3. 14-A 경계
+
+| 허용 | 금지 |
+| --- | --- |
+| AI 후보 표시 + 검토 콘솔 링크 | 미확정 항목 downstream 직접 실행 |
+| 확정 LitigationTask/Deadline 표시 | AI 후보를 확정처럼 표시 |
+| STAFF/LAWYER ops sync (13-H policy) | CLIENT 접근 |
+
+### 4. 검증
+
+```bash
+npm run verify:aibeopchin-legal-document-intelligence-phase14a
+npm run test -- src/features/document-intelligence/litigation-command-center
+```
+
+### 5. Result (2026-05-24)
+
+| 항목 | 결과 |
+| --- | --- |
+| `verify:aibeopchin-legal-document-intelligence-phase14a` | **PASS** |
+| Vitest `litigation-command-center` | **5 tests PASS** |
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-LEGAL-DOCUMENT-INTELLIGENCE-PHASE13I-RC-PREDEPLOY-CLOSURE]
+
+### 1. 목적
+
+Phase **13-I** — Legal Document Intelligence **13-A〜13-H** 전체 파이프라인을 RC로 봉인. upload → extract → classify → analyze → opponent-brief → evidence-map → review-queue → operations/sync 흐름의 verify gate · migration 순서 · 권한 · AuditLog · confirmed-only downstream · Review Console UI smoke · operations/sync smoke.
+
+### 2. Scope
+
+- `verify:aibeopchin-legal-document-intelligence-rc` — 13-A〜13-H phase verify 순차 실행 + RC 문서·rc-lock·migration·policy·audit·UI smoke
+- `legal-document-intelligence-rc-lock.ts` — migration dir · audit action · UI testid SSOT
+- `AIBEOPCHIN_LEGAL_DOCUMENT_INTELLIGENCE_RC_LOCK_SUMMARY.md` · `..._PREDEPLOY_CLOSURE_CHECKLIST.md`
+- `predeploy:check` — AI Core RC 다음 Legal Document Intelligence RC gate 추가
+
+### 3. 13-I 경계
+
+| 허용 | 금지 |
+| --- | --- |
+| 13-A〜13-H 정적 verify 묶음 | 미구현 phase downstream |
+| confirmed-only policy 검증 | unreviewed AI item ops sync |
+| RC 이후 Phase 14-A 착수 | RC 전 Command Center 구현 |
+
+### 4. 검증
+
+```bash
+npm run verify:aibeopchin-legal-document-intelligence-rc
+npm run test -- src/features/document-intelligence
+```
+
+### 5. Result (2026-05-24)
+
+| 항목 | 결과 |
+| --- | --- |
+| `verify:aibeopchin-legal-document-intelligence-rc` | **PASS** |
+| Vitest `src/features/document-intelligence` | **56 tests PASS** |
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-LEGAL-DOCUMENT-INTELLIGENCE-PHASE13H-LITIGATION-OPS-INTEGRATION]
+
+### 1. 목적
+
+Phase **13-H** — 13-G **LAWYER_CONFIRMED/LAWYER_CORRECTED**(보완요청은 NEEDS_CLIENT_CONFIRMATION 포함) 항목만 downstream으로 연결. `LitigationDeadline` · `LitigationTask` · `SupplementRequest` 초안 · `LitigationDraftContext` 생성. 미확정 AI 후보 차단 · AuditLog + reviewDecisionId 추적.
+
+### 2. Scope
+
+- Prisma: `LitigationDeadline`, `LitigationTask`, `LitigationDraftContext`, `LitigationDocumentIntelligenceOpsSync`, `LitigationDocumentIntelligenceOpsLink`
+- `POST .../operations/sync` · `GET .../operations` · 개별 create API 4종
+- confirmed-only policy · ops link dedupe · Lawyer Review Console **운영 연동 (13-H)** 버튼
+- AuditLog: `LITIGATION_DOC_INTEL_OPS_*`
+
+### 3. 13-H 경계
+
+| 허용 | 금지 |
+| --- | --- |
+| 13-G 확정 항목만 sync | NEEDS_LAWYER_REVIEW downstream |
+| DRAFT SupplementRequest | 의뢰인 자동 발송 |
+| reviewDecisionId audit | AI 후보 직접 기일/업무 생성 |
+
+### 4. 검증
+
+```bash
+npm run verify:aibeopchin-legal-document-intelligence-phase13h
+npm run test -- src/features/document-intelligence
+```
+
+### 5. Result (2026-05-24)
+
+| 항목 | 결과 |
+| --- | --- |
+| `verify:aibeopchin-legal-document-intelligence-phase13h` | **PASS** |
+| Vitest `src/features/document-intelligence` | **52 tests PASS** |
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-LEGAL-DOCUMENT-INTELLIGENCE-PHASE13G-LAWYER-REVIEW-GATE]
+
+### 1. 목적
+
+Phase **13-G** — 13-D/E/F 분석 후보를 **Lawyer Review Queue**로 통합. 변호사가 항목별 확인·수정·기각·의뢰인 확인 요청을 남기고, 9-F Judgment Ledger(`DOCUMENT_CLAIM`·`EVIDENCE_ITEM`·`DEADLINE` 등)에 바인딩. `LAWYER_CONFIRMED`/`LAWYER_CORRECTED` 전 downstream(서면·기일·의뢰인 공개) 확정값 사용 금지.
+
+### 2. Scope
+
+- `LitigationDocumentIntelligenceReviewDecision` (Prisma + migration `20260524210000`)
+- `GET .../review-queue` · `POST .../review-queue/[itemId]/{confirm|edit|reject|request-client-confirmation}`
+- Queue builder: 13-D claims/deadlines/issues/evidence/risk + 13-E + 13-F
+- Ledger binding: `document-intelligence-review-ledger.ts`
+- Lawyer Review Console 탭: **서류·증거 분석**
+- AuditLog: `LITIGATION_DOC_INTEL_REVIEW_*`
+- Policy: `assertConfirmedForDownstreamUse`
+
+### 3. 13-G 경계
+
+| 허용 | 금지 |
+| --- | --- |
+| CONFIRMED/EDITED/REJECTED/NEEDS_CLIENT_CONFIRMATION | 확정 전 서면·기일·의뢰인 공개 |
+| Ledger entry (clientVisible=false) | clientVisible without release gate |
+
+### 4. 검증
+
+```bash
+npm run verify:aibeopchin-legal-document-intelligence-phase13g
+npm run test -- src/features/document-intelligence
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-LEGAL-DOCUMENT-INTELLIGENCE-PHASE13F-EVIDENCE-MAPPING]
+
+### 1. 목적
+
+Phase **13-F** — 13-D/E 분석 결과를 인터뷰·사건요약·업로드 증거·보완요청과 **사건 단위**로 대조. 주장-증거 후보 매핑 · 미연결 주장 · 충돌 후보 · 추가 증거 요청 · 의뢰인 확인 질문 정제 · 쟁점표·보완요청 초안 후보 생성. sourceRef/citation 필수 · 확정 증거/법률 판단 금지.
+
+### 2. Scope
+
+- `LitigationEvidenceMapping` + `LitigationEvidenceMappingItemReview` (Prisma + migration `20260524200000`)
+- `POST .../evidence-map/run` · `GET .../evidence-map` · `POST .../evidence-map/[itemId]/review`
+- 입력: 13-D · 13-E · Interview · Case summary/snapshot · CaseAttachment · LitigationExtractedText · SupplementRequest(중복 방지)
+- Validator: `evidenceConfirmed`, `claimProven`, `hasSufficientEvidence`, `winningProbability`, `clientVisible` 등 차단
+- AuditLog: `LITIGATION_EVIDENCE_MAPPING_STARTED/COMPLETED/FAILED/ITEM_REVIEWED`
+
+### 3. 13-F 경계
+
+| 허용 | 금지 |
+| --- | --- |
+| 연결·충돌·부족 **후보** | 증거 있음/없음 단정 |
+| sourceRef + confidence | 확정 사실 · 법률 결론 |
+| supplementRequest **초안 후보** | 의뢰인 공개 |
+
+### 4. 검증
+
+```bash
+npm run verify:aibeopchin-legal-document-intelligence-phase13f
+npm run test -- src/features/document-intelligence
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-LEGAL-DOCUMENT-INTELLIGENCE-PHASE13E-OPPONENT-BRIEF]
+
+### 1. 목적
+
+Phase **13-E** — 13-D 분석 결과와 page-level citation 기반 **상대방 답변서·준비서면 전용** 심화 분석. 인정·부인·항변·새 주장·충돌 후보·반박 쟁점·의뢰인 확인 질문·증거 요청·준비서면 컨텍스트 후보 생성. citation 필수 · `NEEDS_LAWYER_REVIEW` 기본 · 확정 법률 판단 금지.
+
+### 2. Scope
+
+- `LitigationOpponentBriefAnalysis` (Prisma + migration `20260524190000`)
+- documentType 게이트: `OPPONENT_ANSWER`, `OPPONENT_BRIEF`, `OPPONENT_PREPARATORY_BRIEF`, `OPPONENT_EVIDENCE_OPINION`
+- `POST .../opponent-brief/analyze` · `GET .../opponent-brief`
+- Gate: extract + classify + **13-D `AI_ANALYZED`** + 상대방 서면 유형
+- Validator: `opponentClaimIsWrong`, `winningProbability`, `rebuttalFilingReady`, `confirmedIssue`, `clientVisible`, `deadlineFinalDueAt` 등 차단
+- 목록 배지: `상대방 서면 분석 완료` · `인정 N건 · 부인 N건 · 항변 N건 · 의뢰인 확인 N건`
+- AuditLog: `LITIGATION_OPPONENT_BRIEF_ANALYZE_STARTED/COMPLETED/FAILED`
+
+### 3. 13-E 경계
+
+| 허용 | 금지 |
+| --- | --- |
+| 반박·충돌·확인 **후보** | 상대방 주장 오류 단정 |
+| citation + confidence | 승소 가능성 · 제출 가능 판단 |
+| draftContext **후보** | 확정 쟁점 · 의뢰인 공개 |
+
+### 4. 검증
+
+```bash
+npm run verify:aibeopchin-legal-document-intelligence-phase13e
+npm run test -- src/features/document-intelligence
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-LEGAL-DOCUMENT-INTELLIGENCE-PHASE13D-LEGAL-ANALYSIS]
+
+### 1. 목적
+
+Phase **13-D** — READY 분류 문서에 대해 page-level text 기반 **내용 구조화**(요약·주장·사실·요구·증거·기한·쟁점·위험 **후보**). citation 필수 · `NEEDS_LAWYER_REVIEW` 기본 · 확정 판단 금지.
+
+### 2. Scope
+
+- `LitigationDocumentAnalysis` (Prisma + migration)
+- `POST .../analyze` · `GET .../analysis`
+- Gate: `extractionStatus=EXTRACTED` + `analysisReadiness=READY` + classify 완료
+- Validator: `finalLegalConclusion`, `winningProbability`, `courtWillLikely`, `confirmedFact`, `filingReady`, `clientVisible`, `deadlineFinalDueAt` 차단
+- AuditLog: `LITIGATION_ANALYZE_STARTED/COMPLETED/FAILED`
+
+### 3. 13-D 경계
+
+| 허용 | 금지 |
+| --- | --- |
+| 주장·사실·쟁점·기한 **후보** | 최종 법률 결론 |
+| citation + confidence | 승소 가능성 · 재판부 예측 |
+| riskSignals 후보 | 확정 사실 · 제출 가능 · 의뢰인 공개 |
+
+### 4. 검증
+
+```bash
+npm run verify:aibeopchin-legal-document-intelligence-phase13d
+npm run test -- src/features/document-intelligence
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-LEGAL-DOCUMENT-INTELLIGENCE-PHASE13C-CLASSIFICATION]
+
+### 1. 목적
+
+Phase **13-C** — 추출된 page-level text 기반 **문서 유형·출처·소송단계·민감도·분석 가능성** 분류. confidence + citation + recommendedNextTasks. **법률 내용 분석(13-D+) 금지**.
+
+### 2. Scope
+
+- `LitigationDocumentClassification` (Prisma + migration)
+- Rule-based `LEGAL_FILE_CLASSIFY` (`document-classification.classifier.ts`)
+- `POST .../classify` · `GET .../classification`
+- List API에 `documentType`, `sourceParty`, `sensitivityLevel`, `analysisReadiness` 포함
+- AuditLog: `LITIGATION_CLASSIFY_STARTED/COMPLETED/FAILED`
+
+### 3. 13-C 경계
+
+| 허용 | 금지 (13-D+) |
+| --- | --- |
+| documentType · sourceParty · litigationStage | 상대방 주장 타당성 |
+| sensitivity · analysisReadiness | 법원 기한 확정 |
+| recommendedNextTasks | 쟁점표 · 서면 초안 · 의뢰인 질문 |
+
+### 4. 검증
+
+```bash
+npm run verify:aibeopchin-legal-document-intelligence-phase13c
+npm run test -- src/features/document-intelligence
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-LEGAL-DOCUMENT-INTELLIGENCE-PHASE13B-UPLOAD-EXTRACT]
+
+### 1. 목적
+
+Phase **13-B** — **Upload & Text Extraction**. AI 법률 분석 없이 원본 보존 · 본문 추출 · 페이지 단위 저장 · 품질 점수 · AuditLog.
+
+### 2. Scope
+
+- `LitigationUploadedFile` · `LitigationExtractedText` (Prisma + migration)
+- Upload/extract APIs under `/api/cases/[caseId]/document-intelligence/`
+- PDF/DOCX/TXT native extract + image OCR boundary (`OCR_NOT_CONFIGURED`)
+- `extractionQualityScore` · per-page `confidence`
+- Case permission gate · AuditLog (upload/start/complete/fail/retry)
+
+### 3. 산출물
+
+| 경로 | 역할 |
+| --- | --- |
+| `src/features/document-intelligence/document-*.ts` | schema · policy · runner · service · repository · audit |
+| `src/app/api/cases/[caseId]/document-intelligence/**` | REST API |
+| `scripts/verify-aibeopchin-legal-document-intelligence-phase13b.mjs` | 정적 게이트 |
+
+### 4. 13-B 금지 (Out of scope)
+
+상대방 주장 분석(13-E) · 법원 기한 판단(13-D/E) · 쟁점표(13-F) · 서면 초안(13-H) · 의뢰인 질문(13-F) · AI 확정 판단
+
+### 5. 검증
+
+```bash
+npm run verify:aibeopchin-legal-document-intelligence-phase13b
+npm run test -- src/features/document-intelligence
+```
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-AI-CORE-PHASE13A-LEGAL-DOCUMENT-INTELLIGENCE-SPEC-LOCK]
+
+### 1. 목적
+
+Phase **13-A** — **Legal Document Intelligence Engine (AI 서류·증거 분석 엔진)** Spec Lock.  
+업로드 자료를 **분류·OCR/추출·문서별 분석·사건기록 대조·5분할 bundle·변호사 검토 gate**로 전환하는 설계 SSOT 확정. Litigation Operations(13-H)의 심장부.
+
+### 2. 흐름 전환
+
+**Before**: 상담 → 인터뷰 → 사건요약 → 문서작성 → 변호사 검토 (첨부는 메타만)  
+**After**: 자료 업로드 → AI 분류/추출/분석/대조 → 변호사 검토 큐 → 서면·보완·기일 연결
+
+### 3. 산출물
+
+| # | 파일 |
+| --- | --- |
+| 1 | `docs/ai/AIBEOPCHIN_LEGAL_DOCUMENT_INTELLIGENCE_SPEC.md` — Master |
+| 2 | `docs/ai/AIBEOPCHIN_UPLOAD_FILE_ANALYSIS_PIPELINE_SPEC.md` — 13-B/C |
+| 3 | `docs/ai/AIBEOPCHIN_OPPONENT_BRIEF_ANALYSIS_SPEC.md` — 13-E |
+| 4 | `docs/ai/AIBEOPCHIN_COURT_DOCUMENT_ANALYSIS_SPEC.md` — 13-D/E |
+| 5 | `docs/ai/AIBEOPCHIN_EVIDENCE_MAPPING_SPEC.md` — 13-F |
+| 6 | `src/features/document-intelligence/document-intelligence-engine.schema.ts` |
+| 7 | `src/features/document-intelligence/document-intelligence-task-types.ts` |
+| 8 | `scripts/verify-aibeopchin-legal-document-intelligence.mjs` |
+
+### 4. 핵심 계약
+
+- **5분할 bundle**: narrativeSummary · structuredData · recordComparison · lawyerActionRecommendations · draftContext
+- **13 taskType**: `LEGAL_FILE_CLASSIFY` … `LITIGATION_DRAFT_CONTEXT_BUILD`
+- **8 DB 모델 설계**: `LitigationUploadedFile` … `LitigationAnalysisReview` (Prisma 13-B+)
+- **분석 상태**: `AI_ANALYZED` → `NEEDS_LAWYER_REVIEW` → `LAWYER_CONFIRMED` / `REJECTED` / `NEEDS_CLIENT_CONFIRMATION`
+- **이중 분석**: 답변서·준비서면·보정명령·판결문·합의안·녹취록
+
+### 5. Phase 로드맵
+
+13-A Spec Lock → 13-B Upload/Extract → 13-C Classify → 13-D Analysis → 13-E Opponent Brief → 13-F Evidence Map → 13-G Lawyer Gate → 13-H Litigation Ops
+
+### 6. 검증
+
+```bash
+npm run verify:aibeopchin-legal-document-intelligence
+npm run test -- src/features/document-intelligence/document-intelligence-engine.schema.test.ts
+```
+
+---
+
+## [EVIDENCE-20260524-LAWYER-WORKFLOW-EXPERT-REVIEW-PACKAGE]
+
+### 1. 목적
+
+외부 법률전문가 협업을 위해 **변호사 로그인 이후 업무 영역**(포털·대시보드·사건 패키지·Legal Knowledge 검수·AI Review Console·Voice·보완요청)의 소스·스펙·스키마 발췌를 **152파일 + README**로 묶어 ZIP 배포 가능하게 함.
+
+### 2. 산출물
+
+| 경로 | 역할 |
+| --- | --- |
+| `tools/export-lawyer-workflow-package.mjs` | 재생성 스크립트 (`node tools/export-lawyer-workflow-package.mjs`) |
+| `exports/lawyer-workflow-review-20260524/` | 압축 전 폴더 (11개 섹션 + `00-README.md`) |
+| `exports/lawyer-workflow-review-20260524.zip` | 외부 전달용 (~308KB, 비밀키·운영데이터 미포함) |
+
+### 3. 패키지 섹션
+
+`01-portal-pages` · `02-lawyer-dashboard-ui` · `03-case-review-ui` · `04-protected-pages-lawyer-access` · `05-lawyer-api` · `06-case-apis-lawyer-uses` · `07-auth-permissions` · `08-domain-services` · `09-docs-specs` · `10-e2e-reference` · `11-schema`
+
+### 4. 검토 권장 순서 (README 동일)
+
+`00-README.md` → `09-docs-specs/` → 포털 UI → auth → API → domain → schema → case UI
+
+---
+
 ## [EVIDENCE-20260523-LOGO-CELEBRATE-LOCKUP]
 
 ### 1. 목적

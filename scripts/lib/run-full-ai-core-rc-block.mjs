@@ -1,5 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
+import {
+  assertPredeployMasterOrGate,
+  FULL_LEGAL_OPS_PLATFORM_RC_MASTER_VERIFY,
+} from "./predeploy-gate-assertions.mjs";
 
 /**
  * Shared Full AI Core RC master block (Phase 12-A).
@@ -149,11 +153,14 @@ export function runFullAiCoreRcBlock(execSync, root, label = "verify:full-ai-cor
   }
 
   const predeploy = readFile("scripts/predeploy-check.ts");
-  if (!predeploy.includes("verify:aibeopchin-ai-core-rc")) {
-    throw new Error("scripts/predeploy-check.ts must run verify:aibeopchin-ai-core-rc (Phase 12-A master gate)");
-  }
-  if (!predeploy.includes("verify:canonical-sources")) {
-    throw new Error("scripts/predeploy-check.ts must run verify:canonical-sources (CaseStatus SSOT)");
+  assertPredeployMasterOrGate(predeploy, "verify:aibeopchin-ai-core-rc", "Phase 12-A AI Core RC");
+  if (
+    !predeploy.includes(FULL_LEGAL_OPS_PLATFORM_RC_MASTER_VERIFY) &&
+    !predeploy.includes("verify:canonical-sources")
+  ) {
+    throw new Error(
+      "scripts/predeploy-check.ts must run verify:canonical-sources (CaseStatus SSOT) or Full Legal Ops Platform RC master gate",
+    );
   }
   if (predeploy.includes("verify:aibeopchin-full-ai-core-rc")) {
     throw new Error(

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { AibeopchinCharacter } from "@/components/brand/aibeopchin-character";
 import { AIBEOPCHIN_BRAND_COPY } from "@/lib/branding/aibeopchin-logo-config";
 import { AIBEOPCHIN_INTRO_TIMELINE } from "@/lib/branding/aibeopchin-intro-timeline";
 
@@ -37,9 +38,7 @@ export function AibeopchinIntroScene({ reducedMotion = false }: Readonly<Props>)
             ease: "easeOut",
           }}
         >
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-aibeop-green text-2xl font-black text-white shadow-soft md:h-20 md:w-20 md:text-3xl">
-            AI
-          </div>
+          <AibeopchinCharacter size={96} className="shrink-0" />
 
           <div className="text-center md:text-left">
             <p className="text-xs font-semibold uppercase tracking-[0.35em] text-aibeop-pale/90">

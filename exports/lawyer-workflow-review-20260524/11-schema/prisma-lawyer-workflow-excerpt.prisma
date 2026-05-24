@@ -1,0 +1,277 @@
+// AI법친 — 변호사 업무 영역 관련 Prisma 스키마 발췌
+
+// 원본: prisma/schema.prisma (생성일 2026-05-24)
+
+
+
+enum UserRole {
+  USER
+  LAWYER
+  STAFF
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum LawyerVerificationStatus {
+  NOT_SUBMITTED
+  PENDING
+  NEEDS_MORE_INFO
+  APPROVED
+  REJECTED
+  SUSPENDED
+}
+
+enum CaseStatus {
+  CREATED
+  INTAKE_PENDING
+  IN_INTERVIEW
+  INTERVIEW_DONE
+  DRAFTING
+  REVIEW_PENDING
+  APPROVED
+  DELIVERED
+  CLOSED
+  HOLD
+  REJECTED
+  DELETED
+}
+
+enum CasePackageShareStatus {
+  ACTIVE
+  EXPIRED
+  REVOKED
+}
+
+enum CasePackageShareMode {
+  DESIGNATED_LAWYER
+  PUBLIC_CODE_REQUEST
+}
+
+enum SupplementRequestStatus {
+  DRAFT
+  SENT
+  CLIENT_VIEWED
+  CLIENT_RESPONDED
+  UNDER_REVIEW
+  NEEDS_MORE_INFO
+  ACCEPTED
+  CLOSED
+  CANCELLED
+  EXPIRED
+}
+
+enum LegalKnowledgeResearchBriefStatus {
+  DRAFT
+  READY_FOR_LAWYER_REVIEW
+  REVISION_REQUESTED
+  SUPERSEDED
+  ARCHIVED
+}
+
+
+
+model LawyerProfile {
+  id                             String                   @id @default(cuid())
+  userId                         String                   @unique
+  registrationNumber             String?
+  barAssociation                 String?
+  officeName                     String?
+  officeAddress                  String?
+  officePhone                    String?
+  websiteUrl                     String?
+  specialtiesNote                String?
+  verificationStatus             LawyerVerificationStatus @default(NOT_SUBMITTED)
+  submittedAt                    DateTime?
+  reviewedAt                     DateTime?
+  reviewedById                   String?
+  rejectionReason                String?
+  /// 가입 시 디지털 무결 서약(허위 증빙 책임 안내) 접수 시각
+  integrityAttestationAcceptedAt DateTime?
+  /// 서약 문구 버전(로그·증빙)
+  integrityAttestationVersion    String?
+  /// 가입 요청 시 클라이언트 IP HMAC(SHA-256, salt) — 동일 출처 다중 가입 탐지 참고
+  signupRiskIpFingerprint        String?
+  /// User-Agent 앞 512자까지(원문 전체 미보관)
+  signupRiskUserAgent            String?
+  createdAt                      DateTime                 @default(now())
+  updatedAt                      DateTime                 @updatedAt
+
+  user                  User                         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reviewedBy            User?                        @relation("LawyerProfileReviewer", fields: [reviewedById], references: [id])
+  verificationDocuments LawyerVerificationDocument[]
+
+  @@index([verificationStatus])
+  @@index([reviewedById])
+  @@index([signupRiskIpFingerprint])
+}
+
+model LawyerVerificationDocument {
+  id              String    @id @default(cuid())
+  lawyerProfileId String
+  type            String
+  fileName        String
+  /// **Legacy / 외부 URL 참조**(P4): 신규 저장 금지. 성격상 legacyExternalUrl; 컬럼명은 당분간 `fileUrl` 유지.
+  fileUrl         String?
+  /// Private bucket 객체 키(또는 provider 파일 ID). P3 에서 signed URL 발급 시 사용.
+  storageKey      String?
+  bucket          String?
+  mimeType        String?
+  sizeBytes       Int?
+  checksum        String?
+  uploadedAt      DateTime  @default(now())
+  /// `fileUrl` → 객체 스토리지 이관 완료 시각(P4).
+  migratedAt      DateTime?
+
+  lawyerProfile LawyerProfile @relation(fields: [lawyerProfileId], references: [id], onDelete: Cascade)
+
+  @@index([lawyerProfileId])
+  @@index([storageKey])
+}
+
+model CasePackageShare {
+  id           String  @id @default(cuid())
+  caseId       String
+  ownerUserId  String
+  lawyerUserId String?
+
+  publicCode      String  @unique
+  accessTokenHash String?
+  optionalPinHash String?
+
+  shareMode CasePackageShareMode   @default(DESIGNATED_LAWYER)
+  status    CasePackageShareStatus @default(ACTIVE)
+
+  allowSummary            Boolean @default(true)
+  allowInterview          Boolean @default(true)
+  allowAttachmentList     Boolean @default(true)
+  allowAttachmentDownload Boolean @default(false)
+  allowDocumentDraft      Boolean @default(true)
+  allowDocumentPdf        Boolean @default(false)
+  allowPackagePdf         Boolean @default(false)
+  allowClientContact      Boolean @default(false)
+  allowOpponentDetail     Boolean @default(false)
+
+  consentText  String    @db.Text
+  consentedAt  DateTime
+  expiresAt    DateTime?
+  revokedAt    DateTime?
+  revokeReason String?
+
+  /// 공유 생성 시점의 사건 패키지 전체 스냅샷(JSON). 변호사 열람·PDF 등은 변경 후에도 동일 버전 유지용.
+  snapshotJson   Json?
+  /// `snapshotJson` UTF-8 JSON 직렬화 기준 SHA-256 무결성(내부 감사·오염 탐지)
+  snapshotSha256 String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  case   Case  @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  owner  User  @relation("CasePackageShareOwner", fields: [ownerUserId], references: [id], onDelete: Cascade)
+  lawyer User? @relation("CasePackageShareLawyer", fields: [lawyerUserId], references: [id], onDelete: SetNull)
+
+  accessLogs CasePackageAccessLog[]
+
+  @@index([caseId, status])
+  @@index([ownerUserId, createdAt])
+  @@index([lawyerUserId, createdAt])
+  @@index([publicCode])
+}
+
+model CaseIntelligenceSnapshot {
+  id                     String   @id @default(cuid())
+  caseId                 String
+  generatedAt            DateTime
+  caseSummaryAiMode      String
+  contentJson            Json
+  graphJson              Json
+  radarJson              Json
+  ledgerJson             Json
+  gongbuhoResolutionJson Json?
+  createdByUserId        String?
+  createdAt              DateTime @default(now())
+
+  case      Case  @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  createdBy User? @relation("CaseIntelligenceSnapshotCreator", fields: [createdByUserId], references: [id], onDelete: SetNull)
+
+  @@index([caseId, createdAt])
+}
+
+model LegalKnowledgeResearchBrief {
+  id                    String                            @id @default(cuid())
+  intakeId              String
+  demandKeywordSnapshot String
+  targetCaseType        String
+  packetIntent          LegalKnowledgePacketIntent
+  targetGongbuhoCode    String?
+  canonicalSourceRefs   Json
+  legalIssueOutline     String
+  structureHints        Json
+  researchCompliance    Json
+  status                LegalKnowledgeResearchBriefStatus @default(DRAFT)
+  preparedByUserId      String?
+  createdAt             DateTime                          @default(now())
+  updatedAt             DateTime                          @updatedAt
+
+  intake         LegalKnowledgeDemandIntake             @relation(fields: [intakeId], references: [id], onDelete: Restrict)
+  preparedByUser User?                                  @relation("LegalKnowledgeBriefPreparedBy", fields: [preparedByUserId], references: [id], onDelete: SetNull)
+  lawyerReviews  LegalKnowledgeLawyerReviewDecision[]
+
+  @@index([intakeId])
+  @@index([status])
+  @@index([preparedByUserId])
+}
+
+model SupplementRequest {
+  id              String                  @id @default(cuid())
+  caseId          String
+  requesterUserId String
+  targetUserId    String
+  status          SupplementRequestStatus @default(DRAFT)
+  requestType     SupplementRequestType
+  title           String
+  description     String                  @db.Text
+  dueAt           DateTime?
+  sentAt          DateTime?
+  clientViewedAt  DateTime?
+  lastRespondedAt DateTime?
+  acceptedAt      DateTime?
+  closedAt        DateTime?
+  cancelledAt     DateTime?
+  expiredAt       DateTime?
+  revisionRound   Int                     @default(0)
+  isDeleted       Boolean                 @default(false)
+  createdAt       DateTime                @default(now())
+  updatedAt       DateTime                @updatedAt
+
+  case      Case @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  requester User @relation("SupplementRequestRequester", fields: [requesterUserId], references: [id], onDelete: Cascade)
+  target    User @relation("SupplementRequestTarget", fields: [targetUserId], references: [id], onDelete: Cascade)
+
+  items      SupplementRequestItem[]
+  responses  SupplementResponse[]
+  statusLogs SupplementRequestStatusLog[]
+  auditLogs  SupplementRequestAuditLog[]
+
+  @@index([caseId, status, createdAt])
+  @@index([requesterUserId, createdAt])
+  @@index([targetUserId, createdAt])
+  @@index([isDeleted, updatedAt])
+}
+
+model SupplementRequestAuditLog {
+  id                  String                           @id @default(cuid())
+  requestId           String
+  actionType          SupplementRequestAuditActionType
+  actorUserId         String?
+  actorRole           UserRole
+  actionSummary       String
+  actionPayloadMasked Json?
+  createdAt           DateTime                         @default(now())
+
+  request SupplementRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  actor   User?             @relation("SupplementRequestAuditLogActor", fields: [actorUserId], references: [id], onDelete: SetNull)
+
+  @@index([requestId, createdAt])
+  @@index([actorUserId, createdAt])
+  @@index([actionType, createdAt])
+}

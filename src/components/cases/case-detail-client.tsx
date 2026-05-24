@@ -19,6 +19,7 @@ import { ParagraphStructurePanel } from "@/components/cases/paragraph-structure-
 import { TimelinePanel } from "@/components/cases/timeline-panel";
 import { CaseSummaryPanel } from "@/components/cases/case-summary-panel";
 import { ClientDisclosureDeliveryPanel } from "@/components/cases/client-disclosure-delivery-panel";
+import { ClientSupplementTrackingPanel } from "@/components/supplement-requests/client-supplement-tracking-panel";
 import { CasePackageShareSettingsPanel } from "@/components/case-package/case-package-share-settings-panel";
 import type { SerializedCaseDetail } from "@/lib/cases/case-detail-serialize";
 import {
@@ -476,7 +477,10 @@ export function CaseDetailClient({
       </div>
 
       {currentUser.role === "CLIENT" ? (
-        <ClientDisclosureDeliveryPanel caseId={localCase.id} />
+        <>
+          <ClientSupplementTrackingPanel caseId={localCase.id} />
+          <ClientDisclosureDeliveryPanel caseId={localCase.id} />
+        </>
       ) : (
         <CaseSummaryPanel caseId={localCase.id} interviewCompleted={facts.interviewCompleted} />
       )}
@@ -489,6 +493,13 @@ export function CaseDetailClient({
             AI가 구조화한 Claim·Radar·모순 신호를 변호사가 확인·기각·수정합니다.
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
+            <Link
+              href={`/cases/${localCase.id}/litigation-command-center`}
+              className="inline-flex rounded-xl bg-indigo-900 px-4 py-2 text-sm font-semibold text-white"
+              data-testid="open-litigation-command-center"
+            >
+              소송 지휘실 열기
+            </Link>
             <Link
               href={`/cases/${localCase.id}/intelligence-review`}
               className="inline-flex rounded-xl bg-indigo-700 px-4 py-2 text-sm font-semibold text-white"

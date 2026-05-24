@@ -4,7 +4,6 @@ import { HomeFlowSection } from "@/components/home/home-flow-section";
 import { HomeRoleEntryCards } from "@/components/home/home-role-entry-cards";
 import { HomeTrustStrip } from "@/components/home/home-trust-strip";
 import LoggedInStrip from "@/components/landing/logged-in-strip";
-import { AibeopchinIntroPopup } from "@/components/marketing/aibeopchin-intro-popup";
 import { getSessionUser } from "@/lib/auth/session";
 import Link from "next/link";
 
@@ -17,7 +16,6 @@ export default async function HomePage() {
 
   return (
     <div className="flex min-h-full flex-col bg-aibeop-bg text-aibeop-text">
-      <AibeopchinIntroPopup />
       {user ? <LoggedInStrip user={user} /> : null}
       <header className="sticky top-0 z-30 border-b border-aibeop-line bg-aibeop-surface/90 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4">

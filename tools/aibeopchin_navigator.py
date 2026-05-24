@@ -220,6 +220,146 @@ PROJECT_PLAN = {
         "Playwright PDF renderer / "
         "[EVIDENCE-20260503-AIBEOPCHIN-6-12-BINARY-PDF-ENGINE] 기준"
     ),
+    "aibeopchin_19_a_data_retention_policy_constitution": (
+        "AI법친 19-A — Data Retention Policy 헌법(purge job 전 SSOT 잠금): "
+        "docs/platform/AIBEOPCHIN_DATA_GOVERNANCE_PHASE19_ROADMAP.md / "
+        "src/lib/data-governance/data-retention-policy.registry.ts / "
+        "npm run verify:aibeopchin-data-governance-phase19a / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-DATA-GOVERNANCE-PHASE19A-DATA-RETENTION-POLICY] 기준. "
+        "선행: Phase 18-E Reliability RC · Phase 17 monitoring. "
+        "19-B~F(마스킹·Audit retention·첨부 lifecycle·AI privacy·RC)는 19-A 이후."
+    ),
+    "aibeopchin_19_b_pii_legal_redaction_output_paths": (
+        "AI법친 19-B — PII/Legal Sensitive Redaction(19-A tier → 운영 출력 경로): "
+        "src/lib/data-governance/data-redaction-policy.registry.ts / "
+        "src/lib/data-governance/data-redaction.service.ts / "
+        "npm run verify:aibeopchin-data-governance-phase19b / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-DATA-GOVERNANCE-PHASE19B-PII-LEGAL-REDACTION] 기준. "
+        "AuditLog.metadata · RetryJob.failurePayload · AI audit · VoiceTranscript ops."
+    ),
+    "aibeopchin_19_c_audit_log_retention_export": (
+        "AI법친 19-C — AuditLog Retention & Export(보존·export·마스킹·다운로드 감사): "
+        "src/lib/data-governance/audit-log-retention-policy.ts / "
+        "src/lib/data-governance/audit-log-export-policy.ts / "
+        "npm run verify:aibeopchin-data-governance-phase19c / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-DATA-GOVERNANCE-PHASE19C-AUDIT-LOG-RETENTION-EXPORT] 기준. "
+        "XLSX export → AUDIT_LOG_XLSX_EXPORTED AuditLog."
+    ),
+    "aibeopchin_19_d_attachment_lifecycle_expiry": (
+        "AI법친 19-D — Attachment Lifecycle/Expiry(만료·보존·삭제 eligibility·orphan·legal hold): "
+        "src/lib/data-governance/attachment-lifecycle-policy.ts / "
+        "src/lib/data-governance/attachment-lifecycle-orphan-detection.service.ts / "
+        "npm run verify:aibeopchin-data-governance-phase19d / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-DATA-GOVERNANCE-PHASE19D-ATTACHMENT-LIFECYCLE-EXPIRY] 기준. "
+        "purge/delete 실행은 19-F RC 이후."
+    ),
+    "aibeopchin_19_e_admin_data_governance_visibility": (
+        "AI법친 19-E — Admin Data Governance Visibility(삭제·만료·orphan·legal hold 조회): "
+        "src/features/data-governance/data-governance-visibility.service.ts / "
+        "/admin/operations/data-governance / "
+        "npm run verify:aibeopchin-data-governance-phase19e / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-DATA-GOVERNANCE-PHASE19E-ADMIN-VISIBILITY] 기준. "
+        "purge/delete/blob reclaim UI는 19-F RC 전까지 비활성."
+    ),
+    "aibeopchin_19_f_data_governance_rc_purge_unlock": (
+        "AI법친 19-F — Data Governance RC(purge unlock 8 gate·dry-run 기본): "
+        "src/features/data-governance/data-governance-rc-lock.ts / "
+        "npm run verify:aibeopchin-data-governance-rc / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-DATA-GOVERNANCE-PHASE19F-RC] 기준. "
+        "19-A~E bundled · limited execution env flag."
+    ),
+    "aibeopchin_product_20_real_external_messaging": (
+        "Product Phase 20 — Real External Messaging(1순위): "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md / "
+        "20-A adapter contract: npm run verify:aibeopchin-real-messaging-phase20a / "
+        "20-B email adapter: npm run verify:aibeopchin-real-messaging-phase20b / "
+        "20-C kakao adapter: npm run verify:aibeopchin-real-messaging-phase20c / "
+        "20-D webhook sync: npm run verify:aibeopchin-real-messaging-phase20d / "
+        "20-E secure delivery: npm run verify:aibeopchin-real-messaging-phase20e / "
+        "20-F RC: npm run verify:aibeopchin-real-messaging-rc / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-REAL-MESSAGING-PHASE20F-RC] / "
+        "선행: 15-F · 18-B · 19-B/F. 다음: Product Phase 21 Client Mobile / PWA."
+    ),
+    "aibeopchin_product_21_client_mobile_pwa": (
+        "Product Phase 21 — Client Mobile/PWA(2순위): "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §21. "
+        "21-F RC: npm run verify:aibeopchin-client-mobile-rc / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-CLIENT-MOBILE-PHASE21F-RC] / "
+        "선행: Product 20-F. Phase 21 COMPLETE — 다음: Product Phase 22 Tenant / Plan."
+    ),
+    "aibeopchin_product_22_tenant_plan_metering": (
+        "Product Phase 22 — Tenant/Plan/Metering(3순위): "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §22. "
+        "22-A: npm run verify:aibeopchin-tenant-phase22a / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-TENANT-PHASE22A-ORGANIZATION-BASELINE] / "
+        "22-B: npm run verify:aibeopchin-tenant-phase22b / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-TENANT-PHASE22B-PLAN-ENTITLEMENT] / "
+        "22-C: npm run verify:aibeopchin-tenant-phase22c / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-TENANT-PHASE22C-USAGE-METERING] / "
+        "22-D: npm run verify:aibeopchin-tenant-phase22d / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-TENANT-PHASE22D-BILLING-USAGE-LEDGER] / "
+        "22-E: npm run verify:aibeopchin-tenant-phase22e / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-TENANT-PHASE22E-ADMIN-PLAN-CONSOLE] / "
+        "22-F RC: npm run verify:aibeopchin-tenant-rc / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-TENANT-PHASE22F-RC] / "
+        "Phase 22 COMPLETE · LOCKED."
+    ),
+    "aibeopchin_product_23_ai_quality_case_pack": (
+        "Product Phase 23 — AI Quality/Case Pack(4순위·중기): "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §23. "
+        "23-A~E + 23-F RC: npm run verify:aibeopchin-ai-quality-rc / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-AI-QUALITY-PHASE23F-RC] / "
+        "선행: Product 22-F · AI Core 10-D. Phase 23 COMPLETE · LOCKED."
+    ),
+    "aibeopchin_product_24_litigation_operations": (
+        "Product Phase 24 — Litigation Operations: "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §24. "
+        "24-A~E + 24-F RC: npm run verify:aibeopchin-litigation-ops-rc / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-LITIGATION-PHASE24F-RC] / "
+        "선행: Product 23-F · Code 14-E. Phase 24 COMPLETE · LOCKED."
+    ),
+    "aibeopchin_product_25_production_launch": (
+        "Product Phase 25 — Production Launch: "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §25. "
+        "25-A~E + 25-F RC: npm run verify:aibeopchin-production-launch-rc / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-PRODUCTION-PHASE25F-RC] / "
+        "선행: Product 24-F · Code 16-D. Phase 25 COMPLETE · LOCKED."
+    ),
+    "aibeopchin_product_26_pilot_launch": (
+        "Product Phase 26 — Pilot Launch: "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §26. "
+        "26-A~E + 26-F RC: npm run verify:aibeopchin-pilot-launch-rc / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-PILOT-PHASE26F-RC] / "
+        "선행: Product 25-F · Code 16-D. Phase 26 COMPLETE · LOCKED."
+    ),
+    "aibeopchin_product_27_pilot_operations": (
+        "Product Phase 27 — Pilot Operations: "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §27. "
+        "27-A~E + 27-F RC: npm run verify:aibeopchin-pilot-operations-rc / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-PILOT-OPS-PHASE27F-RC] / "
+        "선행: Product 26-F · 25-F. Phase 27 COMPLETE · LOCKED."
+    ),
+    "aibeopchin_product_28_paid_conversion_scale": (
+        "Product Phase 28 — Paid Conversion / Scale: "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §28. "
+        "28-A~E + 28-F RC: npm run verify:aibeopchin-paid-conversion-scale-rc / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-PAID-SCALE-PHASE28F-RC] / "
+        "선행: Product 27-F · 26-F. Phase 28 COMPLETE · LOCKED."
+    ),
+    "aibeopchin_product_29_revenue_ops_customer_success": (
+        "Product Phase 29 — Revenue Ops / Customer Success: "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §29. "
+        "29-A~E + 29-F RC: npm run verify:aibeopchin-revenue-ops-rc / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-REVENUE-OPS-PHASE29F-RC] / "
+        "선행: Product 28-F · 22-F · no automatic invoice. Phase 29 COMPLETE · LOCKED."
+    ),
+    "aibeopchin_product_30_enterprise_scale": (
+        "Product Phase 30 — Enterprise Scale: "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §30. "
+        "30-A~E + 30-F RC: npm run verify:aibeopchin-enterprise-scale-rc / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-ENTERPRISE-SCALE-PHASE30F-RC] / "
+        "선행: Product 29-F · 28-F · 22-F. Phase 30 COMPLETE · LOCKED."
+    ),
     "aibeopchin_6_11_admin_case_package_share_dashboard": (
         "AI법친 6.11 — 관리자 공유 현황 화면 구현: "
         "공유 목록/상세 API, 관리자 목록/상세 화면, 위험 배지, 로그 요약 / "
@@ -1104,6 +1244,355 @@ def render_plan() -> str:
             "- 범위: PDF 엔진/응답만 변경한다. 출력물 포함·제외 정책, 권한 정책, 로그 정책은 변경하지 않는다."
         )
         lines.append(plan612)
+
+    plan19a = PROJECT_PLAN.get("aibeopchin_19_a_data_retention_policy_constitution")
+    if plan19a:
+        lines.append("")
+        lines.append("## AI법친 19-A — Data Retention Policy (헌법 · purge job 전 SSOT)")
+        lines.append(
+            "- 기준 증빙: [EVIDENCE-20260524-AIBEOPCHIN-DATA-GOVERNANCE-PHASE19A-DATA-RETENTION-POLICY]"
+        )
+        lines.append(
+            "- 검증: npm run verify:aibeopchin-data-governance-phase19a"
+        )
+        lines.append(
+            "- 로드맵: docs/platform/AIBEOPCHIN_DATA_GOVERNANCE_PHASE19_ROADMAP.md"
+        )
+        lines.append(
+            "- 원칙: 실제 purge job 금지 — registry·validator만. 19-B~F는 19-A 이후."
+        )
+        lines.append(plan19a)
+
+    plan19b = PROJECT_PLAN.get("aibeopchin_19_b_pii_legal_redaction_output_paths")
+    if plan19b:
+        lines.append("")
+        lines.append("## AI법친 19-B — PII / Legal Sensitive Redaction (운영 출력 경로)")
+        lines.append(
+            "- 기준 증빙: [EVIDENCE-20260524-AIBEOPCHIN-DATA-GOVERNANCE-PHASE19B-PII-LEGAL-REDACTION]"
+        )
+        lines.append(
+            "- 검증: npm run verify:aibeopchin-data-governance-phase19b"
+        )
+        lines.append(
+            "- Runbook: docs/operations/AIBEOPCHIN_DATA_REDACTION_RUNBOOK.md"
+        )
+        lines.append(plan19b)
+
+    plan19c = PROJECT_PLAN.get("aibeopchin_19_c_audit_log_retention_export")
+    if plan19c:
+        lines.append("")
+        lines.append("## AI법친 19-C — AuditLog Retention & Export")
+        lines.append(
+            "- 기준 증빙: [EVIDENCE-20260524-AIBEOPCHIN-DATA-GOVERNANCE-PHASE19C-AUDIT-LOG-RETENTION-EXPORT]"
+        )
+        lines.append(
+            "- 검증: npm run verify:aibeopchin-data-governance-phase19c"
+        )
+        lines.append(
+            "- Runbook: docs/operations/AIBEOPCHIN_AUDIT_LOG_RETENTION_EXPORT_RUNBOOK.md"
+        )
+        lines.append(plan19c)
+
+    plan19d = PROJECT_PLAN.get("aibeopchin_19_d_attachment_lifecycle_expiry")
+    if plan19d:
+        lines.append("")
+        lines.append("## AI법친 19-D — Attachment Lifecycle / Expiry")
+        lines.append(
+            "- 기준 증빙: [EVIDENCE-20260524-AIBEOPCHIN-DATA-GOVERNANCE-PHASE19D-ATTACHMENT-LIFECYCLE-EXPIRY]"
+        )
+        lines.append(
+            "- 검증: npm run verify:aibeopchin-data-governance-phase19d"
+        )
+        lines.append(
+            "- Runbook: docs/operations/AIBEOPCHIN_ATTACHMENT_LIFECYCLE_EXPIRY_RUNBOOK.md"
+        )
+        lines.append(plan19d)
+
+    plan19e = PROJECT_PLAN.get("aibeopchin_19_e_admin_data_governance_visibility")
+    if plan19e:
+        lines.append("")
+        lines.append("## AI법친 19-E — Admin Data Governance Visibility")
+        lines.append(
+            "- 기준 증빙: [EVIDENCE-20260524-AIBEOPCHIN-DATA-GOVERNANCE-PHASE19E-ADMIN-VISIBILITY]"
+        )
+        lines.append(
+            "- 검증: npm run verify:aibeopchin-data-governance-phase19e"
+        )
+        lines.append(
+            "- Console: /admin/operations/data-governance"
+        )
+        lines.append(
+            "- Runbook: docs/operations/AIBEOPCHIN_DATA_GOVERNANCE_VISIBILITY_RUNBOOK.md"
+        )
+        lines.append(plan19e)
+
+    plan19f = PROJECT_PLAN.get("aibeopchin_19_f_data_governance_rc_purge_unlock")
+    if plan19f:
+        lines.append("")
+        lines.append("## AI법친 19-F — Data Governance RC / Purge Execution Unlock")
+        lines.append(
+            "- 기준 증빙: [EVIDENCE-20260524-AIBEOPCHIN-DATA-GOVERNANCE-PHASE19F-RC]"
+        )
+        lines.append(
+            "- 검증: npm run verify:aibeopchin-data-governance-rc"
+        )
+        lines.append(
+            "- Summary: docs/platform/AIBEOPCHIN_DATA_GOVERNANCE_RC_LOCK_SUMMARY.md"
+        )
+        lines.append(
+            "- Runbook: docs/operations/AIBEOPCHIN_DATA_GOVERNANCE_RC_RUNBOOK.md"
+        )
+        lines.append(plan19f)
+
+    plan20 = PROJECT_PLAN.get("aibeopchin_product_20_real_external_messaging")
+    if plan20:
+        lines.append("")
+        lines.append("## Product Phase 20 — Real External Messaging (1순위 · 다음 착수)")
+        lines.append(
+            "- 로드맵: docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md"
+        )
+        lines.append(
+            "- 20-A adapter contract · 20-B email · 20-C kakao · 20-D webhook · 20-E secure delivery · 20-F RC"
+        )
+        lines.append(
+            "- 선행(완료): 15-F · 18-B · 19-B/F · Phase 17 triage"
+        )
+        lines.append("")
+        lines.append("## Product Phase 20-A — Adapter Contract (완료)")
+        lines.append(
+            "- 기준 증빙: [EVIDENCE-20260524-AIBEOPCHIN-REAL-MESSAGING-PHASE20A-ADAPTER-CONTRACT]"
+        )
+        lines.append(
+            "- 검증: npm run verify:aibeopchin-real-messaging-phase20a"
+        )
+        lines.append(
+            "- Runbook: docs/operations/AIBEOPCHIN_REAL_MESSAGING_ADAPTER_CONTRACT_RUNBOOK.md"
+        )
+        lines.append(
+            "- 후속(완료): 20-B Email Adapter"
+        )
+        lines.append(
+            "- 기준 증빙: [EVIDENCE-20260524-AIBEOPCHIN-REAL-MESSAGING-PHASE20B-EMAIL-ADAPTER]"
+        )
+        lines.append(
+            "- 검증: npm run verify:aibeopchin-real-messaging-phase20b"
+        )
+        lines.append(
+            "- Runbook: docs/operations/AIBEOPCHIN_REAL_MESSAGING_EMAIL_ADAPTER_RUNBOOK.md"
+        )
+        lines.append(
+            "- 후속(완료): 20-C Kakao Adapter"
+        )
+        lines.append("")
+        lines.append("## Product Phase 20-C — Kakao Adapter (완료)")
+        lines.append(
+            "- 기준 증빙: [EVIDENCE-20260524-AIBEOPCHIN-REAL-MESSAGING-PHASE20C-KAKAO-ADAPTER]"
+        )
+        lines.append(
+            "- 검증: npm run verify:aibeopchin-real-messaging-phase20c"
+        )
+        lines.append(
+            "- Runbook: docs/operations/AIBEOPCHIN_REAL_MESSAGING_KAKAO_ADAPTER_RUNBOOK.md"
+        )
+        lines.append(
+            "- 후속(완료): 20-D Webhook Status Sync"
+        )
+        lines.append("")
+        lines.append("## Product Phase 20-D — Webhook / Status Sync (완료)")
+        lines.append(
+            "- 기준 증빙: [EVIDENCE-20260524-AIBEOPCHIN-REAL-MESSAGING-PHASE20D-WEBHOOK-STATUS-SYNC]"
+        )
+        lines.append(
+            "- 검증: npm run verify:aibeopchin-real-messaging-phase20d"
+        )
+        lines.append(
+            "- Runbook: docs/operations/AIBEOPCHIN_REAL_MESSAGING_WEBHOOK_STATUS_SYNC_RUNBOOK.md"
+        )
+        lines.append(
+            "- 다음: 20-E Secure Delivery Integration"
+        )
+        lines.append("")
+        lines.append("## Product Phase 20-E — Secure Delivery Integration (완료)")
+        lines.append(
+            "- 기준 증빙: [EVIDENCE-20260524-AIBEOPCHIN-REAL-MESSAGING-PHASE20E-SECURE-DELIVERY-INTEGRATION]"
+        )
+        lines.append(
+            "- 검증: npm run verify:aibeopchin-real-messaging-phase20e"
+        )
+        lines.append(
+            "- Runbook: docs/operations/AIBEOPCHIN_REAL_MESSAGING_SECURE_DELIVERY_INTEGRATION_RUNBOOK.md"
+        )
+        lines.append(
+            "- 다음: 20-F Real Messaging RC"
+        )
+        lines.append("")
+        lines.append("## Product Phase 20-F — Real Messaging RC (완료)")
+        lines.append(
+            "- 기준 증빙: [EVIDENCE-20260524-AIBEOPCHIN-REAL-MESSAGING-PHASE20F-RC]"
+        )
+        lines.append(
+            "- 검증: npm run verify:aibeopchin-real-messaging-rc"
+        )
+        lines.append(
+            "- Runbook: docs/operations/AIBEOPCHIN_REAL_MESSAGING_RC_RUNBOOK.md"
+        )
+        lines.append(
+            "- Lock summary: docs/platform/AIBEOPCHIN_REAL_MESSAGING_RC_LOCK_SUMMARY.md"
+        )
+        lines.append(
+            "- 다음: Product Phase 21 Client Mobile / PWA"
+        )
+        lines.append(plan20)
+
+    plan21 = PROJECT_PLAN.get("aibeopchin_product_21_client_mobile_pwa")
+    if plan21:
+        lines.append("")
+        lines.append("## Product Phase 21 — Client Mobile / PWA (2순위 · 착수)")
+        lines.append(
+            "- 21-A baseline · 21-B upload · 21-C PWA · 21-D push surface · 21-E a11y smoke · 21-F RC"
+        )
+        lines.append("")
+        lines.append("## Product Phase 21-A — Mobile Client Portal Baseline (완료)")
+        lines.append(
+            "- 기준 증빙: [EVIDENCE-20260524-AIBEOPCHIN-CLIENT-MOBILE-PHASE21A-PORTAL-BASELINE]"
+        )
+        lines.append(
+            "- 검증: npm run verify:aibeopchin-client-mobile-phase21a"
+        )
+        lines.append(
+            "- Runbook: docs/operations/AIBEOPCHIN_CLIENT_MOBILE_PORTAL_BASELINE_RUNBOOK.md"
+        )
+        lines.append(
+            "- 다음: 21-D Push-ready Notification Surface"
+        )
+        lines.append("")
+        lines.append("## Product Phase 21-B — Mobile Upload UX (완료)")
+        lines.append(
+            "- 기준 증빙: [EVIDENCE-20260524-AIBEOPCHIN-CLIENT-MOBILE-PHASE21B-UPLOAD-UX]"
+        )
+        lines.append(
+            "- 검증: npm run verify:aibeopchin-client-mobile-phase21b"
+        )
+        lines.append(
+            "- Runbook: docs/operations/AIBEOPCHIN_CLIENT_MOBILE_UPLOAD_UX_RUNBOOK.md"
+        )
+        lines.append(
+            "- 다음: 21-E Mobile Accessibility / Low-end Device Smoke"
+        )
+        lines.append("")
+        lines.append("## Product Phase 21-C — PWA Install / Home Screen (완료)")
+        lines.append(
+            "- 기준 증빙: [EVIDENCE-20260524-AIBEOPCHIN-CLIENT-MOBILE-PHASE21C-PWA-INSTALL]"
+        )
+        lines.append(
+            "- 검증: npm run verify:aibeopchin-client-mobile-phase21c"
+        )
+        lines.append(
+            "- Runbook: docs/operations/AIBEOPCHIN_CLIENT_MOBILE_PWA_INSTALL_RUNBOOK.md"
+        )
+        lines.append(
+            "- 다음: 21-F Client Mobile / PWA RC"
+        )
+        lines.append("")
+        lines.append("## Product Phase 21-D — Push-ready Notification Surface (완료)")
+        lines.append(
+            "- 기준 증빙: [EVIDENCE-20260524-AIBEOPCHIN-CLIENT-MOBILE-PHASE21D-PUSH-NOTIFICATION-SURFACE]"
+        )
+        lines.append(
+            "- 검증: npm run verify:aibeopchin-client-mobile-phase21d"
+        )
+        lines.append(
+            "- Runbook: docs/operations/AIBEOPCHIN_CLIENT_MOBILE_PUSH_NOTIFICATION_SURFACE_RUNBOOK.md"
+        )
+        lines.append(
+            "- 다음: Product Phase 22 Tenant / Plan / Metering"
+        )
+        lines.append("")
+        lines.append("## Product Phase 21-E — Mobile Accessibility / Low-end Device Smoke (완료)")
+        lines.append(
+            "- 기준 증빙: [EVIDENCE-20260524-AIBEOPCHIN-CLIENT-MOBILE-PHASE21E-ACCESSIBILITY-SMOKE]"
+        )
+        lines.append(
+            "- 검증: npm run verify:aibeopchin-client-mobile-phase21e"
+        )
+        lines.append(
+            "- Runbook: docs/operations/AIBEOPCHIN_CLIENT_MOBILE_ACCESSIBILITY_SMOKE_RUNBOOK.md"
+        )
+        lines.append(
+            "- 다음: Product Phase 22 Tenant / Plan / Metering"
+        )
+        lines.append("")
+        lines.append("## Product Phase 21-F — Client Mobile / PWA RC (완료 · Phase 21 LOCKED)")
+        lines.append(
+            "- 기준 증빙: [EVIDENCE-20260524-AIBEOPCHIN-CLIENT-MOBILE-PHASE21F-RC]"
+        )
+        lines.append(
+            "- 검증: npm run verify:aibeopchin-client-mobile-rc"
+        )
+        lines.append(
+            "- Lock summary: docs/platform/AIBEOPCHIN_CLIENT_MOBILE_PWA_RC_LOCK_SUMMARY.md"
+        )
+        lines.append(
+            "- Runbook: docs/operations/AIBEOPCHIN_CLIENT_MOBILE_PWA_RC_RUNBOOK.md"
+        )
+        lines.append(
+            "- 다음: Product Phase 22 Tenant / Plan / Metering"
+        )
+        lines.append(plan21)
+
+    plan22 = PROJECT_PLAN.get("aibeopchin_product_22_tenant_plan_metering")
+    if plan22:
+        lines.append("")
+        lines.append("## Product Phase 22 — Tenant / Plan / Metering (3순위)")
+        lines.append(plan22)
+
+    plan23 = PROJECT_PLAN.get("aibeopchin_product_23_ai_quality_case_pack")
+    if plan23:
+        lines.append("")
+        lines.append("## Product Phase 23 — AI Quality / Case Pack (4순위 · 중기)")
+        lines.append(plan23)
+
+    plan24 = PROJECT_PLAN.get("aibeopchin_product_24_litigation_operations")
+    if plan24:
+        lines.append("")
+        lines.append("## Product Phase 24 — Litigation Operations")
+        lines.append(plan24)
+
+    plan25 = PROJECT_PLAN.get("aibeopchin_product_25_production_launch")
+    if plan25:
+        lines.append("")
+        lines.append("## Product Phase 25 — Production Launch")
+        lines.append(plan25)
+
+    plan26 = PROJECT_PLAN.get("aibeopchin_product_26_pilot_launch")
+    if plan26:
+        lines.append("")
+        lines.append("## Product Phase 26 — Pilot Launch")
+        lines.append(plan26)
+
+    plan27 = PROJECT_PLAN.get("aibeopchin_product_27_pilot_operations")
+    if plan27:
+        lines.append("")
+        lines.append("## Product Phase 27 — Pilot Operations")
+        lines.append(plan27)
+
+    plan28 = PROJECT_PLAN.get("aibeopchin_product_28_paid_conversion_scale")
+    if plan28:
+        lines.append("")
+        lines.append("## Product Phase 28 — Paid Conversion / Scale")
+        lines.append(plan28)
+
+    plan29 = PROJECT_PLAN.get("aibeopchin_product_29_revenue_ops_customer_success")
+    if plan29:
+        lines.append("")
+        lines.append("## Product Phase 29 — Revenue Ops / Customer Success")
+        lines.append(plan29)
+
+    plan30 = PROJECT_PLAN.get("aibeopchin_product_30_enterprise_scale")
+    if plan30:
+        lines.append("")
+        lines.append("## Product Phase 30 — Enterprise Scale")
+        lines.append(plan30)
 
     plan611 = PROJECT_PLAN.get("aibeopchin_6_11_admin_case_package_share_dashboard")
     if plan611:

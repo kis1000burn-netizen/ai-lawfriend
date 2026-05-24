@@ -12,7 +12,7 @@ export function SiteFooter() {
 
         <div className="space-y-1 rounded-2xl border border-aibeop-line bg-aibeop-accentSoft px-4 py-3 md:text-right">
           <div>운영사: (주)누리온홀딩스</div>
-          <div>대표이사: 최인석</div>
+          <div>법률고문: 양 희 완</div>
           <div>연락처: 010-5945-5925</div>
         </div>
       </div>

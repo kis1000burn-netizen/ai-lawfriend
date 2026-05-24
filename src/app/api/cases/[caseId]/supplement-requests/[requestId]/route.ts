@@ -3,6 +3,7 @@ import { requireSessionUser } from "@/lib/auth/require-session-user";
 import { NotFoundError } from "@/lib/errors";
 import {
   getSupplementRequestDetailService,
+  markSupplementRequestViewedByClientService,
   updateSupplementRequestService,
 } from "@/features/supplement-request/supplement-request.service";
 import {
@@ -33,6 +34,11 @@ export async function GET(_: Request, context: RouteContext) {
 
     const result = await getSupplementRequestDetailService(currentUser, requestId);
     assertRequestBelongsToCase(caseId, result.caseId);
+
+    if (currentUser.role === "USER") {
+      const viewed = await markSupplementRequestViewedByClientService(currentUser, requestId);
+      return ok(viewed);
+    }
 
     return ok(result);
   } catch (error) {

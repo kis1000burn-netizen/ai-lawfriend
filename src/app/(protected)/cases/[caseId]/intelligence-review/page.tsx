@@ -5,6 +5,7 @@ import { LawyerIntelligenceReviewConsole } from "@/components/cases/lawyer-intel
 import {
   getCaseIntelligenceReviewSnapshot,
 } from "@/features/ai-core/case-intelligence-review.service";
+import { getDocumentIntelligenceReviewQueueService } from "@/features/document-intelligence/document-intelligence-review.service";
 import { getCaseAccessContext } from "@/features/cases/case.permissions";
 import { redirectLawyerToVerificationUnlessApproved } from "@/lib/auth/session";
 import { requireSessionUser } from "@/lib/auth/require-session-user";
@@ -37,6 +38,8 @@ export default async function CaseIntelligenceReviewPage({ params }: PageProps) 
   }
 
   const snapshot = await getCaseIntelligenceReviewSnapshot(currentUser, caseId).catch(() => null);
+  const documentIntelligenceQueue =
+    await getDocumentIntelligenceReviewQueueService(currentUser, caseId).catch(() => null);
   const readOnly = !(access.isAdmin || access.isAssignedLawyer);
 
   return (
@@ -50,6 +53,7 @@ export default async function CaseIntelligenceReviewPage({ params }: PageProps) 
         caseId={caseId}
         caseTitle={caseRecord.title}
         initialSnapshot={snapshot}
+        initialDocumentIntelligenceQueue={documentIntelligenceQueue}
         readOnly={readOnly}
       />
     </div>

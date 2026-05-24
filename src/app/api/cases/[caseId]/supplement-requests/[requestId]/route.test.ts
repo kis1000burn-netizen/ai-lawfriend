@@ -7,6 +7,7 @@ const authMocks = vi.hoisted(() => ({
 const serviceMocks = vi.hoisted(() => ({
   getSupplementRequestDetailService: vi.fn(),
   updateSupplementRequestService: vi.fn(),
+  markSupplementRequestViewedByClientService: vi.fn(),
 }));
 
 vi.mock("@/lib/auth/require-session-user", () => authMocks);
@@ -36,6 +37,15 @@ describe("supplement-request detail route", () => {
       statusLogs: [],
       auditLogs: [],
     });
+    serviceMocks.markSupplementRequestViewedByClientService.mockImplementation(
+      async (_user, id) => ({
+        id,
+        caseId,
+        status: "CLIENT_VIEWED",
+        statusLogs: [],
+        auditLogs: [],
+      }),
+    );
   });
 
   it("3) 상세 GET route", async () => {
@@ -46,6 +56,10 @@ describe("supplement-request detail route", () => {
 
     expect(response.status).toBe(200);
     expect(serviceMocks.getSupplementRequestDetailService).toHaveBeenCalledWith(
+      sessionUser,
+      requestId,
+    );
+    expect(serviceMocks.markSupplementRequestViewedByClientService).toHaveBeenCalledWith(
       sessionUser,
       requestId,
     );

@@ -1,7 +1,7 @@
 import ExcelJS from "exceljs";
 import type { SessionUser } from "@/lib/auth/require-session-user";
 import { NotFoundError } from "@/lib/errors";
-import { assertAdminOnly } from "@/features/cases/case.permissions";
+import { writeAuditLog } from "@/lib/audit-log";
 import type {
   AuditLogListQueryInput,
   AuditLogSummaryQueryInput,
@@ -18,23 +18,49 @@ import {
   getAuditLogSummary,
   getAuditLogTopActors,
 } from "@/features/audit-logs/audit-log.repository";
+import { clampAuditLogQueryDateFrom } from "@/lib/data-governance/audit-log-retention-policy";
+import {
+  assertAuditLogExportAllowed,
+  assertAuditLogViewAllowed,
+  AUDIT_LOG_EXPORT_AUDIT_ACTION,
+  AUDIT_LOG_EXPORT_ENTITY_TYPE,
+  buildAuditLogExportAuditMetadata,
+  normalizeAuditLogExportQuery,
+} from "@/lib/data-governance/audit-log-export-policy";
+import {
+  redactAuditLogRowForDisplay,
+  redactAuditLogRowForExport,
+} from "@/lib/data-governance/audit-log-export-redaction.service";
+
+function withRetentionClampedQuery<T extends { dateFrom?: string }>(
+  query: T,
+): T {
+  const dateFrom = clampAuditLogQueryDateFrom(query.dateFrom);
+  if (dateFrom === query.dateFrom) {
+    return query;
+  }
+  return { ...query, dateFrom };
+}
 
 export async function listAuditLogsService(
   currentUser: SessionUser,
   query: AuditLogListQueryInput
 ) {
-  assertAdminOnly(currentUser);
+  assertAuditLogViewAllowed(currentUser);
 
-  const { items, total } = await findAuditLogs(query);
+  const scopedQuery = withRetentionClampedQuery(query);
+  const { items, total } = await findAuditLogs(scopedQuery);
+
+  const redactedItems = items.map((item) => redactAuditLogRowForDisplay(item));
 
   const totalPages =
-    total === 0 ? 0 : Math.ceil(total / query.pageSize);
+    total === 0 ? 0 : Math.ceil(total / scopedQuery.pageSize);
 
   return {
-    items,
+    items: redactedItems,
     pagination: {
-      page: query.page,
-      pageSize: query.pageSize,
+      page: scopedQuery.page,
+      pageSize: scopedQuery.pageSize,
       total,
       totalPages,
     },
@@ -45,7 +71,7 @@ export async function getAuditLogDetailService(
   currentUser: SessionUser,
   id: string
 ) {
-  assertAdminOnly(currentUser);
+  assertAuditLogViewAllowed(currentUser);
 
   const item = await findAuditLogById(id);
 
@@ -53,56 +79,56 @@ export async function getAuditLogDetailService(
     throw new NotFoundError("감사로그를 찾을 수 없습니다.");
   }
 
-  return item;
+  return redactAuditLogRowForDisplay(item);
 }
 
 export async function getAuditLogSummaryService(
   currentUser: SessionUser,
   query: AuditLogSummaryQueryInput
 ) {
-  assertAdminOnly(currentUser);
-  return getAuditLogSummary(query);
+  assertAuditLogViewAllowed(currentUser);
+  return getAuditLogSummary(withRetentionClampedQuery(query));
 }
 
 export async function getAuditLogActionChartService(
   currentUser: SessionUser,
   query: AuditLogSummaryQueryInput
 ) {
-  assertAdminOnly(currentUser);
-  return getAuditLogActionChart(query);
+  assertAuditLogViewAllowed(currentUser);
+  return getAuditLogActionChart(withRetentionClampedQuery(query));
 }
 
 export async function getAuditLogDailyTrendService(
   currentUser: SessionUser,
   query: AuditLogSummaryQueryInput
 ) {
-  assertAdminOnly(currentUser);
-  return getAuditLogDailyTrend(query);
+  assertAuditLogViewAllowed(currentUser);
+  return getAuditLogDailyTrend(withRetentionClampedQuery(query));
 }
 
 export async function getAuditLogTopActorsService(
   currentUser: SessionUser,
   query: AuditLogSummaryQueryInput
 ) {
-  assertAdminOnly(currentUser);
-  return getAuditLogTopActors(query);
+  assertAuditLogViewAllowed(currentUser);
+  return getAuditLogTopActors(withRetentionClampedQuery(query));
 }
 
 export async function getAuditLogHourlyDistributionService(
   currentUser: SessionUser,
   query: AuditLogSummaryQueryInput
 ) {
-  assertAdminOnly(currentUser);
-  return getAuditLogHourlyDistribution(query);
+  assertAuditLogViewAllowed(currentUser);
+  return getAuditLogHourlyDistribution(withRetentionClampedQuery(query));
 }
 
 export async function getAuditLogDashboardSignalsService(currentUser: SessionUser) {
-  assertAdminOnly(currentUser);
+  assertAuditLogViewAllowed(currentUser);
   return getAuditLogDashboardSignals();
 }
 
 export async function getAuditLogAdvancedSignalsService(currentUser: SessionUser) {
-  assertAdminOnly(currentUser);
+  assertAuditLogViewAllowed(currentUser);
   return getAuditLogAdvancedSignals();
 }
 
@@ -110,9 +136,10 @@ export async function exportAuditLogsXlsxService(
   currentUser: SessionUser,
   query: Omit<AuditLogListQueryInput, "page" | "pageSize">
 ) {
-  assertAdminOnly(currentUser);
+  assertAuditLogExportAllowed(currentUser);
 
-  const rows = await findAuditLogsForExport(query);
+  const exportQuery = normalizeAuditLogExportQuery(query);
+  const rows = await findAuditLogsForExport(exportQuery);
 
   const workbook = new ExcelJS.Workbook();
   workbook.creator = "AI법친";
@@ -140,17 +167,22 @@ export async function exportAuditLogsXlsxService(
   worksheet.getRow(1).alignment = { vertical: "middle" };
 
   for (const item of rows) {
+    const redacted = redactAuditLogRowForExport(item);
     worksheet.addRow({
-      createdAt: item.createdAt.toISOString(),
-      actorId: item.actor.id,
-      actorName: item.actor.name ?? "",
-      actorEmail: item.actor.email,
-      actorRole: item.actor.role,
-      action: item.action,
-      entityType: item.entityType,
-      entityId: item.entityId,
-      message: item.message ?? "",
-      metadata: item.metadata ? JSON.stringify(item.metadata, null, 2) : "",
+      createdAt: redacted.createdAt instanceof Date
+        ? redacted.createdAt.toISOString()
+        : String(redacted.createdAt ?? ""),
+      actorId: redacted.actor?.id ?? item.actor.id,
+      actorName: redacted.actor?.name ?? "",
+      actorEmail: redacted.actor?.email ?? "",
+      actorRole: redacted.actor?.role ?? item.actor.role,
+      action: redacted.action ?? item.action,
+      entityType: redacted.entityType ?? item.entityType,
+      entityId: redacted.entityId ?? item.entityId,
+      message: redacted.message ?? "",
+      metadata: redacted.metadata
+        ? JSON.stringify(redacted.metadata, null, 2)
+        : "",
     });
   }
 
@@ -159,5 +191,18 @@ export async function exportAuditLogsXlsxService(
   });
 
   const buffer = await workbook.xlsx.writeBuffer();
+
+  await writeAuditLog({
+    actorUserId: currentUser.id,
+    action: AUDIT_LOG_EXPORT_AUDIT_ACTION,
+    entityType: AUDIT_LOG_EXPORT_ENTITY_TYPE,
+    entityId: `export-${new Date().toISOString()}`,
+    message: `Audit log XLSX export (${rows.length} rows)`,
+    metadata: buildAuditLogExportAuditMetadata({
+      rowCount: rows.length,
+      filters: exportQuery,
+    }),
+  });
+
   return Buffer.from(buffer);
 }

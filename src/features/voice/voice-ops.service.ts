@@ -9,6 +9,7 @@ import {
 import type { SessionUser } from "@/lib/auth/require-session-user";
 import { NotFoundError, ValidationError } from "@/lib/errors";
 import { prisma } from "@/lib/prisma";
+import { redactVoiceTranscriptTextForDisplay } from "@/lib/data-governance/data-redaction.service";
 import {
   VOICE_OPS_CONFIRMED_AUTO_PURGE_ALLOWED,
   VOICE_OPS_CONFIRMED_ESCALATION_RESOLUTION,
@@ -371,7 +372,7 @@ export async function updateVoicePrivacyOpsRequest(
   });
 }
 
-/** Ops 응답 직렬화 — draftText 등 본문 필드가 없음을 테스트·검증용으로 노출. */
+/** Ops 응답 직렬화 — draftText 등 본문 필드 redaction (Phase 19-B). */
 export function serializeVoiceTranscriptOpsRowForApi(row: VoiceTranscriptOpsRow) {
-  return row;
+  return redactVoiceTranscriptTextForDisplay(row) as VoiceTranscriptOpsRow;
 }

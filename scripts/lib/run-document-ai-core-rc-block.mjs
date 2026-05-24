@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { assertPredeployMasterOrGate } from "./predeploy-gate-assertions.mjs";
 
 /**
  * Document AI Core RC block (Tier 1 — Phase 8-E frozen).
@@ -137,9 +138,7 @@ export function runDocumentAiCoreRcBlock(execSync, root, label = "verify:aibeopc
     throw new Error("docs/ai/README.md must link AIBEOPCHIN_AI_CORE_RC_LOCK_SUMMARY.md (Phase 8-E)");
   }
 
-  if (!predeploy.includes("verify:aibeopchin-ai-core-rc")) {
-    throw new Error("scripts/predeploy-check.ts must run verify:aibeopchin-ai-core-rc (Phase 8-E)");
-  }
+  assertPredeployMasterOrGate(predeploy, "verify:aibeopchin-ai-core-rc", "Phase 8-E AI Core RC");
 
   console.log(`[${label}] Tier1 running document ai-core Vitest …`);
   execSync("npm run test -- src/features/ai-core src/lib/document-ai.test.ts", {

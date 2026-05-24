@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { SupplementRequestStatusBadge } from "./supplement-request-status-badge";
+import { canClientRespondToSupplement } from "@/features/supplement-request/supplement-request.portal";
+import type { SupplementRequestStatus } from "@prisma/client";
 
 type Role = "CLIENT" | "LAWYER" | "STAFF" | "ADMIN" | "SUPER_ADMIN" | string;
 
@@ -47,7 +49,10 @@ function canCreate(role: Role) {
 }
 
 function canRespond(role: Role, item: SupplementRequestItem) {
-  return role === "CLIENT" && !TERMINAL.has(item.status);
+  return (
+    role === "CLIENT" &&
+    canClientRespondToSupplement(item.status as SupplementRequestStatus)
+  );
 }
 
 function nextActionsFor(role: Role, item: SupplementRequestItem): [string, string][] {

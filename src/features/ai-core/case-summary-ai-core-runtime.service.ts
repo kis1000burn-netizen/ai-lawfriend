@@ -41,6 +41,11 @@ import {
 import { applyClientSafeDisclosureToSummaryResult } from "./client-safe-disclosure.service";
 import type { ClientSafeDisclosureLayer } from "./client-safe-disclosure.schema";
 import type { CaseStatus } from "@/lib/definitions/case-status";
+import {
+  handleAiProviderCallFailure,
+  markAiProviderCallSuccess,
+  preAiCallCircuitCheck,
+} from "@/features/platform/reliability/ai-fallback-circuit-breaker.service";
 
 export const PHASE9B_CASE_SUMMARY_AI_CORE_RUNTIME_MARKER =
   "PHASE9B_CASE_SUMMARY_AI_CORE_RUNTIME" as const;
@@ -152,13 +157,16 @@ async function maybeInvokeLlm(
   mode: CaseSummaryAiMode,
   prompt: string,
   ruleBased: CaseSummaryValidatedContent,
+  auditContext: { caseId: string; actorUserId: string },
 ): Promise<{ model: string | null; content: CaseSummaryValidatedContent; error?: string }> {
   if (mode !== "AI_ENRICH" && mode !== "AI_REGENERATE") {
     return { model: null, content: ruleBased };
   }
 
   try {
+    preAiCallCircuitCheck("openai");
     const aiResult = await invokeOpenAiCaseSummaryGenerate({ prompt, mode });
+    markAiProviderCallSuccess("openai");
     if (mode === "AI_ENRICH") {
       return {
         model: aiResult.model,
@@ -182,6 +190,16 @@ async function maybeInvokeLlm(
     return { model: aiResult.model, content: aiResult.content };
   } catch (error) {
     console.error("[CASE_SUMMARY_AI_CORE_GENERATE]", error);
+    await handleAiProviderCallFailure({
+      error,
+      taskType: "CASE_SUMMARY_GENERATE",
+      caseId: auditContext.caseId,
+      actorUserId: auditContext.actorUserId,
+      entityType: "Case",
+      entityId: auditContext.caseId,
+      attemptCount: 1,
+      clientFacingOutput: true,
+    });
     return {
       model: null,
       content: ruleBased,
@@ -282,7 +300,10 @@ export async function invokeCaseSummaryGenerate(
     );
   }
 
-  const llmResult = await maybeInvokeLlm(mode, prompt, ruleValidation.content);
+  const llmResult = await maybeInvokeLlm(mode, prompt, ruleValidation.content, {
+    caseId: input.caseId,
+    actorUserId: input.currentUser.id,
+  });
   const finalValidation = validateCaseSummaryContent(llmResult.content);
   const content = finalValidation.passed ? finalValidation.content : ruleValidation.content;
 

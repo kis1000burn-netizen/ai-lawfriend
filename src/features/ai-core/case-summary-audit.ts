@@ -9,6 +9,7 @@ import {
 } from "./case-summary-prompt-registry";
 import type { AiProviderId } from "./ai-provider-ssot";
 import type { DocumentGenerationPolicy } from "@/features/document-generation/document-generation-policy";
+import { redactAiAuditMetadata } from "@/lib/data-governance/data-redaction.service";
 
 export const CASE_SUMMARY_AUDIT_MARKER = "PHASE9B_CASE_SUMMARY_AUDIT" as const;
 
@@ -87,7 +88,7 @@ export type PublicSafeCaseSummaryAuditRecord = Pick<
 export function toPublicSafeCaseSummaryAuditRecord(
   record: CaseSummaryAuditRecord,
 ): PublicSafeCaseSummaryAuditRecord {
-  return {
+  const safe = {
     operation: record.operation,
     taskType: record.taskType,
     providerId: record.providerId,
@@ -102,6 +103,7 @@ export function toPublicSafeCaseSummaryAuditRecord(
     skipReason: record.skipReason,
     gongbuhoResolutionVia: record.gongbuhoResolutionVia,
   };
+  return redactAiAuditMetadata(safe) as PublicSafeCaseSummaryAuditRecord;
 }
 
 export async function persistCaseSummaryAiCoreAudit(input: {

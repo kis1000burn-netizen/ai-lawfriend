@@ -29,6 +29,11 @@ import {
 } from "./ai-prompt-registry";
 import { isAiProviderConfigured } from "./ai-provider-ssot";
 import { resolveGenerationModeRuntimeGate } from "./generation-mode-runtime";
+import {
+  handleAiProviderCallFailure,
+  markAiProviderCallSuccess,
+  preAiCallCircuitCheck,
+} from "@/features/platform/reliability/ai-fallback-circuit-breaker.service";
 
 export const PHASE8B_AI_CORE_RUNTIME_MARKER = "PHASE8B_AI_CORE_ROUTE_MIGRATION" as const;
 export const PHASE8C_AI_CORE_RUNTIME_MARKER = "PHASE8C_AI_CORE_LEGACY_CLEANUP" as const;
@@ -246,6 +251,7 @@ export async function invokeDocumentParagraphGenerate(
   );
 
   try {
+    preAiCallCircuitCheck("openai");
     const aiResult = await invokeOpenAiDocumentParagraphGenerate({
       title: input.title,
       seedContent: seed,
@@ -255,8 +261,18 @@ export async function invokeDocumentParagraphGenerate(
     });
     content = aiResult.text;
     aiModel = aiResult.model;
+    markAiProviderCallSuccess("openai");
   } catch (e) {
     console.error("[AI_CORE_GENERATE_PARAGRAPH]", e);
+    await handleAiProviderCallFailure({
+      error: e,
+      taskType: "DOCUMENT_PARAGRAPH_GENERATE",
+      caseId: input.auditContext?.caseId,
+      actorUserId: input.auditContext?.actorUserId,
+      entityType: input.auditContext?.legalDocumentId ? "LegalDocument" : "Case",
+      entityId: input.auditContext?.legalDocumentId ?? input.auditContext?.caseId,
+      attemptCount: 1,
+    });
     content = seed;
     aiModel = null;
   }
@@ -330,6 +346,7 @@ export async function invokeDocumentParagraphRegenerate(
 
   if (canUseLlm) {
     try {
+      preAiCallCircuitCheck("openai");
       const aiResult = await invokeOpenAiDocumentParagraphRewrite({
         templateType: input.templateType,
         title: input.documentTitle,
@@ -341,8 +358,18 @@ export async function invokeDocumentParagraphRegenerate(
       aiModel = aiResult.model;
       skippedLlm = false;
       skipReason = undefined;
+      markAiProviderCallSuccess("openai");
     } catch (e) {
       console.error("[AI_CORE_REGENERATE_PARAGRAPH]", e);
+      await handleAiProviderCallFailure({
+        error: e,
+        taskType: "DOCUMENT_PARAGRAPH_REGENERATE",
+        caseId: input.auditContext?.caseId,
+        actorUserId: input.auditContext?.actorUserId,
+        entityType: "LegalDocumentParagraph",
+        entityId: input.paragraph.id,
+        attemptCount: 1,
+      });
       const fb = regenerateSingleParagraphFallback({
         paragraph: draftParagraph,
         templateType: input.templateType,

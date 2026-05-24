@@ -6,6 +6,10 @@ export function ok<T>(data: T, init?: ResponseInit) {
   return NextResponse.json({ ok: true, data }, init);
 }
 
+export function created<T>(data: T, init?: ResponseInit) {
+  return NextResponse.json({ ok: true, data }, { status: 201, ...init });
+}
+
 export function fail(message: string, status = 400, extra?: Record<string, unknown>) {
   return NextResponse.json({ ok: false, message, ...(extra ?? {}) }, { status });
 }

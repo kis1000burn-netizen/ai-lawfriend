@@ -4,6 +4,8 @@ import type {
   AuditLogListQueryInput,
   AuditLogSummaryQueryInput,
 } from "@/features/audit-logs/audit-log.validators";
+import { AUDIT_LOG_EXPORT_MAX_ROWS } from "@/lib/data-governance/audit-log-export-policy";
+import { getAuditLogRetentionQueryFloorDate } from "@/lib/data-governance/audit-log-retention-policy";
 
 function buildDateRange(dateFrom?: string, dateTo?: string) {
   if (!dateFrom && !dateTo) return undefined;
@@ -23,6 +25,19 @@ function buildDateRange(dateFrom?: string, dateTo?: string) {
   return createdAt;
 }
 
+function applyRetentionFloor(
+  createdAt: Prisma.DateTimeFilter | undefined,
+): Prisma.DateTimeFilter {
+  const floor = getAuditLogRetentionQueryFloorDate();
+  if (!createdAt) {
+    return { gte: floor };
+  }
+  const existingGte = createdAt.gte ? new Date(createdAt.gte) : undefined;
+  const gte =
+    existingGte && existingGte.getTime() > floor.getTime() ? existingGte : floor;
+  return { ...createdAt, gte };
+}
+
 function buildAuditLogWhere(
   filters:
     | AuditLogListQueryInput
@@ -34,7 +49,9 @@ function buildAuditLogWhere(
         search?: string;
       })
 ): Prisma.AuditLogWhereInput {
-  const createdAt = buildDateRange(filters.dateFrom, filters.dateTo);
+  const createdAt = applyRetentionFloor(
+    buildDateRange(filters.dateFrom, filters.dateTo),
+  );
 
   return {
     ...(filters.actorUserId ? { actorUserId: filters.actorUserId } : {}),
@@ -62,7 +79,7 @@ function buildAuditLogWhere(
           },
         }
       : {}),
-    ...(createdAt ? { createdAt } : {}),
+    createdAt,
     ...(filters.search
       ? {
           OR: [
@@ -168,7 +185,7 @@ export async function findAuditLogsForExport(
   return prisma.auditLog.findMany({
     where,
     orderBy: { createdAt: "desc" },
-    take: 5000,
+    take: AUDIT_LOG_EXPORT_MAX_ROWS,
     select: {
       id: true,
       actorUserId: true,

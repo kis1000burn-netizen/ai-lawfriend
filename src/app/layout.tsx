@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
 import { PromoAnalyticsProvider } from "@/components/analytics/promo-analytics-provider";
+import { CmbOnboardingGate } from "@/components/onboarding/cmb-onboarding-gate";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SitePromoPopupProvider } from "@/components/layout/site-promo-popup-provider";
 import { ToastProvider } from "@/components/ui/toast/ToastProvider";
@@ -20,6 +21,7 @@ export default function RootLayout({
     <html lang="ko">
       <body className="flex min-h-dvh flex-col bg-aibeop-bg font-sans text-aibeop-text antialiased">
         <ToastProvider>
+          <CmbOnboardingGate />
           <div className="flex-1">{children}</div>
           <SitePromoPopupProvider />
           <PromoAnalyticsProvider />

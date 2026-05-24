@@ -1,7 +1,10 @@
 import { PrismaClient, UserRole, UserStatus, LawyerVerificationStatus } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { seedLegalFormSources } from "./seed-legal-form-sources";
-import { DEFAULT_QUESTION_SET_CODE, seedQuestionSets } from "./seed-question-sets";
+import { seedQuestionSets, DEFAULT_QUESTION_SET_CODE } from "./seed-question-sets";
+import { seedTenantOrganizationDemo } from "./seed-tenant-organization";
+import { seedTenantPlanDemo } from "./seed-tenant-plan";
+import { seedAiEvaluationDataset } from "./seed-ai-evaluation-dataset";
 
 const prisma = new PrismaClient();
 
@@ -195,7 +198,17 @@ async function main() {
 
   await seedLegalFormSources(prisma);
   await seedQuestionSets(prisma);
+  const demoTenant = await seedTenantOrganizationDemo(prisma);
+  const demoPlan = await seedTenantPlanDemo(prisma);
   console.log(`QuestionSet: code=${DEFAULT_QUESTION_SET_CODE} (멱등 upsert)`);
+  if (demoTenant) {
+    console.log(`TenantOrganization: slug=${demoTenant.slug} id=${demoTenant.id}`);
+  }
+  if (demoPlan) {
+    console.log(`TenantPlan: tier=${demoPlan.tier} tenantId=${demoPlan.tenantId}`);
+  }
+  const evalSeed = await seedAiEvaluationDataset(prisma);
+  console.log(`AiEvaluationDataset: entries=${evalSeed.length}`);
   console.log("=== Seed Complete ===");
   console.log({
     superAdmin: { email: opsSuperAdminEmail, password: opsSuperAdminPassword },
