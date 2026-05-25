@@ -1,6 +1,7 @@
 /**
  * Product Phase 20-A — External message adapter orchestration (dry-run default · log prep).
  */
+import { Prisma } from "@prisma/client";
 import { ValidationError } from "@/lib/errors";
 import { assertExternalMessagingEntitlement } from "@/features/platform/tenant-entitlement/tenant-entitlement.service";
 import { recordTenantExternalMessageUsage } from "@/features/platform/tenant-metering/tenant-metering.service";
@@ -229,7 +230,7 @@ export async function sendExternalMessageViaAdapter(
 export function buildExternalMessageLogSafeSummary(
   payload: ExternalMessageSendPayload,
   result: ExternalMessageProviderResult,
-): Record<string, unknown> {
+): Prisma.InputJsonValue {
   const summary: Record<string, unknown> = {
     metadataOnly: true,
     templateKey: result.safeSummary.templateKey,
@@ -253,7 +254,7 @@ export function buildExternalMessageLogSafeSummary(
     }
   }
 
-  return redactExternalMessagePayload(summary) as Record<string, unknown>;
+  return redactExternalMessagePayload(summary) as Prisma.InputJsonValue;
 }
 
 export function listRegisteredExternalMessageAdapters(): ExternalMessageAdapter[] {

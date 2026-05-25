@@ -1,7 +1,7 @@
 /**
  * Product Phase 20-E — Secure delivery → real messaging orchestration.
  */
-import type { CaseDocumentDeliveryChannel, ExternalMessageStatus } from "@prisma/client";
+import { Prisma, type CaseDocumentDeliveryChannel, type ExternalMessageStatus } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { writeAuditLog } from "@/lib/audit-log";
 import { redactExternalMessagePayload } from "@/lib/data-governance/data-redaction.service";
@@ -183,7 +183,7 @@ export async function dispatchSecureDeliveryExternalMessage(
       channel: input.channel,
       provider: "IN_APP",
       templateCode: input.templateKey ?? input.surface,
-      payloadSummaryJson: summary as Record<string, unknown>,
+      payloadSummaryJson: summary as Prisma.InputJsonValue,
       status: "SENT",
       sentAt: new Date(),
     });

@@ -1,7 +1,7 @@
 /**
  * Product Phase 22-C — Tenant usage event repository · aggregation queries.
  */
-import type { TenantUsageEventKind } from "@prisma/client";
+import type { Prisma, TenantUsageEventKind } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import type { RecordTenantUsageEventInput } from "./tenant-usage.schema";
 import {
@@ -26,7 +26,7 @@ export async function createTenantUsageEvent(input: RecordTenantUsageEventInput)
       quantity: input.quantity,
       unit: input.unit,
       caseId: input.caseId,
-      metadata: input.metadata,
+      metadata: input.metadata as Prisma.InputJsonValue | undefined,
       recordedAt,
     },
   });

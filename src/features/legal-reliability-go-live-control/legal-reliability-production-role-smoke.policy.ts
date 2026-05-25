@@ -86,7 +86,7 @@ export function evaluateProductionRoleSmokeGate(input: {
   return {
     allowed: blockedReasons.length === 0,
     blockedReasons,
-    boundaryMarkers: PHASE_53C_BOUNDARY_MARKERS,
+    boundaryMarkers: [...PHASE_53C_BOUNDARY_MARKERS],
   };
 }
 

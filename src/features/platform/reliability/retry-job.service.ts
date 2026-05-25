@@ -73,7 +73,7 @@ export async function recordFailedRetryJob(input: RecordFailedRetryJobInput) {
     attemptCount: parsed.attemptCount ?? 0,
   });
 
-  const data: Prisma.RetryJobCreateInput = {
+  const data: Prisma.RetryJobUncheckedCreateInput = {
     sourceType: parsed.sourceType,
     sourceRefId: parsed.sourceRefId,
     jobCode: parsed.jobCode,

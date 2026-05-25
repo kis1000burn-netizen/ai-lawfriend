@@ -81,7 +81,7 @@ export function evaluateProductionGoLiveApprovalGate(input: {
   return {
     allowed: blockedReasons.length === 0,
     blockedReasons,
-    boundaryMarkers: PHASE_53A_BOUNDARY_MARKERS,
+    boundaryMarkers: [...PHASE_53A_BOUNDARY_MARKERS],
   };
 }
 

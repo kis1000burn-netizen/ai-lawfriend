@@ -61,12 +61,17 @@ export async function buildEvidenceTimelineIssuePackForCase(
       mappedIssueIds: [],
       lawyerReviewRequired: true,
     })),
-    timelineItems: timelineMemos.map((memo) => ({
-      timelineMemoId: memo.id,
-      occurredAt: memo.createdAt.toISOString(),
-      summary: memo.content.slice(0, 500),
-      memoType: memo.memoType,
-    })),
+    timelineItems: timelineMemos
+      .filter(
+        (memo): memo is typeof memo & { memoType: "USER_NOTE" | "STAFF_NOTE" } =>
+          memo.memoType === "USER_NOTE" || memo.memoType === "STAFF_NOTE",
+      )
+      .map((memo) => ({
+        timelineMemoId: memo.id,
+        occurredAt: memo.createdAt.toISOString(),
+        summary: memo.content.slice(0, 500),
+        memoType: memo.memoType,
+      })),
     issueCandidates: issueCandidates.length > 0 ? issueCandidates : ["사건 쟁점 검토 필요"],
   });
 }

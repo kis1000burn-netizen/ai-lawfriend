@@ -2,7 +2,7 @@
  * Product Phase 21-D — Client portal push notification surface policy.
  */
 import type { ExternalMessageSendSurface } from "@/features/platform/external-messaging/external-message-adapter.schema";
-import { SECURE_DELIVERY_NOTICE_BY_SURFACE } from "@/features/platform/external-messaging/secure-delivery-message-builder";
+import { SECURE_DELIVERY_NOTICE_BY_SURFACE } from "@/features/platform/external-messaging/secure-delivery-message-constants";
 import { SECURE_DELIVERY_FORBIDDEN_MESSAGE_CONTENT } from "@/features/platform/external-messaging/secure-delivery-message-policy";
 
 export const CLIENT_PORTAL_PUSH_NOTIFICATION_POLICY_MARKER_PHASE21D =
@@ -114,11 +114,12 @@ export function assertClientPortalPushPayloadSafe(payload: Record<string, unknow
   }
 }
 
-export function urlBase64ToUint8Array(base64String: string): Uint8Array {
+export function urlBase64ToUint8Array(base64String: string): Uint8Array<ArrayBuffer> {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
   const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
   const raw = atob(base64);
-  const output = new Uint8Array(raw.length);
+  const buffer = new ArrayBuffer(raw.length);
+  const output = new Uint8Array(buffer);
   for (let i = 0; i < raw.length; i += 1) {
     output[i] = raw.charCodeAt(i);
   }

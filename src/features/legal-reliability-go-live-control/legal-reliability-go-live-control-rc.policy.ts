@@ -136,7 +136,7 @@ export function evaluateProductionGoLiveControlRcGate(input: {
   return {
     allowed: blockedReasons.length === 0,
     blockedReasons,
-    boundaryMarkers: PHASE_53F_BOUNDARY_MARKERS,
+    boundaryMarkers: [...PHASE_53F_BOUNDARY_MARKERS],
   };
 }
 

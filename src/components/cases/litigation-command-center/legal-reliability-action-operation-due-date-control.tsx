@@ -36,7 +36,8 @@ export function LegalReliabilityActionOperationDueDateControl({
           body: JSON.stringify({ dueAt: new Date(dueAt).toISOString() }),
         },
       );
-      await requireOkData(res);
+      const raw = await res.json();
+      requireOkData(res, raw, "기한 설정에 실패했습니다.");
       await onDone();
     } finally {
       setPending(false);

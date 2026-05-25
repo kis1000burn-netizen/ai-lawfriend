@@ -1,7 +1,7 @@
 /**
  * Phase 18-B — External message safe re-delivery (RetryJob linkage · duplicate guard).
  */
-import type { Prisma } from "@prisma/client";
+import type { CaseDocumentDeliveryChannel, Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { writeAuditLog } from "@/lib/audit-log";
 import { ForbiddenError, NotFoundError, ValidationError } from "@/lib/errors";
@@ -66,7 +66,7 @@ async function findRetryJobForExternalLog(logId: string) {
 async function duplicateGuardContext(log: {
   id: string;
   deliveryId: string | null;
-  channel: string;
+  channel: CaseDocumentDeliveryChannel;
 }) {
   if (!log.deliveryId) {
     return { hasSuccessfulSibling: false, hasInFlightRedelivery: false };

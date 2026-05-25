@@ -38,7 +38,8 @@ export function LegalReliabilityActionOperationAssignmentControls({
           body: JSON.stringify({ assignedToUserId, priority }),
         },
       );
-      await requireOkData(res);
+      const raw = await res.json();
+      requireOkData(res, raw, "담당자 배정에 실패했습니다.");
       await onDone();
     } finally {
       setPending(false);

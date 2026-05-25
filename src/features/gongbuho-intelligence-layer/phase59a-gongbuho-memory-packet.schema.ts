@@ -214,3 +214,6 @@ export type GongbuhoLearningTrace = z.infer<typeof gongbuhoLearningTraceSchema>;
 export type RealTimeLegalSignalStatus = z.infer<typeof realTimeLegalSignalStatusSchema>;
 export type ConfirmedFact = z.infer<typeof confirmedFactSchema>;
 export type ClientWeakness = z.infer<typeof clientWeaknessSchema>;
+export type EvidenceLink = z.infer<typeof evidenceLinkSchema>;
+export type JudgmentReference = z.infer<typeof judgmentReferenceSchema>;
+export type LawyerConfirmedIssue = z.infer<typeof lawyerConfirmedIssueSchema>;

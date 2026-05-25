@@ -5,6 +5,7 @@ import { ForbiddenError, ValidationError } from "@/lib/errors";
 import type {
   CompleteLegalReliabilityActionOperationInput,
   LegalReliabilityActionOperationCompletionDecision,
+  LegalReliabilityActionOperationCompletionResult,
 } from "./legal-reliability-action-operation-completion.schema";
 
 export const PHASE50D_POLICY_MARKER =

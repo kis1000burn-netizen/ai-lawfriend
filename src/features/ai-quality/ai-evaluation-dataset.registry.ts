@@ -9,6 +9,7 @@ export const AI_EVALUATION_DATASET_REGISTRY_MARKER_PHASE23A =
 export const AI_EVALUATION_DATASET_SAMPLES: AiEvaluationDatasetEntryRecord[] = [
   {
     code: "EVAL-LOAN-CASE-SUMMARY-001",
+    isActive: true,
     packType: "LOAN",
     feature: "CASE_SUMMARY",
     title: "대여금 반환 — 사건 요약 golden",
@@ -28,6 +29,7 @@ export const AI_EVALUATION_DATASET_SAMPLES: AiEvaluationDatasetEntryRecord[] = [
   },
   {
     code: "EVAL-LEASE-CASE-SUMMARY-001",
+    isActive: true,
     packType: "LEASE",
     feature: "CASE_SUMMARY",
     title: "임대차 보증금 — 사건 요약 golden",
@@ -45,6 +47,7 @@ export const AI_EVALUATION_DATASET_SAMPLES: AiEvaluationDatasetEntryRecord[] = [
   },
   {
     code: "EVAL-LABOR-DOCUMENT-PARAGRAPH-001",
+    isActive: true,
     packType: "LABOR",
     feature: "DOCUMENT_PARAGRAPH",
     title: "임금 체불 — 문단 생성 golden",
@@ -62,6 +65,7 @@ export const AI_EVALUATION_DATASET_SAMPLES: AiEvaluationDatasetEntryRecord[] = [
   },
   {
     code: "EVAL-CRIMINAL-CONTRADICTION-001",
+    isActive: true,
     packType: "CRIMINAL",
     feature: "CONTRADICTION_RADAR",
     title: "형사 — 진술 모순 탐지 golden",
@@ -80,6 +84,7 @@ export const AI_EVALUATION_DATASET_SAMPLES: AiEvaluationDatasetEntryRecord[] = [
   },
   {
     code: "EVAL-DIVORCE-INTELLIGENCE-GRAPH-001",
+    isActive: true,
     packType: "DIVORCE",
     feature: "CASE_INTELLIGENCE_GRAPH",
     title: "이혼 — 사건 인텔리전스 그래프 golden",
@@ -97,6 +102,7 @@ export const AI_EVALUATION_DATASET_SAMPLES: AiEvaluationDatasetEntryRecord[] = [
   },
   {
     code: "EVAL-DAMAGES-JUDGMENT-LEDGER-001",
+    isActive: true,
     packType: "DAMAGES",
     feature: "LAWYER_JUDGMENT_LEDGER",
     title: "손해배상 — 변호사 판단 원장 golden",

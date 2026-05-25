@@ -48,3 +48,6 @@ export const evidenceTimelineIssuePackSchema = z.object({
 });
 
 export type EvidenceTimelineIssuePack = z.infer<typeof evidenceTimelineIssuePackSchema>;
+export type EvidenceTimelineIssuePackIssueItem = z.infer<
+  typeof evidenceTimelineIssuePackIssueItemSchema
+>;

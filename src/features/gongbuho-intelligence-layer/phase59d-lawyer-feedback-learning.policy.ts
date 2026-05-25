@@ -26,8 +26,9 @@ export const PHASE59D_BOUNDARY_MARKERS = [
 ] as const;
 
 export function evaluateLawyerFeedbackLearningTraceCreation(
-  input: CreateLawyerFeedbackLearningTraceInput & {
+  input: Omit<CreateLawyerFeedbackLearningTraceInput, "aiSelfReviewed"> & {
     lawyerDecisionLedgerRef?: string;
+    aiSelfReviewed?: boolean;
   },
 ) {
   const blockedReasons: string[] = [];
@@ -146,7 +147,10 @@ export function evaluateLearningTraceReusability(input: {
 }
 
 export function assertLawyerFeedbackLearningTraceCreationAllowed(
-  input: CreateLawyerFeedbackLearningTraceInput & { lawyerDecisionLedgerRef?: string },
+  input: Omit<CreateLawyerFeedbackLearningTraceInput, "aiSelfReviewed"> & {
+    lawyerDecisionLedgerRef?: string;
+    aiSelfReviewed?: boolean;
+  },
 ) {
   const result = evaluateLawyerFeedbackLearningTraceCreation(input);
   if (!result.allowed) {

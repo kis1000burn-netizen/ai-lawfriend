@@ -1,7 +1,7 @@
 /**
  * Product Phase 20-D — Provider webhook status sync service.
  */
-import type { CaseDocumentDeliveryStatus } from "@prisma/client";
+import { Prisma, type CaseDocumentDeliveryStatus } from "@prisma/client";
 import { writeAuditLog } from "@/lib/audit-log";
 import { redactExternalMessagePayload } from "@/lib/data-governance/data-redaction.service";
 import { NotFoundError, ValidationError } from "@/lib/errors";
@@ -66,7 +66,7 @@ export function mergeWebhookSafePayloadSummary(
     redeliveryEligible: boolean;
     redeliveryBlockReason?: string;
   },
-): Record<string, unknown> {
+): Prisma.InputJsonValue {
   const summary = (existing ?? {}) as PayloadSummary;
   const processed = summary.processedWebhookEventIds ?? [];
   const nextProcessed = [...processed, input.providerEventId].slice(-MAX_PROCESSED_WEBHOOK_EVENTS);
@@ -81,7 +81,7 @@ export function mergeWebhookSafePayloadSummary(
     redeliveryBlockReason: input.redeliveryBlockReason,
   };
 
-  return redactExternalMessagePayload(merged) as Record<string, unknown>;
+  return redactExternalMessagePayload(merged) as Prisma.InputJsonValue;
 }
 
 export async function prepCaseDocumentDeliveryFromWebhook(input: {
