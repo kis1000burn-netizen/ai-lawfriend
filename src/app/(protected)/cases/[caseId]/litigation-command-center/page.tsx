@@ -46,6 +46,7 @@ export default async function LitigationCommandCenterPage({ params }: PageProps)
         caseId={caseId}
         initialData={initialData}
         readOnly={readOnly}
+        currentUserId={currentUser.id}
       />
     </div>
   );

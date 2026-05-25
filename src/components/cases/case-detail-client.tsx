@@ -501,6 +501,13 @@ export function CaseDetailClient({
               소송 지휘실 열기
             </Link>
             <Link
+              href={`/cases/${localCase.id}/lawyer-workbench`}
+              className="inline-flex rounded-xl bg-violet-800 px-4 py-2 text-sm font-semibold text-white"
+              data-testid="open-lawyer-workbench"
+            >
+              Legal Reliability Workbench
+            </Link>
+            <Link
               href={`/cases/${localCase.id}/intelligence-review`}
               className="inline-flex rounded-xl bg-indigo-700 px-4 py-2 text-sm font-semibold text-white"
             >

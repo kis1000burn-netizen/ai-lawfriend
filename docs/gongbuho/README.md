@@ -16,6 +16,32 @@
 | [GONGBUHO_LEGAL_KNOWLEDGE_INTAKE_SPEC.md](./GONGBUHO_LEGAL_KNOWLEDGE_INTAKE_SPEC.md) | **Legal Knowledge Intake** — 수요 신호·매핑·원문 금지 메타 (**Spec LOCKED**) |
 | [GONGBUHO_LEGAL_KNOWLEDGE_PACKET_PIPELINE_SPEC.md](./GONGBUHO_LEGAL_KNOWLEDGE_PACKET_PIPELINE_SPEC.md) | **Legal Knowledge 패킷 파이프라인** — Intake → Research Brief → Lawyer Review → DRAFT → APPROVED (**Spec LOCKED**) |
 | [GONGBUHO_LEGAL_KNOWLEDGE_INTELLIGENCE_DASHBOARD_SPEC.md](./GONGBUHO_LEGAL_KNOWLEDGE_INTELLIGENCE_DASHBOARD_SPEC.md) | **Phase 4-I** — Legal Knowledge Intelligence Dashboard (backlog·funnel·gap·SLA·준수 메타) |
+| [AIBEOPCHIN_GONGBUHO_INTELLIGENCE_LAYER_PHASE59_SPEC.md](./AIBEOPCHIN_GONGBUHO_INTELLIGENCE_LAYER_PHASE59_SPEC.md) | **Product Phase 59** — Gongbuho Intelligence Layer |
+| [AIBEOPCHIN_GONGBUHO_REAL_TIME_LEGAL_SIGNAL_PHASE59B.md](./AIBEOPCHIN_GONGBUHO_REAL_TIME_LEGAL_SIGNAL_PHASE59B.md) | **Product Phase 59-B** — Real-time Legal Signal Connector |
+| [AIBEOPCHIN_GONGBUHO_REASONING_CONTEXT_PHASE59C.md](./AIBEOPCHIN_GONGBUHO_REASONING_CONTEXT_PHASE59C.md) | **Product Phase 59-C** — Gongbuho Retrieval-Augmented Reasoning |
+| [AIBEOPCHIN_GONGBUHO_LAWYER_FEEDBACK_LEARNING_PHASE59D.md](./AIBEOPCHIN_GONGBUHO_LAWYER_FEEDBACK_LEARNING_PHASE59D.md) | **Product Phase 59-D** — Lawyer Feedback Learning Loop |
+| [AIBEOPCHIN_GONGBUHO_REUSABLE_LEGAL_PATTERN_PHASE59E.md](./AIBEOPCHIN_GONGBUHO_REUSABLE_LEGAL_PATTERN_PHASE59E.md) | **Product Phase 59-E** — Reusable Legal Pattern Library |
+| [AIBEOPCHIN_GONGBUHO_INTELLIGENCE_RC_LOCK_SUMMARY.md](./AIBEOPCHIN_GONGBUHO_INTELLIGENCE_RC_LOCK_SUMMARY.md) | **Product Phase 59-F** — Gongbuho Intelligence RC |
+
+## Product Phase 59 — Gongbuho Intelligence Layer (DRAFT)
+
+| Sub-phase | Module | 상태 |
+| --- | --- | --- |
+| **59-A** | Gongbuho Memory Packet Schema | **DRAFT · 59-A.0** |
+| **59-B** | Real-time Legal Signal Connector | **COMPLETE · LOCKED · 59-B.1** |
+| **59-C** | Gongbuho Retrieval-Augmented Reasoning | **COMPLETE · LOCKED · 59-C.1** |
+| **59-D** | Lawyer Feedback Learning Loop | **COMPLETE · LOCKED · 59-D.1** |
+| **59-E** | Reusable Legal Pattern Library | **COMPLETE · LOCKED · 59-E.1** |
+| **59-F** | Gongbuho Intelligence RC | **COMPLETE · LOCKED · 59-F.1** |
+
+```bash
+npm run verify:aibeopchin-gongbuho-intelligence-phase59a
+npm run verify:aibeopchin-gongbuho-intelligence-phase59b
+npm run verify:aibeopchin-gongbuho-intelligence-phase59c
+npm run verify:aibeopchin-gongbuho-intelligence-phase59d
+npm run verify:aibeopchin-gongbuho-intelligence-phase59e
+npm run verify:aibeopchin-gongbuho-intelligence-rc
+```
 
 ## Phase 2-A (필드명 고정 · Prisma 전)
 

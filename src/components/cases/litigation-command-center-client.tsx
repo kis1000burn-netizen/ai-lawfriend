@@ -10,6 +10,8 @@ import type { LitigationCommandCenterResponse } from "@/features/document-intell
 import type { LitigationCommandCenterActionFeedItem } from "@/features/document-intelligence/litigation-command-center-action-feed";
 import { requireOkData } from "@/lib/client/api-error";
 import { useLitigationCommandCenterActions } from "@/hooks/use-litigation-command-center-actions";
+import { LegalReliabilityActionOperationsPanel } from "@/components/cases/litigation-command-center/legal-reliability-action-operations-panel";
+import { LegalReliabilityActionOperationsDashboardPanel } from "@/components/cases/litigation-command-center/legal-reliability-action-operations-dashboard-panel";
 
 export const LITIGATION_COMMAND_CENTER_CLIENT_MARKER_PHASE14C =
   "phase14c-litigation-command-center-client" as const;
@@ -18,6 +20,7 @@ type Props = {
   caseId: string;
   initialData: LitigationCommandCenterResponse;
   readOnly: boolean;
+  currentUserId: string;
 };
 
 const TASK_KIND_LABELS: Record<string, string> = {
@@ -741,6 +744,7 @@ export function LitigationCommandCenterClient({
   caseId,
   initialData,
   readOnly,
+  currentUserId,
 }: Readonly<Props>) {
   const { pushToast } = useToast();
   const [data, setData] = useState(initialData);
@@ -1490,6 +1494,30 @@ export function LitigationCommandCenterClient({
         canAct={canAct}
         onDone={refresh}
       />
+
+      <Section
+        title="Legal Reliability Action Execution"
+        description="Phase 50-E — SLA·응답·증거·검토·downstream 집계 대시보드"
+        testId="lcc-section-action-operations-dashboard-wrapper"
+      >
+        <LegalReliabilityActionOperationsDashboardPanel
+          summary={data.actionOperationsDashboard}
+        />
+      </Section>
+
+      <Section
+        title="Legal Reliability Action Operations"
+        description="Phase 49에서 변호사가 승인한 보완·증거요청 액션의 운영 큐"
+        testId="lcc-section-action-operations-wrapper"
+      >
+        <LegalReliabilityActionOperationsPanel
+          caseId={caseId}
+          operations={data.actionOperations}
+          currentUserId={currentUserId}
+          canAct={canAct}
+          onDone={refresh}
+        />
+      </Section>
 
       <Section title="보완요청" testId="lcc-section-supplements">
         {data.supplements.length === 0 ? (

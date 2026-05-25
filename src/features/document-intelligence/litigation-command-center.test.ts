@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { buildLitigationCommandCenterNarrative, computeDaysUntilDue } from "./litigation-command-center.summary";
 import { litigationCommandCenterResponseSchema } from "./litigation-command-center.schema";
+import { emptyLegalReliabilityActionOperationDashboardSummary } from "@/features/legal-reliability-action-operations/legal-reliability-action-operation-dashboard.fixture";
 import {
   assertCanReadLitigationCommandCenter,
   canRunLitigationCommandCenterActions,
@@ -135,6 +136,9 @@ describe("litigation-command-center.schema (Phase 14-A / 15-G Full RC)", () => {
       conversationMessages: [],
       sharedDocuments: [],
       shareableDocuments: [],
+      actionOperationsDashboard: emptyLegalReliabilityActionOperationDashboardSummary(
+        "clxxxxxxxxxxxxxxxxxxxxxxxxx",
+      ),
       readOnly: false,
       actionsEnabled: true,
     });

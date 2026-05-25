@@ -40,6 +40,7 @@ import {
 } from "./client-portal.schema";
 import { validateClientOwnedLitigationFiles } from "./client-portal.service";
 import { canLawyerReviewSubmission } from "./client-submission-status.portal";
+import { syncClientResponseToLegalReliabilityOperationFromPortal } from "@/features/legal-reliability-action-operations/legal-reliability-action-operation-client-response-sync.service";
 
 function descriptionMap(
   items: Array<{ uploadedFileId: string; description?: string }>,
@@ -252,6 +253,16 @@ export async function submitClientSupplementService(
     submissionId,
     supplementRequestId: requestId,
     fileCount: ownedFiles.length,
+  });
+
+  await syncClientResponseToLegalReliabilityOperationFromPortal({
+    caseId,
+    supplementRequestId: requestId,
+    clientSubmissionIds: [submissionId],
+    uploadedFileIds: input.litigationFileIds,
+    responseSummary: input.message,
+    respondedAt: new Date(),
+    actorUserId: currentUser.id,
   });
 
   return {

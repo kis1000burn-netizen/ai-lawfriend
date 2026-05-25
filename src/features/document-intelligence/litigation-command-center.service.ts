@@ -54,6 +54,8 @@ import {
   collectAllEvidenceMappingItems,
   evidenceMappingResultSchema,
 } from "./evidence-mapping.schema";
+import { listLegalReliabilityActionOperationsForCommandCenter } from "@/features/legal-reliability-action-operations/legal-reliability-action-operation.service";
+import { getLegalReliabilityActionOperationsDashboardForCommandCenter } from "@/features/legal-reliability-action-operations/legal-reliability-action-operation-dashboard-summary.service";
 
 export const PHASE14A_LITIGATION_COMMAND_CENTER_SERVICE_MARKER =
   "PHASE14A_LITIGATION_COMMAND_CENTER_SERVICE" as const;
@@ -89,6 +91,8 @@ export async function getLitigationCommandCenterService(
     conversationMessagesRaw,
     sharedDocumentsRaw,
     shareableDocumentsRaw,
+    actionOperationsRaw,
+    actionOperationsDashboardRaw,
   ] = await Promise.all([
     listLitigationDeadlinesForCase(caseId),
     listLitigationTasksForCase(caseId),
@@ -106,6 +110,8 @@ export async function getLitigationCommandCenterService(
     listConversationMessagesForCommandCenter(caseId),
     listCommandCenterSharedDocuments(caseId),
     listCommandCenterShareableDocuments(caseId),
+    listLegalReliabilityActionOperationsForCommandCenter(caseId),
+    getLegalReliabilityActionOperationsDashboardForCommandCenter(caseId),
   ]);
 
   const deadlines = await Promise.all(
@@ -347,6 +353,8 @@ export async function getLitigationCommandCenterService(
     clientConfirmationCount,
     operations,
     supplements,
+    actionOperations: actionOperationsRaw,
+    actionOperationsDashboard: actionOperationsDashboardRaw,
     draftContexts,
     evidenceMappingPendingItems,
     recentActionFeed,

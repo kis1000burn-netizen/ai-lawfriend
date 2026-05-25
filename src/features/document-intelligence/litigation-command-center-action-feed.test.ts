@@ -10,6 +10,7 @@ import {
   applyOptimisticTaskStatus,
 } from "./litigation-command-center-optimistic";
 import { litigationCommandCenterResponseSchema } from "./litigation-command-center.schema";
+import { emptyLegalReliabilityActionOperationDashboardSummary } from "@/features/legal-reliability-action-operations/legal-reliability-action-operation-dashboard.fixture";
 
 const baseResponse = litigationCommandCenterResponseSchema.parse({
   caseId: "clxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -71,6 +72,9 @@ const baseResponse = litigationCommandCenterResponseSchema.parse({
   caseUnreadMessageCount: 0,
   clientSubmissions: [],
   conversationMessages: [],
+  actionOperationsDashboard: emptyLegalReliabilityActionOperationDashboardSummary(
+    "clxxxxxxxxxxxxxxxxxxxxxxxxx",
+  ),
   readOnly: false,
   actionsEnabled: true,
 });

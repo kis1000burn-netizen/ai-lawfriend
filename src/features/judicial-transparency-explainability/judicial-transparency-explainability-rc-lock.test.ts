@@ -1,0 +1,54 @@
+import { describe, expect, it } from "vitest";
+import {
+  JUDICIAL_TRANSPARENCY_EXPLAINABILITY_RC_BOUNDARY,
+  JUDICIAL_TRANSPARENCY_EXPLAINABILITY_RC_CORE_TRACE_DIMENSIONS,
+  JUDICIAL_TRANSPARENCY_EXPLAINABILITY_RC_EVIDENCE_TAG,
+  JUDICIAL_TRANSPARENCY_EXPLAINABILITY_RC_LOCK_MARKER_PHASE45F,
+  JUDICIAL_TRANSPARENCY_EXPLAINABILITY_RC_MASTER_VERIFY_SCRIPT,
+  JUDICIAL_TRANSPARENCY_EXPLAINABILITY_RC_ONE_LINE_CRITERION,
+  JUDICIAL_TRANSPARENCY_EXPLAINABILITY_RC_PREREQUISITE_EVIDENCE_TAGS,
+  JUDICIAL_TRANSPARENCY_EXPLAINABILITY_RC_SOURCE_PROVENANCE_GATE_MARKER,
+  JUDICIAL_TRANSPARENCY_EXPLAINABILITY_RC_SUB_PHASES,
+  JUDICIAL_TRANSPARENCY_EXPLAINABILITY_RC_VERSION,
+} from "./judicial-transparency-explainability-rc-lock";
+
+describe("judicial-transparency-explainability-rc-lock (Phase 45-F)", () => {
+  it("defines Phase 45-F marker", () => {
+    expect(JUDICIAL_TRANSPARENCY_EXPLAINABILITY_RC_LOCK_MARKER_PHASE45F).toBe(
+      "phase45f-judicial-transparency-explainability-rc-gate",
+    );
+    expect(JUDICIAL_TRANSPARENCY_EXPLAINABILITY_RC_VERSION).toBe("45-F.1");
+    expect(JUDICIAL_TRANSPARENCY_EXPLAINABILITY_RC_EVIDENCE_TAG).toContain("PHASE45F");
+  });
+
+  it("lists 45-A through 45-F", () => {
+    expect(Object.keys(JUDICIAL_TRANSPARENCY_EXPLAINABILITY_RC_SUB_PHASES)).toHaveLength(6);
+  });
+
+  it("requires 44-F prerequisite", () => {
+    expect(JUDICIAL_TRANSPARENCY_EXPLAINABILITY_RC_PREREQUISITE_EVIDENCE_TAGS).toContain(
+      "EVIDENCE-20260525-AIBEOPCHIN-COURT-READY-CASE-RECORD-PACK-PHASE44F-RC",
+    );
+  });
+
+  it("declares explainability boundaries", () => {
+    expect(JUDICIAL_TRANSPARENCY_EXPLAINABILITY_RC_BOUNDARY.noUnexplainedAiOutput).toBe(
+      "NO_UNEXPLAINED_AI_OUTPUT",
+    );
+    expect(JUDICIAL_TRANSPARENCY_EXPLAINABILITY_RC_BOUNDARY.noHiddenSourceOmission).toBe(
+      "NO_HIDDEN_SOURCE_OMISSION",
+    );
+  });
+
+  it("wires core trace dimensions and master verify", () => {
+    expect(JUDICIAL_TRANSPARENCY_EXPLAINABILITY_RC_CORE_TRACE_DIMENSIONS).toContain("evidenceUsed");
+    expect(JUDICIAL_TRANSPARENCY_EXPLAINABILITY_RC_CORE_TRACE_DIMENSIONS).toContain("finalReviewer");
+    expect(JUDICIAL_TRANSPARENCY_EXPLAINABILITY_RC_MASTER_VERIFY_SCRIPT).toBe(
+      "verify:aibeopchin-judicial-transparency-explainability-rc",
+    );
+    expect(JUDICIAL_TRANSPARENCY_EXPLAINABILITY_RC_SOURCE_PROVENANCE_GATE_MARKER).toBe(
+      "phase45a-source-provenance-trace-registry-gate",
+    );
+    expect(JUDICIAL_TRANSPARENCY_EXPLAINABILITY_RC_ONE_LINE_CRITERION).toContain("투명하게 설명");
+  });
+});

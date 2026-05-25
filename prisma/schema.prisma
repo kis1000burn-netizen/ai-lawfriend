@@ -1039,6 +1039,9 @@ model Case {
   retryJobs                          RetryJob[]
   documentPipelineJobs               DocumentPipelineJob[]
   aiLawyerReviewFeedbacks            AiLawyerReviewFeedback[]
+  legalReliabilityActionCandidates   LegalReliabilityActionCandidate[]
+  legalReliabilityActionDecisionLedgers LegalReliabilityActionDecisionLedger[]
+  legalReliabilityActionOperations   LegalReliabilityActionOperation[]
 
   /// 사건 인터뷰에 사용할 질문셋(선택). 미지정 시 전역 활성 단일 QuestionSet 규약 유지(Phase 3-D).
   questionSetId               String?
@@ -3544,4 +3547,133 @@ model DocumentPipelineJob {
   @@index([uploadedFileId, failedStage])
   @@index([caseId, status, createdAt])
   @@index([status, createdAt])
+}
+
+/// Phase 49-A — Legal Reliability Risk Radar → Supplement Action Candidate.
+model LegalReliabilityActionCandidate {
+  id        String   @id @default(cuid())
+  caseId    String
+  tenantId  String?
+
+  sourcePhase String
+  sourceType  String
+  sourceId    String
+
+  actionType String
+  status     String
+
+  riskType   String
+  severity   String
+
+  lawyerFacingTitle  String
+  lawyerFacingReason String @db.Text
+
+  proposedClientRequestTitle String
+  proposedClientRequestBody  String @db.Text
+
+  clientVisibleByDefault      Boolean @default(false)
+  prohibitedClientTextRemoved Boolean @default(true)
+  requiresLawyerApproval      Boolean @default(true)
+
+  linkedClaimIds    Json
+  linkedEvidenceIds Json
+  linkedJudgmentIds Json
+
+  supplementRequestId String?
+  createdByUserId     String?
+  approvedByUserId    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  case Case @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  decisionLedgers LegalReliabilityActionDecisionLedger[]
+  actionOperation LegalReliabilityActionOperation?
+
+  @@index([caseId, status, createdAt])
+  @@index([sourceId, caseId])
+  @@index([supplementRequestId])
+}
+
+/// Phase 49-A — Lawyer decision ledger for supplement action candidates.
+model LegalReliabilityActionDecisionLedger {
+  id          String   @id @default(cuid())
+  caseId      String
+  tenantId    String?
+
+  actionCandidateId String
+  decisionType      String
+
+  decidedByUserId String
+  decidedByRole   String
+
+  beforeClientRequestBody String? @db.Text
+  afterClientRequestBody  String? @db.Text
+
+  rejectionReason String? @db.Text
+  deferReason     String? @db.Text
+
+  sourceRiskRadarSignalId String?
+
+  linkedClaimIds    Json
+  linkedEvidenceIds Json
+  linkedJudgmentIds Json
+
+  createdAt DateTime @default(now())
+
+  case              Case @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  actionCandidate   LegalReliabilityActionCandidate @relation(fields: [actionCandidateId], references: [id], onDelete: Cascade)
+
+  @@index([caseId, createdAt])
+  @@index([actionCandidateId, createdAt])
+}
+
+/// Phase 50-A — Legal Reliability Action Operations Queue.
+model LegalReliabilityActionOperation {
+  id        String   @id @default(cuid())
+  caseId    String
+  tenantId  String?
+
+  sourcePhase             String
+  sourceActionCandidateId String @unique
+  supplementRequestId     String?
+
+  operationType String
+  status        String
+  priority      String @default("MEDIUM")
+
+  assignedToUserId String?
+  assignedByUserId String?
+  assignedAt       DateTime?
+  dueAt            DateTime?
+
+  slaStatus    String   @default("NO_DUE_DATE")
+  slaCheckedAt DateTime?
+
+  clientResponseReceivedAt DateTime?
+  clientResponseSummary     String? @db.Text
+  lawyerReviewedAt         DateTime?
+  completedAt              DateTime?
+
+  linkedClientSubmissionIds Json @default("[]")
+  linkedUploadedFileIds     Json @default("[]")
+  linkedEvidenceIntakeIds   Json @default("[]")
+  evidenceIntakeStatus      String @default("NONE")
+  reviewHandoffJson         Json?
+
+  completionResult String?
+
+  lawyerFacingTitle String
+  sourceLabel       String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  case              Case @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  sourceActionCandidate LegalReliabilityActionCandidate @relation(fields: [sourceActionCandidateId], references: [id], onDelete: Cascade)
+
+  @@index([caseId, status, createdAt])
+  @@index([supplementRequestId])
+  @@index([assignedToUserId])
+  @@index([slaStatus])
 }

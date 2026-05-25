@@ -8,6 +8,8 @@ import { litigationOpsStatusResponseSchema } from "./litigation-operations.schem
 import { commandCenterEvidencePendingItemSchema } from "./litigation-command-center-actions.schema";
 import { litigationCommandCenterActionFeedItemSchema } from "./litigation-command-center-action-feed";
 import { commandCenterSharedDocumentRowSchema } from "@/features/secure-document-delivery/secure-document-delivery.schema";
+import { legalReliabilityActionOperationSchema } from "@/features/legal-reliability-action-operations/legal-reliability-action-operation.schema";
+import { legalReliabilityActionOperationDashboardSummarySchema } from "@/features/legal-reliability-action-operations/legal-reliability-action-operation-dashboard.schema";
 
 export const PHASE14A_LITIGATION_COMMAND_CENTER_MARKER =
   "PHASE14A_LITIGATION_COMMAND_CENTER" as const;
@@ -133,6 +135,8 @@ export const litigationCommandCenterResponseSchema = z.object({
   clientConfirmationCount: z.number().int().nonnegative(),
   operations: litigationOpsStatusResponseSchema,
   supplements: z.array(litigationCommandCenterSupplementSchema),
+  actionOperations: z.array(legalReliabilityActionOperationSchema).default([]),
+  actionOperationsDashboard: legalReliabilityActionOperationDashboardSummarySchema,
   draftContexts: z.array(litigationCommandCenterDraftContextSchema),
   evidenceMappingPendingItems: z
     .array(commandCenterEvidencePendingItemSchema)

@@ -1,0 +1,138 @@
+/**
+ * Product Phase 59-F — Gongbuho Intelligence RC lock SSOT.
+ * @see docs/gongbuho/AIBEOPCHIN_GONGBUHO_INTELLIGENCE_RC_LOCK_SUMMARY.md
+ */
+import {
+  PHASE59F_BOUNDARY_MARKERS,
+  PHASE59F_CONSOLIDATED_RC_BOUNDARY_MARKERS,
+  PHASE59F_INHERITED_BOUNDARY_MARKERS,
+  PHASE59F_INTELLIGENCE_GOVERNANCE_BOUNDARY_MARKERS,
+  PHASE59F_RC_GATE_BOUNDARY_MARKERS,
+} from "./phase59f-gongbuho-intelligence-rc.policy";
+
+export const PHASE59F_GONGBUHO_INTELLIGENCE_RC_LOCK_MARKER =
+  "phase59f-gongbuho-intelligence-rc-gate" as const;
+
+export const PHASE59E_REUSABLE_LEGAL_PATTERN_EVIDENCE_TAG =
+  "EVIDENCE-20260526-AIBEOPCHIN-GONGBUHO-INTELLIGENCE-PHASE59E-REUSABLE-LEGAL-PATTERN" as const;
+
+export const PHASE59D_LAWYER_FEEDBACK_LEARNING_EVIDENCE_TAG =
+  "EVIDENCE-20260526-AIBEOPCHIN-GONGBUHO-INTELLIGENCE-PHASE59D-LAWYER-FEEDBACK-LEARNING" as const;
+
+export const PHASE59C_GONGBUHO_REASONING_CONTEXT_EVIDENCE_TAG =
+  "EVIDENCE-20260526-AIBEOPCHIN-GONGBUHO-INTELLIGENCE-PHASE59C-REASONING-CONTEXT" as const;
+
+export const PHASE59B_GONGBUHO_REAL_TIME_LEGAL_SIGNAL_EVIDENCE_TAG =
+  "EVIDENCE-20260526-AIBEOPCHIN-GONGBUHO-INTELLIGENCE-PHASE59B-REAL-TIME-LEGAL-SIGNAL" as const;
+
+export const PHASE59F_GONGBUHO_INTELLIGENCE_RC_EVIDENCE_TAG =
+  "EVIDENCE-20260526-AIBEOPCHIN-GONGBUHO-INTELLIGENCE-PHASE59F-RC-LOCK" as const;
+
+export const PHASE59A_GONGBUHO_MEMORY_PACKET_EVIDENCE_TAG =
+  "EVIDENCE-20260526-AIBEOPCHIN-GONGBUHO-INTELLIGENCE-PHASE59A-MEMORY-PACKET-SCHEMA" as const;
+
+export const PHASE59F_GONGBUHO_INTELLIGENCE_RC_VERSION = "59-F.1" as const;
+
+export const PHASE59F_GONGBUHO_INTELLIGENCE_RC_MASTER_VERIFY_SCRIPT =
+  "verify:aibeopchin-gongbuho-intelligence-rc" as const;
+
+export const PHASE59F_GONGBUHO_INTELLIGENCE_RC_ONE_LINE_CRITERION =
+  "59-F는 59-A Memory Packet, 59-B Real-time Signal, 59-C Reasoning Context, 59-D Lawyer Feedback Learning, 59-E Reusable Legal Pattern을 하나의 Gongbuho Intelligence Layer로 묶고, 강추론·학습·재사용·실시간 정보 사용이 모두 변호사 검토·익명화·tenant 격리·audit 경계 안에서만 작동하도록 RC로 봉인하는 단계다." as const;
+
+export const PHASE59F_GONGBUHO_INTELLIGENCE_RC_FINAL_JUDGMENT =
+  "Phase 59-F는 59-A Memory Packet, 59-B Real-time Signal, 59-C Reasoning Context, 59-D Lawyer Feedback Learning, 59-E Reusable Legal Pattern을 하나의 Gongbuho Intelligence Layer로 묶고, LAWYER_CONFIRMED / LOCKED 항목과 APPROVED_FOR_AI_USE 신호만 강추론에 사용하며, 변호사 APPROVED / MODIFIED 피드백과 익명화된 APPROVED_FOR_REUSE 패턴만 향후 reasoning 보조에 사용할 수 있도록 RC로 봉인했다." as const;
+
+export const PHASE59F_GONGBUHO_INTELLIGENCE_PLATFORM_STATUS =
+  "LEGAL_RELIABILITY_INTELLIGENCE_PLATFORM" as const;
+
+export const PHASE59F_GONGBUHO_INTELLIGENCE_SUB_PHASES = {
+  "59-A": "Gongbuho Memory Packet Schema",
+  "59-B": "Real-time Legal Signal Connector",
+  "59-C": "Gongbuho Retrieval-Augmented Reasoning",
+  "59-D": "Lawyer Feedback Learning Loop",
+  "59-E": "Reusable Legal Pattern Library",
+  "59-F": "Gongbuho Intelligence RC",
+} as const;
+
+export const PHASE59F_GONGBUHO_INTELLIGENCE_RC_BUNDLED_VERIFY_SCRIPTS = [
+  "verify:aibeopchin-gongbuho-intelligence-phase59a",
+  "verify:aibeopchin-gongbuho-intelligence-phase59b",
+  "verify:aibeopchin-gongbuho-intelligence-phase59c",
+  "verify:aibeopchin-gongbuho-intelligence-phase59d",
+  "verify:aibeopchin-gongbuho-intelligence-phase59e",
+] as const;
+
+export const PHASE59F_GONGBUHO_INTELLIGENCE_RC_PREREQ_VERIFY_SCRIPTS = [
+  "verify:aibeopchin-legal-reliability-production-stabilization-rc",
+  "verify:gongbuho-legal-knowledge-rc",
+] as const;
+
+export const PHASE59F_GONGBUHO_INTELLIGENCE_RC_EVIDENCE_CHAIN = [
+  PHASE59A_GONGBUHO_MEMORY_PACKET_EVIDENCE_TAG,
+  PHASE59B_GONGBUHO_REAL_TIME_LEGAL_SIGNAL_EVIDENCE_TAG,
+  PHASE59C_GONGBUHO_REASONING_CONTEXT_EVIDENCE_TAG,
+  PHASE59D_LAWYER_FEEDBACK_LEARNING_EVIDENCE_TAG,
+  PHASE59E_REUSABLE_LEGAL_PATTERN_EVIDENCE_TAG,
+  PHASE59F_GONGBUHO_INTELLIGENCE_RC_EVIDENCE_TAG,
+] as const;
+
+export const PHASE59F_GONGBUHO_INTELLIGENCE_RC_LOCK = {
+  phase: "59-F",
+  name: "Gongbuho Intelligence RC",
+  version: PHASE59F_GONGBUHO_INTELLIGENCE_RC_VERSION,
+  status: "COMPLETE_LOCKED",
+
+  oneLineStandard: PHASE59F_GONGBUHO_INTELLIGENCE_RC_ONE_LINE_CRITERION,
+
+  platformStatus: PHASE59F_GONGBUHO_INTELLIGENCE_PLATFORM_STATUS,
+
+  requiredLocks: {
+    phase54ProductionStabilization: "COMPLETE_LOCKED",
+    phase59aMemoryPacket: "DRAFT_SPEC",
+    phase59bRealtimeSignal: "COMPLETE_LOCKED",
+    phase59cReasoningEngine: "COMPLETE_LOCKED",
+    phase59dLearningLoop: "COMPLETE_LOCKED",
+    phase59ePatternLibrary: "COMPLETE_LOCKED",
+  },
+
+  intelligenceGovernanceBoundaries: PHASE59F_INTELLIGENCE_GOVERNANCE_BOUNDARY_MARKERS,
+
+  inheritedBoundaries: PHASE59F_INHERITED_BOUNDARY_MARKERS,
+
+  rcGateBoundaries: PHASE59F_RC_GATE_BOUNDARY_MARKERS,
+
+  consolidatedRcBoundaries: PHASE59F_CONSOLIDATED_RC_BOUNDARY_MARKERS,
+
+  lockedBoundaries: PHASE59F_BOUNDARY_MARKERS,
+
+  criticalBoundaryMarkers: [
+    "NO_RAW_CLIENT_FACT_GLOBAL_LEARNING",
+    "NO_AI_CANDIDATE_MEMORY_IN_STRONG_REASONING",
+    "NO_UNAPPROVED_REAL_TIME_SIGNAL_IN_CONTEXT",
+    "NO_LEARNING_TRACE_WITHOUT_LAWYER_DECISION",
+    "NO_REJECTED_SUGGESTION_REUSE",
+    "NO_REUSABLE_PATTERN_FROM_REJECTED_TRACE",
+    "NO_PATTERN_WITHOUT_ANONYMIZATION",
+    "NO_CROSS_TENANT_REASONING_CONTEXT",
+    "NO_CLIENT_VISIBLE_REASONING_WITHOUT_LAWYER_REVIEW",
+    "LAWYER_DECISION_LEDGER_REQUIRED",
+    "AUDIT_EVERY_AI_LEARNING",
+    "GONGBUHO_INTELLIGENCE_MASTER_VERIFY_REQUIRED",
+  ] as const,
+
+  masterVerify: PHASE59F_GONGBUHO_INTELLIGENCE_RC_MASTER_VERIFY_SCRIPT,
+
+  bundledVerifyScripts: PHASE59F_GONGBUHO_INTELLIGENCE_RC_BUNDLED_VERIFY_SCRIPTS,
+
+  prereqVerifyScripts: PHASE59F_GONGBUHO_INTELLIGENCE_RC_PREREQ_VERIFY_SCRIPTS,
+
+  evidenceChain: PHASE59F_GONGBUHO_INTELLIGENCE_RC_EVIDENCE_CHAIN,
+
+  finalJudgment: PHASE59F_GONGBUHO_INTELLIGENCE_RC_FINAL_JUDGMENT,
+
+  evidenceRefs: [
+    "docs/gongbuho/AIBEOPCHIN_GONGBUHO_INTELLIGENCE_RC_LOCK_SUMMARY.md",
+    "docs/gongbuho/AIBEOPCHIN_GONGBUHO_INTELLIGENCE_LAYER_PHASE59_SPEC.md",
+    "docs/project-governance/IMPLEMENTATION_EVIDENCE.md",
+  ],
+} as const;

@@ -360,6 +360,433 @@ PROJECT_PLAN = {
         "[EVIDENCE-20260524-AIBEOPCHIN-ENTERPRISE-SCALE-PHASE30F-RC] / "
         "선행: Product 29-F · 28-F · 22-F. Phase 30 COMPLETE · LOCKED."
     ),
+    "aibeopchin_product_31_partner_ecosystem_marketplace": (
+        "Product Phase 31 — Partner Ecosystem / Marketplace Readiness: "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §31. "
+        "31-A~E + 31-F RC: npm run verify:aibeopchin-partner-ecosystem-rc / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-PARTNER-ECOSYSTEM-PHASE31F-RC] / "
+        "선행: Product 30-F · 29-F · 22-F · no automatic payout. Phase 31 COMPLETE · LOCKED."
+    ),
+    "aibeopchin_product_32_enterprise_security_compliance": (
+        "Product Phase 32 — Enterprise Security / Compliance Certification Readiness: "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §32. "
+        "32-A~E + 32-F RC: npm run verify:aibeopchin-enterprise-security-rc / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-ENTERPRISE-SECURITY-COMPLIANCE-PHASE32F-RC] / "
+        "선행: Product 31-F · 30-F · 19-F · no certification claim. Phase 32 COMPLETE · LOCKED."
+    ),
+    "aibeopchin_product_33_public_trust_marketing_launch": (
+        "Product Phase 33 — Public Trust / Marketing Launch: "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §33. "
+        "33-A~E + 33-F RC: npm run verify:aibeopchin-public-trust-marketing-rc / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-PUBLIC-TRUST-MARKETING-PHASE33F-RC] / "
+        "선행: Product 32-F · 31-F · 25-F · no unverified marketing claim. Phase 33 COMPLETE · LOCKED."
+    ),
+    "aibeopchin_product_34_sales_pipeline_deal_desk": (
+        "Product Phase 34 — Sales Pipeline / Deal Desk: "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §34. "
+        "34-A~E + 34-F RC: npm run verify:aibeopchin-sales-pipeline-deal-desk-rc / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-SALES-PIPELINE-DEAL-DESK-PHASE34F-RC] / "
+        "선행: Product 33-F · 28-F · 25-F · no auto contract/invoice. Phase 34 COMPLETE · LOCKED."
+    ),
+    "aibeopchin_product_35_contracting_legal_ops": (
+        "Product Phase 35 — Contracting / Legal Ops: "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §35. "
+        "35-A~E + 35-F RC: npm run verify:aibeopchin-contracting-legal-ops-rc / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-CONTRACTING-LEGAL-OPS-PHASE35F-RC] / "
+        "선행: Product 34-F · 32-F · 33-F · 28-F · no auto contract execution/signature. "
+        "Phase 35 COMPLETE · LOCKED."
+    ),
+    "aibeopchin_product_36_implementation_readiness": (
+        "Product Phase 36 — Implementation Readiness: "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §36. "
+        "36-A~E + 36-F RC: npm run verify:aibeopchin-implementation-readiness-rc / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-IMPLEMENTATION-READINESS-PHASE36F-RC] / "
+        "선행: Product 35-F · 34-F · 28-F · 25-F · no auto tenant provisioning/go-live. "
+        "Phase 36 COMPLETE · LOCKED."
+    ),
+    "aibeopchin_product_37_customer_go_live_adoption": (
+        "Product Phase 37 — Customer Go-Live / Adoption: "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §37. "
+        "37-A~E + 37-F RC: npm run verify:aibeopchin-customer-go-live-adoption-rc / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-CUSTOMER-GO-LIVE-ADOPTION-PHASE37F-RC] / "
+        "선행: Product 36-F · 35-F · 28-F · 25-F · no auto adoption success claim. "
+        "Phase 37 COMPLETE · LOCKED."
+    ),
+    "aibeopchin_product_38_long_term_customer_success": (
+        "Product Phase 38 — Long-term Customer Success: "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §38. "
+        "38-A~E + 38-F RC: npm run verify:aibeopchin-long-term-customer-success-rc / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-LONG-TERM-CUSTOMER-SUCCESS-PHASE38F-RC] / "
+        "선행: Product 37-F · 36-F · 28-F · 25-F · no auto renewal/upsell. "
+        "Phase 38 COMPLETE · LOCKED."
+    ),
+    "aibeopchin_product_39_strategic_account_expansion": (
+        "Product Phase 39 — Strategic Account Expansion: "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §39. "
+        "39-A~E + 39-F RC: npm run verify:aibeopchin-strategic-account-expansion-rc / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-STRATEGIC-ACCOUNT-EXPANSION-PHASE39F-RC] / "
+        "선행: Product 38-F · 37-F · 28-F · 25-F · no auto expansion execution. "
+        "Phase 39 COMPLETE · LOCKED."
+    ),
+    "aibeopchin_product_40_legal_outcome_assessment": (
+        "Product Phase 40 — Judgment-Grounded Legal Outcome Assessment: "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §40. "
+        "40-A~E + 40-F RC: npm run verify:aibeopchin-legal-outcome-assessment-rc / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-JUDGMENT-GROUNDED-OUTCOME-ASSESSMENT-PHASE40F-RC] / "
+        "선행: Product 39-F · 23-F · 24-F · 32-F · "
+        "NO_JUDGMENTLESS_LEGAL_ASSESSMENT · LAWYER_REVIEW_REQUIRED · 판결문 우선. "
+        "Phase 40 COMPLETE · LOCKED."
+    ),
+    "aibeopchin_product_41_sentencing_outcome_assessment": (
+        "Product Phase 41 — Judgment-Grounded Sentencing Outcome Assessment: "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §41. "
+        "41-A~E + 41-F RC: npm run verify:aibeopchin-sentencing-outcome-assessment-rc / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-SENTENCING-OUTCOME-ASSESSMENT-PHASE41F-RC] / "
+        "선행: Product 40-F · 24-F · 32-F · "
+        "NO_AUTOMATED_SENTENCING_PREDICTION · NO_SENTENCE_GUARANTEE · "
+        "판결문 기반 양형결과 검토(양형예측 아님). "
+        "Phase 41 COMPLETE · LOCKED."
+    ),
+    "aibeopchin_product_42_evidence_integrity": (
+        "Product Phase 42 — Evidence Integrity / Chain of Custody: "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §42 · Legal Reliability §24. "
+        "42-A~E + 42-F RC: npm run verify:aibeopchin-evidence-integrity-rc / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-EVIDENCE-INTEGRITY-PHASE42F-RC] / "
+        "선행: Product 41-F · 40-F · 32-F · "
+        "NO_AI_EXTRACT_REPLACES_ORIGINAL · ORIGINAL_EVIDENCE_TRACE_REQUIRED · "
+        "판사도 볼 수 있는 투명한 증거 기록 축. "
+        "Phase 42 COMPLETE · LOCKED."
+    ),
+    "aibeopchin_product_43_claim_evidence_judgment_graph": (
+        "Product Phase 43 — Claim-Evidence-Judgment Graph: "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §26 · Legal Reliability §24. "
+        "43-A~E + 43-F RC: npm run verify:aibeopchin-claim-evidence-judgment-graph-rc / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-CLAIM-EVIDENCE-JUDGMENT-GRAPH-PHASE43F-RC] / "
+        "선행: Product 42-F · 40-F · "
+        "Claim ↔ Evidence ↔ Judgment ↔ Lawyer Review Status · "
+        "NO_UNLINKED_CLAIM_GRAPH · NO_JUDGMENTLESS_ISSUE_LINK · AI_CANDIDATE_LINK_NOT_FINAL · "
+        "NO_CLIENT_VISIBLE_STRATEGY_GRAPH · LAWYER_REVIEW_REQUIRED. "
+        "Phase 43 COMPLETE · LOCKED."
+    ),
+    "aibeopchin_product_44_court_ready_case_record_pack": (
+        "Product Phase 44 — Court-Ready Case Record Pack: "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §27 · Legal Reliability §24. "
+        "44-A~E + 44-F RC: npm run verify:aibeopchin-court-ready-case-record-pack-rc / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-COURT-READY-CASE-RECORD-PACK-PHASE44F-RC] / "
+        "선행: Product 43-F · 42-F · "
+        "Phase 43 graph → court-ready pack 정제 · "
+        "NO_AUTOMATIC_COURT_SUBMISSION · NO_E_FILING_AUTO_UPLOAD · "
+        "NO_COURT_READY_BEFORE_LAWYER_REVIEW · NO_INTERNAL_STRATEGY_GRAPH_IN_DEFAULT_PACK · "
+        "NO_SENSITIVE_CLIENT_COUNSELING_AUTO_INCLUDE. "
+        "Phase 44 COMPLETE · LOCKED."
+    ),
+    "aibeopchin_product_45_judicial_transparency_explainability": (
+        "Product Phase 45 — Judicial Transparency / Explainability Layer: "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §28 · Legal Reliability §24. "
+        "45-A~E + 45-F RC: npm run verify:aibeopchin-judicial-transparency-explainability-rc / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-JUDICIAL-TRANSPARENCY-EXPLAINABILITY-PHASE45F-RC] / "
+        "선행: Product 44-F · 43-F · "
+        "AI가 왜 이렇게 정리했는지 trace · evidenceUsed · judgmentsReferenced · "
+        "excludedMaterials · linkedClaims · similarityDifferenceAnalysis · "
+        "uncertaintySignals · lawyerCorrectionHistory · finalReviewer · "
+        "NO_UNEXPLAINED_AI_OUTPUT · NO_HIDDEN_SOURCE_OMISSION · "
+        "NO_CLIENT_VISIBLE_EXPLAINABILITY_WITHOUT_LAWYER_REVIEW · LAWYER_REVIEW_REQUIRED. "
+        "Phase 45 COMPLETE · LOCKED."
+    ),
+    "aibeopchin_product_46_neutral_litigation_review_pack": (
+        "Product Phase 46 — Neutral Litigation Review Pack (구 Court/Mediator Review Mode 정정): "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §29 · Legal Reliability §24. "
+        "46-A~E + 46-F RC: npm run verify:aibeopchin-neutral-litigation-review-pack-rc / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-COURT-MEDIATOR-REVIEW-MODE-PHASE46F-RC] / "
+        "선행: Product 45-F · 44-F · "
+        "변호사 통제 하 neutral pack 생성·검토 · "
+        "NO_DIRECT_COURT_ACCESS · NO_MEDIATOR_PORTAL_BY_DEFAULT · "
+        "NO_OPPOSING_PARTY_AUTO_SHARE · LAWYER_CONTROLLED_EXPORT_ONLY · "
+        "NO_INTERNAL_STRATEGY_IN_NEUTRAL_PACK · NO_UNREVIEWED_AI_OUTPUT · "
+        "NO_CLIENT_CONFIDENTIAL_MEMO · "
+        "공식 정정: 판사 열람/법원 포털 기능 아님. "
+        "Phase 46 COMPLETE · LOCKED · 46-F.2 · Phase 47 LOCKED (47.1)."
+    ),
+    "aibeopchin_product_47_legal_reliability": (
+        "Product Phase 47 — Legal Reliability RC: "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §30 · Legal Reliability §24. "
+        "47-A~G bundle gates + 47-RC: npm run verify:aibeopchin-legal-reliability-rc / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-LEGAL-RELIABILITY-PHASE47-RC] / "
+        "선행: Product 40-F~46-F · "
+        "40 judgment-grounded · 41 sentencing · 42 evidence integrity · "
+        "43 claim-evidence-judgment graph · 44 court-ready pack · "
+        "45 explainability · 46 neutral litigation review pack · "
+        "7대 원칙: NO_PREDICTION · NO_GUARANTEE · LAWYER_REVIEW_REQUIRED · "
+        "NO_COURT_DIRECT_ACCESS · NO_UNREVEALED_SOURCE_OMISSION · "
+        "NO_AI_OUTPUT_WITHOUT_EVIDENCE_JUDGMENT_TRACE · "
+        "Phase 47 COMPLETE · LOCKED · 47.1 · Phase 48 LOCKED (48-F.1)."
+    ),
+    "aibeopchin_product_48_legal_reliability_lawyer_workbench": (
+        "Product Phase 48 — Legal Reliability Lawyer Workbench UX: "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §31 · Legal Reliability §24. "
+        "48-A~E + 48-F RC: npm run verify:aibeopchin-legal-reliability-lawyer-workbench-rc / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-LEGAL-RELIABILITY-LAWYER-WORKBENCH-PHASE48F-RC] / "
+        "선행: Product 47-RC · 40~47 Legal Reliability · "
+        "UI: /cases/[caseId]/lawyer-workbench · "
+        "Risk Radar · Judgment Drawer · Claim Graph · Court-ready Builder · "
+        "NO_AI_FINAL_STRATEGY · NO_CLIENT_VISIBLE_STRATEGY_GRAPH · "
+        "LAWYER_REVIEW_REQUIRED · JUDGMENT_CLICKTHROUGH_REQUIRED · "
+        "NO_COURT_AUTO_SUBMISSION · NO_UNEXPLAINED_WORKBENCH_ITEM · "
+        "Phase 48 COMPLETE · LOCKED · 48-F.1 · Phase 49-A/B LOCKED (49-A.1 · 49-B.1)."
+    ),
+    "aibeopchin_product_49_legal_reliability_action_loop": (
+        "Product Phase 49 — Legal Reliability Action Loop: "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §32 · Legal Reliability §24. "
+        "49-A: npm run verify:aibeopchin-legal-reliability-action-loop-phase49a / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-LEGAL-RELIABILITY-PHASE49A-RISK-RADAR-SUPPLEMENT-ACTION] / "
+        "Risk Radar → SupplementActionCandidate → lawyer approval → SupplementRequest DRAFT · "
+        "49-B: npm run verify:aibeopchin-legal-reliability-action-loop-phase49b / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-LEGAL-RELIABILITY-PHASE49B-GRAPH-GAP-EVIDENCE-REQUEST-ACTION] / "
+        "Graph gap → EvidenceRequestActionCandidate → lawyer approval → client evidence request DRAFT · "
+        "49-C RC: npm run verify:aibeopchin-legal-reliability-action-loop-rc / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-LEGAL-RELIABILITY-ACTION-LOOP-PHASE49C-RC] / "
+        "선행: Product 48-F · 47-RC · 40~47 Legal Reliability · "
+        "공통: NO_AI_AUTO_ACTION · NO_CLIENT_REQUEST_WITHOUT_LAWYER_APPROVAL · "
+        "NO_AUTO_LEGAL_FILING · LAWYER_DECISION_LEDGER_REQUIRED · NO_CLIENT_VISIBLE_STRATEGY_BY_DEFAULT · "
+        "NO_UNREVIEWED_DRAFT_CONTEXT · NO_UNVERIFIED_EVIDENCE_LABELING · "
+        "Phase 49 COMPLETE · LOCKED · 49-A.1 · 49-B.1 · 49-C.1 · Phase 50-A LOCKED (50-A.1)."
+    ),
+    "aibeopchin_product_50_legal_reliability_action_operations": (
+        "Product Phase 50 — Legal Reliability Action Operations: "
+        "docs/platform/AIBEOPCHIN_PRODUCT_ROADMAP_PHASE20_23.md §33 · Legal Reliability §24. "
+        "50-A: npm run verify:aibeopchin-legal-reliability-action-operations-phase50a / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-LEGAL-RELIABILITY-ACTION-OPERATIONS-PHASE50A-QUEUE] / "
+        "50-B: npm run verify:aibeopchin-legal-reliability-action-operations-phase50b / "
+        "50-C: npm run verify:aibeopchin-legal-reliability-action-operations-phase50c / "
+        "50-D: npm run verify:aibeopchin-legal-reliability-action-operations-phase50d / "
+        "50-E: npm run verify:aibeopchin-legal-reliability-action-operations-phase50e / "
+        "50-F RC: npm run verify:aibeopchin-legal-reliability-action-operations-rc / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-LEGAL-RELIABILITY-ACTION-OPERATIONS-PHASE50F-RC] / "
+        "Product Phase 50 COMPLETE · LOCKED · 50-F.1 · "
+        "Approved 49-A/B candidate → LegalReliabilityActionOperation → Command Center queue · "
+        "Execution dashboard: SLA · response · evidence · lawyer review · downstream readiness · "
+        "선행: Product 49-C · Litigation Command Center 14-E · "
+        "NO_DASHBOARD_AUTO_COMPLETION · NO_DASHBOARD_AUTO_MESSAGING · NO_UNREVIEWED_EVIDENCE_DOWNSTREAM · "
+        "LAWYER_REVIEW_REQUIRED_FOR_COMPLETION · CLIENT_RESPONSE_DOES_NOT_COMPLETE_OPERATION · "
+        "NO_AUTO_OPERATION_COMPLETION · NO_CLIENT_UPLOAD_AUTO_EVIDENCE_CONFIRMATION · "
+        "NO_AI_AUTO_ACTION · NO_CLIENT_REQUEST_WITHOUT_LAWYER_APPROVAL · "
+        "LAWYER_DECISION_LEDGER_REQUIRED · NO_AUTO_LEGAL_FILING · "
+        "Phase 50-A~50-F LOCKED."
+    ),
+    "aibeopchin_product_51_legal_reliability_production_readiness": (
+        "Product Phase 51 — Legal Reliability Action Operations Production Readiness: "
+        "docs/legal-reliability/AIBEOPCHIN_LEGAL_RELIABILITY_PRODUCTION_READINESS_PHASE51_SPEC.md · "
+        "51-A: migration/schema · 51-B: role-boundary smoke · "
+        "51-C: npm run verify:aibeopchin-legal-reliability-predeploy-readiness / "
+        "51-D: staging smoke checklist · 51-E: rollback/disable runbook · "
+        "51-F RC: npm run verify:aibeopchin-legal-reliability-production-readiness-rc / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-LEGAL-RELIABILITY-PHASE51-PRODUCTION-READINESS-RC] / "
+        "Product Phase 51 COMPLETE · LOCKED · 51-F.1 · "
+        "선행: Product 49-C · Product 50-F · "
+        "NO_PRODUCTION_DEPLOY_WITHOUT_RC_VERIFY · NO_SCHEMA_DEPLOY_WITHOUT_MIGRATION_CHECK · "
+        "NO_CLIENT_ACCESS_TO_INTERNAL_ACTION_OPERATIONS · NO_STAGING_SMOKE_SKIP · "
+        "NO_WRITE_ENABLE_WITHOUT_ROLLBACK_PLAN · NO_DASHBOARD_AUTO_EXECUTION_IN_PRODUCTION · "
+        "NO_UNREVIEWED_EVIDENCE_DOWNSTREAM_IN_PRODUCTION · "
+        "Feature flags: LEGAL_RELIABILITY_ACTION_LOOP_ENABLED · "
+        "LEGAL_RELIABILITY_ACTION_OPERATIONS_WRITE_ENABLED · "
+        "LEGAL_RELIABILITY_ACTION_OPERATIONS_COMPLETION_ENABLED."
+    ),
+    "aibeopchin_product_52_legal_reliability_staging_live_validation": (
+        "Product Phase 52 — Legal Reliability Staging Live Validation / Go-Live Evidence: "
+        "docs/legal-reliability/AIBEOPCHIN_LEGAL_RELIABILITY_STAGING_LIVE_VALIDATION_PHASE52_SPEC.md · "
+        "52-A: staging migration apply evidence · 52-B: role live smoke · "
+        "52-C: Action Loop live smoke · 52-D: Action Operations live smoke · "
+        "52-E: feature flag rollback live validation · "
+        "52-F RC: npm run verify:aibeopchin-legal-reliability-staging-live-validation-rc / "
+        "evidence lock: npm run verify:aibeopchin-legal-reliability-staging-evidence-lock / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-LEGAL-RELIABILITY-PHASE52-STAGING-LIVE-VALIDATION-GO-LIVE-EVIDENCE] / "
+        "Product Phase 52 COMPLETE · LOCKED · 52-F.1 · "
+        "선행: Product 51-F · "
+        "NO_GO_LIVE_WITHOUT_STAGING_EVIDENCE · NO_GO_LIVE_WITHOUT_ROLE_SMOKE · "
+        "NO_GO_LIVE_WITHOUT_FEATURE_FLAG_ROLLBACK_TEST · NO_GO_LIVE_WITH_FAILED_MIGRATION_STATUS · "
+        "NO_GO_LIVE_WITH_CLIENT_INTERNAL_ACCESS · NO_GO_LIVE_WITH_AUTO_COMPLETION_OR_AUTO_FILING · "
+        "NO_GO_LIVE_WITH_UNREVIEWED_EVIDENCE_DOWNSTREAM · "
+        "Go-live checklist: phase52-staging-go-live-evidence-checklist."
+    ),
+    "aibeopchin_product_53_legal_reliability_production_go_live_control": (
+        "Product Phase 53 — Legal Reliability Production Go-Live Control / Post-Go-Live Monitoring Lock: "
+        "docs/legal-reliability/AIBEOPCHIN_LEGAL_RELIABILITY_PRODUCTION_GO_LIVE_CONTROL_RC_LOCK_SUMMARY.md · "
+        "Product Phase 53 COMPLETE · LOCKED · 53-F.1: npm run verify:aibeopchin-legal-reliability-production-go-live-control-rc / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-LEGAL-RELIABILITY-PHASE53F-PRODUCTION-GO-LIVE-CONTROL-RC] / "
+        "53-A COMPLETE · LOCKED · 53-A.1: npm run verify:aibeopchin-legal-reliability-go-live-approval-gate / "
+        "53-B COMPLETE · LOCKED · 53-B.1: npm run verify:aibeopchin-legal-reliability-production-migration-evidence / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-LEGAL-RELIABILITY-PHASE53B-PRODUCTION-MIGRATION-LIVE-EVIDENCE] / "
+        "53-C COMPLETE · LOCKED · 53-C.1: npm run verify:aibeopchin-legal-reliability-production-role-smoke / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-LEGAL-RELIABILITY-PHASE53C-PRODUCTION-ROLE-SMOKE-CLIENT-BOUNDARY] / "
+        "53-D COMPLETE · LOCKED · 53-D.1: npm run verify:aibeopchin-legal-reliability-production-action-smoke / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-LEGAL-RELIABILITY-PHASE53D-PRODUCTION-ACTION-LOOP-OPERATIONS-SMOKE] / "
+        "53-E COMPLETE · LOCKED · 53-E.1: npm run verify:aibeopchin-legal-reliability-post-go-live-monitoring / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-LEGAL-RELIABILITY-PHASE53E-POST-GO-LIVE-MONITORING-ROLLBACK-READINESS] / "
+        "53-F COMPLETE · LOCKED · 53-F.1: npm run verify:aibeopchin-legal-reliability-production-go-live-control-rc / "
+        "[EVIDENCE-20260525-AIBEOPCHIN-LEGAL-RELIABILITY-PHASE53F-PRODUCTION-GO-LIVE-CONTROL-RC] / "
+        "선행: Product 52-F · "
+        "NO_PRODUCTION_GO_LIVE_WITHOUT_STAGING_EVIDENCE · NO_PRODUCTION_GO_LIVE_WITHOUT_APPROVER_LEDGER · "
+        "NO_PRODUCTION_GO_LIVE_WITHOUT_ROLLBACK_OWNER · NO_PRODUCTION_GO_LIVE_WITH_FAILED_PREDEPLOY_RC · "
+        "NO_PRODUCTION_GO_LIVE_WITH_PENDING_MIGRATION_RISK · NO_PRODUCTION_GO_LIVE_WITH_CLIENT_INTERNAL_ACCESS · "
+        "NO_PRODUCTION_GO_LIVE_WITH_AUTO_COMPLETION_OR_AUTO_FILING · "
+        "NO_PRODUCTION_GO_LIVE_WITH_UNREVIEWED_EVIDENCE_DOWNSTREAM · "
+        "NO_PRODUCTION_GO_LIVE_WITHOUT_FEATURE_FLAG_KILL_SWITCH · "
+        "Approval checklist: phase53a-production-go-live-approval-checklist · "
+        "NO_PRODUCTION_MIGRATION_WITHOUT_53A_APPROVAL · NO_DESTRUCTIVE_RESET_IN_PRODUCTION · "
+        "NO_GO_LIVE_WITH_SCHEMA_DRIFT_AFTER_MIGRATION · "
+        "Migration checklist: phase53b-production-migration-evidence-checklist · "
+        "NO_PRODUCTION_ROLE_SMOKE_WITHOUT_53A_53B_LOCK · NO_GO_LIVE_WITHOUT_PRODUCTION_ROLE_SMOKE · "
+        "NO_CLIENT_ACCESS_TO_INTERNAL_LEGAL_RELIABILITY · NO_CLIENT_ACCESS_TO_ACTION_OPERATIONS · "
+        "NO_CLIENT_ACCESS_TO_GO_LIVE_CONTROL · NO_STAFF_ADMIN_PRIVILEGE_ESCALATION · "
+        "NO_LAWYER_COMPLETION_WITHOUT_REVIEW_BOUNDARY · NO_ROLE_SMOKE_WITH_SHARED_OR_UNKNOWN_ACCOUNT · "
+        "NO_GO_LIVE_WITH_FAILED_AUTHZ_AUDIT_LOG · "
+        "Role smoke checklist: phase53c-production-role-smoke-checklist · "
+        "NO_PRODUCTION_ACTION_SMOKE_WITHOUT_53A_53B_53C_LOCK · NO_GO_LIVE_WITHOUT_ACTION_LOOP_LIVE_SMOKE · "
+        "NO_AI_ACTION_WITHOUT_LAWYER_APPROVAL · NO_CLIENT_REQUEST_WITHOUT_LAWYER_DECISION_LEDGER · "
+        "NO_OPERATION_QUEUE_WITHOUT_APPROVED_ACTION · NO_AUTO_OPERATION_COMPLETION_IN_PRODUCTION · "
+        "NO_UNREVIEWED_EVIDENCE_DOWNSTREAM_IN_PRODUCTION · NO_AUTO_FILING_OR_AUTO_SUBMISSION_IN_PRODUCTION · "
+        "NO_ACTION_SMOKE_WITHOUT_AUDIT_EVIDENCE · NO_CLIENT_VISIBLE_INTERNAL_STRATEGY_DURING_SMOKE · "
+        "Action smoke checklist: phase53d-production-action-smoke-checklist · "
+        "NO_POST_GO_LIVE_MONITORING_WITHOUT_53A_53B_53C_53D_LOCK · NO_GO_LIVE_CLOSEOUT_WITHOUT_MONITORING_WINDOW · "
+        "NO_CLOSEOUT_WITH_ACTION_LOOP_ERROR_SPIKE · NO_CLOSEOUT_WITH_ACTION_OPERATIONS_ERROR_SPIKE · "
+        "NO_CLOSEOUT_WITH_CLIENT_BOUNDARY_VIOLATION · NO_CLOSEOUT_WITH_AUDIT_LOG_GAP · "
+        "NO_CLOSEOUT_WITH_ROLLBACK_FLAG_UNVERIFIED · NO_CLOSEOUT_WITH_AUTO_COMPLETION_OR_AUTO_FILING_SIGNAL · "
+        "NO_CLOSEOUT_WITH_UNREVIEWED_EVIDENCE_DOWNSTREAM_SIGNAL · NO_CLOSEOUT_WITHOUT_OPERATOR_SIGNOFF · "
+        "Post-go-live monitoring checklist: phase53e-post-go-live-monitoring-checklist · "
+        "NO_PRODUCTION_GO_LIVE_RC_WITHOUT_53A_APPROVAL_LOCK · NO_RC_WITH_BROKEN_EVIDENCE_CHAIN · "
+        "NO_RC_WITHOUT_ROLLBACK_READINESS · NO_RC_WITHOUT_MASTER_VERIFY · "
+        "Production go-live control RC runbook: phase53f-production-go-live-control-rc."
+    ),
+    "aibeopchin_product_54_legal_reliability_production_stabilization": (
+        "Product Phase 54 — Legal Reliability Commercial Production Stabilization: "
+        "docs/legal-reliability/AIBEOPCHIN_LEGAL_RELIABILITY_PRODUCTION_STABILIZATION_PHASE54_SPEC.md · "
+        "선행: Product 53-F · verify:aibeopchin-legal-reliability-production-go-live-control-rc / "
+        "54-A COMPLETE · LOCKED · 54-A.1: npm run verify:aibeopchin-legal-reliability-stabilization-baseline / "
+        "[EVIDENCE-20260526-AIBEOPCHIN-LEGAL-RELIABILITY-PHASE54A-PRODUCTION-STABILIZATION-MONITORING-BASELINE] / "
+        "54-B COMPLETE · LOCKED · 54-B.1: npm run verify:aibeopchin-legal-reliability-incident-severity / "
+        "[EVIDENCE-20260526-AIBEOPCHIN-LEGAL-RELIABILITY-PHASE54B-INCIDENT-SEVERITY] / "
+        "54-C COMPLETE · LOCKED · 54-C.1: npm run verify:aibeopchin-legal-reliability-hotfix-governance / "
+        "[EVIDENCE-20260526-AIBEOPCHIN-LEGAL-RELIABILITY-PHASE54C-HOTFIX-GOVERNANCE] / "
+        "54-D COMPLETE · LOCKED · 54-D.1: npm run verify:aibeopchin-legal-reliability-degraded-mode / "
+        "[EVIDENCE-20260526-AIBEOPCHIN-LEGAL-RELIABILITY-PHASE54D-DEGRADED-MODE] / "
+        "54-E COMPLETE · LOCKED · 54-E.1: npm run verify:aibeopchin-legal-reliability-support-escalation / "
+        "[EVIDENCE-20260526-AIBEOPCHIN-LEGAL-RELIABILITY-PHASE54E-SUPPORT-OPS-ESCALATION] / "
+        "54-F COMPLETE · LOCKED · 54-F.1: npm run verify:aibeopchin-legal-reliability-production-stabilization-rc / "
+        "[EVIDENCE-20260526-AIBEOPCHIN-LEGAL-RELIABILITY-PHASE54F-PRODUCTION-STABILIZATION-RC] / "
+        "Product Phase 54 COMPLETE · LOCKED · 54-F.1 · COMMERCIALLY_STABLE_OPERATION · "
+        "Go-Live Control → Production Stabilization · "
+        "NO_STABILIZATION_RC_WITHOUT_PHASE53_COMPLETE_LOCK · "
+        "NO_BASELINE_WITHOUT_PHASE53_COMPLETE_LOCK · "
+        "NO_BASELINE_WITHOUT_ERROR_RATE_THRESHOLD · "
+        "NO_BASELINE_WITHOUT_LATENCY_THRESHOLD · "
+        "NO_BASELINE_WITHOUT_ACTION_LOOP_SUCCESS_THRESHOLD · "
+        "NO_BASELINE_WITHOUT_OPERATIONS_QUEUE_BACKLOG_THRESHOLD · "
+        "NO_BASELINE_WITHOUT_AUDIT_LOG_COVERAGE_THRESHOLD · "
+        "NO_BASELINE_WITHOUT_ROLE_DENIAL_PATTERN · "
+        "NO_BASELINE_WITHOUT_DEGRADE_READINESS_SIGNAL · "
+        "NO_BASELINE_WITHOUT_OPERATOR_BASELINE_SIGNOFF · "
+        "NO_INCIDENT_SEVERITY_WITHOUT_PHASE54A_BASELINE · "
+        "NO_SEVERITY_WITHOUT_CUSTOMER_IMPACT_CLASSIFICATION · "
+        "NO_SEVERITY_WITHOUT_ROLE_BOUNDARY_CLASSIFICATION · "
+        "NO_SEVERITY_WITHOUT_AUTOMATION_RISK_CLASSIFICATION · "
+        "NO_SEVERITY_WITHOUT_ACTION_LOOP_IMPACT_CLASSIFICATION · "
+        "NO_SEVERITY_WITHOUT_QUEUE_IMPACT_CLASSIFICATION · "
+        "NO_SEVERITY_WITHOUT_LATENCY_DEGRADATION_CLASSIFICATION · "
+        "NO_SEVERITY_WITHOUT_ESCALATION_TARGET · "
+        "NO_SEVERITY_WITHOUT_OPERATOR_RESPONSE_WINDOW · "
+        "NO_SEVERITY_WITHOUT_INCIDENT_AUDIT_REQUIREMENT · "
+        "NO_HOTFIX_WITHOUT_54B_INCIDENT_SEVERITY · "
+        "NO_HOTFIX_WITHOUT_SEVERITY_CLASSIFICATION · "
+        "NO_HOTFIX_WITHOUT_APPROVAL_CHAIN · "
+        "NO_HOTFIX_WITHOUT_SCOPE_LIMIT · "
+        "NO_HOTFIX_WITHOUT_ROLLBACK_PLAN · "
+        "NO_HOTFIX_WITHOUT_POST_PATCH_VERIFY · "
+        "NO_HOTFIX_WITHOUT_CUSTOMER_IMPACT_RECORD · "
+        "NO_EMERGENCY_PATCH_WITHOUT_AUDIT_LOG · "
+        "NO_MIGRATION_HOTFIX_WITHOUT_EXTRA_APPROVAL · "
+        "NO_HOTFIX_WITHOUT_CLOSEOUT_REVIEW · "
+        "NO_DEGRADED_MODE_WITHOUT_54B_54C_LOCK · "
+        "NO_DEGRADE_WITHOUT_SEVERITY_TRIGGER · "
+        "NO_DEGRADE_WITHOUT_OPERATOR_APPROVAL · "
+        "NO_DEGRADE_WITHOUT_TENANT_OR_FEATURE_SCOPE · "
+        "NO_DEGRADE_WITHOUT_CLIENT_SAFE_MESSAGE · "
+        "NO_DEGRADE_WITHOUT_READ_ONLY_FALLBACK · "
+        "NO_DEGRADE_WITHOUT_WRITE_COMPLETION_DISABLE_CONTROL · "
+        "NO_DEGRADE_WITHOUT_AUDIT_LOG · "
+        "NO_DEGRADE_WITHOUT_RECOVERY_CRITERIA · "
+        "NO_DEGRADE_WITHOUT_EXIT_REVIEW · "
+        "NO_SUPPORT_ESCALATION_WITHOUT_54A_54D_LOCK · "
+        "NO_ESCALATION_WITHOUT_SEVERITY_OWNER · "
+        "NO_ESCALATION_WITHOUT_RESPONSE_WINDOW · "
+        "NO_ESCALATION_WITHOUT_ENGINEERING_OWNER · "
+        "NO_ESCALATION_WITHOUT_LEGAL_OPS_OWNER · "
+        "NO_ESCALATION_WITHOUT_CUSTOMER_SUPPORT_OWNER · "
+        "NO_CUSTOMER_MESSAGE_WITHOUT_SAFE_TEMPLATE · "
+        "NO_SUPPORT_ACTION_WITHOUT_AUDIT_LOG · "
+        "NO_INCIDENT_CLOSEOUT_WITHOUT_SUPPORT_REVIEW · "
+        "NO_STABILIZATION_RC_WITHOUT_SUPPORT_READY · "
+        "NO_CUSTOMER_OPERATION_WITHOUT_BASELINE_MONITORING · "
+        "NO_CUSTOMER_OPERATION_WITHOUT_INCIDENT_SEVERITY_POLICY · "
+        "NO_HOTFIX_WITHOUT_GOVERNANCE · NO_DEGRADE_WITHOUT_OPERATOR_CONTROL · "
+        "NO_CUSTOMER_IMPACT_WITHOUT_ESCALATION_CHAIN · "
+        "NO_STABILIZATION_RC_WITHOUT_SUPPORT_READINESS · "
+        "NO_STABILIZATION_RC_WITHOUT_54A_BASELINE_LOCK · "
+        "NO_STABILIZATION_RC_WITHOUT_54B_SEVERITY_LOCK · "
+        "NO_STABILIZATION_RC_WITHOUT_54C_HOTFIX_LOCK · "
+        "NO_STABILIZATION_RC_WITHOUT_54D_DEGRADED_MODE_LOCK · "
+        "NO_STABILIZATION_RC_WITHOUT_54E_SUPPORT_LOCK · "
+        "NO_STABILIZATION_RC_WITH_BROKEN_EVIDENCE_CHAIN · "
+        "NO_STABILIZATION_RC_WITHOUT_CUSTOMER_SAFE_OPERATION · "
+        "NO_STABILIZATION_RC_WITHOUT_ROLLBACK_AND_DEGRADE_READINESS · "
+        "NO_STABILIZATION_RC_WITHOUT_SUPPORT_ESCALATION_READY · "
+        "NO_STABILIZATION_RC_WITHOUT_MASTER_VERIFY · "
+        "54-A: monitoring baseline · 54-B: incident severity · 54-C: hotfix governance · "
+        "54-D: degraded mode · 54-E: support escalation · 54-F: stabilization RC · "
+        "Stabilization baseline checklist: phase54a-stabilization-baseline-checklist · "
+        "Incident severity checklist: phase54b-incident-severity-checklist · "
+        "Hotfix governance checklist: phase54c-hotfix-governance-checklist · "
+        "Degraded mode checklist: phase54d-degraded-mode-checklist · "
+        "Support escalation checklist: phase54e-support-escalation-checklist · "
+        "Production stabilization RC runbook: phase54f-production-stabilization-rc."
+    ),
+    "aibeopchin_product_59_gongbuho_intelligence_layer": (
+        "Product Phase 59 — Gongbuho Intelligence Layer: "
+        "docs/gongbuho/AIBEOPCHIN_GONGBUHO_INTELLIGENCE_LAYER_PHASE59_SPEC.md · "
+        "선행: Product 54-F · verify:aibeopchin-legal-reliability-production-stabilization-rc / "
+        "verify:gongbuho-legal-knowledge-rc / "
+        "59-A DRAFT · 59-A.0: npm run verify:aibeopchin-gongbuho-intelligence-phase59a / "
+        "[EVIDENCE-20260526-AIBEOPCHIN-GONGBUHO-INTELLIGENCE-PHASE59A-MEMORY-PACKET-SCHEMA] / "
+        "59-B COMPLETE · LOCKED · 59-B.1: npm run verify:aibeopchin-gongbuho-intelligence-phase59b / "
+        "[EVIDENCE-20260526-AIBEOPCHIN-GONGBUHO-INTELLIGENCE-PHASE59B-REAL-TIME-LEGAL-SIGNAL] / "
+        "59-C COMPLETE · LOCKED · 59-C.1: npm run verify:aibeopchin-gongbuho-intelligence-phase59c / "
+        "[EVIDENCE-20260526-AIBEOPCHIN-GONGBUHO-INTELLIGENCE-PHASE59C-REASONING-CONTEXT] / "
+        "59-D COMPLETE · LOCKED · 59-D.1: npm run verify:aibeopchin-gongbuho-intelligence-phase59d / "
+        "[EVIDENCE-20260526-AIBEOPCHIN-GONGBUHO-INTELLIGENCE-PHASE59D-LAWYER-FEEDBACK-LEARNING] / "
+        "59-E COMPLETE · LOCKED · 59-E.1: npm run verify:aibeopchin-gongbuho-intelligence-phase59e / "
+        "[EVIDENCE-20260526-AIBEOPCHIN-GONGBUHO-INTELLIGENCE-PHASE59E-REUSABLE-LEGAL-PATTERN] / "
+        "NO_REUSABLE_PATTERN_FROM_REJECTED_TRACE / "
+        "59-F COMPLETE · LOCKED · 59-F.1: npm run verify:aibeopchin-gongbuho-intelligence-rc / "
+        "[EVIDENCE-20260526-AIBEOPCHIN-GONGBUHO-INTELLIGENCE-PHASE59F-RC-LOCK] / "
+        "LEGAL_RELIABILITY_INTELLIGENCE_PLATFORM / "
+        "GONGBUHO_INTELLIGENCE_MASTER_VERIFY_REQUIRED / "
+        "Gongbuho Memory Packet → Real-time Legal Signal → Retrieval Reasoning → Learning Loop → Pattern Library → Intelligence RC · "
+        "NO_RAW_CLIENT_FACT_GLOBAL_LEARNING · LAWYER_CONFIRMED_BEFORE_STRATEGY_USE · "
+        "REAL_TIME_SIGNAL_NOT_AUTHORITY · NO_AUTO_LEGAL_ADVICE_TO_CLIENT · "
+        "CASE_SCOPE_FIRST · TENANT_ISOLATION_REQUIRED · ANONYMIZED_PATTERN_ONLY · "
+        "AUDIT_EVERY_AI_LEARNING · NO_UGC_VECTOR_STORAGE · NO_AI_AUTO_ACTION · "
+        "LAWYER_DECISION_LEDGER_REQUIRED · NO_CLIENT_REQUEST_WITHOUT_LAWYER_APPROVAL · "
+        "NO_INTELLIGENCE_RC_WITHOUT_59A_MEMORY_PACKET_LOCK · "
+        "NO_INTELLIGENCE_RC_WITHOUT_PHASE54_STABILIZATION_LOCK · "
+        "NO_INTELLIGENCE_RC_WITHOUT_MASTER_VERIFY · "
+        "NO_REAL_TIME_SIGNAL_AS_AUTHORITY_WITHOUT_APPROVAL · "
+        "COMPILER_POLICY_REQUIRED_FOR_SIGNAL_USE · "
+        "NO_AI_CANDIDATE_MEMORY_IN_STRONG_REASONING · "
+        "NO_UNAPPROVED_REAL_TIME_SIGNAL_IN_CONTEXT · "
+        "CONTEXT_BUNDLE_AUDIT_REQUIRED · "
+        "NO_REJECTED_SUGGESTION_REUSE · "
+        "LAWYER_DECISION_LEDGER_REQUIRED · "
+        "Legal Reliability Intelligence Platform (target)."
+    ),
     "aibeopchin_6_11_admin_case_package_share_dashboard": (
         "AI법친 6.11 — 관리자 공유 현황 화면 구현: "
         "공유 목록/상세 API, 관리자 목록/상세 화면, 위험 배지, 로그 요약 / "
@@ -1593,6 +2020,156 @@ def render_plan() -> str:
         lines.append("")
         lines.append("## Product Phase 30 — Enterprise Scale")
         lines.append(plan30)
+
+    plan31 = PROJECT_PLAN.get("aibeopchin_product_31_partner_ecosystem_marketplace")
+    if plan31:
+        lines.append("")
+        lines.append("## Product Phase 31 — Partner Ecosystem / Marketplace Readiness")
+        lines.append(plan31)
+
+    plan32 = PROJECT_PLAN.get("aibeopchin_product_32_enterprise_security_compliance")
+    if plan32:
+        lines.append("")
+        lines.append("## Product Phase 32 — Enterprise Security / Compliance Certification Readiness")
+        lines.append(plan32)
+
+    plan33 = PROJECT_PLAN.get("aibeopchin_product_33_public_trust_marketing_launch")
+    if plan33:
+        lines.append("")
+        lines.append("## Product Phase 33 — Public Trust / Marketing Launch")
+        lines.append(plan33)
+
+    plan34 = PROJECT_PLAN.get("aibeopchin_product_34_sales_pipeline_deal_desk")
+    if plan34:
+        lines.append("")
+        lines.append("## Product Phase 34 — Sales Pipeline / Deal Desk")
+        lines.append(plan34)
+
+    plan35 = PROJECT_PLAN.get("aibeopchin_product_35_contracting_legal_ops")
+    if plan35:
+        lines.append("")
+        lines.append("## Product Phase 35 — Contracting / Legal Ops")
+        lines.append(plan35)
+
+    plan36 = PROJECT_PLAN.get("aibeopchin_product_36_implementation_readiness")
+    if plan36:
+        lines.append("")
+        lines.append("## Product Phase 36 — Implementation Readiness")
+        lines.append(plan36)
+
+    plan37 = PROJECT_PLAN.get("aibeopchin_product_37_customer_go_live_adoption")
+    if plan37:
+        lines.append("")
+        lines.append("## Product Phase 37 — Customer Go-Live / Adoption")
+        lines.append(plan37)
+
+    plan38 = PROJECT_PLAN.get("aibeopchin_product_38_long_term_customer_success")
+    if plan38:
+        lines.append("")
+        lines.append("## Product Phase 38 — Long-term Customer Success")
+        lines.append(plan38)
+
+    plan39 = PROJECT_PLAN.get("aibeopchin_product_39_strategic_account_expansion")
+    if plan39:
+        lines.append("")
+        lines.append("## Product Phase 39 — Strategic Account Expansion")
+        lines.append(plan39)
+
+    plan40 = PROJECT_PLAN.get("aibeopchin_product_40_legal_outcome_assessment")
+    if plan40:
+        lines.append("")
+        lines.append("## Product Phase 40 — Judgment-Grounded Legal Outcome Assessment")
+        lines.append(plan40)
+
+    plan41 = PROJECT_PLAN.get("aibeopchin_product_41_sentencing_outcome_assessment")
+    if plan41:
+        lines.append("")
+        lines.append("## Product Phase 41 — Judgment-Grounded Sentencing Outcome Assessment")
+        lines.append(plan41)
+
+    plan42 = PROJECT_PLAN.get("aibeopchin_product_42_evidence_integrity")
+    if plan42:
+        lines.append("")
+        lines.append("## Product Phase 42 — Evidence Integrity / Chain of Custody")
+        lines.append(plan42)
+
+    plan43 = PROJECT_PLAN.get("aibeopchin_product_43_claim_evidence_judgment_graph")
+    if plan43:
+        lines.append("")
+        lines.append("## Product Phase 43 — Claim-Evidence-Judgment Graph")
+        lines.append(plan43)
+
+    plan44 = PROJECT_PLAN.get("aibeopchin_product_44_court_ready_case_record_pack")
+    if plan44:
+        lines.append("")
+        lines.append("## Product Phase 44 — Court-Ready Case Record Pack")
+        lines.append(plan44)
+
+    plan45 = PROJECT_PLAN.get("aibeopchin_product_45_judicial_transparency_explainability")
+    if plan45:
+        lines.append("")
+        lines.append("## Product Phase 45 — Judicial Transparency / Explainability Layer")
+        lines.append(plan45)
+
+    plan46 = PROJECT_PLAN.get("aibeopchin_product_46_neutral_litigation_review_pack")
+    if plan46:
+        lines.append("")
+        lines.append("## Product Phase 46 — Neutral Litigation Review Pack")
+        lines.append(plan46)
+
+    plan47 = PROJECT_PLAN.get("aibeopchin_product_47_legal_reliability")
+    if plan47:
+        lines.append("")
+        lines.append("## Product Phase 47 — Legal Reliability RC")
+        lines.append(plan47)
+
+    plan48 = PROJECT_PLAN.get("aibeopchin_product_48_legal_reliability_lawyer_workbench")
+    if plan48:
+        lines.append("")
+        lines.append("## Product Phase 48 — Legal Reliability Lawyer Workbench UX")
+        lines.append(plan48)
+
+    plan49 = PROJECT_PLAN.get("aibeopchin_product_49_legal_reliability_action_loop")
+    if plan49:
+        lines.append("")
+        lines.append("## Product Phase 49 — Legal Reliability Action Loop")
+        lines.append(plan49)
+
+    plan50 = PROJECT_PLAN.get("aibeopchin_product_50_legal_reliability_action_operations")
+    if plan50:
+        lines.append("")
+        lines.append("## Product Phase 50 — Legal Reliability Action Operations")
+        lines.append(plan50)
+
+    plan51 = PROJECT_PLAN.get("aibeopchin_product_51_legal_reliability_production_readiness")
+    if plan51:
+        lines.append("")
+        lines.append("## Product Phase 51 — Legal Reliability Production Readiness")
+        lines.append(plan51)
+
+    plan52 = PROJECT_PLAN.get("aibeopchin_product_52_legal_reliability_staging_live_validation")
+    if plan52:
+        lines.append("")
+        lines.append("## Product Phase 52 — Legal Reliability Staging Live Validation")
+        lines.append(plan52)
+
+    plan53 = PROJECT_PLAN.get("aibeopchin_product_53_legal_reliability_production_go_live_control")
+    if plan53:
+        lines.append("")
+        lines.append("## Product Phase 53 — Legal Reliability Production Go-Live Control")
+        lines.append(plan53)
+
+    plan54 = PROJECT_PLAN.get("aibeopchin_product_54_legal_reliability_production_stabilization")
+    if plan54:
+        lines.append("")
+        lines.append("## Product Phase 54 — Legal Reliability Commercial Production Stabilization")
+        lines.append(plan54)
+
+    plan59 = PROJECT_PLAN.get("aibeopchin_product_59_gongbuho_intelligence_layer")
+    if plan59:
+        lines.append("")
+        lines.append("## Product Phase 59 — Gongbuho Intelligence Layer")
+        lines.append(plan59)
 
     plan611 = PROJECT_PLAN.get("aibeopchin_6_11_admin_case_package_share_dashboard")
     if plan611:
