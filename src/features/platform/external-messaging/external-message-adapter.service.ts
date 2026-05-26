@@ -8,7 +8,6 @@ import { ValidationError } from "@/lib/errors";
 import { assertExternalMessagingEntitlement } from "@/features/platform/tenant-entitlement/tenant-entitlement.service";
 import { recordTenantExternalMessageUsage } from "@/features/platform/tenant-metering/tenant-metering.service";
 import { redactExternalMessagePayload } from "@/lib/data-governance/data-redaction.service";
-import { EXTERNAL_MESSAGE_DEFAULT_REDACTION_POLICY_VERSION } from "./external-message-adapter.constants";
 import { EXTERNAL_MESSAGE_REDELIVERY_SAFE_PAYLOAD_KEYS } from "@/features/platform/reliability/external-message-redelivery.schema";
 import type { ExternalMessageAdapter } from "./external-message-adapter.contract";
 import type {

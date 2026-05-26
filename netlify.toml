@@ -1,0 +1,7 @@
+# Netlify production build — large Next.js app needs extra Node heap during type-check.
+[build]
+  command = "NODE_OPTIONS='--max-old-space-size=8192' npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_OPTIONS = "--max-old-space-size=8192"
