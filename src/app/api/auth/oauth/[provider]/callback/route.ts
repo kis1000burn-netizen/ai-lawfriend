@@ -11,6 +11,10 @@ import {
   normalizeAuthRedirectPath,
 } from "@/lib/auth/oauth";
 import { authSessionCookieClearOptions } from "@/lib/auth/cookie-security";
+import {
+  isAccountStatusLoginAllowed,
+  resolveLawyerVerificationApprovedForAuth,
+} from "@/lib/commercial/post-deploy-promo-window.policy";
 import { env } from "@/lib/env";
 import { prisma } from "@/lib/prisma";
 
@@ -133,11 +137,10 @@ export async function GET(
       });
     }
 
-    if (user.status === "PENDING") {
-      return buildPendingRedirect(provider, user.role);
-    }
-
-    if (user.status !== "ACTIVE") {
+    if (!isAccountStatusLoginAllowed(user.status)) {
+      if (user.status === "PENDING") {
+        return buildPendingRedirect(provider, user.role);
+      }
       return buildLoginRedirect(provider, "ACCOUNT_BLOCKED");
     }
 
@@ -147,8 +150,10 @@ export async function GET(
         where: { userId: user.id },
         select: { verificationStatus: true },
       });
-      lawyerVerificationApproved =
-        lawyerProfileRow?.verificationStatus === "APPROVED";
+      lawyerVerificationApproved = resolveLawyerVerificationApprovedForAuth({
+        role: user.role,
+        verificationStatus: lawyerProfileRow?.verificationStatus,
+      });
     }
 
     const redirectPath = resolvePostAuthRedirect({

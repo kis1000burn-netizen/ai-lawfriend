@@ -1,4 +1,5 @@
-import { createHash, randomBytes } from "node:crypto";
+import { randomBytes } from "node:crypto";
+import { hashSecretToken, verifySecretToken } from "@/lib/crypto/secret-token-hash";
 
 import type {
   CasePackageAccessDecision,
@@ -82,11 +83,7 @@ export function generateCasePackagePublicCode({
 }
 
 export function hashCasePackageSecret(value: string): string {
-  const trimmed = value.trim();
-  if (!trimmed) {
-    throw new Error("hash 대상 값이 비어 있습니다.");
-  }
-  return createHash("sha256").update(trimmed).digest("hex");
+  return hashSecretToken(value);
 }
 
 export function issueCasePackageAccessToken(): IssueAccessTokenResult {
@@ -110,7 +107,10 @@ export function verifyOptionalPin(input: {
   pinHash: string;
 }): boolean {
   try {
-    return hashOptionalPin(input.pin) === input.pinHash;
+    if (input.pin.trim().length < 4) {
+      return false;
+    }
+    return verifySecretToken({ value: input.pin, storedHash: input.pinHash });
   } catch {
     return false;
   }

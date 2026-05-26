@@ -19,7 +19,7 @@ export default function RootLayout({
 }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="ko">
-      <body className="flex min-h-dvh flex-col bg-aibeop-bg font-sans text-aibeop-text antialiased">
+      <body className="aibeop-ko-prose flex min-h-dvh flex-col bg-aibeop-bg font-sans text-aibeop-text antialiased">
         <ToastProvider>
           <CmbOnboardingGate />
           <div className="flex-1">{children}</div>

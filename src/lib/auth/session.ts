@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import type { UserRole, UserStatus } from "@prisma/client";
+import { isAccountStatusLoginAllowed, resolveLawyerVerificationApprovedForAuth } from "@/lib/commercial/post-deploy-promo-window.policy";
 import { verifyAccessToken } from "./jwt";
 import { prisma } from "@/lib/prisma";
 import { hasRoleAtLeast } from "@/lib/auth/roles";
@@ -41,7 +42,7 @@ export async function getSessionUser(): Promise<SessionUser | null> {
     });
 
     if (!user) return null;
-    if (user.status !== "ACTIVE") return null;
+    if (!isAccountStatusLoginAllowed(user.status)) return null;
 
     return user;
   } catch {
@@ -78,7 +79,10 @@ export async function requireApprovedLawyer() {
     where: { userId: user.id },
     select: { verificationStatus: true },
   });
-  if (!profile || profile.verificationStatus !== "APPROVED") {
+  if (!profile || !resolveLawyerVerificationApprovedForAuth({
+    role: "LAWYER",
+    verificationStatus: profile.verificationStatus,
+  })) {
     redirect("/lawyer/verification-pending");
   }
   return user;
@@ -98,7 +102,10 @@ export async function redirectLawyerToVerificationUnlessApproved(
     select: { verificationStatus: true },
   });
 
-  if (!profile || profile.verificationStatus !== "APPROVED") {
+  if (!profile || !resolveLawyerVerificationApprovedForAuth({
+    role: "LAWYER",
+    verificationStatus: profile.verificationStatus,
+  })) {
     redirect("/lawyer/verification-pending");
   }
 }

@@ -3,6 +3,9 @@
  */
 import { ForbiddenError } from "@/lib/errors";
 import { writeAuditLog } from "@/lib/audit-log";
+import {
+  applyPostDeployPromoEntitlementOverride,
+} from "@/lib/commercial/post-deploy-promo-window.policy";
 import { assertTenantIsActive } from "@/features/platform/tenant-organization/tenant-organization.policy";
 
 import { resolveTenantEntitlementsFromPlan } from "./tenant-plan.registry";
@@ -50,12 +53,14 @@ export async function resolveTenantEntitlements(
 
   assertTenantOrganizationActiveForEntitlement(context.tenant.status);
 
-  return resolveTenantEntitlementsFromPlan({
+  const base = resolveTenantEntitlementsFromPlan({
     tenantId,
     tier: context.tier,
     status: context.status,
     featureFlags: context.featureFlags,
   });
+
+  return applyPostDeployPromoEntitlementOverride(base);
 }
 
 export async function persistTenantEntitlementDenialAudit(input: {
@@ -153,9 +158,10 @@ export async function enforceTenantSeatLimit(input: {
     status: context.status,
     featureFlags: context.featureFlags,
   });
+  const resolvedEntitlements = applyPostDeployPromoEntitlementOverride(entitlements);
 
   const gate = evaluateTenantSeatLimit({
-    entitlements,
+    entitlements: resolvedEntitlements,
     activeSeatCount: context.activeSeatCount,
   });
 
@@ -175,7 +181,7 @@ export async function enforceTenantSeatLimit(input: {
     });
   }
 
-  return entitlements;
+  return resolvedEntitlements;
 }
 
 export async function enforceTenantCaseLimit(input: {
@@ -195,9 +201,10 @@ export async function enforceTenantCaseLimit(input: {
     status: context.status,
     featureFlags: context.featureFlags,
   });
+  const resolvedEntitlements = applyPostDeployPromoEntitlementOverride(entitlements);
 
   const gate = evaluateTenantCaseLimit({
-    entitlements,
+    entitlements: resolvedEntitlements,
     activeCaseCount: context.activeCaseCount,
   });
 
@@ -217,7 +224,7 @@ export async function enforceTenantCaseLimit(input: {
     });
   }
 
-  return entitlements;
+  return resolvedEntitlements;
 }
 
 /** UI visibility hook — returns per-feature visible/enabled flags for tenant-scoped UI. */

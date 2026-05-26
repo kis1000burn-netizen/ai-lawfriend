@@ -14,4 +14,6 @@ export const ROBOTS_DISALLOW_PREFIXES = [
   "/lawyer/",
   "/login",
   "/signup",
+  "/uploads/",
+  "/private-encrypted/",
 ] as const;

@@ -787,6 +787,74 @@ PROJECT_PLAN = {
         "LAWYER_DECISION_LEDGER_REQUIRED · "
         "Legal Reliability Intelligence Platform (target)."
     ),
+    "aibeopchin_product_60_control_tower_brain": (
+        "Product Phase 60 — AI Control Tower Brain / Self-Healing Engineering Ops: "
+        "docs/platform/AIBEOPCHIN_CONTROL_TOWER_BRAIN_PHASE60_SPEC.md · "
+        "선행: Product 59-F · verify:aibeopchin-gongbuho-intelligence-rc / "
+        "60-A COMPLETE · LOCKED · 60-A.1: npm run verify:aibeopchin-control-tower-brain-phase60a / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-CONTROL-TOWER-BRAIN-PHASE60A-SAFETY-BOUNDARY] / "
+        "60-B COMPLETE · LOCKED · 60-B.1: npm run verify:aibeopchin-control-tower-brain-phase60b / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-CONTROL-TOWER-BRAIN-PHASE60B-ERROR-DETECTION] / "
+        "60-C COMPLETE · LOCKED · 60-C.1: npm run verify:aibeopchin-control-tower-brain-phase60c / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-CONTROL-TOWER-BRAIN-PHASE60C-CONFLICT-DIAGNOSIS] / "
+        "60-D COMPLETE · LOCKED · 60-D.1: npm run verify:aibeopchin-control-tower-brain-phase60d / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-CONTROL-TOWER-BRAIN-PHASE60D-PATCH-PLAN] / "
+        "60-E COMPLETE · LOCKED · 60-E.1: npm run verify:aibeopchin-control-tower-brain-phase60e / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-CONTROL-TOWER-BRAIN-PHASE60E-SAFE-AUTO-FIX] / "
+        "60-F COMPLETE · LOCKED · 60-F.1: npm run verify:aibeopchin-control-tower-brain-rc / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-CONTROL-TOWER-BRAIN-PHASE60F-RC-LOCK] / "
+        "SELF_HEALING_ENGINEERING_OPS_PLATFORM / "
+        "CONTROL_TOWER_BRAIN_MASTER_VERIFY_REQUIRED / "
+        "NO_UNAPPROVED_PRODUCTION_CODE_WRITE · NO_DESTRUCTIVE_DB_CHANGE_BY_AI · "
+        "NO_AUTO_LEGAL_LOGIC_CHANGE_WITHOUT_REVIEW · HUMAN_APPROVAL_GATE_REQUIRED_FOR_RISK_PATCH · "
+        "Admin console: /admin/control-tower/brain · "
+        "Next: Phase 62 — Evidence Gap Auto Planner."
+    ),
+    "aibeopchin_product_61_legal_strategy_assistant": (
+        "Product Phase 61 — AI Legal Strategy Assistant: "
+        "docs/legal-strategy/AIBEOPCHIN_AI_LEGAL_STRATEGY_ASSISTANT_PHASE61_SPEC.md · "
+        "선행: Product 59-F · 60-F / verify:aibeopchin-gongbuho-intelligence-rc / "
+        "verify:aibeopchin-control-tower-brain-rc / "
+        "61-A COMPLETE · LOCKED · 61-A.1: npm run verify:aibeopchin-legal-strategy-phase61a / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-LEGAL-STRATEGY-PHASE61A-STRATEGY-CANDIDATE-SCHEMA] / "
+        "StrategyCandidate foundation · 61-B~F → Phase 62~70 roadmap로 이관 / "
+        "Next: Phase 62-C Supplement Request Draft Generator."
+    ),
+    "aibeopchin_product_62_evidence_gap_planner": (
+        "Product Phase 62 — Evidence Gap Auto Planner: "
+        "docs/legal-strategy/AIBEOPCHIN_EVIDENCE_GAP_AUTO_PLANNER_PHASE62.md · "
+        "선행: 61-A · 60-F · 59-F / "
+        "62-A COMPLETE · LOCKED · 62-A.1: npm run verify:aibeopchin-legal-strategy-phase62a / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-LEGAL-STRATEGY-PHASE62A-EVIDENCE-GAP-CANDIDATE-SCHEMA] / "
+        "EvidenceGapCandidate · SuggestedSupplementItem · ClientSupplementRequestDraft · "
+        "NO_CLIENT_REQUEST_WITHOUT_LAWYER_APPROVAL · NO_EVIDENCE_GAP_WITHOUT_SOURCE_TRACE · "
+        "NO_AI_FINAL_EVIDENCE_JUDGMENT · LAWYER_REVIEW_REQUIRED_FOR_REQUEST · "
+        "Litigation Ops draft: SUPPLEMENT_REQUEST_DRAFT / CLIENT_COLLABORATION_PORTAL_DRAFT · "
+        "62-B COMPLETE · LOCKED · 62-B.1: npm run verify:aibeopchin-legal-strategy-phase62b / "
+        "[EVIDENCE-20260526-AIBEOPCHIN-LEGAL-STRATEGY-PHASE62B-EVIDENCE-GAP-DETECTION-ENGINE] / "
+        "EvidenceGapDetectionReport · NO_DETECTION_WITHOUT_REASONING_CONTEXT · "
+        "NO_CLIENT_VISIBLE_DETECTION_REPORT · NO_AUTO_TASK_CREATION_FROM_DETECTION · "
+        "Next: 62-C Supplement Request Draft Generator."
+    ),
+    "aibeopchin_product_62_70_legal_intelligence_platform": (
+        "Product Phase 62~70 — Legal Intelligence Platform Roadmap: "
+        "docs/platform/AIBEOPCHIN_LEGAL_INTELLIGENCE_PLATFORM_PHASE62_70_ROADMAP.md · "
+        "src/features/platform/legal-intelligence-platform-roadmap.registry.ts · "
+        "[EVIDENCE-20260524-AIBEOPCHIN-LEGAL-INTELLIGENCE-PLATFORM-PHASE62_70-ROADMAP] / "
+        "62 Evidence Gap · 63 Counter-Argument · 64 Judgment Reasoning · "
+        "65 Litigation Strategy Workspace · 66 Client-safe Explanation · "
+        "67 Lawyer Knowledge Studio · 68 Enterprise Multi-Case · "
+        "69 Commercial ROI · 70 Platform RC · "
+        "62-A COMPLETE · LOCKED · 62-A.1: npm run verify:aibeopchin-legal-strategy-phase62a / "
+        "[EVIDENCE-20260524-AIBEOPCHIN-LEGAL-STRATEGY-PHASE62A-EVIDENCE-GAP-CANDIDATE-SCHEMA] / "
+        "62-B COMPLETE · LOCKED · 62-B.1: npm run verify:aibeopchin-legal-strategy-phase62b / "
+        "[EVIDENCE-20260526-AIBEOPCHIN-LEGAL-STRATEGY-PHASE62B-EVIDENCE-GAP-DETECTION-ENGINE] / "
+        "NO_CLIENT_REQUEST_WITHOUT_LAWYER_APPROVAL · "
+        "Target: LEGAL_INTELLIGENCE_PLATFORM_RC_LOCKED · "
+        "Master verify: verify:aibeopchin-legal-intelligence-platform-rc · "
+        "Order: 61-A ✓ → 62-A ✓ → 62-B ✓ → 62-C → 63 → 64 → 65 → 66 → 67 → 68 → 69 → 70 · "
+        "Governance: Phase N 구현 → Control Tower Brain scan → boundary check → verify → evidence sync."
+    ),
     "aibeopchin_6_11_admin_case_package_share_dashboard": (
         "AI법친 6.11 — 관리자 공유 현황 화면 구현: "
         "공유 목록/상세 API, 관리자 목록/상세 화면, 위험 배지, 로그 요약 / "
@@ -2170,6 +2238,30 @@ def render_plan() -> str:
         lines.append("")
         lines.append("## Product Phase 59 — Gongbuho Intelligence Layer")
         lines.append(plan59)
+
+    plan60 = PROJECT_PLAN.get("aibeopchin_product_60_control_tower_brain")
+    if plan60:
+        lines.append("")
+        lines.append("## Product Phase 60 — AI Control Tower Brain")
+        lines.append(plan60)
+
+    plan61 = PROJECT_PLAN.get("aibeopchin_product_61_legal_strategy_assistant")
+    if plan61:
+        lines.append("")
+        lines.append("## Product Phase 61 — AI Legal Strategy Assistant")
+        lines.append(plan61)
+
+    plan62 = PROJECT_PLAN.get("aibeopchin_product_62_evidence_gap_planner")
+    if plan62:
+        lines.append("")
+        lines.append("## Product Phase 62 — Evidence Gap Auto Planner")
+        lines.append(plan62)
+
+    plan6270 = PROJECT_PLAN.get("aibeopchin_product_62_70_legal_intelligence_platform")
+    if plan6270:
+        lines.append("")
+        lines.append("## Product Phase 62~70 — Legal Intelligence Platform Roadmap")
+        lines.append(plan6270)
 
     plan611 = PROJECT_PLAN.get("aibeopchin_6_11_admin_case_package_share_dashboard")
     if plan611:

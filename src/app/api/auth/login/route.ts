@@ -5,12 +5,22 @@ import { resolvePostAuthRedirect } from "@/lib/auth/post-auth-redirect";
 import { loginSchema } from "@/lib/validators/auth";
 import { verifyPassword } from "@/lib/auth/password";
 import { buildJsonLoginResponse } from "@/lib/auth/login-response";
+import { enforceAuthRateLimit } from "@/lib/security/auth-rate-limit";
+import {
+  isAccountStatusLoginAllowed,
+  resolveLawyerVerificationApprovedForAuth,
+} from "@/lib/commercial/post-deploy-promo-window.policy";
 import type { UserRole } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
   try {
+    const rateLimited = enforceAuthRateLimit(req, "login");
+    if (rateLimited) {
+      return rateLimited;
+    }
+
     const body = await req.json();
     const parsed = loginSchema.safeParse(body);
 
@@ -50,15 +60,14 @@ export async function POST(req: Request) {
       });
     }
 
-    if (user.status === "PENDING") {
-      return fail(
-        "가입 신청이 완료되었습니다. 관리자 승인 후 서비스를 이용할 수 있습니다.",
-        403,
-        { code: "ACCOUNT_PENDING", pendingAccountRole: user.role },
-      );
-    }
-
-    if (user.status !== "ACTIVE") {
+    if (!isAccountStatusLoginAllowed(user.status)) {
+      if (user.status === "PENDING") {
+        return fail(
+          "가입 신청이 완료되었습니다. 관리자 승인 후 서비스를 이용할 수 있습니다.",
+          403,
+          { code: "ACCOUNT_PENDING", pendingAccountRole: user.role },
+        );
+      }
       return fail("현재 로그인할 수 없는 계정입니다.", 403, { code: "ACCOUNT_BLOCKED" });
     }
 
@@ -68,7 +77,10 @@ export async function POST(req: Request) {
         where: { userId: user.id },
         select: { verificationStatus: true },
       });
-      lawyerVerificationApproved = profile?.verificationStatus === "APPROVED";
+      lawyerVerificationApproved = resolveLawyerVerificationApprovedForAuth({
+        role: user.role,
+        verificationStatus: profile?.verificationStatus,
+      });
     }
 
     const redirectInput =

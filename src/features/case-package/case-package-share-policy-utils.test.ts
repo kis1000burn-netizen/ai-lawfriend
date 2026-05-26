@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { describe, expect, it, vi } from "vitest";
 
 import {
@@ -33,7 +34,12 @@ describe("case-package-share-policy-utils", () => {
     const result = issueCasePackageAccessToken();
     expect(result.plainToken.length).toBeGreaterThan(10);
     expect(result.tokenHash).not.toBe(result.plainToken);
-    expect(result.tokenHash.length).toBe(64);
+    expect(result.tokenHash.startsWith("v2:")).toBe(true);
+  });
+
+  it("verifies legacy sha256 pin hashes", () => {
+    const legacyPinHash = createHash("sha256").update("1234").digest("hex");
+    expect(verifyOptionalPin({ pin: "1234", pinHash: legacyPinHash })).toBe(true);
   });
 
   it("hashes and verifies optional pin", () => {

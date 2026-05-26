@@ -29,6 +29,7 @@ yarn-error.log*
 
 # uploads (local dev)
 /public/uploads/
+/.private-uploads/
 /storage/document-intelligence/
 
 # env

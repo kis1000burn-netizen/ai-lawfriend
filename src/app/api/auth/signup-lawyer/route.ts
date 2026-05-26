@@ -10,6 +10,7 @@ import {
   LAWYER_VERIFICATION_INTEGRITY_ATTESTATION_VERSION,
   signupRiskFingerprintFromHeaders,
 } from "@/lib/lawyer/lawyer-signup-risk";
+import { enforceAuthRateLimit } from "@/lib/security/auth-rate-limit";
 import {
   LawyerVerificationStatus,
   Prisma,
@@ -21,6 +22,11 @@ export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
   try {
+    const rateLimited = enforceAuthRateLimit(req, "signup-lawyer");
+    if (rateLimited) {
+      return rateLimited;
+    }
+
     const body = await req.json();
     const parsed = signUpLawyerSchema.safeParse(body);
 

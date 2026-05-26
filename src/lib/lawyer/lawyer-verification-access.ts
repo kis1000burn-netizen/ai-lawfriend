@@ -1,11 +1,15 @@
 import type { LawyerVerificationStatus } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
+import { isPostDeployPromoWindowActive } from "@/lib/commercial/post-deploy-promo-window.policy";
 import type { SessionUser } from "@/lib/auth/session";
 import { AppError } from "@/lib/errors";
 
 export function isLawyerVerificationApproved(
   status: LawyerVerificationStatus | null | undefined,
 ): boolean {
+  if (isPostDeployPromoWindowActive()) {
+    return true;
+  }
   return status === "APPROVED";
 }
 

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { requireLawyer } from "@/lib/auth/session";
+import { isLawyerVerificationApproved } from "@/lib/lawyer/lawyer-verification-access";
 import { canManageQuestionSets } from "@/features/question-set/question-set.service";
 import AuthStatus from "@/components/auth/auth-status";
 import { AibeopchinLogo } from "@/components/brand/aibeopchin-logo";
@@ -18,7 +19,7 @@ export default async function LawyerLayout({ children }: Props) {
     where: { userId: user.id },
     select: { verificationStatus: true },
   });
-  const lawyerApproved = lawyerProfile?.verificationStatus === "APPROVED";
+  const lawyerApproved = isLawyerVerificationApproved(lawyerProfile?.verificationStatus);
   const lawyerHomeHref = lawyerApproved
     ? "/lawyer"
     : "/lawyer/verification-pending";

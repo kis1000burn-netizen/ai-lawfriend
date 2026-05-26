@@ -4,10 +4,12 @@ import { getJwtSecretKey } from "@/lib/auth/jwt";
 import { isAllowedStaffAdminPath } from "@/lib/auth/ops-admin-paths";
 import { isAdminRole } from "@/lib/auth/roles";
 import { getPostLoginHrefForSessionRole } from "@/lib/landing/post-login-href";
+import { LEGACY_PUBLIC_UPLOAD_PATH_PREFIX } from "@/lib/security/platform-content-protection.policy";
 
 /**
  * [FILE-004] 보호 경로·쿠키·역할(변호사·STAFF `/admin` 예외)만 처리.
  * 사건 `CaseStatus`·`allowedLifecycleActions`·상태 전이는 API route에서(Batch A).
+ * `/uploads/*` 정적 유출 경로는 404로 차단(첨부는 API+암호화 private storage).
  */
 function isAllowedLawyerAdminPath(pathname: string): boolean {
   return (
@@ -40,6 +42,17 @@ async function getPayloadFromToken(token?: string) {
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+
+  if (pathname.startsWith(LEGACY_PUBLIC_UPLOAD_PATH_PREFIX)) {
+    return new NextResponse("Not Found", {
+      status: 404,
+      headers: {
+        "X-Content-Type-Options": "nosniff",
+        "Cache-Control": "no-store",
+      },
+    });
+  }
+
   const token = req.cookies.get(AUTH_COOKIE_NAME)?.value;
   const payload = await getPayloadFromToken(token);
 
@@ -88,6 +101,7 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
+    "/uploads/:path*",
     "/dashboard",
     "/dashboard/:path*",
     "/cases",

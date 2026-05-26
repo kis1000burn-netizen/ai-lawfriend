@@ -145,6 +145,12 @@ export default async function ProtectedLayout({ children }: Props) {
                     Ops Console
                   </Link>
                   <Link
+                    href="/admin/control-tower/brain"
+                    className="hover:text-aibeop-deep"
+                  >
+                    Control Tower Brain
+                  </Link>
+                  <Link
                     href="/admin/operations/data-governance"
                     className="hover:text-aibeop-deep"
                   >

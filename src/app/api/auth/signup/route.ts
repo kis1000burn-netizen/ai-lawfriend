@@ -2,12 +2,18 @@ import { prisma } from "@/lib/prisma";
 import { fail, ok } from "@/lib/domain-api-response";
 import { signUpSchema } from "@/lib/validators/auth";
 import { hashPassword } from "@/lib/auth/password";
+import { enforceAuthRateLimit } from "@/lib/security/auth-rate-limit";
 import { Prisma, UserRole, UserStatus } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
   try {
+    const rateLimited = enforceAuthRateLimit(req, "signup");
+    if (rateLimited) {
+      return rateLimited;
+    }
+
     const body = await req.json();
     const parsed = signUpSchema.safeParse(body);
 

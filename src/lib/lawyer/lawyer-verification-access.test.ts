@@ -19,6 +19,7 @@ import type { SessionUser } from "@/lib/auth/session";
 describe("lawyer-verification-access (스모크)", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    process.env.AIBEOPCHIN_POST_DEPLOY_PROMO_DISABLED = "true";
   });
 
   it("LAWYER·APPROVED 는 assert 통과", async () => {

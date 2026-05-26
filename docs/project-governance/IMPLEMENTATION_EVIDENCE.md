@@ -2,7 +2,293 @@
 
 **Commercial Operation Status**: **Commercially Stable Operation**
 
-**다음**: Product Phase **60** — AI Legal Strategy Assistant
+**다음**: Product Phase **62-C** — Supplement Request Draft Generator
+
+---
+
+## [EVIDENCE-20260526-AIBEOPCHIN-LEGAL-STRATEGY-PHASE62B-EVIDENCE-GAP-DETECTION-ENGINE]
+
+### Status
+
+COMPLETE · LOCKED · 62-B.1 — Evidence Gap Detection Engine.
+
+### One-line Standard
+
+Phase 62-B는 59-C Gongbuho Reasoning Context의 confirmedFacts·evidenceMap·judgmentLinks와 61-A StrategyCandidate sourceTrace를 비교하여 증거공백 후보를 자동 탐지하되, 탐지 결과를 EvidenceGapCandidate 및 EvidenceGapDetectionReport로만 생성하도록 고정했다. 미승인 signal, AI_CANDIDATE memory, cross-tenant source, sourceTrace 없는 항목은 제외되며, client-visible, auto task creation, auto filing은 변호사 승인 전 모두 차단된다.
+
+### Scope
+
+- `src/features/legal-strategy/evidence-gap-planner/phase62b-evidence-gap-detection-engine.schema.ts`
+- `src/features/legal-strategy/evidence-gap-planner/phase62b-evidence-gap-detection-engine.policy.ts`
+- `src/features/legal-strategy/evidence-gap-planner/phase62b-evidence-gap-detection-engine.service.ts`
+- `detectEvidenceGapsFromReasoningContext()` · `rankEvidenceGapCandidates()` · `buildEvidenceGapDetectionReport()`
+- Detection axes: CLAIM_EVIDENCE · FACT_EVIDENCE · STRATEGY_EVIDENCE · JUDGMENT_CASE_MATERIAL
+- Gates: `verify:aibeopchin-legal-strategy-phase62b` + `verify:aibeopchin-control-tower-brain-rc`
+
+### Verification
+
+- `npm run verify:aibeopchin-legal-strategy-phase62b` PASS
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-LEGAL-STRATEGY-PHASE62A-EVIDENCE-GAP-CANDIDATE-SCHEMA]
+
+### Status
+
+COMPLETE · LOCKED · 62-A.1 — Evidence Gap Candidate Schema.
+
+### One-line Standard
+
+59-C Gongbuho Reasoning Context와 61 Strategy Candidate를 기반으로 증거공백·보완자료 요청 후보(EvidenceGapCandidate)를 정의하며, 최종 증거 판단·client 승인 전 요청·sourceTrace 없는 후보를 금지한다.
+
+### Scope
+
+- `src/features/legal-strategy/evidence-gap-planner/phase62a-evidence-gap-candidate.schema.ts`
+- `src/features/legal-strategy/evidence-gap-planner/phase62a-evidence-gap-candidate.policy.ts`
+- `buildEvidenceGapCandidate()` — reasoning context + optional EVIDENCE_GAP StrategyCandidate
+- Litigation Ops draft targets: supplement / portal / task
+- Gates: `verify:aibeopchin-legal-strategy-phase62a` + `verify:aibeopchin-control-tower-brain-rc`
+
+### Verification
+
+- `npm run verify:aibeopchin-legal-strategy-phase62a` PASS
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-LEGAL-INTELLIGENCE-PLATFORM-PHASE62_70-ROADMAP]
+
+### Status
+
+COMPLETE — Phase 62~70 통합 로드맵 SSOT (문서·registry).
+
+### One-line Standard
+
+Phase 62~70은 공부호 지능, 변호사 전략 보조, 증거공백, 반박초안, 판례근거, 의뢰인 설명, 변호사 지식화, 기업형 다중사건 분석, ROI 지표를 하나로 묶어 AI법친을 Legal Intelligence Platform으로 봉인하는 단계다.
+
+### Scope
+
+- `docs/platform/AIBEOPCHIN_LEGAL_INTELLIGENCE_PLATFORM_PHASE62_70_ROADMAP.md`
+- `src/features/platform/legal-intelligence-platform-roadmap.registry.ts`
+- 구현 순서: 61-A ✓ → 62 → 63 → … → 70
+- Master verify (target): `verify:aibeopchin-legal-intelligence-platform-rc`
+
+### Verification
+
+- `npm run test -- src/features/platform/legal-intelligence-platform-roadmap.registry.test.ts` PASS
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-LEGAL-STRATEGY-PHASE61A-STRATEGY-CANDIDATE-SCHEMA]
+
+### Status
+
+COMPLETE · LOCKED · 61-A.1 — AI Legal Strategy Candidate Schema.
+
+### One-line Standard
+
+Phase 59 Gongbuho Reasoning Context와 Reusable Legal Pattern을 기반으로 변호사 전용 StrategyCandidate를 정의하며, 최종 법률전략·client 기본 노출·sourceTrace 없는 후보·LAWYER_REVIEW 전 operational 연결을 금지한다.
+
+### Scope
+
+- `src/features/legal-strategy-assistant/phase61a-strategy-candidate.schema.ts`
+- `src/features/legal-strategy-assistant/phase61a-strategy-candidate.policy.ts`
+- `src/features/legal-strategy-assistant/phase61a-strategy-candidate.lock.ts`
+- `buildStrategyCandidate()` — GongbuhoReasoningContextBundle grounding
+- Control Tower Brain gate: `verify:aibeopchin-control-tower-brain-rc`
+
+### Verification
+
+- `npm run verify:aibeopchin-legal-strategy-phase61a` PASS
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-CONTROL-TOWER-BRAIN-PHASE60F-RC-LOCK]
+
+### Status
+
+COMPLETE · LOCKED · 60-F.1 — Control Tower Brain RC.
+
+### One-line Standard
+
+Control Tower Brain은 오류·충돌·증빙 불일치를 탐지·진단·수정안·검증·rollback 계획까지 생성하되, production code·DB·법률 판단·client-visible output·deployment는 승인 게이트와 audit 없이 변경하지 않는다.
+
+### Scope
+
+- `src/features/control-tower-brain/phase60f-control-tower-brain-rc-lock.ts`
+- `src/features/control-tower-brain/phase60f-control-tower-brain-rc.policy.ts`
+- Admin console `/admin/control-tower/brain`
+- Master verify: `verify:aibeopchin-control-tower-brain-rc`
+
+### Verification
+
+- `npm run verify:aibeopchin-control-tower-brain-rc` PASS
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-CONTROL-TOWER-BRAIN-PHASE60E-SAFE-AUTO-FIX]
+
+### Status
+
+COMPLETE · LOCKED · 60-E.1 — Safe Auto-Fix Executor.
+
+### Scope
+
+- `phase60e-safe-auto-fix.schema.ts` · `policy.ts` · `service.ts`
+- Safe allowlist: doc/meta/navigator/package.json verify registration
+- Audit action: `CONTROL_TOWER_BRAIN_DECISION`
+
+### Verification
+
+- `npm run verify:aibeopchin-control-tower-brain-phase60e` PASS
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-CONTROL-TOWER-BRAIN-PHASE60D-PATCH-PLAN]
+
+### Status
+
+COMPLETE · LOCKED · 60-D.1 — Patch Plan Generator.
+
+### Scope
+
+- `phase60d-patch-plan.schema.ts`
+- `phase60d-patch-plan-generator.service.ts`
+- Risk levels: SAFE · REVIEW_REQUIRED · BLOCKED
+
+### Verification
+
+- `npm run verify:aibeopchin-control-tower-brain-phase60d` PASS
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-CONTROL-TOWER-BRAIN-PHASE60C-CONFLICT-DIAGNOSIS]
+
+### Status
+
+COMPLETE · LOCKED · 60-C.1 — Conflict Diagnosis Engine.
+
+### Scope
+
+- `phase60c-conflict-diagnosis.schema.ts` · `service.ts`
+- Codes: TYPE_MISMATCH · PHASE_STATUS_INCONSISTENCY · VERIFY_SCRIPT_OUT_OF_SYNC · etc.
+
+### Verification
+
+- `npm run verify:aibeopchin-control-tower-brain-phase60c` PASS
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-CONTROL-TOWER-BRAIN-PHASE60B-ERROR-DETECTION]
+
+### Status
+
+COMPLETE · LOCKED · 60-B.1 — Error Detection & Log Ingestion.
+
+### Scope
+
+- `phase60b-error-detection.schema.ts` · `service.ts`
+- Inputs: test/lint/typecheck/verify/runtime logs + static repo checks
+
+### Verification
+
+- `npm run verify:aibeopchin-control-tower-brain-phase60b` PASS
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-CONTROL-TOWER-BRAIN-PHASE60A-SAFETY-BOUNDARY]
+
+### Status
+
+COMPLETE · LOCKED · 60-A.1 — Safety Boundary SSOT.
+
+### Scope
+
+- `phase60a-control-tower-brain-safety.schema.ts` · `policy.ts` · `lock.ts`
+- 9 boundaries including NO_DESTRUCTIVE_DB_CHANGE_BY_AI · AUDIT_EVERY_BRAIN_DECISION
+
+### Verification
+
+- `npm run verify:aibeopchin-control-tower-brain-phase60a` PASS
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-POST-DEPLOY-PROMO-WINDOW]
+
+### Status
+
+COMPLETE — 배포 후 30일 체험·홍보 기간 SSOT.
+
+### One-line Standard
+
+`AIBEOPCHIN_POST_DEPLOY_PROMO_START_ISO` 기준 30일 동안 구독(플랜)·변호사 서류 승인·계정 PENDING 게이트를 완화하고 ENTERPRISE entitlements로 기능을 연다. 기간 종료 후 자동으로 상용 게이트 복원.
+
+### Scope
+
+- `src/lib/commercial/post-deploy-promo-window.policy.ts`
+- `tenant-entitlement.service.ts` — promo ENTitlements override
+- `lawyer-verification-access.ts` · `session.ts` · login/OAuth — 승인·PENDING 완화
+- env: `AIBEOPCHIN_POST_DEPLOY_PROMO_START_ISO`, `AIBEOPCHIN_POST_DEPLOY_PROMO_DAYS`, `AIBEOPCHIN_POST_DEPLOY_PROMO_DISABLED`
+
+### Verification
+
+- `npm run verify:aibeopchin-post-deploy-promo-window` PASS
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-PLATFORM-CONTENT-PROTECTION]
+
+### Status
+
+COMPLETE — 크롤링·정적 유출·무인증 접근·브루트포스 완화 + at-rest 암호화 보강.
+
+### One-line Standard
+
+사건 첨부는 `public/` 정적 서빙을 중단하고 AES-256-GCM private storage에 저장하며, `/uploads/*` 직접 접근은 middleware 404, robots·HTTP 보안 헤더·인증 rate limit·HMAC 토큰 pepper로 구성 누출·스크래핑 표면을 줄인다.
+
+### Scope
+
+- `src/lib/crypto/at-rest-encryption.ts` — AES-256-GCM (APP_DATA_ENCRYPTION_KEY)
+- `src/lib/crypto/secret-token-hash.ts` — v2 HMAC pepper + legacy SHA-256 호환
+- `src/lib/security/platform-content-protection.policy.ts` — SSOT
+- `src/lib/security/http-security-headers.ts` + `next.config.ts` headers
+- `src/middleware.ts` — `/uploads/*` 404
+- `src/features/case-attachments/case-attachment.storage.ts` — private encrypted blob
+- `src/lib/security/auth-rate-limit.ts` — login/signup/signup-lawyer
+- `src/lib/robots-disallow-policy.ts` — `/uploads/`, `/private-encrypted/`
+
+### Verification
+
+- `npm run verify:aibeopchin-platform-content-protection` PASS
+
+### Production env (필수)
+
+- `APP_DATA_ENCRYPTION_KEY` — 32바이트 (base64 또는 64자 hex)
+- `SECRET_TOKEN_PEPPER` — 16자 이상
+
+---
+
+## [EVIDENCE-20260524-AIBEOPCHIN-KOREAN-MOBILE-TYPOGRAPHY-SSOT]
+
+### Status
+
+COMPLETE — 공개 랜딩·홈 모바일 우선 한글 타이포 SSOT 적용.
+
+### One-line Standard
+
+PC·모바일 정보 중요도는 동등하다. 좁은 뷰포트에서는 반응형 우선 레이아웃과 함께, 띄어쓰기(어절·구·문장) 경계 phrase SSOT + `KoreanPhraseBlock`으로 줄정리하여 문장 이해력 저하를 방지한다. 넓은 뷰포트에서는 동일 SSOT가 자연 문단으로 연결된다.
+
+### Scope
+
+- `src/lib/ui/korean-mobile-typography.policy.ts` — className SSOT
+- `src/lib/branding/aibeopchin-marketing-copy.ts` — 히어로·홈 섹션 phrase 줄 배열
+- `src/components/ui/korean-lines.tsx` — `KoreanPhraseBlock` / `KoreanLineSet`
+- `src/app/globals.css` · `layout.tsx` — 전역 `keep-all` + `.aibeop-ko-prose`
+- 적용: `aibeopchin-intro-scene`, `aibeopchin-hero`, `home-flow-section`, `home-role-entry-cards`, `home-trust-strip`, `landing-hero`
+
+### Verification
+
+- `npm run test -- --run src/lib/ui/korean-mobile-typography.policy.test.tsx` PASS
+- `npm run test -- --run src/components/brand/aibeopchin-character.test.tsx` PASS
 
 ---
 

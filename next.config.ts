@@ -1,6 +1,7 @@
 import path from "path";
 import { fileURLToPath } from "url";
 import type { NextConfig } from "next";
+import { buildNextSecurityHeaderRules } from "./src/lib/security/http-security-headers";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -14,6 +15,9 @@ const nextConfig: NextConfig = {
   typescript: {
     // Production build type-check excludes *.test.* to reduce Netlify memory use.
     tsconfigPath: "./tsconfig.build.json",
+  },
+  async headers() {
+    return buildNextSecurityHeaderRules();
   },
 };
 

@@ -63,6 +63,8 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 /* 라이트 surface 가독성 — muted/subtle 계열은 진하게 */
@@ -154,6 +156,19 @@ body {
   .aibeop-beop-kanji-pop {
     filter: drop-shadow(0 3px 0 rgba(24, 35, 29, 0.12))
       drop-shadow(0 6px 14px rgba(47, 107, 79, 0.1));
+  }
+
+  .aibeop-ko-prose {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    text-wrap: pretty;
+    line-height: 1.65;
+  }
+
+  @media (min-width: 640px) {
+    .aibeop-ko-prose {
+      line-height: 1.75;
+    }
   }
 }
 
