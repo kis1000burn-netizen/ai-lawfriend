@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { assertCanHandoffLegalReliabilityActionOperationReview } from "./legal-reliability-action-operation-client-response.policy";
 
 describe("legal-reliability-action-operation-review-handoff (Phase 50-C)", () => {
-  const lawyer = { id: "lawyer-1", role: "LAWYER" as const, name: "Lawyer", email: "l@example.com" };
+  const lawyer = { id: "lawyer-1", role: "LAWYER" as const, name: "Lawyer", email: "l@example.com", status: "ACTIVE" as const };
 
   it("allows handoff from CLIENT_RESPONDED with submissions", () => {
     expect(() =>
@@ -29,7 +29,7 @@ describe("legal-reliability-action-operation-review-handoff (Phase 50-C)", () =>
   it("blocks CLIENT role handoff API access", () => {
     expect(() =>
       assertCanHandoffLegalReliabilityActionOperationReview({
-        actor: { id: "client-1", role: "USER", name: "Client", email: "c@example.com" },
+        actor: { id: "client-1", role: "USER" as const, name: "Client", email: "c@example.com", status: "ACTIVE" as const },
         canWriteCase: true,
         operationStatus: "CLIENT_RESPONDED",
         linkedClientSubmissionIds: ["sub-1"],

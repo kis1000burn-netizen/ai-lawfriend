@@ -1,8 +1,16 @@
 "use client";
 
 /**
- * AI법친 대표 캐릭터 — SVG + Framer Motion (이미지 없이 코드 생성).
- * 모자·얼굴·몸통은 동일 중심축(x=0)에 결합 · 망토(필) · 지휘봉 · 눈깜빡임 · 미소.
+ * AI법친 대표 캐릭터 — SVG + Framer Motion.
+ * 모자·얼굴·몸통은 동일 중심축(x=0)에 결합 · 망토 · 지휘봉 · 눈깜빡임 · 미소.
+ *
+ * [구조 원칙]
+ * 1. 위치 앵커: <g transform="translate(100 118)"> — 캐릭터 중심을 SVG 좌표 (100, 118)에 고정.
+ *    이 translate는 절대 motion wrapper 안에 넣지 않는다.
+ * 2. 애니메이션: motion.g 는 항상 위치 앵커 <g> 자식으로 배치.
+ *    transformBox: "fill-box" + transformOrigin: 백분율 → 각 요소 bbox 기준 변환.
+ *    view-box 모드에서 로컬 좌표를 쓰면 뷰포트 밖을 피봇으로 삼아 파츠가 분리되는 버그 발생.
+ * 3. 팔/지휘봉 피봇: 어깨 위치에서 rotate하도록 <g translate> 를 motion wrapper 밖에 배치.
  */
 import { motion, useReducedMotion } from "framer-motion";
 
@@ -15,9 +23,8 @@ type Props = {
   variant?: "default" | "hero";
 };
 
-/** 캐릭터 중심 — viewBox (100, 118) 기준, 모든 파츠는 이 anchor 아래 x=0 정렬 */
-const ORIGIN_X = 100;
-const ORIGIN_Y = 118;
+/** fill-box 기본값 — 모든 motion SVG 요소에 적용 */
+const FB = { transformBox: "fill-box" as const };
 
 export function AibeopchinCharacter({
   className,
@@ -27,6 +34,7 @@ export function AibeopchinCharacter({
   const reducedMotion = useReducedMotion();
   const hero = variant === "hero";
 
+  /* ── 애니메이션 정의 ── */
   const bodyFloat = reducedMotion
     ? {}
     : {
@@ -118,11 +126,17 @@ export function AibeopchinCharacter({
           </linearGradient>
         </defs>
 
-        <motion.g
-          animate={bodyFloat}
-          style={{ transformOrigin: `${ORIGIN_X}px ${ORIGIN_Y}px`, transformBox: "view-box" }}
-        >
-          <g transform={`translate(${ORIGIN_X} ${ORIGIN_Y})`}>
+        {/*
+         * ① 위치 앵커 (SVG transform) — 캐릭터 전체를 뷰포트 (100, 118) 에 배치.
+         *    이 <g> 는 정적이며 CSS transform 을 받지 않는다.
+         * ② 그 자식인 motion.g 가 fill-box 기준으로 부유 애니메이션.
+         */}
+        <g transform="translate(100 118)">
+          <motion.g
+            animate={bodyFloat}
+            style={{ ...FB, transformOrigin: "50% 50%" }}
+          >
+            {/* 히어로 오라 */}
             {hero ? (
               <motion.circle
                 cx="0"
@@ -135,14 +149,14 @@ export function AibeopchinCharacter({
                     : { opacity: [0.12, 0.28, 0.12], scale: [0.95, 1.05, 0.95] }
                 }
                 transition={{ duration: 3.5, repeat: Infinity }}
-                style={{ transformOrigin: "0px -8px", transformBox: "view-box" }}
+                style={{ ...FB, transformOrigin: "50% 50%" }}
               />
             ) : null}
 
-            {/* 망토(필) — 몸 뒤, 중심축 정렬 */}
+            {/* 망토 — 상단 어깨 부착점(bbox top-center)을 피봇으로 회전 */}
             <motion.g
               animate={capeFlow}
-              style={{ transformOrigin: "0px 20px", transformBox: "view-box" }}
+              style={{ ...FB, transformOrigin: "50% 0%" }}
             >
               <path
                 d="M-8 18 Q-46 28 -52 78 Q-38 92 -18 88 L18 88 Q38 92 52 78 Q46 28 8 18 Q0 12 0 12 Q0 12 -8 18 Z"
@@ -162,27 +176,18 @@ export function AibeopchinCharacter({
 
             {/* 받침대 */}
             <g transform="translate(0 90)">
-              <motion.g animate={pedestalGlow}>
-                <ellipse cx="0" cy="0" rx="52" ry="10" fill="url(#aibeopchinPedestalGlow)" opacity="0.7" />
+              <motion.g animate={pedestalGlow} style={FB}>
                 <ellipse
-                  cx="0"
-                  cy="0"
-                  rx="38"
-                  ry="7"
-                  fill="none"
-                  stroke="#22d3ee"
-                  strokeWidth="1.2"
-                  opacity="0.55"
+                  cx="0" cy="0" rx="52" ry="10"
+                  fill="url(#aibeopchinPedestalGlow)" opacity="0.7"
                 />
                 <ellipse
-                  cx="0"
-                  cy="0"
-                  rx="26"
-                  ry="5"
-                  fill="none"
-                  stroke="#67e8f9"
-                  strokeWidth="0.8"
-                  opacity="0.75"
+                  cx="0" cy="0" rx="38" ry="7"
+                  fill="none" stroke="#22d3ee" strokeWidth="1.2" opacity="0.55"
+                />
+                <ellipse
+                  cx="0" cy="0" rx="26" ry="5"
+                  fill="none" stroke="#67e8f9" strokeWidth="0.8" opacity="0.75"
                 />
               </motion.g>
             </g>
@@ -216,12 +221,15 @@ export function AibeopchinCharacter({
               </g>
             </g>
 
-            {/* 오른팔 */}
-            <motion.g
-              animate={armWave}
-              style={{ transformOrigin: "18px 0px", transformBox: "view-box" }}
-            >
-              <g transform="translate(18 0)">
+            {/*
+             * 오른팔 — 어깨 위치 (18, 0)에 SVG translate 로 배치 후,
+             * 그 안에서 fill-box "0% 28%" 기준 회전 (bbox 왼쪽 가장자리 ≈ 어깨).
+             */}
+            <g transform="translate(18 0)">
+              <motion.g
+                animate={armWave}
+                style={{ ...FB, transformOrigin: "0% 28%" }}
+              >
                 <path
                   d="M0 0 Q18 -8 28 4 L32 14 Q20 18 8 12 Z"
                   fill="#1e3a5f"
@@ -229,15 +237,20 @@ export function AibeopchinCharacter({
                   strokeWidth="0.8"
                 />
                 <ellipse cx="30" cy="16" rx="7" ry="6" fill="#f1f5f9" />
-              </g>
-            </motion.g>
+              </motion.g>
+            </g>
 
-            {/* 왼팔 + 지휘봉 */}
-            <motion.g
-              animate={batonSwing}
-              style={{ transformOrigin: "-28px -3px", transformBox: "view-box" }}
-            >
-              <g transform="translate(-28 -3)">
+            {/*
+             * 왼팔 + 지휘봉 — 어깨 위치 (-28, -3)에 SVG translate 로 배치.
+             * fill-box "92% 51%": bbox 오른쪽 가장자리(≈어깨) 기준 회전.
+             * 팔 패스: M(0,0)이 어깨. bbox x: -49~4, y: -29~28
+             * → (0,0) in fill-box ≈ ((0-(-49))/53, (0-(-29))/57) = (92%, 51%)
+             */}
+            <g transform="translate(-28 -3)">
+              <motion.g
+                animate={batonSwing}
+                style={{ ...FB, transformOrigin: "92% 51%" }}
+              >
                 <path
                   d="M0 0 Q-16 6 -24 20 L-20 28 Q-8 20 4 10 Z"
                   fill="#1e3a5f"
@@ -253,24 +266,30 @@ export function AibeopchinCharacter({
                   strokeWidth={hero ? 2.8 : 2.4}
                   strokeLinecap="round"
                 />
-                <circle cx="-42" cy="-22" r={hero ? 3.2 : 2.6} fill="#fde047" stroke="#c9a227" strokeWidth="0.8" />
-                <motion.g
-                  transform="translate(-42 -22)"
-                  animate={sparkPulse}
-                  style={{ transformOrigin: "0px 0px", transformBox: "view-box" }}
-                >
-                  <circle r={hero ? 7 : 5.5} fill="#22d3ee" opacity="0.35" />
-                  <circle r={hero ? 4 : 3.2} fill="#a5f3fc" />
-                  <circle cx="-4" cy="-5" r="1.2" fill="#fef08a" opacity="0.9" />
-                  <circle cx="5" cy="-3" r="0.9" fill="#67e8f9" opacity="0.85" />
-                  <circle cx="2" cy="4" r="1" fill="#fde047" opacity="0.75" />
-                </motion.g>
-              </g>
-            </motion.g>
+                <circle
+                  cx="-42" cy="-22"
+                  r={hero ? 3.2 : 2.6}
+                  fill="#fde047" stroke="#c9a227" strokeWidth="0.8"
+                />
+                {/* 지휘봉 끝 발광 — translate로 위치 고정, motion.g로 pulse */}
+                <g transform="translate(-42 -22)">
+                  <motion.g
+                    animate={sparkPulse}
+                    style={{ ...FB, transformOrigin: "50% 50%" }}
+                  >
+                    <circle r={hero ? 7 : 5.5} fill="#22d3ee" opacity="0.35" />
+                    <circle r={hero ? 4 : 3.2} fill="#a5f3fc" />
+                    <circle cx="-4" cy="-5" r="1.2" fill="#fef08a" opacity="0.9" />
+                    <circle cx="5" cy="-3" r="0.9" fill="#67e8f9" opacity="0.85" />
+                    <circle cx="2" cy="4" r="1" fill="#fde047" opacity="0.75" />
+                  </motion.g>
+                </g>
+              </motion.g>
+            </g>
 
             {/* 머리 — 모자(가발) · 얼굴 · 헤드셋 단일 그룹, x=0 정렬 */}
             <g transform="translate(0 -46)">
-              {/* 판사 가발(모자) — 얼굴과 동일 중심축 */}
+              {/* 판사 가발(모자) — 얼굴과 동일 중심축, z-order: 얼굴 아래 먼저 렌더 */}
               <path
                 d="M-30 -34 Q0 -50 30 -34 Q36 -18 28 -6 Q0 2 -28 -6 Q-36 -18 -30 -34 Z"
                 fill="#f8fafc"
@@ -285,6 +304,7 @@ export function AibeopchinCharacter({
                 opacity="0.7"
               />
 
+              {/* 헤드셋 외형 */}
               <path
                 d="M-38 -8 Q-42 20 -28 38 L28 38 Q42 20 38 -8 Q20 -42 -20 -42 Q-38 -28 -38 -8"
                 fill="none"
@@ -307,14 +327,15 @@ export function AibeopchinCharacter({
                 AI
               </text>
 
+              {/* 얼굴 */}
               <ellipse cx="0" cy="0" rx="34" ry="36" fill="#f8fafc" />
-
               <ellipse cx="-18" cy="8" rx="6" ry="3.5" fill="#fda4af" opacity="0.45" />
               <ellipse cx="18" cy="8" rx="6" ry="3.5" fill="#fda4af" opacity="0.45" />
 
+              {/* 눈 깜빡임 — 눈 그룹 bbox 중심(50% 50%) 기준 scaleY */}
               <motion.g
                 animate={blink}
-                style={{ transformOrigin: "0px 0px", transformBox: "view-box" }}
+                style={{ ...FB, transformOrigin: "50% 50%" }}
               >
                 <ellipse cx="-12" cy="-2" rx="7" ry="9" fill="#1e3a8a" />
                 <ellipse cx="12" cy="-2" rx="7" ry="9" fill="#1e3a8a" />
@@ -324,6 +345,7 @@ export function AibeopchinCharacter({
                 <path d="M6 -14 Q12 -18 18 -14" stroke="#334155" strokeWidth="1.2" fill="none" />
               </motion.g>
 
+              {/* 미소 — 중심 기준 scaleX */}
               <motion.path
                 d="M-10 14 Q0 22 10 14"
                 stroke="#475569"
@@ -331,11 +353,11 @@ export function AibeopchinCharacter({
                 fill="none"
                 strokeLinecap="round"
                 animate={smilePulse}
-                style={{ transformOrigin: "0px 18px", transformBox: "view-box" }}
+                style={{ ...FB, transformOrigin: "50% 50%" }}
               />
             </g>
-          </g>
-        </motion.g>
+          </motion.g>
+        </g>
       </svg>
     </div>
   );

@@ -358,6 +358,12 @@ function verifyPredeploy(results: PredeployLockResults): string[] {
   const itemMap = new Map(results.smokeTest.items.map((item) => [item.id, item]));
   const requiredIds = resolveRequiredSmokeIdSet(results.smokeTest.items);
 
+  if (requiredIds.length === 0 && results.smokeTest.items.length > 0) {
+    errors.push(
+      "Smoke Test 항목 세트가 알려진 smoke ID 집합(legacy/production)과 일치하지 않습니다. 허용된 ID 세트를 확인하세요.",
+    );
+  }
+
   for (const requiredId of requiredIds) {
     const item = itemMap.get(requiredId);
 
@@ -371,18 +377,20 @@ function verifyPredeploy(results: PredeployLockResults): string[] {
     }
   }
 
-  const unknownItems =
-    requiredIds.length > 0
-      ? results.smokeTest.items.filter((item) => !requiredIds.includes(item.id))
-      : [];
-
-  for (const item of unknownItems) {
-    errors.push(`알 수 없는 Smoke Test 항목 포함: ${item.id}`);
-  }
-
-  for (const item of results.smokeTest.items) {
-    if (item.result !== "PASS") {
-      errors.push(`Smoke Test 미통과: ${item.id} / ${item.result}`);
+  if (requiredIds.length > 0) {
+    const requiredIdSet = new Set(requiredIds);
+    for (const item of results.smokeTest.items) {
+      if (!requiredIdSet.has(item.id)) {
+        errors.push(`알 수 없는 Smoke Test 항목 포함: ${item.id}`);
+      } else if (item.result !== "PASS") {
+        // required 항목 실패는 위 루프에서 이미 보고됨 — 중복 방지
+      }
+    }
+  } else {
+    for (const item of results.smokeTest.items) {
+      if (item.result !== "PASS") {
+        errors.push(`Smoke Test 미통과: ${item.id} / ${item.result}`);
+      }
     }
   }
 

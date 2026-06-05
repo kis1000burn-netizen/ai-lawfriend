@@ -10,9 +10,10 @@ Phase 62는 59-C Reasoning Context와 61 Strategy Candidate를 기반으로, 사
 |-------|------|--------|
 | 62-A | Evidence Gap Candidate Schema | COMPLETE · LOCKED · 62-A.1 |
 | 62-B | Evidence Gap Detection Engine | COMPLETE · LOCKED · 62-B.1 |
-| 62-C | Supplement Request Draft Generator | PLANNED |
-| 62-D | Litigation Ops Connector | PLANNED |
-| 62-E | Evidence Gap Planner RC | PLANNED |
+| 62-C | Supplement Request Draft Generator | COMPLETE · LOCKED · 62-C.1 |
+| 62-D | Lawyer Approval & Portal Draft Sync | COMPLETE · LOCKED · 62-D.1 |
+| 62-E | Client-visible Send Gate & Litigation Ops Draft Link | COMPLETE · LOCKED · 62-E.1 |
+| 62-F | Evidence Gap Auto Planner RC | COMPLETE · LOCKED · 62-F.1 |
 
 ## Governance Boundaries
 
@@ -24,6 +25,7 @@ Phase 62는 59-C Reasoning Context와 61 Strategy Candidate를 기반으로, 사
 - GONGBUHO_REASONING_CONTEXT_REQUIRED
 - CONTROL_TOWER_BRAIN_VERIFY_REQUIRED
 - EVIDENCE_GAP_CANDIDATE_AUDIT_REQUIRED
+- EVIDENCE_GAP_AUTO_PLANNER_MASTER_VERIFY_REQUIRED
 
 ## Prerequisites
 
@@ -35,11 +37,19 @@ Phase 62는 59-C Reasoning Context와 61 Strategy Candidate를 기반으로, 사
 
 - `verify:aibeopchin-legal-strategy-phase62a` — **COMPLETE**
 - `verify:aibeopchin-legal-strategy-phase62b` — **COMPLETE**
-- Master RC (target): `verify:aibeopchin-evidence-gap-planner-rc`
+- `verify:aibeopchin-legal-strategy-phase62c` — **COMPLETE**
+- `verify:aibeopchin-legal-strategy-phase62d` — **COMPLETE**
+- `verify:aibeopchin-legal-strategy-phase62e` — **COMPLETE**
+- `verify:aibeopchin-legal-strategy-phase62f` — **COMPLETE**
+- Master RC: `verify:aibeopchin-evidence-gap-auto-planner-rc` — **COMPLETE**
+
+## Platform Status
+
+`EVIDENCE_GAP_AUTO_PLANNER_RC_LOCKED`
 
 ## Next
 
-**Phase 62-C — Supplement Request Draft Generator**
+**Phase 63 — Counter-Argument Draft Engine**
 
 ## Workflow
 

@@ -47,7 +47,7 @@ describe("legal-reliability-action-operation-client-response-sync (Phase 50-C)",
   it("blocks CLIENT role sync API access", () => {
     expect(() =>
       assertCanSyncClientResponseViaApi({
-        actor: { id: "client-1", role: "USER", name: "Client", email: "c@example.com" },
+        actor: { id: "client-1", role: "USER" as const, name: "Client", email: "c@example.com", status: "ACTIVE" as const },
         canWriteCase: true,
       }),
     ).toThrow("CLIENT_ROLE_CLIENT_RESPONSE_SYNC_FORBIDDEN");

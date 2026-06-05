@@ -59,7 +59,10 @@ Phase 61-A는 **StrategyCandidate schema SSOT**로 62~65의 공통 입력 타입
 |-----------|--------|
 | 62-A Evidence Gap Candidate Schema | COMPLETE · LOCKED · 62-A.1 |
 | 62-B Evidence Gap Detection Engine | COMPLETE · LOCKED · 62-B.1 |
-| 62-C~E | PLANNED |
+| 62-C Supplement Request Draft Generator | COMPLETE · LOCKED · 62-C.1 |
+| 62-D Lawyer Approval & Portal Draft Sync | COMPLETE · LOCKED · 62-D.1 |
+| 62-E Client-visible Send Gate & Litigation Ops Draft Link | COMPLETE · LOCKED · 62-E.1 |
+| 62-F Evidence Gap Auto Planner RC | COMPLETE · LOCKED · 62-F.1 |
 
 | 기능 | 설명 |
 |------|------|
@@ -77,11 +80,20 @@ Phase 61-A는 **StrategyCandidate schema SSOT**로 62~65의 공통 입력 타입
 
 ## Phase 63 — Counter-Argument Draft Engine
 
-**한 줄**: 상대방 주장·답변서·증거를 기준으로 반박 논리 구조와 문장 후보를 생성하되, 최종 문서 반영은 변호사 승인 후에만 허용한다.
+**한 줄**: 상대방 주장·답변서·준비서면·증거를 기준으로 반박 논리 구조와 문장 후보를 생성하되, 최종 문서 반영·의뢰인 노출·소송 제출은 변호사 승인 전에는 금지한다.
 
-**경계**: `NO_AUTO_FILED_COUNTER_ARGUMENT` · `NO_COUNTER_ARGUMENT_WITHOUT_GONGBUHO_CONTEXT` · `NO_UNAPPROVED_SIGNAL_IN_ARGUMENT` · `NO_CLIENT_VISIBLE_COUNTER_STRATEGY_BY_DEFAULT` · `LAWYER_APPROVAL_REQUIRED_FOR_DOCUMENT_USE`
+| Sub-phase | Status |
+|-----------|--------|
+| 63-A Opponent Argument Schema | COMPLETE · LOCKED · 63-A.1 |
+| 63-B Counter-Argument Candidate Builder | COMPLETE · LOCKED · 63-B.1 |
+| 63-C Risk & Backfire Check | COMPLETE · LOCKED · 63-C.1 |
+| 63-D Draft Paragraph Generator | COMPLETE · LOCKED · 63-D.1 |
+| 63-E Lawyer Review & Adoption Gate | COMPLETE · LOCKED · 63-E.1 |
+| 63-F Counter-Argument Draft Engine RC | COMPLETE · LOCKED · 63-F.1 |
 
-**산출물**: `src/features/legal-strategy/counter-argument-engine/` · `verify:aibeopchin-legal-strategy-phase63`
+**경계**: `NO_AUTO_FILED_COUNTER_ARGUMENT` · `NO_COUNTER_ARGUMENT_WITHOUT_SOURCE_TRACE` · `NO_COUNTER_ARGUMENT_FROM_UNAPPROVED_SIGNAL` · `NO_CLIENT_VISIBLE_COUNTER_STRATEGY_BY_DEFAULT` · `LAWYER_REVIEW_REQUIRED_FOR_DOCUMENT_USE` · `CONTROL_TOWER_BRAIN_VERIFY_REQUIRED`
+
+**산출물**: `src/features/legal-strategy/counter-argument-engine/` · `verify:aibeopchin-legal-strategy-phase63a` · `verify:aibeopchin-legal-strategy-phase63b` · `verify:aibeopchin-legal-strategy-phase63c` · `verify:aibeopchin-legal-strategy-phase63d` · `verify:aibeopchin-legal-strategy-phase63e` · `verify:aibeopchin-counter-argument-draft-engine-rc`
 
 ---
 
@@ -89,9 +101,13 @@ Phase 61-A는 **StrategyCandidate schema SSOT**로 62~65의 공통 입력 타입
 
 **한 줄**: AI 전략·반박·증거공백 후보가 어떤 판례·법령·공부호 항목에 근거하는지 변호사가 추적할 수 있는 reasoning view를 제공한다.
 
-**경계**: `NO_HIDDEN_SOURCE_REASONING` · `NO_JUDGMENT_USE_WITHOUT_CANONICAL_SOURCE` · `NO_CASE_OUTCOME_PREDICTION_AS_CERTAINTY` · `NO_CLIENT_VISIBLE_JUDGMENT_ANALYSIS_WITHOUT_REVIEW` · `UNCERTAINTY_SIGNAL_REQUIRED`
+**64-A COMPLETE · LOCKED · 64-A.1**: `JudgmentReasoningSourceMap` schema · `verify:aibeopchin-legal-strategy-phase64a`
 
-**산출물**: `src/features/legal-strategy/judgment-backed-reasoning/` · `verify:aibeopchin-legal-strategy-phase64`
+**64-B COMPLETE · LOCKED · 64-B.1**: `JudgmentReasoningView` builder · `verify:aibeopchin-legal-strategy-phase64b`
+
+**경계**: `NO_REASONING_VIEW_WITHOUT_SOURCE_TRACE` · `NO_JUDGMENT_USE_WITHOUT_CANONICAL_SOURCE` · `NO_UNAPPROVED_REAL_TIME_SIGNAL_IN_REASONING_VIEW` · `NO_CASE_OUTCOME_PREDICTION_AS_CERTAINTY` · `NO_CLIENT_VISIBLE_JUDGMENT_REASONING_BY_DEFAULT` · `UNCERTAINTY_SIGNAL_REQUIRED` · `CONTROL_TOWER_BRAIN_VERIFY_REQUIRED`
+
+**산출물**: `src/features/legal-strategy/judgment-backed-reasoning/` · `verify:aibeopchin-legal-strategy-phase64a` · `verify:aibeopchin-legal-strategy-phase64`
 
 ---
 
@@ -263,4 +279,4 @@ Phase N 구현
 
 ## Next Action
 
-**Phase 62-C — Supplement Request Draft Generator** 구현 착수.
+**Phase 64 — Judgment-backed Reasoning View** 구현 착수.

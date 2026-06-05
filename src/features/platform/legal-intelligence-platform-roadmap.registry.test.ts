@@ -22,8 +22,8 @@ describe("Legal Intelligence Platform roadmap registry", () => {
     expect(LEGAL_INTELLIGENCE_PLATFORM_IMPLEMENTATION_ORDER.at(-1)).toBe("70");
   });
 
-  it("points next phase to 62-C", () => {
-    expect(LEGAL_INTELLIGENCE_PLATFORM_NEXT_PHASE).toBe("62-C");
+  it("points next phase to 64", () => {
+    expect(LEGAL_INTELLIGENCE_PLATFORM_NEXT_PHASE).toBe("64");
   });
 
   it("defines platform RC target verify chain", () => {

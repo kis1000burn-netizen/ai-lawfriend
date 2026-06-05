@@ -74,7 +74,7 @@ export const LEGAL_INTELLIGENCE_PLATFORM_RC_FINAL_BOUNDARIES = [
 export const LEGAL_INTELLIGENCE_PLATFORM_ROADMAP_DOC =
   "docs/platform/AIBEOPCHIN_LEGAL_INTELLIGENCE_PLATFORM_PHASE62_70_ROADMAP.md" as const;
 
-export const LEGAL_INTELLIGENCE_PLATFORM_NEXT_PHASE = "62-C" as const;
+export const LEGAL_INTELLIGENCE_PLATFORM_NEXT_PHASE = "64" as const;
 
 export const LEGAL_INTELLIGENCE_PLATFORM_NEXT_ACTION =
-  "Phase 62-C — Supplement Request Draft Generator" as const;
+  "Phase 64-C — Judgment Reasoning View RC (TBD)" as const;

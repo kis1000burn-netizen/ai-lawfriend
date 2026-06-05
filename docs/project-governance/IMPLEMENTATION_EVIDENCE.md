@@ -2,7 +2,323 @@
 
 **Commercial Operation Status**: **Commercially Stable Operation**
 
-**다음**: Product Phase **62-C** — Supplement Request Draft Generator
+**다음**: Product Phase **65** — (로드맵 Phase 65 이후 진행)
+
+---
+
+## [EVIDENCE-20260605-AIBEOPCHIN-LEGAL-STRATEGY-PHASE64C-JUDGMENT-REASONING-VIEW-RC]
+
+### Status
+
+COMPLETE · LOCKED · 64-C.1 — Judgment-backed Reasoning View RC.
+
+### One-line Standard
+
+Phase 64-C는 64-A~64-B 전체를 Judgment-backed Reasoning View로 묶어, 공부호 항목·판례·법령·sourceTrace 근거 추적부터 변호사 검토용 View 생성까지의 흐름이 canonical source, sourceTrace, uncertainty panel, 변호사 검토 필수, Control Tower Brain 검증 아래에서만 작동하도록 RC로 봉인하는 단계다.
+
+### Scope
+
+- `src/features/legal-strategy/judgment-backed-reasoning/phase64c-judgment-reasoning-view-rc.policy.ts`
+- `src/features/legal-strategy/judgment-backed-reasoning/phase64c-judgment-reasoning-view-rc.lock.ts`
+- `src/features/legal-strategy/judgment-backed-reasoning/phase64c-judgment-reasoning-view-rc.test.ts`
+- `docs/legal-strategy/AIBEOPCHIN_JUDGMENT_REASONING_VIEW_RC_LOCK_SUMMARY_PHASE64C.md`
+- `scripts/verify-aibeopchin-legal-strategy-phase64c.mjs`
+- `scripts/verify-aibeopchin-judgment-backed-reasoning-rc.mjs`
+- RC Gate: `evaluateJudgmentBackedReasoningRcGate()` · `assertJudgmentBackedReasoningRcGateAllowed()`
+- Bundled: `verify:aibeopchin-control-tower-brain-rc` + `verify:aibeopchin-legal-strategy-phase64a` + `verify:aibeopchin-legal-strategy-phase64b`
+
+### Verification
+
+- `npm run verify:aibeopchin-legal-strategy-phase64c` PASS
+- `npm run verify:aibeopchin-judgment-backed-reasoning-rc` PASS
+
+---
+
+## [EVIDENCE-20260526-AIBEOPCHIN-LEGAL-STRATEGY-PHASE64B-JUDGMENT-REASONING-VIEW-BUILDER]
+
+### Status
+
+COMPLETE · LOCKED · 64-B.1 — Judgment Reasoning View Builder.
+
+### One-line Standard
+
+Phase 64-B는 64-A JudgmentReasoningSourceMap을 기반으로 변호사 검토용 JudgmentReasoningView를 생성하도록 고정했다. 모든 reasoning card는 canonical source, sourceTrace, favorability, uncertaintySignals를 포함해야 하며, 승패 확정 표현, 미승인 signal의 권위화, 의뢰인 기본 노출은 차단된다.
+
+### Scope
+
+- `src/features/legal-strategy/judgment-backed-reasoning/phase64b-judgment-reasoning-view.schema.ts`
+- `src/features/legal-strategy/judgment-backed-reasoning/phase64b-judgment-reasoning-view.policy.ts`
+- `src/features/legal-strategy/judgment-backed-reasoning/phase64b-judgment-reasoning-view.service.ts`
+- `buildJudgmentReasoningView()` · `buildJudgmentReasoningCards()` · `buildUncertaintyPanel()` · `composeJudgmentReasoningView()`
+- Gates: `verify:aibeopchin-legal-strategy-phase64b` + `verify:aibeopchin-legal-strategy-phase64a` + `verify:aibeopchin-control-tower-brain-rc`
+
+### Verification
+
+- `npm run verify:aibeopchin-legal-strategy-phase64b` PASS
+
+---
+
+## [EVIDENCE-20260526-AIBEOPCHIN-LEGAL-STRATEGY-PHASE64A-JUDGMENT-REASONING-SOURCE-MAP]
+
+### Status
+
+COMPLETE · LOCKED · 64-A.1 — Judgment Reasoning Source Map Schema.
+
+### One-line Standard
+
+Phase 64-A는 StrategyCandidate, EvidenceGapCandidate, CounterArgumentCandidate, CounterArgumentDraftParagraph가 참조한 공부호 항목·판례·법령·승인된 실시간 signal·sourceTrace를 JudgmentReasoningSourceMap으로 구조화하여 변호사가 근거를 추적할 수 있게 한다. sourceTrace 없는 reasoning view, canonical source 없는 판례 근거, 미승인 real-time signal, 승패 확정 표현, 의뢰인 기본 노출은 금지한다.
+
+### Scope
+
+- `src/features/legal-strategy/judgment-backed-reasoning/phase64a-judgment-reasoning-source-map.schema.ts`
+- `src/features/legal-strategy/judgment-backed-reasoning/phase64a-judgment-reasoning-source-map.policy.ts`
+- `src/features/legal-strategy/judgment-backed-reasoning/phase64a-judgment-reasoning-source-map.lock.ts`
+- `buildJudgmentReasoningSourceMap()` · `canRenderJudgmentReasoningView()` · uncertainty signal derivation
+- Gates: `verify:aibeopchin-legal-strategy-phase64a` + `verify:aibeopchin-counter-argument-draft-engine-rc` + `verify:aibeopchin-control-tower-brain-rc`
+
+### Verification
+
+- `npm run verify:aibeopchin-legal-strategy-phase64a` PASS
+
+---
+
+## [EVIDENCE-20260526-AIBEOPCHIN-LEGAL-STRATEGY-PHASE63F-COUNTER-ARGUMENT-DRAFT-ENGINE-RC]
+
+### Status
+
+COMPLETE · LOCKED · 63-F.1 — Counter-Argument Draft Engine RC.
+
+### One-line Standard
+
+Phase 63-F는 63-A~63-E 전체를 Counter-Argument Draft Engine RC로 묶어, 상대방 주장 구조화부터 문서 반영 후보 승격까지 모든 단계가 sourceTrace, auditRef, BackfireRiskCheck, Lawyer Decision Ledger, Control Tower Brain 검증 아래에서만 작동하도록 봉인하는 단계다.
+
+### Scope
+
+- `src/features/legal-strategy/counter-argument-engine/phase63f-counter-argument-draft-engine-rc.policy.ts`
+- `src/features/legal-strategy/counter-argument-engine/phase63f-counter-argument-draft-engine-rc.lock.ts`
+- `evaluateCounterArgumentDraftEngineRcGate()` · consolidated 63-A~63-E boundaries
+- Gates: `verify:aibeopchin-counter-argument-draft-engine-rc` + bundled 63-A~63-E + `verify:aibeopchin-control-tower-brain-rc`
+
+### Verification
+
+- `npm run verify:aibeopchin-legal-strategy-phase63f` PASS
+- `npm run verify:aibeopchin-counter-argument-draft-engine-rc` PASS
+
+---
+
+## [EVIDENCE-20260526-AIBEOPCHIN-LEGAL-STRATEGY-PHASE63E-LAWYER-REVIEW-ADOPTION-GATE]
+
+### Status
+
+COMPLETE · LOCKED · 63-E.1 — Lawyer Review & Adoption Gate.
+
+### One-line Standard
+
+Phase 63-E는 63-D CounterArgumentDraftParagraph에 대해 변호사의 ADOPT / MODIFY / REJECT 결정을 기록하고, ADOPT 또는 MODIFY 항목만 DocumentInsertCandidate로 승격하도록 고정했다. REJECT 항목은 문서 반영 후보가 될 수 없으며, 승격된 항목도 isFinalDocumentText, clientVisibleAllowed, autoFileAllowed가 모두 false로 유지된다. 모든 채택·수정 결정은 Lawyer Decision Ledger와 auditRef 아래에서만 가능하다.
+
+### Scope
+
+- `src/features/legal-strategy/counter-argument-engine/phase63e-lawyer-review-adoption.schema.ts`
+- `src/features/legal-strategy/counter-argument-engine/phase63e-lawyer-review-adoption.policy.ts`
+- `src/features/legal-strategy/counter-argument-engine/phase63e-lawyer-review-adoption.service.ts`
+- `adoptDraftParagraph()` · `modifyDraftParagraph()` · `rejectDraftParagraph()` · `processLawyerAdoptionReview()`
+- Gates: `verify:aibeopchin-legal-strategy-phase63e` + `verify:aibeopchin-legal-strategy-phase63d` + `verify:aibeopchin-control-tower-brain-rc`
+
+### Verification
+
+- `npm run verify:aibeopchin-legal-strategy-phase63e` PASS
+
+---
+
+## [EVIDENCE-20260526-AIBEOPCHIN-LEGAL-STRATEGY-PHASE63D-DRAFT-PARAGRAPH-GENERATOR]
+
+### Status
+
+COMPLETE · LOCKED · 63-D.1 — Draft Paragraph Generator.
+
+### One-line Standard
+
+Phase 63-D는 63-C BackfireRiskReport를 통과한 CounterArgumentCandidate에 대해서만 CounterArgumentDraftParagraph를 생성하도록 고정했다. CRITICAL risk 후보는 문단 생성에서 제외되며, 생성된 문단은 isFinalDocumentText, documentInsertAllowed, clientVisibleAllowed, autoFileAllowed가 모두 false로 고정된다. 모든 문단 후보는 LAWYER_REVIEW_REQUIRED 상태로 시작하고 sourceTrace와 auditRef를 필수로 가진다.
+
+### Scope
+
+- `src/features/legal-strategy/counter-argument-engine/phase63d-draft-paragraph-generator.schema.ts`
+- `src/features/legal-strategy/counter-argument-engine/phase63d-draft-paragraph-generator.policy.ts`
+- `src/features/legal-strategy/counter-argument-engine/phase63d-draft-paragraph-generator.service.ts`
+- `generateDraftParagraphsFromCandidate()` · `buildCounterArgumentDraftParagraph()`
+- Gates: `verify:aibeopchin-legal-strategy-phase63d` + `verify:aibeopchin-legal-strategy-phase63c` + `verify:aibeopchin-control-tower-brain-rc`
+
+### Verification
+
+- `npm run verify:aibeopchin-legal-strategy-phase63d` PASS
+
+---
+
+## [EVIDENCE-20260526-AIBEOPCHIN-LEGAL-STRATEGY-PHASE63C-RISK-BACKFIRE-CHECK]
+
+### Status
+
+COMPLETE · LOCKED · 63-C.1 — Risk & Backfire Check.
+
+### One-line Standard
+
+Phase 63-C는 63-B CounterArgumentCandidate에 대해 반박 시 역효과, 우리 측 약점 노출, 증거 부족, 기존 진술 충돌, 불리한 판례 연결, 과도한 사실 단정 가능성을 BackfireRiskReport로 점검하도록 고정했다. CRITICAL risk 후보는 문서 사용·의뢰인 노출·자동 제출이 차단되며, 모든 risk acceptance는 변호사 검토와 auditRef 아래에서만 가능하다.
+
+### Scope
+
+- `src/features/legal-strategy/counter-argument-engine/phase63c-risk-backfire-check.schema.ts`
+- `src/features/legal-strategy/counter-argument-engine/phase63c-risk-backfire-check.policy.ts`
+- `src/features/legal-strategy/counter-argument-engine/phase63c-risk-backfire-check.service.ts`
+- `detectBackfireRiskSignals()` · `runBackfireRiskCheck()` · `buildBackfireRiskReport()`
+- Gates: `verify:aibeopchin-legal-strategy-phase63c` + `verify:aibeopchin-legal-strategy-phase63b` + `verify:aibeopchin-control-tower-brain-rc`
+
+### Verification
+
+- `npm run verify:aibeopchin-legal-strategy-phase63c` PASS
+
+---
+
+## [EVIDENCE-20260526-AIBEOPCHIN-LEGAL-STRATEGY-PHASE63B-COUNTER-ARGUMENT-CANDIDATE-BUILDER]
+
+### Status
+
+COMPLETE · LOCKED · 63-B.1 — Counter-Argument Candidate Builder.
+
+### One-line Standard
+
+Phase 63-B는 63-A OpponentArgument와 59-C Gongbuho Reasoning Context를 기반으로 반박 후보를 CounterArgumentCandidate로 생성하되, 최종 법률 주장, 자동 제출, 의뢰인 기본 노출을 모두 차단하고 LAWYER_REVIEW_REQUIRED 상태의 변호사 검토용 후보로만 고정했다.
+
+### Scope
+
+- `src/features/legal-strategy/counter-argument-engine/phase63b-counter-argument-candidate.schema.ts`
+- `src/features/legal-strategy/counter-argument-engine/phase63b-counter-argument-candidate.policy.ts`
+- `src/features/legal-strategy/counter-argument-engine/phase63b-counter-argument-candidate.service.ts`
+- `buildCounterArgumentCandidate()` · `buildCounterArgumentCandidateFromOpponentArgument()`
+- Gates: `verify:aibeopchin-legal-strategy-phase63b` + `verify:aibeopchin-legal-strategy-phase63a` + `verify:aibeopchin-control-tower-brain-rc`
+
+### Verification
+
+- `npm run verify:aibeopchin-legal-strategy-phase63b` PASS
+
+---
+
+## [EVIDENCE-20260526-AIBEOPCHIN-LEGAL-STRATEGY-PHASE63A-OPPONENT-ARGUMENT-SCHEMA]
+
+### Status
+
+COMPLETE · LOCKED · 63-A.1 — Opponent Argument Schema.
+
+### One-line Standard
+
+Phase 63-A는 상대방 주장·항변·제출 증거·전제 사실·법리 포인트를 구조화하여 CounterArgumentCandidate 입력으로 사용할 수 있게 하되, 상대방 주장 자동 확정·반박 자동 제출·의뢰인 노출은 금지한다.
+
+### Scope
+
+- `src/features/legal-strategy/counter-argument-engine/phase63a-opponent-argument.schema.ts`
+- `src/features/legal-strategy/counter-argument-engine/phase63a-opponent-argument.policy.ts`
+- `buildOpponentArgument()` · `buildOpponentArgumentFromMemoryClaim()`
+- Gates: `verify:aibeopchin-legal-strategy-phase63a` + `verify:aibeopchin-evidence-gap-auto-planner-rc` + `verify:aibeopchin-control-tower-brain-rc`
+
+### Verification
+
+- `npm run verify:aibeopchin-legal-strategy-phase63a` PASS
+
+---
+
+## [EVIDENCE-20260526-AIBEOPCHIN-LEGAL-STRATEGY-PHASE62F-EVIDENCE-GAP-AUTO-PLANNER-RC]
+
+### Status
+
+COMPLETE · LOCKED · 62-F.1 — Evidence Gap Auto Planner RC.
+
+### One-line Standard
+
+Phase 62-F는 62-A~62-E 전체를 Evidence Gap Auto Planner RC로 묶어, 증거공백 탐지부터 의뢰인 보완요청 노출·발송·운영 연결까지 모든 단계가 변호사 승인·메시징 정책·audit·Control Tower Brain 검증 아래에서만 작동하도록 RC로 봉인하는 단계다.
+
+### Scope
+
+- `src/features/legal-strategy/evidence-gap-planner/phase62f-evidence-gap-auto-planner-rc.policy.ts`
+- `src/features/legal-strategy/evidence-gap-planner/phase62f-evidence-gap-auto-planner-rc.lock.ts`
+- `evaluateEvidenceGapAutoPlannerRcGate()` · consolidated 62-A~62-E boundaries
+- Gates: `verify:aibeopchin-legal-strategy-phase62f` + `verify:aibeopchin-evidence-gap-auto-planner-rc` + bundled 62-A~62-E + `verify:aibeopchin-control-tower-brain-rc`
+
+### Verification
+
+- `npm run verify:aibeopchin-legal-strategy-phase62f` PASS
+- `npm run verify:aibeopchin-evidence-gap-auto-planner-rc` PASS
+
+---
+
+## [EVIDENCE-20260526-AIBEOPCHIN-LEGAL-STRATEGY-PHASE62E-CLIENT-VISIBLE-SEND-GATE]
+
+### Status
+
+COMPLETE · LOCKED · 62-E.1 — Client-visible Send Gate & Litigation Ops Draft Link.
+
+### One-line Standard
+
+Phase 62-E는 62-D에서 포털 draft로 동기화된 보완요청에 대해 최종 변호사 승인과 send gate를 통과한 항목만 의뢰인에게 노출 가능하도록 고정했다. 동시에 notificationAllowed는 메시징 정책 게이트를 통과해야 하며, Litigation Ops task는 DRAFT_LINKED 상태로만 연결되고 자동 실행은 차단된다.
+
+### Scope
+
+- `src/features/legal-strategy/evidence-gap-planner/phase62e-client-send-gate.schema.ts`
+- `src/features/legal-strategy/evidence-gap-planner/phase62e-client-send-gate.policy.ts`
+- `src/features/legal-strategy/evidence-gap-planner/phase62e-client-send-gate.service.ts`
+- `approvePortalDraftForClientVisibility()` · `enableSupplementRequestSendGate()` · `linkSupplementRequestToLitigationOpsDraft()`
+- Gates: `verify:aibeopchin-legal-strategy-phase62e` + `verify:aibeopchin-control-tower-brain-rc`
+
+### Verification
+
+- `npm run verify:aibeopchin-legal-strategy-phase62e` PASS
+
+---
+
+## [EVIDENCE-20260526-AIBEOPCHIN-LEGAL-STRATEGY-PHASE62D-LAWYER-APPROVAL-PORTAL-DRAFT-SYNC]
+
+### Status
+
+COMPLETE · LOCKED · 62-D.1 — Lawyer Approval & Portal Draft Sync.
+
+### One-line Standard
+
+Phase 62-D는 62-C SupplementRequestDraft에 대해 변호사의 APPROVE / MODIFY / REJECT 결정을 기록하고, LAWYER_APPROVED 또는 LAWYER_MODIFIED 항목만 의뢰인 포털 보완요청 draft로 동기화하도록 고정했다. 동기화 후에도 실제 발송, 알림, task execution은 false로 유지되며, 내부 전략·약점 문구는 portal draft에 노출되지 않는다.
+
+### Scope
+
+- `src/features/legal-strategy/evidence-gap-planner/phase62d-lawyer-approval-portal-sync.schema.ts`
+- `src/features/legal-strategy/evidence-gap-planner/phase62d-lawyer-approval-portal-sync.policy.ts`
+- `src/features/legal-strategy/evidence-gap-planner/phase62d-lawyer-approval-portal-sync.service.ts`
+- `approveSupplementRequestDraftForPortalSync()` · `modifySupplementRequestDraftForPortalSync()` · `rejectSupplementRequestDraft()` · `syncApprovedSupplementDraftToClientPortal()`
+- Gates: `verify:aibeopchin-legal-strategy-phase62d` + `verify:aibeopchin-control-tower-brain-rc`
+
+### Verification
+
+- `npm run verify:aibeopchin-legal-strategy-phase62d` PASS
+
+---
+
+## [EVIDENCE-20260526-AIBEOPCHIN-LEGAL-STRATEGY-PHASE62C-SUPPLEMENT-REQUEST-DRAFT-GENERATOR]
+
+### Status
+
+COMPLETE · LOCKED · 62-C.1 — Supplement Request Draft Generator.
+
+### One-line Standard
+
+Phase 62-C는 62-B EvidenceGapDetectionReport의 EvidenceGapCandidate를 기반으로 변호사 검토용 SupplementRequestDraft를 생성하되, clientVisible, sendAllowed, autoMessageAllowed, autoTaskCreationAllowed를 모두 false로 고정했다. 내부 전략·약점 문구는 의뢰인용 질문 초안에 노출되지 않으며, sourceTrace와 auditRef가 있는 draft만 LAWYER_REVIEW_REQUIRED 상태로 생성된다.
+
+### Scope
+
+- `src/features/legal-strategy/evidence-gap-planner/phase62c-supplement-request-draft.schema.ts`
+- `src/features/legal-strategy/evidence-gap-planner/phase62c-supplement-request-draft.policy.ts`
+- `src/features/legal-strategy/evidence-gap-planner/phase62c-supplement-request-draft.service.ts`
+- `generateSupplementRequestDraftFromDetectionReport()` · `buildSupplementRequestDraft()`
+- Portal state: `CLIENT_COLLABORATION_PORTAL_DRAFT` only
+- Gates: `verify:aibeopchin-legal-strategy-phase62c` + `verify:aibeopchin-control-tower-brain-rc`
+
+### Verification
+
+- `npm run verify:aibeopchin-legal-strategy-phase62c` PASS
 
 ---
 
