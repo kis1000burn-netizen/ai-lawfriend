@@ -27,7 +27,7 @@ export async function GET(_: Request, context: RouteContext) {
       attachmentId
     );
 
-    return new Response(result.file.buffer as unknown as Uint8Array, {
+    return new Response(new Blob([result.file.buffer]), {
       status: 200,
       headers: {
         "Content-Type":
