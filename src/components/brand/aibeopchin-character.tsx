@@ -11,6 +11,14 @@
  *    transformBox: "fill-box" + transformOrigin: 백분율 → 각 요소 bbox 기준 변환.
  *    view-box 모드에서 로컬 좌표를 쓰면 뷰포트 밖을 피봇으로 삼아 파츠가 분리되는 버그 발생.
  * 3. 팔/지휘봉 피봇: 어깨 위치에서 rotate하도록 <g translate> 를 motion wrapper 밖에 배치.
+ *
+ * [Y축 정합 설계 — anchor(100,118) 기준]
+ *   머리 그룹  translate(0 -38): 얼굴 하단 anchor y = -2 (ry=36)
+ *   몸통 그룹  translate(0  5 ): 몸통 상단 anchor y = -3 (path top y=-8)
+ *   → 1 unit 중첩으로 목 이음새 무봉합.
+ *   팔(우)     translate(18  0): 어깨 anchor y=0 (얼굴하단·몸통상단 사이)
+ *   팔(좌)     translate(-28 -3): 어깨 anchor y=-3 (몸통 상단 일치)
+ *   받침대     translate(0 97): 몸통 하단(anchor y=93) 바로 아래
  */
 import { motion, useReducedMotion } from "framer-motion";
 
@@ -131,6 +139,18 @@ export function AibeopchinCharacter({
          *    이 <g> 는 정적이며 CSS transform 을 받지 않는다.
          * ② 그 자식인 motion.g 가 fill-box 기준으로 부유 애니메이션.
          */}
+        {/*
+         * 좌표 설계 (앵커 기준, translate(100 118) 원점):
+         *
+         *   모자 상단    : anchor y ≈ -86
+         *   얼굴 중심    : anchor y = -38  (translate(0 -38), cy=0)
+         *   얼굴 하단    : anchor y =  -2  (ry=36 → -38+36)
+         *   몸통 상단    : anchor y =  -3  (translate(0 5), path y=-8 → 5-8)
+         *   목/어깨 교차 : anchor y ≈ 0~5  → 얼굴 하단·몸통 상단 1 unit 중첩으로 무봉합
+         *   팔(양쪽)     : translate y=0/-3 → 어깨 위치에 정확히 대응
+         *   몸통 하단    : anchor y =  93  (5+88)
+         *   받침대       : anchor y =  97  (몸통 하단 아래)
+         */}
         <g transform="translate(100 118)">
           <motion.g
             animate={bodyFloat}
@@ -153,20 +173,20 @@ export function AibeopchinCharacter({
               />
             ) : null}
 
-            {/* 망토 — 상단 어깨 부착점(bbox top-center)을 피봇으로 회전 */}
+            {/* 망토 — 어깨(y=0) 위치를 상단 피봇으로 회전 */}
             <motion.g
               animate={capeFlow}
               style={{ ...FB, transformOrigin: "50% 0%" }}
             >
               <path
-                d="M-8 18 Q-46 28 -52 78 Q-38 92 -18 88 L18 88 Q38 92 52 78 Q46 28 8 18 Q0 12 0 12 Q0 12 -8 18 Z"
+                d="M-8 8 Q-46 20 -52 72 Q-38 88 -18 84 L18 84 Q38 88 52 72 Q46 20 8 8 Q0 2 0 2 Q0 2 -8 8 Z"
                 fill="url(#aibeopchinCapeFill)"
                 stroke="#c9a227"
                 strokeWidth="0.9"
                 opacity="0.92"
               />
               <path
-                d="M-34 34 Q-40 58 -32 82 M34 34 Q40 58 32 82"
+                d="M-34 24 Q-40 52 -32 76 M34 24 Q40 52 32 76"
                 stroke="#c9a227"
                 strokeWidth="0.6"
                 opacity="0.35"
@@ -174,8 +194,8 @@ export function AibeopchinCharacter({
               />
             </motion.g>
 
-            {/* 받침대 */}
-            <g transform="translate(0 90)">
+            {/* 받침대 — 몸통 하단(anchor y≈93) 바로 아래 */}
+            <g transform="translate(0 97)">
               <motion.g animate={pedestalGlow} style={FB}>
                 <ellipse
                   cx="0" cy="0" rx="52" ry="10"
@@ -192,8 +212,11 @@ export function AibeopchinCharacter({
               </motion.g>
             </g>
 
-            {/* 로브 · 몸통 — 중심축 x=0 */}
-            <g transform="translate(0 37)">
+            {/*
+             * 로브·몸통 — translate(0 5): 경로 상단(y=-8) → anchor y=-3.
+             * 얼굴 하단(anchor y=-2)과 1 unit 중첩 → 목 이음새 무봉합.
+             */}
+            <g transform="translate(0 5)">
               <path
                 d="M-42 8 Q-48 55 -38 88 L38 88 Q48 55 42 8 Q28 -8 0 -8 Q-28 -8 -42 8 Z"
                 fill="#1e3a5f"
@@ -222,8 +245,8 @@ export function AibeopchinCharacter({
             </g>
 
             {/*
-             * 오른팔 — 어깨 위치 (18, 0)에 SVG translate 로 배치 후,
-             * 그 안에서 fill-box "0% 28%" 기준 회전 (bbox 왼쪽 가장자리 ≈ 어깨).
+             * 오른팔 — 어깨 (anchor y=0) 기준 배치.
+             * fill-box "0% 28%": bbox 왼쪽 가장자리 ≈ 어깨.
              */}
             <g transform="translate(18 0)">
               <motion.g
@@ -241,10 +264,8 @@ export function AibeopchinCharacter({
             </g>
 
             {/*
-             * 왼팔 + 지휘봉 — 어깨 위치 (-28, -3)에 SVG translate 로 배치.
-             * fill-box "92% 51%": bbox 오른쪽 가장자리(≈어깨) 기준 회전.
-             * 팔 패스: M(0,0)이 어깨. bbox x: -49~4, y: -29~28
-             * → (0,0) in fill-box ≈ ((0-(-49))/53, (0-(-29))/57) = (92%, 51%)
+             * 왼팔 + 지휘봉 — 어깨 (anchor y=-3) 기준 배치.
+             * fill-box "92% 51%": bbox 오른쪽 가장자리 ≈ 어깨.
              */}
             <g transform="translate(-28 -3)">
               <motion.g
@@ -271,7 +292,7 @@ export function AibeopchinCharacter({
                   r={hero ? 3.2 : 2.6}
                   fill="#fde047" stroke="#c9a227" strokeWidth="0.8"
                 />
-                {/* 지휘봉 끝 발광 — translate로 위치 고정, motion.g로 pulse */}
+                {/* 지휘봉 끝 발광 */}
                 <g transform="translate(-42 -22)">
                   <motion.g
                     animate={sparkPulse}
@@ -287,9 +308,13 @@ export function AibeopchinCharacter({
               </motion.g>
             </g>
 
-            {/* 머리 — 모자(가발) · 얼굴 · 헤드셋 단일 그룹, x=0 정렬 */}
-            <g transform="translate(0 -46)">
-              {/* 판사 가발(모자) — 얼굴과 동일 중심축, z-order: 얼굴 아래 먼저 렌더 */}
+            {/*
+             * 머리 — translate(0 -38): 얼굴 중심 anchor y=-38, ry=36.
+             * 얼굴 하단: anchor y=-2. 몸통 상단: anchor y=-3 → 1 unit 중첩으로 목 연결.
+             * 판사 가발: 얼굴 상단 60% 를 덮어 머리 위에 자연스럽게 착좌.
+             */}
+            <g transform="translate(0 -38)">
+              {/* 판사 가발(모자) — 얼굴 z-order 아래 먼저 렌더 */}
               <path
                 d="M-30 -34 Q0 -50 30 -34 Q36 -18 28 -6 Q0 2 -28 -6 Q-36 -18 -30 -34 Z"
                 fill="#f8fafc"
@@ -332,7 +357,7 @@ export function AibeopchinCharacter({
               <ellipse cx="-18" cy="8" rx="6" ry="3.5" fill="#fda4af" opacity="0.45" />
               <ellipse cx="18" cy="8" rx="6" ry="3.5" fill="#fda4af" opacity="0.45" />
 
-              {/* 눈 깜빡임 — 눈 그룹 bbox 중심(50% 50%) 기준 scaleY */}
+              {/* 눈 깜빡임 */}
               <motion.g
                 animate={blink}
                 style={{ ...FB, transformOrigin: "50% 50%" }}
@@ -345,7 +370,7 @@ export function AibeopchinCharacter({
                 <path d="M6 -14 Q12 -18 18 -14" stroke="#334155" strokeWidth="1.2" fill="none" />
               </motion.g>
 
-              {/* 미소 — 중심 기준 scaleX */}
+              {/* 미소 */}
               <motion.path
                 d="M-10 14 Q0 22 10 14"
                 stroke="#475569"
