@@ -1,27 +1,27 @@
-import type { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
+import type { ElementType, HTMLAttributes, ReactNode } from "react";
 import {
   KOREAN_MOBILE_TYPOGRAPHY_MARKER,
   KOREAN_PHRASE_GAP_CLASS,
   KOREAN_PHRASE_INLINE_CLASS,
 } from "@/lib/ui/korean-mobile-typography.policy";
 
-type KoreanPhraseBlockProps<T extends ElementType = "span"> = {
+type KoreanPhraseBlockProps = {
   phrases: readonly string[];
   className?: string;
-  as?: T;
-} & Omit<ComponentPropsWithoutRef<T>, "className" | "children">;
+  as?: ElementType;
+} & Omit<HTMLAttributes<HTMLElement>, "children">;
 
 /** 좁은 뷰포트: phrase마다 줄(띄어쓰기 경계) · md+: 한 문단 */
-export function KoreanPhraseBlock<T extends ElementType = "span">({
+export function KoreanPhraseBlock({
   phrases,
-  className = "",
+  className,
   as,
   ...rest
-}: Readonly<KoreanPhraseBlockProps<T>>) {
+}: Readonly<KoreanPhraseBlockProps>) {
   const Tag = (as ?? "span") as ElementType;
   return (
     <Tag
-      className={className}
+      className={className ?? ""}
       data-typography={KOREAN_MOBILE_TYPOGRAPHY_MARKER}
       {...rest}
     >

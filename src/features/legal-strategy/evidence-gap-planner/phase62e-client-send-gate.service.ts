@@ -51,6 +51,7 @@ export function runClientVisibleSendGateWorkflow(input: {
 
   const litigationOpsLink = linkSupplementRequestToLitigationOpsDraft({
     payload: withNotification,
+    litigationOpsTarget: "LITIGATION_OPS_TASK_DRAFT",
     auditRef: input.litigationOpsAuditRef,
   });
 

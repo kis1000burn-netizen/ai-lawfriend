@@ -11,8 +11,10 @@ export async function createAttachmentDownloadResponse(input: {
   mimeType: string;
 }) {
   const file = await readCaseAttachmentFromDisk(input.storagePath);
+  const fileBody = new ArrayBuffer(file.buffer.byteLength);
+  new Uint8Array(fileBody).set(file.buffer);
 
-  return new Response(file.buffer, {
+  return new Response(fileBody, {
     status: 200,
     headers: {
       "Content-Type": input.mimeType || "application/octet-stream",

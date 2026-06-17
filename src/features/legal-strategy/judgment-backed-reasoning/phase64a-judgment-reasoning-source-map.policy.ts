@@ -237,11 +237,23 @@ function buildJudgmentLinkEntries(
 function buildApprovedSignalEntries(
   reasoningContext: GongbuhoReasoningContextBundle,
 ): JudgmentReasoningSourceEntry[] {
+  const approvedSignalStatuses = new Set<NonNullable<JudgmentReasoningSourceEntry["realTimeSignalStatus"]>>([
+    "LAWYER_REVIEW_REQUIRED",
+    "FETCHED",
+    "NORMALIZED",
+    "RELEVANCE_SCORED",
+    "CONFLICT_CHECKED",
+    "APPROVED_FOR_AI_USE",
+  ]);
   const signals = [
     ...reasoningContext.approvedRealTimeSignals.statutes,
     ...reasoningContext.approvedRealTimeSignals.judgments,
     ...reasoningContext.approvedRealTimeSignals.operationalSignals,
-  ];
+  ].filter((signal) =>
+    approvedSignalStatuses.has(
+      signal.status as NonNullable<JudgmentReasoningSourceEntry["realTimeSignalStatus"]>,
+    ),
+  );
 
   return signals.map((signal) => ({
     entryId: `jrs-signal-${signal.signalId}`,
@@ -251,7 +263,8 @@ function buildApprovedSignalEntries(
     relevanceNote: `Approved real-time signal (${signal.signalKind})`,
     canonicalSourceRef: signal.sourceTrace.canonicalSourceRef,
     favorability: "UNCERTAIN" as const,
-    realTimeSignalStatus: signal.status,
+    realTimeSignalStatus:
+      signal.status as NonNullable<JudgmentReasoningSourceEntry["realTimeSignalStatus"]>,
     linkedSourceTraceIds: [signal.sourceTrace.traceId],
   }));
 }

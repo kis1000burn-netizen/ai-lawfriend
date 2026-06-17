@@ -156,6 +156,7 @@ function draftToCandidate(input: {
     strategyCandidate,
     reasoningContextAuditRef: reasoningContext.auditRef,
     reasoningContext: candidateReasoningContext,
+    inheritedMemorySourceTrace: strategyCandidate?.inheritedMemorySourceTrace ?? [],
     sourceTrace: [
       {
         traceId: randomUUID(),
