@@ -314,21 +314,6 @@ export function AibeopchinCharacter({
              * 판사 가발: 얼굴 상단 60% 를 덮어 머리 위에 자연스럽게 착좌.
              */}
             <g transform="translate(0 -38)">
-              {/* 판사 가발(모자) — 얼굴 z-order 아래 먼저 렌더 */}
-              <path
-                d="M-30 -34 Q0 -50 30 -34 Q36 -18 28 -6 Q0 2 -28 -6 Q-36 -18 -30 -34 Z"
-                fill="#f8fafc"
-                stroke="#e2e8f0"
-                strokeWidth="1.2"
-              />
-              <path
-                d="M-24 -28 Q0 -38 24 -28 M-18 -18 Q0 -12 18 -18"
-                stroke="#cbd5e1"
-                strokeWidth="0.8"
-                fill="none"
-                opacity="0.7"
-              />
-
               {/* 헤드셋 외형 */}
               <path
                 d="M-38 -8 Q-42 20 -28 38 L28 38 Q42 20 38 -8 Q20 -42 -20 -42 Q-38 -28 -38 -8"
@@ -356,6 +341,36 @@ export function AibeopchinCharacter({
               <ellipse cx="0" cy="0" rx="34" ry="36" fill="#f8fafc" />
               <ellipse cx="-18" cy="8" rx="6" ry="3.5" fill="#fda4af" opacity="0.45" />
               <ellipse cx="18" cy="8" rx="6" ry="3.5" fill="#fda4af" opacity="0.45" />
+
+              {/* 판사 모자 — 얼굴 위 레이어에서 머리 상단에 고정 */}
+              <g transform="translate(0 -35)">
+                <path
+                  d="M-26 6 Q-20 -13 0 -16 Q20 -13 26 6 Q14 14 0 14 Q-14 14 -26 6 Z"
+                  fill="#172554"
+                  stroke="#c9a227"
+                  strokeWidth="1.4"
+                />
+                <path
+                  d="M-34 8 Q-18 0 0 0 Q18 0 34 8 Q20 16 0 16 Q-20 16 -34 8 Z"
+                  fill="#1e3a8a"
+                  stroke="#c9a227"
+                  strokeWidth="1.2"
+                />
+                <path
+                  d="M-18 5 Q0 -2 18 5"
+                  stroke="#fde68a"
+                  strokeWidth="1"
+                  fill="none"
+                  opacity="0.75"
+                />
+                <circle cx="0" cy="7" r="4" fill="#c9a227" />
+                <path
+                  d="M-2.8 7 H2.8 M0 4.2 V9.8"
+                  stroke="#172554"
+                  strokeWidth="0.9"
+                  strokeLinecap="round"
+                />
+              </g>
 
               {/* 눈 깜빡임 */}
               <motion.g
