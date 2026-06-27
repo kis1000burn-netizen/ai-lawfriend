@@ -1,0 +1,4 @@
+[
+  { "scenario": "지급 무결성 정상", "checks": [{ "id": "finance-settlement/payout-control:payout-integrity", "status": "pass", "message": "지급 무결성 정상 (검사: 18건)" }], "actions": [] },
+  { "scenario": "중복 지급 감지 (G4)", "checks": [{ "id": "code:p0-boundary", "financeType": "finance:payout-duplicate", "status": "fail", "critical": true, "message": "중복 지급 감지 — settle_001 paid 2회", "settlementId": "settle_001" }], "actions": [{ "type": "escalate", "executed": true }, { "type": "set_flag", "key": "PAYOUT_BLOCK", "value": "1", "executed": false, "dryRun": true }] }
+]

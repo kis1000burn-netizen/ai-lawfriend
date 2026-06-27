@@ -1,0 +1,50 @@
+{
+  "passGateVersion": "2.0.0",
+  "levels": [
+    "STATIC_PASS",
+    "PATCHSET_PASS",
+    "INTEGRATION_PASS",
+    "E2E_PASS",
+    "PROMOTION_READY"
+  ],
+  "promotionRequires": [
+    "STATIC_PASS",
+    "PATCHSET_PASS",
+    "ALLOWLIST_DATABASE_PASS",
+    "INTEGRATION_PASS",
+    "E2E_PASS",
+    "FIXTURE_CLEANUP_PASS",
+    "NO_SECURITY_HARD_FAIL"
+  ],
+  "staticChecks": {
+    "registryTest": "node tools/diagnostic-engine/tests/first-practical-application.test.mjs",
+    "canonicalSources": "npm run verify:canonical-sources"
+  },
+  "integrationChecks": {
+    "permissionUnitTests": "npx vitest run src/features/cases/case.permissions.access.test.ts src/features/cases/case.permissions.soft-delete.test.ts",
+    "dbPingCommand": "npm run verify:staging-secrets -- --db-ping --skip-ai-core",
+    "dbAllowlistCommand": "node tools/diagnostic-engine/scripts/verify-staging-database-allowlist.mjs"
+  },
+  "e2eChecks": {
+    "specFiles": [
+      "tests/e2e/diagnostic-case-access-control.spec.ts",
+      "tests/e2e/admin-role-matrix.spec.ts"
+    ]
+  },
+  "matchingChecks": {
+    "matchingUnitTests": "npx vitest run src/features/case-assignments/case-lawyer-matching-recommendation.service.test.ts src/features/case-assignments/case-lawyer-matching.service.test.ts",
+    "matchingPermissionTests": "npx vitest run src/features/case-assignments/case-lawyer-matching-recommendation.service.test.ts --testNamePattern \"blocks non-admin\"",
+    "socialProofPrivacyTests": "npx vitest run src/lib/dashboard/lawyer-argument-social-proof.test.ts",
+    "stagingE2eSpecs": [
+      "tests/e2e/diagnostic-staging-first-practical.spec.ts",
+      "tests/e2e/diagnostic-lawyer-matching-social-proof.spec.ts",
+      "tests/e2e/diagnostic-case-access-control.spec.ts"
+    ]
+  },
+  "operationalFeatureRequires": [
+    "MATCHING_UNIT_PASS",
+    "MATCHING_PERMISSION_PASS",
+    "SOCIAL_PROOF_PRIVACY_PASS",
+    "STAGING_E2E_PASS"
+  ]
+}

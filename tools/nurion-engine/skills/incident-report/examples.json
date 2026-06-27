@@ -1,0 +1,46 @@
+[
+  {
+    "scenario": "G0 — 보고서 불필요",
+    "grade": "G0",
+    "checks": [
+      { "id": "incident-report:grade-sufficient", "status": "pass", "message": "G0 등급 — 인시던트 보고서 불필요" }
+    ],
+    "actions": []
+  },
+  {
+    "scenario": "G3 — 인시던트 보고서 생성",
+    "grade": "G3",
+    "checks": [
+      { "id": "incident-report:grade-sufficient", "status": "fail",  "message": "G3 등급 — 인시던트 보고서 생성 조건 충족" },
+      { "id": "incident-report:active-incident",  "status": "fail",  "message": "활성 인시던트 존재 — incidentId: inc-20260620T093000", "incidentId": "inc-20260620T093000" },
+      { "id": "incident-report:archive-events",   "status": "fail",  "message": "아카이브 이벤트 충분 (12개)" }
+    ],
+    "actions": [
+      {
+        "type": "generate_report",
+        "reportPath": "_nurion_events/incident-report-inc-20260620T093000.json",
+        "incidentId": "inc-20260620T093000",
+        "executed": true,
+        "message": "인시던트 보고서 저장 완료"
+      },
+      {
+        "type": "notify",
+        "message": "[incident-report] 인시던트 보고서 생성\n  incidentId: inc-20260620T093000\n  등급: G3\n  ⚠️ AI 초안 — 운영자 검토 필요",
+        "executed": true
+      }
+    ]
+  },
+  {
+    "scenario": "G4 — 아카이브 부족",
+    "grade": "G4",
+    "checks": [
+      { "id": "incident-report:grade-sufficient", "status": "fail", "message": "G4 등급 — 인시던트 보고서 생성 조건 충족" },
+      { "id": "incident-report:active-incident",  "status": "fail", "message": "활성 인시던트 존재" },
+      { "id": "incident-report:archive-events",   "status": "warn", "message": "아카이브 이벤트 부족 (3개, 최소 5개 권고) — 보고서 근거 부족" }
+    ],
+    "actions": [
+      { "type": "generate_report", "executed": true, "message": "보고서 저장 (아카이브 부족 — 근거 한정)" },
+      { "type": "notify", "message": "[incident-report] 인시던트 보고서 생성 (근거 이벤트 부족)", "executed": true }
+    ]
+  }
+]

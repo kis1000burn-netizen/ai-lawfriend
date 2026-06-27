@@ -1,0 +1,52 @@
+{
+  "platformId": "yeomgane-jokbal",
+  "platformName": "염가네 족발",
+  "description": "족발·보쌈 전문점 주문·배달 플랫폼",
+
+  "enabledSkills": [
+    "slo-budget",
+    "deploy-preflight",
+    "gas-health",
+    "submission-flow",
+    "vendor-flow",
+    "pwa-health",
+    "asset-integrity",
+    "rollback",
+    "incident-report"
+  ],
+
+  "riskLevel": "MEDIUM",
+  "autoActionPolicy": {
+    "maxGradeForAutoAction": "G3",
+    "requireHumanApproval": ["rollback"]
+  },
+
+  "skillOptions": {
+    "deploy-preflight": {
+      "buildDirs": ["dist"],
+      "smokeAll": true
+    },
+    "gas-health": {
+      "gasHealthUrl": "https://script.google.com/macros/s/YOUR_GAS_ID/exec?health=1",
+      "latencyWarnMs": 4000
+    },
+    "submission-flow": {
+      "latencyWarnMs": 6000
+    },
+    "pwa-health": {
+      "manifestUrl": "https://yeomgane.example.com/manifest.json",
+      "swUrl": "https://yeomgane.example.com/sw.js"
+    },
+    "asset-integrity": {
+      "assetUrls": [
+        "https://yeomgane.example.com/style.css",
+        "https://yeomgane.example.com/app.js"
+      ],
+      "latencyWarnMs": 2500
+    },
+    "rollback": {
+      "rollbackWebhook": "",
+      "requireGrade": "G4"
+    }
+  }
+}

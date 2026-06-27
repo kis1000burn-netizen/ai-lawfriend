@@ -1,0 +1,27 @@
+{
+  "projectId": "aibeopchin",
+  "projectName": "AI법친",
+  "role": "FIRST_DIAGNOSTIC_PROJECT",
+  "registeredAt": "2026-06-20T08:30:00.000Z",
+  "sourceRoot": ".",
+  "sourceScope": {
+    "includeRoots": ["src", "prisma", "scripts", "docs", "tests", "tools"],
+    "excludeRoots": ["node_modules", ".next", "coverage", "aibeopchin_patchset"]
+  },
+  "canonicalSources": [
+    "prisma/schema.prisma",
+    "src/lib/definitions/case-status.ts"
+  ],
+  "mvpEntryPaths": [
+    "src/app/api/auth/signup/route.ts",
+    "src/app/api/auth/login/route.ts",
+    "src/app/api/auth/signup-lawyer/route.ts",
+    "src/lib/definitions/permission-definition.ts",
+    "src/features/cases/case.validators.ts",
+    "src/features/cases/case.service.ts"
+  ],
+  "linkedEngines": [
+    "control-tower-brain",
+    "nurion-engine/aibeopchin"
+  ]
+}

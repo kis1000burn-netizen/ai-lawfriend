@@ -1,0 +1,51 @@
+{
+  "_comment": "업체 정산 프로필 예시 — 실제 운영 시 platform-profiles/<platformId>/ 에 vendor-profiles.json 으로 저장",
+  "vendors": [
+    {
+      "vendorId": "vendor_001",
+      "vendorName": "맛있는 도시락 주식회사",
+      "settlementCycle": "weekly",
+      "settlementDay": "WED",
+      "commissionRate": 0.12,
+      "deliveryFeeRule": "vendor_borne",
+      "vatType": "taxable",
+      "invoiceRequired": true,
+      "bankAccountVerified": true,
+      "payoutApprovalLevel": "dual",
+      "holdDays": 7,
+      "contactEmail": "settle@example.com",
+      "bankInfo": {
+        "_note": "실제 계좌번호는 여기에 저장하지 마세요 — 별도 보안 금고 사용 권장",
+        "bank": "국민은행",
+        "accountVerifiedAt": "2026-06-01T00:00:00.000Z"
+      }
+    },
+    {
+      "vendorId": "vendor_002",
+      "vendorName": "염가네 족발",
+      "settlementCycle": "monthly",
+      "settlementDay": "15",
+      "commissionRate": 0.10,
+      "deliveryFeeRule": "platform_borne",
+      "vatType": "taxable",
+      "invoiceRequired": true,
+      "bankAccountVerified": false,
+      "payoutApprovalLevel": "single",
+      "holdDays": 14,
+      "contactEmail": "vendor2@example.com"
+    },
+    {
+      "vendorId": "vendor_003",
+      "vendorName": "건강 채식 도시락",
+      "settlementCycle": "weekly",
+      "settlementDay": "FRI",
+      "commissionRate": 0.08,
+      "deliveryFeeRule": "vendor_borne",
+      "vatType": "exempt",
+      "invoiceRequired": false,
+      "bankAccountVerified": true,
+      "payoutApprovalLevel": "single",
+      "holdDays": 7
+    }
+  ]
+}

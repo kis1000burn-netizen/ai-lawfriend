@@ -1,0 +1,28 @@
+[
+  {
+    "scenario": "모든 미디어 비공개 (정상)",
+    "checks": [
+      { "id": "media-review:exposed:media_001.jpg", "status": "pass", "message": "미승인 미디어 비공개 확인 (HTTP 403)" },
+      { "id": "media-review:approval-history", "status": "pass", "message": "미디어 승인 이력 정상 (24건)" }
+    ],
+    "actions": []
+  },
+  {
+    "scenario": "미승인 미디어 공개 노출",
+    "checks": [
+      { "id": "media-review:exposed:media_002.jpg", "status": "fail", "critical": true, "message": "미승인 미디어 공개 노출 감지 (HTTP 200)", "url": "https://cdn.example.com/pending/media_002.jpg" }
+    ],
+    "actions": [
+      { "type": "notify",       "message": "[media-review] 미승인 미디어 공개 노출 감지" },
+      { "type": "record-event", "message": "미디어 노출 이벤트 기록 완료" },
+      { "type": "set_flag",     "key": "MEDIA_HIDDEN", "value": "1", "executed": false, "dryRun": true }
+    ]
+  },
+  {
+    "scenario": "승인 이력 reviewedBy 누락",
+    "checks": [
+      { "id": "media-review:approval-reviewer", "status": "warn", "message": "승인 이력 3건에 reviewedBy 없음" }
+    ],
+    "actions": []
+  }
+]

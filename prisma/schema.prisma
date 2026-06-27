@@ -172,6 +172,20 @@ enum CaseStatus {
   DELETED
 }
 
+enum LawyerMatchingRecommendationStatus {
+  DRAFT
+  REVIEW_REQUIRED
+  ASSIGNMENT_READY
+  APPROVED
+  REJECTED
+  EXPIRED
+}
+
+enum LawyerMatchingRecommendationGeneratedBy {
+  RULE_ENGINE
+  AI_ASSIST
+}
+
 enum InterviewStatus {
   NOT_STARTED
   IN_PROGRESS
@@ -708,6 +722,9 @@ model User {
   deadlineNotificationsCreated        LitigationDeadlineNotification[] @relation("LitigationDeadlineNotificationCreator")
   retryJobsResolved                   RetryJob[] @relation("RetryJobResolvedBy")
   documentPipelineJobsResolved        DocumentPipelineJob[] @relation("DocumentPipelineJobResolvedBy")
+  lawyerMatchingRecommendationsCreated  LawyerMatchingRecommendation[] @relation("LawyerMatchingRecommendationCreatedBy")
+  lawyerMatchingRecommendationsApproved LawyerMatchingRecommendation[] @relation("LawyerMatchingRecommendationApprovedBy")
+  lawyerMatchingRecommendationsRejected LawyerMatchingRecommendation[] @relation("LawyerMatchingRecommendationRejectedBy")
 
   @@index([email])
 }
@@ -1042,6 +1059,7 @@ model Case {
   legalReliabilityActionCandidates   LegalReliabilityActionCandidate[]
   legalReliabilityActionDecisionLedgers LegalReliabilityActionDecisionLedger[]
   legalReliabilityActionOperations   LegalReliabilityActionOperation[]
+  lawyerMatchingRecommendations      LawyerMatchingRecommendation[]
 
   /// 사건 인터뷰에 사용할 질문셋(선택). 미지정 시 전역 활성 단일 QuestionSet 규약 유지(Phase 3-D).
   questionSetId               String?
@@ -1967,9 +1985,42 @@ model CaseAssignment {
   case       Case @relation(fields: [caseId], references: [id], onDelete: Cascade)
   assignee   User @relation("UserAssignedCases", fields: [assigneeUserId], references: [id], onDelete: Cascade)
   assignedBy User @relation("UserCreatedAssignments", fields: [assignedByUserId], references: [id], onDelete: Cascade)
+  lawyerMatchingRecommendation LawyerMatchingRecommendation?
 
   @@index([caseId, isActive, createdAt])
   @@index([assigneeUserId, isActive, createdAt])
+}
+
+model LawyerMatchingRecommendation {
+  id                        String                                  @id @default(cuid())
+  caseId                    String
+  status                    LawyerMatchingRecommendationStatus
+  matchedSpecialties        Json
+  excludedLawyersSnapshot   Json
+  eligibleLawyerIds         Json
+  recommendedAssignmentNote String
+  generatedBy               LawyerMatchingRecommendationGeneratedBy @default(RULE_ENGINE)
+  requiresHumanApproval     Boolean                                 @default(true)
+  version                   Int                                     @default(1)
+  /// 활성 권고안 1건 제한 — 승인·반려·만료 시 null.
+  activeCaseKey             String?                                 @unique
+  createdByAdminId          String
+  approvedByAdminId         String?
+  approvedAt                DateTime?
+  approvedAssignmentId      String?                                 @unique
+  rejectedByAdminId         String?
+  rejectedAt                DateTime?
+  createdAt                 DateTime                                @default(now())
+  updatedAt                 DateTime                                @updatedAt
+
+  case               Case            @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  createdByAdmin     User            @relation("LawyerMatchingRecommendationCreatedBy", fields: [createdByAdminId], references: [id], onDelete: Cascade)
+  approvedByAdmin    User?           @relation("LawyerMatchingRecommendationApprovedBy", fields: [approvedByAdminId], references: [id], onDelete: SetNull)
+  rejectedByAdmin    User?           @relation("LawyerMatchingRecommendationRejectedBy", fields: [rejectedByAdminId], references: [id], onDelete: SetNull)
+  approvedAssignment CaseAssignment? @relation(fields: [approvedAssignmentId], references: [id], onDelete: SetNull)
+
+  @@index([caseId, status, createdAt])
+  @@index([createdByAdminId, createdAt])
 }
 
 model AuditLog {

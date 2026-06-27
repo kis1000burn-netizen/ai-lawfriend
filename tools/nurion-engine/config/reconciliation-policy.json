@@ -1,0 +1,21 @@
+{
+  "_comment": "정산 대사 반올림·허용 오차 정책 — platform-profiles/<id>/profile.json skillOptions에서 오버라이드 가능",
+
+  "currency": "KRW",
+  "roundingPolicy": "HALF_UP",
+
+  "_allowedDifferenceKrw_comment": "이 범위 이하 차이는 정상 처리 (0 = 1원도 허용 안 함). 변경 시 반드시 재무팀 승인 필요.",
+  "allowedDifferenceKrw": 0,
+
+  "_allocationToleranceKrw_comment": "할인 안분·배송비 안분·부가세 절사에서 발생하는 합법적 반올림 오차 허용 범위 (최대 1원).",
+  "allocationToleranceKrw": 1,
+
+  "_requireReasonForTolerance_comment": "허용 오차 적용 시 사유 기록 강제 여부",
+  "requireReasonForTolerance": true,
+
+  "pgFeeRules": {
+    "_comment": "PG 수수료율 기준값 — 실제 계약과 다를 경우 vendor-profiles에서 오버라이드",
+    "defaultRate": 0.033,
+    "vatIncluded": false
+  }
+}

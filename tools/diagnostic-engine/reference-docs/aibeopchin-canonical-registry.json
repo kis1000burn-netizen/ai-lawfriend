@@ -1,0 +1,42 @@
+{
+  "registryId": "aibeopchin-canonical-v1",
+  "projectId": "aibeopchin",
+  "referenceDocs": [
+    {
+      "docId": "execution-sequence",
+      "category": "NUMBERING_SYSTEM",
+      "path": "docs/project-governance/EXECUTION_SEQUENCE.md",
+      "purpose": "기준문서 잠금 → 구현 정렬 → 검증 순서 SSOT"
+    },
+    {
+      "docId": "implementation-evidence",
+      "category": "NUMBERING_SYSTEM",
+      "path": "docs/project-governance/IMPLEMENTATION_EVIDENCE.md",
+      "purpose": "Phase·증빙·번호체계 실행 기록 SSOT"
+    },
+    {
+      "docId": "status-single-source",
+      "category": "NUMBERING_SYSTEM",
+      "path": "docs/project-governance/STATUS_SINGLE_SOURCE_OF_TRUTH.md",
+      "purpose": "상태·용어 단일 진실원"
+    },
+    {
+      "docId": "case-package-plan-6-0",
+      "category": "PLANNING",
+      "path": "docs/project-governance/AIBEOPCHIN_6_0_CASE_PACKAGE_SHARE_LAWYER_ACCESS_PLAN.md",
+      "purpose": "6.0 사건 패키지 기획서"
+    },
+    {
+      "docId": "control-tower-brain-spec-60",
+      "category": "PLANNING",
+      "path": "docs/platform/AIBEOPCHIN_CONTROL_TOWER_BRAIN_PHASE60_SPEC.md",
+      "purpose": "Control Tower Brain Phase 60 기획·경계"
+    },
+    {
+      "docId": "agents-instructions",
+      "category": "PLANNING",
+      "path": "AGENTS.md",
+      "purpose": "에이전트·빌드·검증 운영 지침"
+    }
+  ]
+}

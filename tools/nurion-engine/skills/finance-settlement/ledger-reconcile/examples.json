@@ -1,0 +1,49 @@
+[
+  {
+    "scenario": "정산 대사 완료 (정상)",
+    "grade": "G0",
+    "checks": [
+      { "id": "finance-settlement/ledger-reconcile:data-available",       "status": "pass", "message": "정산 데이터 로드 (24건, 소스: local)" },
+      { "id": "finance-settlement/ledger-reconcile:reconciliation-summary","status": "pass", "message": "대사 완료 — 24건 중 불일치 없음" }
+    ],
+    "actions": []
+  },
+  {
+    "scenario": "정산 불일치 감지 (G3)",
+    "grade": "G3",
+    "checks": [
+      { "id": "finance-settlement/ledger-reconcile:data-available",  "status": "pass", "message": "정산 데이터 로드 (8건)" },
+      {
+        "id": "finance:payout-mismatch",
+        "financeType": "finance:payout-mismatch",
+        "status": "fail", "critical": true,
+        "message": "정산 불일치 — settlementId: settle_001, 예상: 48,000원, 실제: 45,000원, 차이: 3,000원 (underpaid)",
+        "settlementId": "settle_001", "orderId": "order_001", "vendorId": "vendor_32",
+        "traceId": "quote_20260620_a1",
+        "mismatch": { "expected": 48000, "actual": 45000, "difference": 3000, "sign": "underpaid" }
+      }
+    ],
+    "actions": [
+      { "type": "record-incident", "incidentType": "SETTLEMENT_MISMATCH", "settlementId": "settle_001", "executed": true },
+      { "type": "notify", "message": "[ledger-reconcile] 정산 불일치 감지...", "executed": true },
+      { "type": "set_flag", "key": "SETTLEMENT_HOLD", "value": "1", "executed": false, "dryRun": true }
+    ]
+  },
+  {
+    "scenario": "중복 정산 감지 (G4 — P-0 트리거)",
+    "grade": "G4",
+    "checks": [
+      {
+        "id": "code:p0-boundary",
+        "financeType": "finance:payout-duplicate",
+        "status": "fail", "critical": true,
+        "message": "중복 settlementId 감지 (2건) — settle_001, settle_002",
+        "duplicateIds": ["settle_001", "settle_002"]
+      }
+    ],
+    "actions": [
+      { "type": "escalate", "message": "[ledger-reconcile] 중복 정산 감지 — 즉시 확인 필요", "executed": true },
+      { "type": "set_flag", "key": "SETTLEMENT_HOLD", "value": "1", "executed": false, "dryRun": true }
+    ]
+  }
+]

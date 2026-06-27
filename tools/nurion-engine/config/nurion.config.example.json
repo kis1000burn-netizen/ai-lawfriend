@@ -1,0 +1,42 @@
+{
+  "platformId": "example-platform",
+  "platformName": "예시 플랫폼",
+  "pollIntervalMs": 300000,
+  "historyDays": 7,
+  "retentionDays": 7,
+  "releaseTagFile": "release/LAST_RELEASE.json",
+  "remoteActions": {
+    "enabled": false,
+    "actionWebhook": "",
+    "requireEnv": "NURION_REMOTE_ACTIONS=1"
+  },
+  "probes": [
+    {
+      "id": "api:submissions",
+      "type": "http",
+      "url": "https://example.com/.netlify/functions/submissions?health=1",
+      "timeoutMs": 5000,
+      "critical": true
+    },
+    {
+      "id": "ops:list",
+      "type": "http",
+      "url": "https://example.com/.netlify/functions/list?limit=1",
+      "timeoutMs": 5000,
+      "critical": true
+    },
+    {
+      "id": "asset:sw-js",
+      "type": "http",
+      "url": "https://example.com/sw.js",
+      "timeoutMs": 5000,
+      "critical": false
+    },
+    {
+      "id": "code:p0-boundary",
+      "type": "manual",
+      "status": "pass",
+      "message": "release-preflight 또는 별도 정적 검증 결과를 주입하세요."
+    }
+  ]
+}

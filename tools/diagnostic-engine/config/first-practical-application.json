@@ -1,0 +1,59 @@
+{
+  "workflowId": "first-practical-application-v1",
+  "workflowName": "첫 실전 적용 순서",
+  "version": "1.0.0",
+  "primaryProjectId": "aibeopchin",
+  "steps": [
+    {
+      "stepId": "register-project",
+      "order": 1,
+      "label": "AI법친 전체 소스를 첫 진단 프로젝트로 등록"
+    },
+    {
+      "stepId": "register-reference-docs",
+      "order": 2,
+      "label": "기획서·번호체계 문서를 엔진 기준문서로 등록"
+    },
+    {
+      "stepId": "generate-mvp-flow-tests",
+      "order": 3,
+      "label": "회원가입·로그인·권한·사건접수 흐름 자동 테스트 생성"
+    },
+    {
+      "stepId": "run-diagnostic-report",
+      "order": 4,
+      "label": "실제 오류와 누락 리포트 확인"
+    },
+    {
+      "stepId": "validate-in-patchset",
+      "order": 5,
+      "label": "수정안을 별도 테스트 공간(patchset)에서 검증"
+    },
+    {
+      "stepId": "promotion-gate",
+      "order": 6,
+      "label": "통과한 수정만 원본 프로젝트 반영 후보로 승격"
+    },
+    {
+      "stepId": "platform-expansion",
+      "order": 7,
+      "label": "도시락.store·아침햇살·기타 플랫폼 확장 레지스트리 준비"
+    },
+    {
+      "stepId": "compress-bundle",
+      "order": 8,
+      "label": "다른 환경·플랫폼으로 옮길 진단 번들 압축"
+    }
+  ],
+  "mvpFlowIds": [
+    "auth-signup-user",
+    "auth-login",
+    "auth-signup-lawyer",
+    "permission-matrix",
+    "case-intake-validators",
+    "case-create-service"
+  ],
+  "patchsetSandboxDir": "aibeopchin_patchset",
+  "runtimeDir": "tools/diagnostic-engine/_runtime",
+  "bundleDir": "tools/diagnostic-engine/_bundles"
+}

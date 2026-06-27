@@ -1,0 +1,33 @@
+[
+  {
+    "scenario": "G0 — 롤백 조건 미충족",
+    "grade": "G0",
+    "checks": [
+      { "id": "rollback:release-file",       "status": "pass", "message": "롤백 기준 확인 — tag: v1.2.4, releasedAt: 2026-06-18T10:30:00Z" },
+      { "id": "rollback:webhook-configured", "status": "pass", "message": "롤백 webhook 설정 확인" },
+      { "id": "rollback:rollback-candidate", "status": "pass", "message": "G0 등급 — 롤백 조건 미충족 (정상 범위)" }
+    ],
+    "actions": []
+  },
+  {
+    "scenario": "G4 — 롤백 후보 활성화",
+    "grade": "G4",
+    "checks": [
+      { "id": "rollback:release-file",       "status": "pass", "message": "롤백 기준 확인 — tag: v1.2.4" },
+      { "id": "rollback:webhook-configured", "status": "pass", "message": "롤백 webhook 설정 확인" },
+      { "id": "rollback:rollback-candidate", "status": "fail", "critical": true, "message": "G4 등급 — 롤백 후보 활성화", "tag": "v1.2.4" }
+    ],
+    "actions": [
+      { "type": "rollback_candidate", "message": "[rollback] 롤백 후보 활성화 — G4 등급\n  복구 기준: tag=v1.2.4" },
+      { "type": "rollback", "tag": "v1.2.4", "executed": false, "dryRun": true, "message": "롤백 대상: v1.2.4 (dry-run)" }
+    ]
+  },
+  {
+    "scenario": "LAST_RELEASE.json 없음",
+    "grade": "G4",
+    "checks": [
+      { "id": "rollback:release-file", "status": "warn", "message": "롤백 기준 파일 없음 — release/LAST_RELEASE.json" }
+    ],
+    "actions": []
+  }
+]

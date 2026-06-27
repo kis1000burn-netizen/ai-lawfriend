@@ -1,0 +1,22 @@
+{
+  "_comment": "신규 플랫폼 SLO 목표 템플릿 — signalId를 실제 probe id에 맞게 수정하세요.",
+  "windowDays": 30,
+  "fastBurnThreshold": 14,
+
+  "slos": [
+    {
+      "id": "api-availability",
+      "description": "주요 API 가용성",
+      "signalId": "api:submissions",
+      "target": 0.990,
+      "unit": "availability"
+    },
+    {
+      "id": "pwa-sw-availability",
+      "description": "Service Worker 가용성",
+      "signalId": "asset:sw-js",
+      "target": 0.995,
+      "unit": "availability"
+    }
+  ]
+}

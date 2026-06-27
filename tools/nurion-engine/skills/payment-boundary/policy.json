@@ -1,0 +1,47 @@
+{
+  "skillId": "payment-boundary",
+  "version": "1.0",
+  "description": "P-0 결제 경계 안전 정책",
+
+  "p0Definition": {
+    "code": "P-0",
+    "label": "결제 무결성 위반",
+    "description": "고객 금액이 직접 변경되거나, 결제 API가 미인증 접근에 노출되거나, 결제 상태 전환이 검증 없이 이루어지는 상황",
+    "triggerGrade": "G4"
+  },
+
+  "allowedActions": [
+    { "type": "notify",    "description": "위반 알림 발송" },
+    { "type": "escalate",  "description": "운영자 긴급 에스컬레이션" },
+    { "type": "set_flag",  "key": "PAYMENT_BLOCK", "description": "G3 이상에서 결제 차단 플래그 전송" }
+  ],
+
+  "forbiddenActions": [
+    { "type": "refund",           "reason": "환불 처리는 사람 승인 필수" },
+    { "type": "change_price",     "reason": "가격 수정은 사람 승인 필수" },
+    { "type": "update_payment",   "reason": "결제 정보 변경은 사람 승인 필수" },
+    { "type": "cancel_payment",   "reason": "결제 취소는 사람 승인 필수" },
+    { "type": "approve_payment",  "reason": "결제 승인은 사람 승인 필수" }
+  ],
+
+  "checks": [
+    {
+      "id": "p0-signal",
+      "description": "code:p0-boundary probe 상태 확인",
+      "failGrade": "G4",
+      "critical": true
+    },
+    {
+      "id": "auth-gate",
+      "description": "결제 엔드포인트 미인증 접근 차단 확인",
+      "failGrade": "G4",
+      "critical": true
+    },
+    {
+      "id": "waiting-state",
+      "description": "payment_waiting 상태 probe 설정 여부",
+      "failGrade": "warn",
+      "critical": false
+    }
+  ]
+}

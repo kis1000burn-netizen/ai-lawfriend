@@ -1,0 +1,21 @@
+{
+  "platformId": "achim-haetsal",
+  "platformName": "아침햇살",
+  "description": "아침햇살 플랫폼 — diagnostic-engine 확장 스텁 (첫 실전 적용 후 등록)",
+
+  "enabledSkills": [
+    "slo-budget",
+    "deploy-preflight",
+    "submission-flow",
+    "pwa-health",
+    "rollback"
+  ],
+
+  "riskLevel": "MEDIUM",
+  "autoActionPolicy": {
+    "maxGradeForAutoAction": "G2",
+    "requireHumanApproval": ["rollback", "submission-flow"]
+  },
+
+  "_diagnosticEngineNote": "AI법친 first-practical-application 완료 후 achim-haetsal 전용 probe·기준문서를 등록하세요."
+}

@@ -1,0 +1,11 @@
+{
+  "rules": [
+    { "signal": "code:p0-boundary", "type": "fail_count", "threshold": 1, "severity": "CRITICAL", "reason": "P-0 결제 경계 위반" },
+    { "signal": "api:submissions", "type": "consecutive_fail", "threshold": 3, "severity": "CRITICAL", "reason": "견적·접수 핵심 API 연속 실패" },
+    { "signal": "ops:list", "type": "fail_count", "threshold": 2, "severity": "HIGH", "reason": "운영 목록 API 반복 실패" },
+    { "signal": "asset:bapchin-*", "type": "fail_count", "threshold": 2, "severity": "HIGH", "reason": "밥친 핵심 자산 반복 실패" },
+    { "signal": "asset:sw-js", "type": "fail_count", "threshold": 2, "severity": "MEDIUM", "reason": "서비스워커 자산 반복 실패" },
+    { "signal": "api:catalog", "type": "consecutive_fail", "threshold": 3, "severity": "MEDIUM", "reason": "카탈로그 API 연속 실패" },
+    { "signal": "gas:health", "type": "warn_count", "threshold": 5, "severity": "MEDIUM", "reason": "GAS health 경고 누적" }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "platformId": "future-template",
+  "platformName": "신규 플랫폼 템플릿",
+  "description": "새 플랫폼 생성 시 이 파일을 복사하고 platformId와 필요 스킬을 설정하세요.",
+
+  "enabledSkills": [
+    "slo-budget",
+    "deploy-preflight",
+    "gas-health",
+    "pwa-health",
+    "asset-integrity",
+    "rollback"
+  ],
+
+  "_comment_enabledSkills": "필요한 스킬만 선택해 나열하세요. 사용 가능한 스킬 목록: deploy-preflight, gas-health, payment-boundary, submission-flow, vendor-flow, media-review, pwa-health, asset-integrity, rollback, incident-report",
+
+  "riskLevel": "LOW",
+  "autoActionPolicy": {
+    "maxGradeForAutoAction": "G2",
+    "requireHumanApproval": ["rollback", "payment-boundary"]
+  },
+
+  "skillOptions": {
+    "deploy-preflight": {
+      "buildDirs": ["dist", "_site", "build"],
+      "smokeAll": false
+    },
+    "gas-health": {
+      "gasHealthUrl": "",
+      "_comment": "GAS 미사용 플랫폼은 gas-health를 enabledSkills에서 제거하세요."
+    },
+    "pwa-health": {
+      "manifestUrl": "https://YOUR-DOMAIN/manifest.json",
+      "swUrl": "https://YOUR-DOMAIN/sw.js"
+    },
+    "asset-integrity": {
+      "assetUrls": [
+        "https://YOUR-DOMAIN/style.css",
+        "https://YOUR-DOMAIN/app.js"
+      ],
+      "latencyWarnMs": 2500
+    },
+    "rollback": {
+      "rollbackWebhook": "",
+      "requireGrade": "G4"
+    }
+  },
+
+  "_setup_checklist": [
+    "1. platformId를 고유한 kebab-case 이름으로 변경",
+    "2. platformName과 description 작성",
+    "3. enabledSkills 에서 필요 스킬만 남기기",
+    "4. config/nurion.config.json의 platformId와 일치시키기",
+    "5. skillOptions 의 URL·설정값 채우기",
+    "6. riskLevel 설정 (LOW / MEDIUM / HIGH)",
+    "7. rollbackWebhook 설정 (선택, remoteActions 활성화 시)",
+    "8. npm run nurion:skill 로 스킬 파이프라인 테스트"
+  ]
+}

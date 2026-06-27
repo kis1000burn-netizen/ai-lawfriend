@@ -1,0 +1,4 @@
+[
+  { "scenario": "승인 매트릭스 정상", "checks": [{ "id": "finance-settlement/approval-matrix:approvals-ok", "status": "pass", "message": "승인 매트릭스 정상 (지급 대기: 5건)" }], "actions": [] },
+  { "scenario": "미승인 고액 지급 (G3)", "checks": [{ "id": "finance:payout-mismatch", "financeType": "finance:payout-mismatch", "status": "fail", "critical": true, "message": "미승인 고액·예외 지급 대기 — settle_020, 금액: 1,500,000원, 필요: executive (0/2)" }], "actions": [{ "type": "escalate", "executed": true }] }
+]

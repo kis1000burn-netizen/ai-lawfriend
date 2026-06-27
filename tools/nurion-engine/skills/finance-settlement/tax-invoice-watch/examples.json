@@ -1,0 +1,5 @@
+[
+  { "scenario": "세금계산서 전체 정상", "checks": [{ "id": "finance-settlement/tax-invoice-watch:invoice-status", "status": "pass", "message": "세금계산서 감시 정상 (검사: 12건)" }], "actions": [] },
+  { "scenario": "기한 초과 (G3)", "checks": [{ "id": "finance:tax-invoice-late", "financeType": "finance:tax-invoice-late", "status": "fail", "critical": true, "message": "세금계산서 발급 기한 초과 — settle_005 (3일 초과)" }], "actions": [{ "type": "escalate", "message": "[tax-invoice-watch] 세금계산서 기한 초과 — 운영자 직접 처리 필요", "executed": true }] },
+  { "scenario": "기한 임박 (warn)", "checks": [{ "id": "finance-settlement/tax-invoice-watch:invoice-deadline:settle_006", "status": "warn", "message": "세금계산서 발급 기한 임박 — 2일 남음" }], "actions": [{ "type": "notify", "executed": true }] }
+]

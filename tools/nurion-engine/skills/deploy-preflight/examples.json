@@ -1,0 +1,37 @@
+[
+  {
+    "scenario": "정상 배포 전 검사",
+    "grade": "G0",
+    "checks": [
+      { "id": "deploy-preflight:build-output", "status": "pass", "message": "빌드 출력 디렉토리 확인: dist/" },
+      { "id": "deploy-preflight:index-html",   "status": "pass", "message": "dist/index.html 존재" },
+      { "id": "deploy-preflight:smoke:api:submissions", "status": "pass", "message": "smoke OK — HTTP 200, 312ms" },
+      { "id": "deploy-preflight:grade-gate",   "status": "pass", "message": "G0 등급 — 배포 진행 가능" }
+    ],
+    "actions": []
+  },
+  {
+    "scenario": "빌드 미실행 상태에서 배포 시도",
+    "grade": "G0",
+    "checks": [
+      { "id": "deploy-preflight:build-output", "status": "fail", "critical": true, "message": "빌드 출력 디렉토리 없음 (dist, _site, build 중 없음)" }
+    ],
+    "actions": [
+      { "type": "notify",   "message": "[deploy-preflight] 배포 전 검사 실패\n  • build-output: 빌드 출력 디렉토리 없음" },
+      { "type": "set_flag", "key": "DEPLOY_BLOCK", "value": "1", "executed": false, "dryRun": true }
+    ]
+  },
+  {
+    "scenario": "G4 등급에서 배포 시도",
+    "grade": "G4",
+    "checks": [
+      { "id": "deploy-preflight:build-output", "status": "pass", "message": "빌드 출력 확인" },
+      { "id": "deploy-preflight:index-html",   "status": "pass", "message": "index.html 존재" },
+      { "id": "deploy-preflight:grade-gate",   "status": "fail", "critical": true, "message": "G4 등급 — 롤백 우선, 신규 배포 금지" }
+    ],
+    "actions": [
+      { "type": "notify",   "message": "[deploy-preflight] 배포 전 검사 실패\n  • grade-gate: G4 등급 — 롤백 우선" },
+      { "type": "set_flag", "key": "DEPLOY_BLOCK", "value": "1", "executed": false, "dryRun": true }
+    ]
+  }
+]

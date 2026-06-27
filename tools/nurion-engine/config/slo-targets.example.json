@@ -1,0 +1,59 @@
+{
+  "_comment": "SLO 목표 정의 파일 — platform-profiles/[platformId]/slo-targets.json 으로 복사해 사용",
+  "_doc": "각 플랫폼마다 이 파일을 복사해 signalId와 target을 맞춤 설정하세요.",
+
+  "windowDays": 30,
+  "fastBurnThreshold": 14,
+
+  "slos": [
+    {
+      "id": "submissions-availability",
+      "description": "견적·주문 접수 성공률",
+      "signalId": "api:submissions",
+      "target": 0.995,
+      "unit": "availability",
+      "_comment_target": "99.5% → 30일 허용 실패 = 약 216분 (30 × 24 × 60 × 0.005)"
+    },
+    {
+      "id": "ops-list-availability",
+      "description": "운영 목록 API 가용성",
+      "signalId": "ops:list",
+      "target": 0.990,
+      "unit": "availability",
+      "_comment_target": "99.0% → 30일 허용 실패 ≈ 432분"
+    },
+    {
+      "id": "gas-health-availability",
+      "description": "GAS 백엔드 가용성",
+      "signalId": "gas:health",
+      "target": 0.950,
+      "unit": "availability",
+      "_comment_target": "95.0% → 30일 허용 실패 ≈ 2,160분 (GAS는 콜드스타트 지연이 잦으므로 여유 있게 설정)"
+    },
+    {
+      "id": "pwa-sw-availability",
+      "description": "Service Worker 가용성",
+      "signalId": "asset:sw-js",
+      "target": 0.999,
+      "unit": "availability"
+    },
+    {
+      "id": "payment-boundary-violations",
+      "description": "P-0 결제 경계 위반",
+      "signalId": "code:p0-boundary",
+      "target": 1.000,
+      "unit": "zero-violation",
+      "_comment_target": "위반 0건 — 단 1건이라도 실패하면 에러버짓 즉시 소진",
+      "_policy": "위반 발생 시 DEPLOY_FREEZE 즉시 적용"
+    }
+  ],
+
+  "deployPolicyOverrides": {
+    "_comment": "SLO 상태별 자동 배포 정책 — 기본값 그대로 사용하거나 플랫폼별로 조정",
+    "DEPLOY_OPEN":       { "autoDeployAllowed": true,  "requireApproval": false, "preflightLevel": "normal"   },
+    "DEPLOY_CAUTION":    { "autoDeployAllowed": true,  "requireApproval": false, "preflightLevel": "enhanced" },
+    "DEPLOY_RESTRICTED": { "autoDeployAllowed": false, "requireApproval": true,  "preflightLevel": "full"     },
+    "DEPLOY_FREEZE":     { "autoDeployAllowed": false, "requireApproval": false, "preflightLevel": "blocked",
+                           "_note": "소진 시 신규 기능 배포 차단 — 안정화 작업만 허용" }
+  }
+}

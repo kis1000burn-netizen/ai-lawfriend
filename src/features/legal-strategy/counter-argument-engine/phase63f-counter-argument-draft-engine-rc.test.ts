@@ -241,7 +241,292 @@ function buildFullWorkflowBundle() {
   };
 }
 
+function buildJoohwanLandAccessMemoryPacket() {
+  return gongbuhoMemoryPacketSchema.parse({
+    packetId: "gmp-joohwan-land-access-63",
+    caseId: "case-joohwan-land-access",
+    tenantId: "tenant-joohwan",
+    status: "ACTIVE",
+    confidenceLevel: "HIGH",
+    reviewStatus: "LAWYER_CONFIRMED",
+    confirmedFacts: [
+      {
+        factId: "fact-joohwan-approval-1",
+        label: "토지사용승낙서 및 인감증명서 교부",
+        summary:
+          "매도인은 분할 후 통행로 제공을 전제로 토지사용승낙서와 인감증명서를 교부했다.",
+        reviewStatus: "LAWYER_CONFIRMED",
+        linkedClaimIds: ["claim-joohwan-land-access-1"],
+        linkedEvidenceIds: ["evidence-joohwan-approval-1"],
+        sourceTraceIds: ["trace-joohwan-complaint"],
+      },
+      {
+        factId: "fact-joohwan-survey-1",
+        label: "측량 방해 및 통행로 이행 지연",
+        summary:
+          "상대방은 약정된 통행로 측량과 분할 절차에 협조하지 않았다는 주장이 접수됐다.",
+        reviewStatus: "LAWYER_CONFIRMED",
+        linkedClaimIds: ["claim-joohwan-land-access-1"],
+        linkedEvidenceIds: ["evidence-joohwan-content-proof-1"],
+        sourceTraceIds: ["trace-joohwan-complaint"],
+      },
+    ],
+    disputedFacts: [
+      {
+        factId: "disputed-joohwan-access-1",
+        label: "통행로 제공 약정의 범위",
+        summary:
+          "상대방은 토지사용승낙서가 임시 협조였고 영구적 통행지역권 설정 약정은 아니라고 다툴 가능성이 있다.",
+        disputeReason: "약정 문언과 교부 경위에 대한 당사자 해석이 다르다.",
+        reviewStatus: "LAWYER_CONFIRMED",
+        linkedClaimIds: ["opp-claim-joohwan-1"],
+        linkedEvidenceIds: ["evidence-joohwan-approval-1"],
+        sourceTraceIds: ["trace-joohwan-opponent-answer"],
+      },
+    ],
+    clientWeaknesses: [
+      {
+        weaknessId: "weakness-joohwan-delay-1",
+        title: "장기 경과에 따른 권리행사 지연 항변 가능성",
+        summary:
+          "상대방은 매수 후 상당 기간 경과를 들어 권리행사 지연 또는 약정 범위 축소를 주장할 수 있다.",
+        internalReason:
+          "의뢰인에게 직접 노출하기 전 변호사가 소멸시효·실효 항변 가능성과 대응 증거를 검토해야 한다.",
+        severity: "MEDIUM",
+        reviewStatus: "LAWYER_CONFIRMED",
+        lawyerReviewRequired: true,
+        sourceTraceIds: ["trace-joohwan-opponent-answer"],
+      },
+    ],
+    opponentClaims: [
+      {
+        claimId: "opp-claim-joohwan-1",
+        title: "상대방 주장 — 토지사용승낙서는 통행지역권 설정 약정이 아님",
+        summary:
+          "상대방은 토지사용승낙서와 인감증명서가 일시적 행정 협조일 뿐 통행지역권이나 독점적 통행로 제공 약정은 아니라고 주장할 수 있다.",
+        expectedLegalTheory: "약정 해석 및 물권적 권리 설정 의사 부존재",
+        reviewStatus: "LAWYER_CONFIRMED",
+        linkedGraphNodeIds: ["node-joohwan-opponent-1"],
+        sourceTraceIds: ["trace-joohwan-opponent-answer"],
+      },
+    ],
+    evidenceMap: [
+      {
+        linkId: "link-joohwan-approval-1",
+        evidenceRef: "갑 제1호증 토지사용승낙서",
+        claimRef: "claim-joohwan-land-access-1",
+        supportStrength: "STRONG",
+        reviewStatus: "LAWYER_CONFIRMED",
+        sourceTraceIds: ["trace-joohwan-complaint"],
+      },
+      {
+        linkId: "link-joohwan-content-proof-1",
+        evidenceRef: "내용증명 및 측량 협조 요청 내역",
+        claimRef: "claim-joohwan-land-access-1",
+        supportStrength: "MODERATE",
+        reviewStatus: "LAWYER_CONFIRMED",
+        sourceTraceIds: ["trace-joohwan-complaint"],
+      },
+    ],
+    judgmentLinks: [
+      {
+        referenceId: "judgment-joohwan-access-1",
+        judgmentRef: "대법원 통행지역권 성립요건 판례",
+        relevanceSummary:
+          "토지 분할·매매 과정의 통행로 제공 합의와 장기간 이용 필요성은 약정 해석 및 통행권 판단에서 함께 검토된다.",
+        canonicalSourceRef: "PRECEDENT:RIGHT-OF-WAY-EASEMENT",
+        reviewStatus: "LAWYER_CONFIRMED",
+        sourceTraceIds: ["trace-joohwan-complaint"],
+      },
+    ],
+    lawyerConfirmedIssues: [
+      {
+        issueId: "issue-joohwan-1",
+        title: "토지사용승낙서의 약정 범위와 통행지역권 주장 가능성",
+        summary:
+          "토지사용승낙서, 인감증명서, 분할 경위, 측량 방해 정황을 종합해 상대방의 일시 협조 항변을 반박할 필요가 있다.",
+        reviewStatus: "LAWYER_CONFIRMED",
+        sourceTraceIds: ["trace-joohwan-complaint"],
+      },
+    ],
+    sourceTrace: [
+      {
+        traceId: "trace-joohwan-complaint",
+        sourceKind: "CASE_ATTACHMENT_META",
+        sourceRef: "joohwan:complaint-package",
+        capturedAt: "2026-06-20T06:00:00.000Z",
+      },
+      {
+        traceId: "trace-joohwan-opponent-answer",
+        sourceKind: "LAWYER_REVIEW",
+        sourceRef: "joohwan:virtual-opponent-answer",
+        capturedAt: "2026-06-20T07:00:00.000Z",
+      },
+    ],
+    caseScopeOnly: true,
+    tenantIsolationRequired: true,
+    createdAt: "2026-06-20T06:00:00.000Z",
+    updatedAt: "2026-06-20T07:00:00.000Z",
+  });
+}
+
+function buildJoohwanVirtualLawyerArgumentBundle() {
+  const memoryPacket = buildJoohwanLandAccessMemoryPacket();
+  const reasoningContext = buildGongbuhoReasoningContextBundle({
+    caseId: "case-joohwan-land-access",
+    tenantId: "tenant-joohwan",
+    purpose: "STRONG_REASONING",
+    memoryPacket,
+    realTimeSignals: [],
+    auditRef: "audit-joohwan-reasoning-63",
+  });
+
+  const opponentArgument = buildOpponentArgumentFromMemoryClaim({
+    opponentArgumentId: "oa-joohwan-virtual-1",
+    caseId: "case-joohwan-land-access",
+    tenantId: "tenant-joohwan",
+    documentKind: "ANSWER_BRIEF",
+    opponentClaim: memoryPacket.opponentClaims[0]!,
+    premiseFacts: [
+      {
+        premiseId: "premise-joohwan-1",
+        summary:
+          "토지사용승낙서는 분할 과정의 임시 협조 문서일 뿐 통행지역권 설정 의사를 담지 않았다는 전제",
+        factStatus: "DISPUTED",
+        reviewStatus: "LAWYER_CONFIRMED",
+        sourceTraceIds: ["trace-joohwan-opponent-answer"],
+      },
+    ],
+    legalPoints: [
+      {
+        pointId: "legal-joohwan-1",
+        legalTheory: "계약 문언, 교부 경위, 분할 목적을 종합한 약정 해석",
+        statuteRef: "민법 제105조",
+        reviewStatus: "LAWYER_CONFIRMED",
+        sourceTraceIds: ["trace-joohwan-complaint"],
+      },
+      {
+        pointId: "legal-joohwan-2",
+        legalTheory: "통행지역권 또는 주위토지통행권 주장 가능성 검토",
+        statuteRef: "민법 제219조",
+        reviewStatus: "LAWYER_CONFIRMED",
+        sourceTraceIds: ["trace-joohwan-complaint"],
+      },
+    ],
+    submittedEvidence: [
+      {
+        evidenceId: "opp-evidence-joohwan-1",
+        evidenceRef: "을 제1호증",
+        title: "상대방 토지사용승낙서 해석 의견",
+        summary: "상대방은 승낙서의 문언상 영구 통행권 설정 문구가 없다고 주장한다.",
+        supportRole: "CORROBORATING",
+        reviewStatus: "LAWYER_CONFIRMED",
+        sourceTraceIds: ["trace-joohwan-opponent-answer"],
+      },
+    ],
+    reasoningContextAuditRef: reasoningContext.auditRef,
+    reasoningContext,
+    sourceTrace: [
+      {
+        traceId: "oat-joohwan-virtual-1",
+        sourceKind: "OPPONENT_CLAIM_MEMORY",
+        sourceRef: "opp-claim-joohwan-1",
+        reasoningContextAuditRef: reasoningContext.auditRef,
+        opponentClaimId: "opp-claim-joohwan-1",
+        memoryReviewStatus: "LAWYER_CONFIRMED",
+        capturedAt: "2026-06-20T08:00:00.000Z",
+      },
+    ],
+    auditRef: "audit-joohwan-opponent-argument-63",
+  });
+
+  const candidate = buildCounterArgumentCandidateFromOpponentArgument({
+    opponentArgument,
+    reasoningContext,
+    auditRef: "audit-joohwan-counter-candidate-63",
+  });
+
+  const safeCandidate = {
+    ...candidate,
+    decomposition: {
+      ...candidate.decomposition,
+      counterDirection:
+        "토지사용승낙서 교부 경위, 인감증명서, 분할 목적, 측량 방해 정황을 묶어 상대방의 임시 협조 항변을 반박",
+      weakLinkScore: 0.42,
+      additionalEvidenceNeeded: [],
+    },
+  };
+
+  const backfireReport = runBackfireRiskCheck({
+    reportId: "backfire-joohwan-virtual-1",
+    counterArgumentCandidate: safeCandidate,
+    reasoningContext,
+    auditRef: "audit-joohwan-backfire-63",
+  });
+
+  const draftParagraphs = generateDraftParagraphsFromCandidate({
+    counterArgumentCandidate: safeCandidate,
+    backfireRiskReport: backfireReport,
+    reasoningContext,
+    auditRef: "audit-joohwan-draft-paragraph-63",
+  });
+
+  const adoption = adoptDraftParagraph({
+    draftParagraph: draftParagraphs[0]!,
+    lawyerReviewerId: "lawyer-joohwan-1",
+    decisionLedgerRef: "ledger-joohwan-virtual-argument-adopt",
+    auditRef: "audit-joohwan-adoption-63",
+    insertTarget: "PREPARATORY_BRIEF",
+  });
+
+  return {
+    reasoningContext,
+    opponentArgument,
+    candidate: safeCandidate,
+    backfireReport,
+    draftParagraphs,
+    adoption,
+  };
+}
+
 describe("Phase 63-F Counter-Argument Draft Engine RC", () => {
+  it("runs a virtual lawyer argument workflow for an existing Joohwan land-access intake case", () => {
+    const {
+      reasoningContext,
+      opponentArgument,
+      candidate,
+      backfireReport,
+      draftParagraphs,
+      adoption,
+    } = buildJoohwanVirtualLawyerArgumentBundle();
+
+    expect(reasoningContext.caseId).toBe("case-joohwan-land-access");
+    expect(reasoningContext.memoryGrounds.confirmedFacts).toHaveLength(2);
+    expect(opponentArgument.title).toContain("토지사용승낙서");
+    expect(opponentArgument.reviewStatus).toBe("LAWYER_REVIEW_REQUIRED");
+    expect(opponentArgument.isOpponentArgumentConfirmed).toBe(false);
+
+    expect(candidate.opponentArgumentTitle).toContain("통행지역권");
+    expect(candidate.decomposition.counterDirection).toContain("측량 방해");
+    expect(candidate.decomposition.gongbuhoBasisRefs.length).toBeGreaterThanOrEqual(3);
+    expect(backfireReport.riskLevel).not.toBe("CRITICAL");
+
+    expect(draftParagraphs.length).toBeGreaterThanOrEqual(3);
+    expect(draftParagraphs.some((p) => p.draftText.includes("토지사용승낙서"))).toBe(true);
+    for (const paragraph of draftParagraphs) {
+      expect(paragraph.draftText).toContain("[변호사 검토용 초안]");
+      expect(paragraph.isFinalDocumentText).toBe(false);
+      expect(paragraph.clientVisibleAllowed).toBe(false);
+      expect(paragraph.autoFileAllowed).toBe(false);
+    }
+
+    expect(adoption.decision.decision).toBe("ADOPT");
+    expect(adoption.documentInsertCandidate).not.toBeNull();
+    expect(adoption.documentInsertCandidate?.insertTarget).toBe("PREPARATORY_BRIEF");
+    expect(adoption.documentInsertCandidate?.clientVisibleAllowed).toBe(false);
+    expect(adoption.documentInsertCandidate?.autoFileAllowed).toBe(false);
+  });
+
   it("requires all 63-A~63-E sub-phase lock markers for RC", () => {
     expect(PHASE63F_SUB_PHASE_LOCK_MARKERS).toEqual([
       PHASE63A_OPPONENT_ARGUMENT_LOCK_MARKER,

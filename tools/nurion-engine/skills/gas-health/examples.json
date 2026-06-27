@@ -1,0 +1,39 @@
+[
+  {
+    "scenario": "GAS 정상 동작",
+    "checks": [
+      { "id": "gas-health:endpoint",    "status": "pass", "message": "GAS health OK — HTTP 200, 842ms" },
+      { "id": "gas-health:latency",     "status": "pass", "message": "GAS 응답 시간 정상: 842ms" },
+      { "id": "gas-health:body-status", "status": "pass", "message": "GAS body status OK" }
+    ],
+    "actions": []
+  },
+  {
+    "scenario": "GAS 엔드포인트 오류 (503)",
+    "checks": [
+      { "id": "gas-health:endpoint", "status": "fail", "critical": true, "message": "GAS health 응답 실패 — HTTP 503" }
+    ],
+    "actions": [
+      { "type": "notify",   "message": "[gas-health] GAS 엔드포인트 오류: GAS health 응답 실패 — HTTP 503" },
+      { "type": "set_flag", "key": "GAS_MAINTENANCE_BANNER", "value": "1", "executed": false, "dryRun": true }
+    ]
+  },
+  {
+    "scenario": "GAS 응답 지연 (5,200ms)",
+    "checks": [
+      { "id": "gas-health:endpoint", "status": "pass",  "message": "GAS health OK — HTTP 200, 5200ms" },
+      { "id": "gas-health:latency",  "status": "warn",  "message": "GAS 응답 지연: 5200ms (기준: 4000ms)" },
+      { "id": "gas-health:body-status", "status": "pass", "message": "GAS body status OK" }
+    ],
+    "actions": [
+      { "type": "notify", "message": "[gas-health] GAS 응답 지연: 5200ms (기준: 4000ms)" }
+    ]
+  },
+  {
+    "scenario": "GAS URL 미설정",
+    "checks": [
+      { "id": "gas-health:url-configured", "status": "warn", "message": "GAS health URL 미설정" }
+    ],
+    "actions": []
+  }
+]

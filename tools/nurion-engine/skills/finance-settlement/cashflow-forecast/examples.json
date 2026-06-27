@@ -1,0 +1,4 @@
+[
+  { "scenario": "현금흐름 정상", "checks": [{ "id": "finance-settlement/cashflow-forecast:cashflow-ok", "status": "pass", "message": "현금흐름 정상 — 7일 예정: 1,200,000원, 가용: 5,000,000원" }], "actions": [] },
+  { "scenario": "7일 내 현금 부족 (G3)", "checks": [{ "id": "finance:cashflow-risk", "financeType": "finance:cashflow-risk", "status": "fail", "critical": true, "message": "7일 내 지급 예정액 초과 — 예정: 4,800,000원, 가용: 3,000,000원" }], "actions": [{ "type": "escalate", "executed": true }] }
+]

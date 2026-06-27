@@ -1,0 +1,4 @@
+[
+  { "scenario": "업체 프로필 정상", "checks": [{ "id": "finance-settlement/vendor-settlement:vendor-profiles-ok", "status": "pass", "message": "업체 정산 프로필 정상 (3개 업체)" }], "actions": [] },
+  { "scenario": "계좌 미검증", "checks": [{ "id": "finance-settlement/vendor-settlement:vendor-bank:vendor_01", "status": "warn", "message": "업체 계좌 미검증 — vendor_01" }], "actions": [{ "type": "notify", "executed": true }] }
+]

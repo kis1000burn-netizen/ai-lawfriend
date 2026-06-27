@@ -6,6 +6,501 @@
 
 ---
 
+## [EVIDENCE-20260627-DIAGNOSTIC-ENGINE-PHASE2-EXIT-REASON-LOCK]
+
+### Status
+
+COMPLETE · EXECUTION MODE + EXIT REASON 분리 — STRUCTURE_ONLY vs STAGING_FULL, promotion 5종 조건, CLEANUP_FAILED 차단.
+
+### One-line Standard
+
+구조 검증(`STRUCTURE_ONLY`)은 `exitCode: 0` + `exitReason: "Structural gates passed; promotion was not requested."`만 허용하고, `COMPLETE`/`READY`/`"All required staging gates passed."`는 `diagnostic:staging-full`(`STAGING_FULL`) 성공 시에만 기록하며, `FIXTURE_CLEANUP_PASS`·`ALLOWLIST_DATABASE_PASS`·`NO_SECURITY_HARD_FAIL` 포함 promotion 차단을 고정한다.
+
+### Scope
+
+- `lib/execution-mode.mjs` · `lib/exit-codes.mjs` — executionMode별 exitReason
+- `lib/diagnostic-status.mjs` — STAGING_FULL 외 COMPLETE/READY 금지
+- `lib/promotion-gate.mjs` — ALLOWLIST/FIXTURE_CLEANUP/SECURITY promotion requires
+- `config/pass-gates.json` — promotionRequires 7종
+- summary + run-manifest — `executionMode`, `exitReason`, promotionPassLevels
+
+### Verification
+
+| 명령 | 결과 |
+|------|------|
+| `node tools/diagnostic-engine/tests/first-practical-application.test.mjs` | PASS — 13 tests |
+| `npm run diagnostic:operational-gates` | exit 0, exitReason structure-only 문구 |
+
+---
+
+## [EVIDENCE-20260627-LAWYER-MATCHING-RECOMMENDATION-PERSISTENCE]
+
+### Status
+
+COMPLETE · PRISMA PERSISTENCE + PER-THEME SOCIAL PROOF — in-memory store 제거, 승인 트랜잭션·4대 제약, 테마별 MIN_SIGNAL_COUNT=5.
+
+### One-line Standard
+
+변호사 매칭 권고안은 `LawyerMatchingRecommendation` Prisma 모델에 영속화하고 사건당 활성 1건(`activeCaseKey` unique)만 허용하며, 승인 API는 단일 트랜잭션에서 상태 검증→CaseAssignment 생성→APPROVED 전이→AuditLog 기록을 수행하고, social proof는 테마별 signalCount≥5인 주제만 노출한다.
+
+### Scope
+
+- `prisma/schema.prisma` — `LawyerMatchingRecommendation` + enum, `CaseAssignment` active partial unique
+- `prisma/migrations/20260627120000_lawyer_matching_recommendation_persistence/`
+- `case-lawyer-matching-recommendation.repository.ts` — Prisma CRUD + `$transaction` approve/reject
+- `case-lawyer-matching-recommendation.service.ts` — in-memory 제거, 트랜잭션 승인 위임
+- `lawyer-argument-social-proof.ts` — 테마별 집계·fixture 제외·visibleThemes 필터
+
+### Guardrails
+
+1. 사건당 활성 recommendation 1건 — `activeCaseKey @unique`
+2. APPROVED/REJECTED/EXPIRED 재승인 금지
+3. 동일 관리자·동일 assignee 중복 승인 idempotent — 기존 assignment 반환
+4. 동시 승인 unique 충돌 — 동일 assignee idempotent, 다른 assignee `409 Conflict` + `CASE_LAWYER_MATCHING_RECOMMEND_APPROVE_CONFLICT` AuditLog
+5. `(caseId, assigneeUserId)` active partial unique + 트랜잭션 선검증
+6. social proof: 전역 합계가 아닌 **테마별** MIN_SIGNAL_COUNT=5
+
+### Migration deploy (staging/prod)
+
+| 환경 | 명령 | 비고 |
+|------|------|------|
+| 로컬 dev | `npm run db:migrate` | `prisma migrate dev` — 스키마 개발용 |
+| staging (권장) | `npm run db:deploy:staging-lawyer-matching` | allowlist → duplicate check → deploy **순서 고정** |
+| staging/prod (수동) | `npm run db:deploy` | allowlist PASS **후** `DATABASE_URL=TEST_DATABASE_URL`만 |
+
+**staging 잠금 실행 순서** (`DATABASE_URL` 단독 설정 금지 — allowlist 전):
+
+```powershell
+$env:DIAGNOSTIC_TEST_ENV="staging"
+$env:TEST_DATABASE_URL="postgresql://..."
+
+# 1) allowlist
+npm run verify:staging-database-allowlist
+
+# 2) duplicate pre-check (allowlist 내장)
+npm run verify:lawyer-matching-migration-predeploy -- --check-duplicates
+
+# 3–4) locked deploy (또는 한 번에)
+npm run db:deploy:staging-lawyer-matching
+
+# 5) integration + E2E
+$env:PLAYWRIGHT_BASE_URL="https://staging.example.com"
+npm run diagnostic:staging-full
+```
+
+`db:deploy:staging-lawyer-matching`은 1→2→`DATABASE_URL:=TEST_DATABASE_URL`→deploy→post-deploy index 검증까지 실행합니다.
+
+마이그레이션 성공 후 확인:
+
+1. `LawyerMatchingRecommendation` 테이블·인덱스 생성 (deploy 스크립트 5/5)
+2. active `CaseAssignment` 중복 없음 (2/5)
+3. 권고 승인 → `CaseAssignment` 1건 (staging E2E)
+4. 동시 승인: 동일 assignee idempotent / 다른 assignee 409 + AuditLog (staging E2E)
+
+### Verification
+
+| 명령 | 결과 |
+|------|------|
+| `npx prisma generate` | PASS |
+| `npx vitest run src/features/case-assignments/case-lawyer-matching-recommendation.service.test.ts` | PASS — 9 tests |
+| `npx vitest run src/lib/dashboard/lawyer-argument-social-proof.test.ts` | PASS — 5 tests |
+| `npm run verify:lawyer-matching-migration-predeploy` | PASS — deploy/dev script 분리 |
+| `npm run diagnostic:operational-gates` | MATCHING/SOCIAL_PROOF PASS, STAGING_E2E PENDING |
+
+### Promotion 판정
+
+```
+MATCHING_UNIT_PASS              PASS
+MATCHING_PERMISSION_PASS        PASS
+SOCIAL_PROOF_PRIVACY_PASS       PASS
+STAGING_E2E_PASS                PENDING
+PROMOTION_READY                 BLOCKED
+```
+
+### 남은 이슈
+
+1. staging DB: `npm run db:deploy:staging-lawyer-matching` (allowlist 선행 잠금)
+2. `npm run diagnostic:staging-full` → `STAGING_E2E_PASS` → `PROMOTION_READY` READY 검토
+
+---
+
+## [EVIDENCE-20260627-LAWYER-MATCHING-RECOMMENDATION-LOCK]
+
+### Status
+
+COMPLETE · RECOMMENDATION-ONLY MATCHING LOCK + ANONYMIZED OPERATIONAL SIGNAL — 자동 배정 금지, 관리자 승인 API, 감사로그, social proof 최소 집계·fixture 제외.
+
+### One-line Standard
+
+변호사 매칭은 CaseAssignment를 생성하지 않는 권고안(RULE_ENGINE, requiresHumanApproval: true)으로만 생성하고, 정지·미승인·이해상충·전문분야 미검증 변호사를 제외한 뒤 관리자 승인 API에서만 실제 배정하며, 변호사 대시보드 social proof는 범주형 주제·disclaimer만 반환하고 fixture·최소 집계 미달 시 카드를 숨긴다.
+
+### Scope
+
+- `case-lawyer-matching-recommendation.policy.ts` · `.builder.ts` · `.service.ts` · `.repository.ts`
+- `POST/GET /api/admin/cases/[caseId]/lawyer-matching/recommendations` — 생성·조회·승인·반려(관리자 전용)
+- `lawyer-argument-social-proof.ts` — `{ visible, themes, disclaimer }` 최소 응답, fixture caseId 제외, MIN_SIGNAL_COUNT=5
+- `tools/diagnostic-engine/config/advertising-matching-predeploy-checklist.json`
+- operational gates: `MATCHING_UNIT_PASS`, `MATCHING_PERMISSION_PASS`, `SOCIAL_PROOF_PRIVACY_PASS`, `STAGING_E2E_PASS`
+
+### Guardrails
+
+- 추천 생성 단계 CaseAssignment 쓰기 금지 — 승인 API만 `createCaseAssignmentService` 호출
+- `requiresHumanApproval: true` 고정, `generatedBy: RULE_ENGINE`
+- social proof: exact count·caseId·실명 프론트 미전달, fixture prefix caseId 운영 집계 제외
+- 광고·매칭 배포 전 6항 checklist 고정
+
+### Verification
+
+| 명령 | 결과 |
+|------|------|
+| `npx vitest run src/features/case-assignments/case-lawyer-matching-recommendation.service.test.ts` | PASS — 6 tests |
+| `npx vitest run src/features/case-assignments/case-lawyer-matching.service.test.ts` | PASS — 7 tests |
+| `npx vitest run src/lib/dashboard/lawyer-argument-social-proof.test.ts` | PASS — 4 tests |
+| `npm run diagnostic:operational-gates` | MATCHING_UNIT/PERMISSION/SOCIAL_PROOF PASS, STAGING_E2E PENDING |
+
+### 남은 이슈
+
+- staging E2E: admin matching approval chain `.skip` — fixture env 준비 후 활성화
+- ~~recommendation 영속화: 현재 in-memory store + audit log — 운영 전 Prisma 모델 검토~~ → **완료** `[EVIDENCE-20260627-LAWYER-MATCHING-RECOMMENDATION-PERSISTENCE]`
+
+---
+
+---
+
+## [EVIDENCE-20260627-DIAGNOSTIC-ENGINE-PHASE2-STAGING-LOCKS]
+
+### Status
+
+COMPLETE · PHASE 2 STAGING LOCKS — top-level INCOMPLETE/BLOCKED 고정, DB allowlist-first, runId fixture 분리, exit code 0/1/2.
+
+### One-line Standard
+
+진단 summary·run-manifest 최상단에 diagnosticStatus/promotionStatus/blockingReasons를 고정하고, staging DB는 allowlist+runtime schema 검증만 허용하며, fixture는 runId 접두로 생성·cleanup(CLEANUP_FAILED 기록)하고, --require-promotion은 PASS=0·PENDING/BLOCKED=2·보안/환경=1로 종료한다.
+
+### Scope
+
+- `lib/diagnostic-status.mjs` · `lib/exit-codes.mjs` · `lib/resolve-exit-code.mjs`
+- `lib/staging-database-allowlist.mjs` · `scripts/verify-staging-database-allowlist.mjs`
+- `lib/staging-fixture-lifecycle.mjs` · `scripts/run-staging-fixture-cleanup.mjs`
+- `tests/e2e/helpers/diagnostic-run-fixture.ts` · `tests/e2e/diagnostic-staging-first-practical.spec.ts`
+- `run-first-practical-application.mjs` — runId 선할당, top-level status 출력, exit 0/1/2
+
+### Verification
+
+| 명령 | exit | 비고 |
+|------|------|------|
+| `npm run verify:aibeopchin-first-practical-application` | 0 | structure PASS, diagnosticStatus INCOMPLETE |
+| `npm run diagnostic:operational-gates` | 0 | unit gates PASS, STAGING_E2E PENDING |
+| `npm run diagnostic:staging-full` (staging 미연결) | 2 | require-promotion incomplete |
+
+### Staging 첫 실행 체크리스트 (8항)
+
+1. 운영 DB allowlist 위반 차단
+2. runId 접두 lawyer A/B·case 생성
+3. cross-lawyer URL 401/403
+4. deleted case 404
+5. recommendation only — no auto CaseAssignment
+6. run-manifest commit·hash·blockers
+7. fixture cleanup or CLEANUP_FAILED
+8. all evidence present → PROMOTION_READY PASS
+
+---
+
+## [EVIDENCE-20260627-DIAGNOSTIC-ENGINE-PHASE2-STAGING-GATES]
+
+### Status
+
+COMPLETE · PHASE 2 STAGING GATES — PASS 레벨 분리·운영 DB 차단·run manifest 해시·플랫폼 계약·권한 E2E 골격 추가. `PROMOTION_READY`는 staging integration/e2e 완료 전까지 **BLOCKED**가 정상.
+
+### One-line Standard
+
+진단 엔진은 STATIC/PATCHSET/INTEGRATION/E2E/PROMOTION_READY를 분리 기록하고, 운영 DB 패턴을 차단한 staging 전용 환경에서만 integration·e2e를 실행하며, runId·gitCommit·sourceHash·patchsetHash가 포함된 run manifest를 `_runtime/runs/`에 남기고, 플랫폼 확장은 profile이 아니라 contracts/ 계약으로 승인한다.
+
+### Scope
+
+- `tools/diagnostic-engine/config/pass-gates.json` · `test-environment.json` — 5단계 pass 정의·staging/env 차단 정책.
+- `tools/diagnostic-engine/lib/static-gate.mjs` · `integration-gate.mjs` · `e2e-gate.mjs` · `test-environment-guard.mjs` · `run-manifest.mjs` · `platform-contract-gate.mjs`.
+- `tools/diagnostic-engine/platform-expansion/contracts/{aibeopchin,dosirak-store,achim-haetsal}.json` — 플랫폼별 필수 역할·흐름·E2E·배포 차단 규칙.
+- `tests/e2e/diagnostic-case-access-control.spec.ts` — 미인증 API 차단 + staging fixture용 격리 테스트(stub).
+- `npm run diagnostic:staging-full` — integration+e2e+promotion 필수 staging 전체 실행.
+- `tools/diagnostic-engine/_runtime/run-manifest.json` · `_runtime/runs/diag-*.json` — 실행 단위 증빙.
+
+### Guardrails
+
+- `DATABASE_URL` 운영 패턴(`prod`, `rds.amazonaws.com` 등) 감지 시 integration 즉시 차단.
+- `TEST_DATABASE_URL` 없이 `DATABASE_URL`만 staging 외 환경에서 쓰면 차단.
+- Vitest patchset PASS만으로 `PROMOTION_READY` 되지 않음 — integration/e2e PENDING 시 BLOCKED.
+- 도시락.store·아침햇살 계약은 AI법친 CaseStatus 복사 금지 명시.
+
+### Verification
+
+| 명령 | 결과 | 비고 |
+|------|------|------|
+| `npm run verify:aibeopchin-first-practical-application` | PASS | STATIC_PASS·PATCHSET_PASS PASS, PROMOTION_READY BLOCKED(정상) |
+| `node tools/diagnostic-engine/tests/first-practical-application.test.mjs` | PASS | pass gate·contract·test-env policy 포함 |
+| `npm run diagnostic:staging-full` | 미실행 | `DIAGNOSTIC_TEST_ENV`·`TEST_DATABASE_URL`·`PLAYWRIGHT_BASE_URL` staging 미설정 |
+
+### 수정 파일
+
+- `tools/diagnostic-engine/**` (config, lib, contracts, scripts, tests, README)
+- `tests/e2e/diagnostic-case-access-control.spec.ts`
+- `scripts/verify-aibeopchin-first-practical-application.mjs`
+- `package.json` (`diagnostic:staging-full`)
+
+### 남은 이슈
+
+- staging DB·Playwright base URL 연결 후 `npm run diagnostic:staging-full` 1회 PASS 필요.
+- authenticated cross-lawyer·deleted case E2E는 `E2E_DIAGNOSTIC_*` fixture env 준비 후 `.skip` 제거.
+- 도시락.store·아침햇살 required E2E spec 파일은 계약에만 정의, 구현은 다음 플랫폼 적용 단계.
+
+---
+
+## [EVIDENCE-20260620-LAWYER-MATCHING-AND-ARGUMENT-SOCIAL-PROOF]
+
+### Status
+
+COMPLETE · LAWYER MATCHING WORKFLOW + ANONYMOUS ARGUMENT SOCIAL PROOF — 주환·산재 fixture 사건별 변호사 매칭 업무흐름과 변호사 대시보드 익명 변론 홍보 카드 추가.
+
+### One-line Standard
+
+사건별 fixture 프로필(주환 토지통행·건설현장 산재)을 category·mappedCaseType·gongbuhoCode로 해석해 4단계 변호사 매칭 워크플로와 배정 메모 초안을 생성하고, 변호사 포털에는 다른 변호사의 변론 검토 흐름을 사건·의뢰인·변호사 실명 없이 익명 social proof로 노출한다.
+
+### Scope
+
+- `src/features/case-assignments/case-lawyer-matching.registry.ts` — JOOHWAN_LAND_ACCESS·CONSTRUCTION_INJURY_COMPENSATION fixture registry.
+- `src/features/case-assignments/case-lawyer-matching.service.ts` — 프로필 해석·4단계 워크플로·배정 메모 권고.
+- `src/features/case-assignments/case-lawyer-matching.service.test.ts` — fixture별 매칭·비노출 가드레일 검증.
+- `src/lib/dashboard/lawyer-argument-social-proof.ts` — 익명 변론 검토 social proof builder + aggregate signal fetch.
+- `src/lib/dashboard/lawyer-argument-social-proof.test.ts` — exact count·PII 비노출 검증.
+- `src/components/dashboard/lawyer/lawyer-argument-social-proof-card.tsx` — 변호사 대시보드 카드 UI.
+- `src/app/(lawyer)/lawyer/page.tsx` · `lawyer-dashboard-home.tsx` — 변호사 홈 배치.
+
+### Guardrails
+
+- 매칭 워크플로 출력에 의뢰인·상대방 실명·사건 제목·변호사 연락처를 포함하지 않는다.
+- social proof는 exact count·caseId·lawyerUserId·변론 원문을 노출하지 않는다.
+- 배정 실행은 기존 `createCaseAssignmentService`(ADMIN 전용)를 유지하고, 본 워크플로는 권고·메모 초안만 제공한다.
+
+### Verification
+
+- `npx vitest run src/features/case-assignments/case-lawyer-matching.service.test.ts` PASS — 7 tests.
+- `npx vitest run src/lib/dashboard/lawyer-argument-social-proof.test.ts` PASS — 2 tests.
+
+---
+
+## [EVIDENCE-20260620-DIAGNOSTIC-ENGINE-FIRST-PRACTICAL-APPLICATION]
+
+### Status
+
+COMPLETE · FIRST PRACTICAL APPLICATION — AI법친을 첫 진단 프로젝트로 등록하고 8단계 실전 적용 워크플로·patchset MVP 테스트·플랫폼 확장·압축 번들을 추가.
+
+### One-line Standard
+
+첫 실전 적용은 AI법친 전체 소스를 진단 프로젝트로 등록하고 기획서·번호체계 문서를 기준문서로 묶은 뒤, 회원가입·로그인·권한·사건접수 MVP를 patchset에서 자동 검증하고 통과한 수정만 원본 반영 후보로 승격하며, 도시락.store·아침햇살 확장용 번들을 압축한다.
+
+### Scope
+
+- `tools/diagnostic-engine/` — 첫 실전 적용 diagnostic engine (registry, MVP test generator, report, patchset validator, promotion gate, compress).
+- `tools/diagnostic-engine/projects/aibeopchin-first-project.json` — AI법친 첫 진단 프로젝트 등록.
+- `tools/diagnostic-engine/reference-docs/aibeopchin-canonical-registry.json` — EXECUTION_SEQUENCE·IMPLEMENTATION_EVIDENCE·6.0 기획서 등 기준문서 registry.
+- `aibeopchin_patchset/tests/mvp-flow-first-practical.*` — 회원가입·로그인·권한·사건접수 MVP 자동 테스트 manifest + generated test.
+- `vitest.patchset.config.ts` — patchset 별도 테스트 공간 Vitest config.
+- `tools/nurion-engine/platform-profiles/achim-haetsal/profile.json` — 아침햇살 확장 스텁.
+- `npm run diagnostic:first-practical`, `diagnostic:compress-bundle`, `verify:aibeopchin-first-practical-application`.
+
+### Guardrails
+
+- 원본 `src/`·`prisma/`는 diagnostic engine이 자동 수정하지 않는다.
+- patchset 검증 통과 + promotion gate 통과 후에만 원본 반영 후보로 표시한다.
+- 압축 번들은 registry·patchset MVP·플랫폼 프로필 스텁 위주이며 전체 소스 tarball이 아니다.
+- `tools/diagnostic-engine/_runtime/`·`_bundles/`는 로컬 산출물로 `.gitignore` 처리한다.
+
+### Verification
+
+- `npm run verify:aibeopchin-first-practical-application` PASS — registry tests + 8-step workflow (compress 포함).
+- `npm run diagnostic:compress-bundle` PASS — `tools/diagnostic-engine/_bundles/aibeopchin-first-practical-diagnostic-bundle.zip`.
+- `npx vitest run --config vitest.patchset.config.ts` PASS — patchset sandbox tests.
+
+---
+
+## [EVIDENCE-20260620-LAWYER-VIRTUAL-ARGUMENT-JOOHWAN-CASE]
+
+### Status
+
+COMPLETE · LAWYER VIRTUAL ARGUMENT TEST — 기존 접수자 사건 fixture를 대상으로 변호사 가상 변론 진행 테스트 추가.
+
+### One-line Standard
+
+기존 접수 사건의 변호사 가상 변론은 상대방 주장 구조화, 반박 후보 생성, 역효과 점검, 변호사 검토용 초안 문단, 변호사 채택 후보까지 진행하되 AI가 최종 문서·의뢰인 노출·자동 제출을 수행하지 않는다.
+
+### Scope
+
+- `src/features/legal-strategy/counter-argument-engine/phase63f-counter-argument-draft-engine-rc.test.ts` — 주환 토지통행 분쟁 접수 사건 기반 가상 변론 workflow 테스트 추가.
+- `buildJoohwanLandAccessMemoryPacket()` — 토지사용승낙서, 인감증명서, 측량 방해, 통행지역권 쟁점을 변호사 확인 memory packet fixture로 구성.
+- `buildJoohwanVirtualLawyerArgumentBundle()` — 상대방의 “토지사용승낙서는 통행지역권 설정 약정이 아님” 주장을 전제로 Phase 63-A~E 흐름을 연결.
+- 신규 test case — `case-joohwan-land-access`에서 반박 후보, backfire report, `[변호사 검토용 초안]` 문단, `PREPARATORY_BRIEF` 삽입 후보를 검증.
+
+### Guardrails
+
+- `opponentArgument.reviewStatus`는 `LAWYER_REVIEW_REQUIRED`로 유지하고 자동 확정하지 않는다.
+- 모든 draft paragraph는 `isFinalDocumentText=false`, `clientVisibleAllowed=false`, `autoFileAllowed=false`를 유지한다.
+- 변호사 `ADOPT` 이후에도 document insert candidate는 내부 후보이며 의뢰인 노출·자동 제출은 차단한다.
+- 기존 접수 사건 자료는 테스트 fixture로만 사용하며 실제 승패 판단이나 확정 변론문 생성을 하지 않는다.
+
+### Verification
+
+- `npm run test -- "src/features/legal-strategy/counter-argument-engine/phase63f-counter-argument-draft-engine-rc.test.ts"` PASS — 1 file / 15 tests.
+- `npm run test -- "src/features/legal-strategy/counter-argument-engine/phase63f-counter-argument-draft-engine-rc.test.ts" "src/features/ai-core/case-intelligence-graph-runtime.service.test.ts" "src/features/document-intelligence/document-analysis.engine.test.ts"` PASS — 3 files / 23 tests.
+- `ReadLints` PASS — 수정 테스트 파일 기준 신규 linter diagnostics 없음.
+
+---
+
+## [EVIDENCE-20260620-GONGBUHO-EXTERNAL-PUBLIC-CASE-AUTO-INTAKE]
+
+### Status
+
+COMPLETE · GONGBUHO AUTO INTAKE — 외부 검색으로 정규화된 공개 사건을 공부호 Legal Knowledge Intake 및 사건 접수 초안으로 자동 변환.
+
+### One-line Standard
+
+공개 검색 사건은 원문·스니펫·비공식 URL을 저장하지 않고, 정규화 키워드·사건 유형·요약 메타만 사용해 공부호 intake 후보와 사건 접수 초안으로 만든 뒤 실제 사용 전 변호사/관리자 검토를 거친다.
+
+### Scope
+
+- `src/features/gongbuho/external-public-case-auto-intake.service.ts` — 외부 공개 사건 자동 접수 어댑터 추가.
+- `buildExternalPublicCaseLegalKnowledgeIntakePayload()` — 공개 사건 메타를 `READY_FOR_RESEARCH` 공부호 Legal Knowledge Intake payload로 변환.
+- `buildExternalPublicCaseDraftInput()` — 같은 입력을 사건 접수 초안 `CreateCaseInput`으로 변환.
+- `createExternalPublicCaseGongbuhoAutoIntake()` — 의존성 주입 가능한 오케스트레이션으로 intake 생성과 선택적 사건 초안 생성을 연결.
+- `RECENT_CONSTRUCTION_INJURY_PUBLIC_CASE_AUTO_INTAKE` — 2026-06-18 공개 보도 산재 손해배상 사례를 자동 접수 fixture로 추가.
+- `src/features/gongbuho/external-public-case-auto-intake.service.test.ts` — payload 변환, 사건 초안 변환, 금지 원문 키 차단, DB 없는 오케스트레이션 테스트 추가.
+
+### Guardrails
+
+- `rawSnippet`, `rawBody`, `sourceUrl`, `naverSearchResult` 등 Legal Knowledge 금지 JSON key가 들어오면 접수를 차단한다.
+- `intakeCompliance.noRawUgcStored=true`, `intakeMethod=AGGREGATE_IMPORT`, `prohibitedFieldScan=PASS`를 고정한다.
+- 외부 검색 실행 자체는 앱 런타임에 넣지 않고, 이미 정규화된 공개 사건 메타만 입력으로 받는다.
+- 사건 초안 설명에는 “실제 사건으로 사용하기 전 변호사 검토와 원문 판결·공식자료 확인 필요” 문구를 포함한다.
+
+### Verification
+
+- `npx vitest run "src/features/gongbuho/external-public-case-auto-intake.service.test.ts"` PASS — 1 file / 4 tests.
+- `ReadLints` PASS — 신규 서비스/테스트 파일 기준 linter diagnostics 없음.
+- `npm run verify:gongbuho` PARTIAL — 정적 게이트 PASS, 신규 자동 접수 테스트 PASS. 단, 기존 13개 Gongbuho suite가 Prisma generated client `#main-entry-point` 로딩 오류로 collect 단계 실패.
+- `npx prisma generate` PASS — Prisma Client v6.19.3 생성.
+- `npx tsc --noEmit` FAILED — 기존 Phase 62/63 및 external messaging 테스트 타입 오류 다수. 신규 자동 접수 파일은 오류 목록에 없음.
+
+---
+
+## [EVIDENCE-20260620-PREINTAKE-ANON-SOCIAL-PROOF]
+
+### Status
+
+COMPLETE · PRE-INTAKE PROMOTION — 사건 접수 전 일반 사용자에게 익명 접수 흐름만 노출.
+
+### One-line Standard
+
+사건 접수 이력은 내부 기록으로 남기되, 접수 전 일반 사용자 화면에는 사건명·상대방·파일명·작성내용·정확한 건수를 노출하지 않고 “최근에도 비슷한 고민을 정리하는 분들이 있다” 정도의 익명 홍보 신호만 표시한다.
+
+### Scope
+
+- `src/app/(protected)/cases/new/page.tsx` — 새 사건 등록 전 익명 접수 흐름 카드 추가.
+- `src/components/cases/case-intake-social-proof-card.tsx` — 접수 전 홍보용 카드 UI 추가.
+- `src/lib/cases/case-intake-social-proof.ts` — 최근 접수/진행 건수는 내부 판단에만 쓰고, exact count 없는 문구로 변환.
+- 이전 개인 제출 활동 카드 경로 제거 — 대시보드에 제출 메시지·파일명 기반 이력을 직접 표시하지 않음.
+
+### Guardrails
+
+- 공개 문구에는 개별 사건 식별자, 사건명, 상대방, 제출 파일명, 제출 메시지, 검토 메모, 정확한 접수 건수를 포함하지 않는다.
+- 접수 후 상세 내용은 본인과 권한 있는 담당자만 확인한다는 안내를 함께 표시한다.
+- 내부 집계는 “최근 접수 활동 있음 / 새 접수 준비 가능” 톤 결정에만 사용한다.
+
+### Verification
+
+- `npm run test -- src/lib/cases/case-intake-social-proof.test.ts` PASS — 1 file / 2 tests.
+- `ReadLints` PASS — 수정 파일 기준 신규 linter diagnostics 없음.
+- `rg client-submission-activity|ClientSubmissionActivityPreview|submissionActivityPreview src` — stale reference 없음.
+
+---
+
+## [EVIDENCE-20260620-RECENT-CONSTRUCTION-INJURY-CASE-FIXTURE]
+
+### Status
+
+COMPLETE · RECENT PUBLIC CASE TEST — 2026년 6월 인터넷 보도 산재 손해배상 사례를 AI법친 사건지능/문서지능 테스트에 추가.
+
+### One-line Standard
+
+최근 건설현장 소화배관 추락 산재 손해배상 사례는 원청·하청의 작업계획·안전교육·관리감독 책임, 개인 과실 및 소멸시효 항변, 향후 치료비·의료보조비·간병비 손해 산정을 검증하는 공개 사건 fixture로 사용한다.
+
+### Scope
+
+- Source: 한겨레, `사지마비 산재에 '남 탓' 현대엔지니어링...법원 "9억 배상하라"` (2026-06-18 보도).
+- `src/features/ai-core/case-intelligence-graph-runtime.service.test.ts` — 기사 사실관계를 인터뷰 답변 구조로 입력해 사건지능 graph/radar/ledger runtime을 검증.
+- `src/features/document-intelligence/document-analysis.engine.test.ts` — 기사형 문장을 문서 페이지 입력으로 넣어 주장 후보, 금액 사실 후보, 증거번호, 일자 후보 추출 및 최종판단 금지 필드를 검증.
+
+### Verification
+
+- `npm run test -- src/features/ai-core/case-intelligence-graph-runtime.service.test.ts src/features/document-intelligence/document-analysis.engine.test.ts` PASS — 2 files / 8 tests.
+- `ReadLints` PASS — 수정 테스트 파일 기준 신규 linter diagnostics 없음.
+
+---
+
+## [EVIDENCE-20260620-JOOHWAN-LAND-ACCESS-CASE-INPUT-TEST]
+
+### Status
+
+COMPLETE · CASE FIXTURE TEST — `E:\보관자료\주환파일` 사건 사례를 AI법친 사건지능/문서지능 테스트에 입력.
+
+### One-line Standard
+
+주환 사건은 세종 월하리 24번지/24-1번지 분할 후 통행로 제공 약정, 토지사용승낙서·인감증명서, 장기 이행거부와 측량 방해를 핵심으로 하는 토지 통행로 분쟁 fixture로 검증한다.
+
+### Scope
+
+- `src/features/ai-core/case-intelligence-graph-runtime.service.test.ts` — 사건 진행 개요를 인터뷰 답변 구조로 입력해 claim graph, contradiction radar, lawyer ledger runtime을 검증.
+- `src/features/document-intelligence/document-analysis.engine.test.ts` — 소장 견본/내용증명 핵심 문장을 문서 페이지 입력으로 넣어 주장 후보, 증거번호, 기한 후보, deadline risk signal 추출을 검증.
+- Source case files reviewed: `E:\보관자료\주환파일\사건진행개요.hwpx`, `E:\보관자료\주환파일\실행 지시서.hwpx`, `E:\보관자료\주환파일\내용증명.hwpx`, `E:\보관자료\주환파일\소장 견본.docx`, and `E:\보관자료\주환파일\joohwan_netlify_site\documents.json`.
+
+### Verification
+
+- `npm run test -- src/features/ai-core/case-intelligence-graph-runtime.service.test.ts src/features/document-intelligence/document-analysis.engine.test.ts` PASS — 2 files / 6 tests.
+- `ReadLints` PASS — 수정 테스트 파일 기준 신규 linter diagnostics 없음.
+
+---
+
+## [EVIDENCE-20260620-AIBEOPCHIN-NURION-FINANCE-ENGINE-ADAPTATION]
+
+### Status
+
+COMPLETE · OPERATIONS ENGINE ADAPTATION — `nurion-engine-v1.5-finance`를 AI법친 운영 환경용 dry-run 정산 안전장치로 적용.
+
+### One-line Standard
+
+누리온 finance 엔진은 AI법친에서 수임료·파트너 정산의 대사, 중복 지급 탐지, 승인 매트릭스, 세금계산서 감시, 월마감 증빙 초안을 수행하되 실제 송금·계좌 변경·환불 확정·세금계산서 발행·가격 변경은 수행하지 않는다.
+
+### Scope
+
+- `tools/nurion-engine/` — 원본 `nurion-engine-v1.5-finance`를 프로젝트 도구 영역에 격리 적용.
+- `tools/nurion-engine/config/nurion.config.json` — `platformId: aibeopchin` 기본 설정과 AI법친 manual probe 추가.
+- `tools/nurion-engine/platform-profiles/aibeopchin/profile.json` — 법률 SaaS 수임료·파트너 정산용 finance skill 조합, 사람 승인 게이트, KRW 오차 정책, 파트너 프로필 추가.
+- `tools/nurion-engine/platform-profiles/aibeopchin/slo-targets.json` — 배포 전 검증, 정산 경계, 변호사 검토 경계 SLO 초안 추가.
+- `scripts/verify-aibeopchin-nurion-finance.mjs` + `verify:aibeopchin-nurion-finance` — finance 단위/운영안전/시나리오 회귀/AI법친 dry-run smoke 검증 추가.
+- `package.json` — `nurion:aibeopchin`, `nurion:aibeopchin:apply`, `nurion:aibeopchin:finance:test`, `verify:aibeopchin-nurion-finance` 명령 연결.
+
+### Guardrails
+
+- 원격 자동조치는 기본 비활성화하며 `NURION_REMOTE_ACTIONS=1`과 별도 webhook 없이는 실행되지 않는다.
+- `payout-control`, `approval-matrix`, `audit-evidence`는 apply 모드에서도 사람 승인 대상이다.
+- 누리온 runtime archive, active incident, month-close 산출물은 로컬 상태로 취급하고 `.gitignore`에 추가했다.
+- AI 산출물 변호사 검토 전 의뢰인 확정 노출 금지 경계를 manual probe와 SLO 목표로 유지한다.
+
+### Verification
+
+- `npm run verify:aibeopchin-nurion-finance` PASS — finance lib 38 tests, operational safety 10 tests, finance scenario 26 records, AI법친 dry-run `G1`.
+- `ReadLints` PASS — 수정 파일 기준 신규 linter diagnostics 없음.
+
+---
+
 ## [EVIDENCE-20260618-AIBEOPCHIN-PREDEPLOY-CODE-PROTECTION]
 
 ### Status

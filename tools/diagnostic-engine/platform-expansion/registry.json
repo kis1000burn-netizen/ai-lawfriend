@@ -1,0 +1,30 @@
+{
+  "registryId": "diagnostic-platform-expansion-v1",
+  "primaryProjectId": "aibeopchin",
+  "platforms": [
+    {
+      "platformId": "aibeopchin",
+      "platformName": "AI법친",
+      "status": "ACTIVE_FIRST_PROJECT",
+      "nurionProfilePath": "tools/nurion-engine/platform-profiles/aibeopchin/profile.json"
+    },
+    {
+      "platformId": "dosirak-store",
+      "platformName": "도시락.store",
+      "status": "EXPANSION_READY",
+      "nurionProfilePath": "tools/nurion-engine/platform-profiles/dosirak-store/profile.json"
+    },
+    {
+      "platformId": "achim-haetsal",
+      "platformName": "아침햇살",
+      "status": "EXPANSION_STUB",
+      "nurionProfilePath": "tools/nurion-engine/platform-profiles/achim-haetsal/profile.json"
+    },
+    {
+      "platformId": "future-template",
+      "platformName": "기타 플랫폼 템플릿",
+      "status": "TEMPLATE",
+      "nurionProfilePath": "tools/nurion-engine/platform-profiles/future-template/profile.json"
+    }
+  ]
+}

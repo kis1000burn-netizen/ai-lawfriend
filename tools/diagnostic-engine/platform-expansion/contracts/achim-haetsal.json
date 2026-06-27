@@ -1,0 +1,42 @@
+{
+  "platformId": "achim-haetsal",
+  "platformName": "아침햇살",
+  "contractVersion": "1.0.0",
+  "requiredRoles": ["CLIENT", "COUNSELOR", "ADMIN"],
+  "requiredStatusValues": [
+    "INQUIRY_RECEIVED",
+    "CONSULTATION_SCHEDULED",
+    "CONSULTATION_IN_PROGRESS",
+    "FILE_UPLOAD_PENDING",
+    "FILE_REVIEW",
+    "CLOSED"
+  ],
+  "coreUserFlows": [
+    "inquiry-submit",
+    "consultation-booking",
+    "secure-file-upload",
+    "counselor-review",
+    "client-notification"
+  ],
+  "riskAreas": {
+    "permissions": "HIGH",
+    "personalData": "CRITICAL",
+    "fileUploadValidation": "CRITICAL",
+    "payment": "LOW"
+  },
+  "requiredApiResponseShapes": [
+    { "route": "/api/inquiries/[inquiryId]", "unauthenticatedStatus": [401] },
+    { "route": "/api/uploads", "requiresVirusScanOrMimeValidation": true }
+  ],
+  "requiredE2eTests": [
+    "tests/e2e/achim-haetsal-consultation-upload.spec.ts"
+  ],
+  "predeployBlockRules": [
+    "file-upload-validation-pass",
+    "inquiry-privacy-boundary-pass"
+  ],
+  "notes": [
+    "상담·문의·파일 업로드 검증이 핵심이다.",
+    "AI법친 사건 상태 검증 규칙을 그대로 복사하지 않는다."
+  ]
+}

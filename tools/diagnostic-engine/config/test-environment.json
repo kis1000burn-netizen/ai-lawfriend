@@ -1,0 +1,36 @@
+{
+  "testEnvironmentVersion": "2.0.0",
+  "allowedTestEnvironmentValues": ["staging", "local-test"],
+  "allowlistPolicy": {
+    "mode": "ALLOWLIST_FIRST",
+    "allowedDatabaseHosts": ["localhost", "127.0.0.1", "::1"],
+    "allowedDatabaseHostSuffixes": [
+      ".staging.internal",
+      "-staging.",
+      ".staging.",
+      "staging."
+    ],
+    "allowedDatabaseNameSuffixes": ["_staging", "_test"],
+    "allowedDatabaseNames": ["aibeopchin_staging", "aibeopchin_test", "diagnostic_test"],
+    "requiredDatabaseSchema": "diagnostic_test",
+    "localTestAllowedSchemas": ["public", "diagnostic_test"]
+  },
+  "blockedDatabaseUrlSubstrings": [
+    "prod",
+    "production"
+  ],
+  "requiredEnvForIntegration": ["DIAGNOSTIC_TEST_ENV"],
+  "databaseUrlEnvPriority": ["TEST_DATABASE_URL", "DATABASE_URL"],
+  "stagingAccounts": {
+    "adminEmailEnv": "DIAGNOSTIC_TEST_ADMIN_EMAIL",
+    "lawyerEmailEnv": "DIAGNOSTIC_TEST_LAWYER_A_EMAIL",
+    "lawyerBEmailEnv": "DIAGNOSTIC_TEST_LAWYER_B_EMAIL",
+    "clientEmailEnv": "DIAGNOSTIC_TEST_CLIENT_EMAIL",
+    "note": "계정 값은 증빙·로그에 기록하지 않는다. 존재 여부만 확인한다."
+  },
+  "resetPolicy": {
+    "requiredAfterRun": true,
+    "cleanupStatusFile": "_runtime/staging-fixture-cleanup.json",
+    "note": "runId 접두 fixture는 테스트 종료 시 삭제하고 CLEANUP_FAILED를 기록한다."
+  }
+}

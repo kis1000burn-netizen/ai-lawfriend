@@ -1,0 +1,4 @@
+[
+  { "scenario": "월 마감 증빙 완비", "checks": [{ "id": "finance-settlement/audit-evidence:month-close-complete", "status": "pass", "message": "월 마감 증빙 완비 — 2026-06 (7개 파일)" }], "actions": [] },
+  { "scenario": "월 마감 증빙 없음 (apply 시 생성)", "checks": [{ "id": "finance-settlement/audit-evidence:month-close-dir", "status": "warn", "message": "월 마감 증빙 없음 — 2026-06" }, { "id": "finance-settlement/audit-evidence:open-exceptions", "status": "warn", "message": "미처리 이상 거래 3건" }], "actions": [{ "type": "generate_report", "reportPath": "_nurion_events/month-close/2026-06/month-close-report.md", "executed": true }, { "type": "notify", "executed": true }] }
+]

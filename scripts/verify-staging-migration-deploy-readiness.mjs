@@ -17,6 +17,7 @@ const REQUIRED_PHASE_MIGRATIONS = [
   "20260525140000_client_portal_collaboration_phase15a",
   "20260525170000_litigation_deadline_client_reminder_phase15d",
   "20260525180000_secure_document_delivery_phase15f",
+  "20260627120000_lawyer_matching_recommendation_persistence",
 ];
 
 function assertMigrationDir(name) {

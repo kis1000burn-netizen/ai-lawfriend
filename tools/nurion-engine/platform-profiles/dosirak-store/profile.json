@@ -1,0 +1,102 @@
+{
+  "platformId": "dosirak-store",
+  "platformName": "도시락 가게",
+  "description": "도시락 주문·결제·배달 플랫폼",
+
+  "enabledSkills": [
+    "slo-budget",
+    "deploy-preflight",
+    "gas-health",
+    "payment-boundary",
+    "submission-flow",
+    "vendor-flow",
+    "media-review",
+    "pwa-health",
+    "rollback",
+    "finance-settlement/ledger-reconcile",
+    "finance-settlement/payout-control",
+    "finance-settlement/tax-invoice-watch",
+    "finance-settlement/vendor-settlement",
+    "finance-settlement/revenue-leak-watch",
+    "finance-settlement/cashflow-forecast",
+    "finance-settlement/approval-matrix",
+    "finance-settlement/audit-evidence"
+  ],
+
+  "riskLevel": "HIGH",
+  "autoActionPolicy": {
+    "maxGradeForAutoAction": "G3",
+    "requireHumanApproval": ["rollback", "payment-boundary"]
+  },
+
+  "skillOptions": {
+    "deploy-preflight": {
+      "buildDirs": ["dist", "_site"],
+      "smokeAll": true
+    },
+    "gas-health": {
+      "gasHealthUrl": "https://script.google.com/macros/s/YOUR_GAS_ID/exec?health=1",
+      "latencyWarnMs": 3000
+    },
+    "pwa-health": {
+      "manifestUrl": "https://dosirak.example.com/manifest.json",
+      "swUrl": "https://dosirak.example.com/sw.js"
+    },
+    "asset-integrity": {
+      "assetUrls": [
+        "https://dosirak.example.com/style.css",
+        "https://dosirak.example.com/app.js",
+        "https://dosirak.example.com/sw.js"
+      ],
+      "latencyWarnMs": 2000
+    },
+    "rollback": {
+      "rollbackWebhook": "",
+      "requireGrade": "G4"
+    },
+    "finance-settlement/ledger-reconcile": {
+      "mismatchThreshold": 1,
+      "maxUnreconciledWarn": 30,
+      "vendorProfiles": {
+        "vendor_001": { "commissionRate": 0.12, "deliveryFeeRule": "vendor_borne", "holdDays": 7 },
+        "vendor_002": { "commissionRate": 0.10, "deliveryFeeRule": "platform_borne", "holdDays": 14 }
+      }
+    },
+    "finance-settlement/payout-control": {},
+    "finance-settlement/tax-invoice-watch": {
+      "warnDaysBeforeDeadline": 3,
+      "missingInvoiceDays": 14
+    },
+    "finance-settlement/vendor-settlement": {
+      "vendorProfiles": {
+        "vendor_001": {
+          "vendorId": "vendor_001",
+          "settlementCycle": "weekly",
+          "commissionRate": 0.12,
+          "vatType": "taxable",
+          "bankAccountVerified": true,
+          "contactEmail": "vendor001@example.com"
+        },
+        "vendor_002": {
+          "vendorId": "vendor_002",
+          "settlementCycle": "monthly",
+          "commissionRate": 0.10,
+          "vatType": "taxable",
+          "bankAccountVerified": false,
+          "_comment": "계좌 미인증 — 실제 운영 전 bankAccountVerified: true 로 변경 필요"
+        }
+      }
+    },
+    "finance-settlement/revenue-leak-watch": {
+      "refundSpikeThreshold": 0.10,
+      "balanceDriftThreshold": 10000
+    },
+    "finance-settlement/cashflow-forecast": {
+      "availableCash": 5000000,
+      "_comment_availableCash": "가용 현금 (원). 실제 운영 시 재무 시스템 연동으로 자동 갱신 권장.",
+      "safetyBufferRate": 0.20
+    },
+    "finance-settlement/approval-matrix": {},
+    "finance-settlement/audit-evidence": {}
+  }
+}

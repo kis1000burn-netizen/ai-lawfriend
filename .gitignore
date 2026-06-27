@@ -38,6 +38,12 @@ yarn-error.log*
 
 # local navigator / tool state
 /.aibeopchin/
+/tools/nurion-engine/_nurion_events/archive/
+/tools/nurion-engine/_nurion_events/month-close/
+/tools/nurion-engine/_nurion_events/active-incident.json
+/tools/nurion-engine/_nurion_events/incidents/
+/tools/diagnostic-engine/_runtime/
+/tools/diagnostic-engine/_bundles/
 
 # python / IDE
 __pycache__/

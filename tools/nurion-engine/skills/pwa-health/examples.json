@@ -1,0 +1,33 @@
+[
+  {
+    "scenario": "PWA 정상",
+    "checks": [
+      { "id": "pwa-health:manifest",        "status": "pass", "message": "manifest.json 정상 — HTTP 200" },
+      { "id": "pwa-health:manifest-fields", "status": "pass", "message": "manifest 필수 필드 정상" },
+      { "id": "pwa-health:icon-192",        "status": "pass", "message": "192x192 아이콘 선언 확인" },
+      { "id": "pwa-health:sw-js",           "status": "pass", "message": "sw.js 정상 — HTTP 200" }
+    ],
+    "actions": []
+  },
+  {
+    "scenario": "sw.js 없음",
+    "checks": [
+      { "id": "pwa-health:manifest", "status": "pass", "message": "manifest.json 정상" },
+      { "id": "pwa-health:sw-js",    "status": "fail", "critical": true, "message": "sw.js 없음 또는 오류 — HTTP 404" }
+    ],
+    "actions": [
+      { "type": "notify", "message": "[pwa-health] PWA 검사 이상 감지\n  ❌ sw-js: sw.js 없음 또는 오류 — HTTP 404" }
+    ]
+  },
+  {
+    "scenario": "manifest 필수 필드 누락",
+    "checks": [
+      { "id": "pwa-health:manifest",        "status": "pass", "message": "manifest.json 정상" },
+      { "id": "pwa-health:manifest-fields", "status": "fail", "message": "manifest 필수 필드 누락: start_url, icons" },
+      { "id": "pwa-health:sw-js",           "status": "pass", "message": "sw.js 정상" }
+    ],
+    "actions": [
+      { "type": "notify", "message": "[pwa-health] PWA 검사 이상 감지\n  ❌ manifest-fields: start_url, icons 누락" }
+    ]
+  }
+]

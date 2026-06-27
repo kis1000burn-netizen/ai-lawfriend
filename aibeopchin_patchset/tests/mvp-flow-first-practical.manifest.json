@@ -1,0 +1,55 @@
+{
+  "manifestId": "mvp-flow-first-practical-v1",
+  "generatedAt": "2026-06-27T05:30:49.335Z",
+  "sandboxDir": "aibeopchin_patchset",
+  "flows": [
+    {
+      "flowId": "auth-signup-user",
+      "label": "의뢰인 회원가입",
+      "verifyCommand": "npm run test -- \"src/app/api/auth/signup/route.test.ts\"",
+      "targetTest": "src/app/api/auth/signup/route.test.ts",
+      "entryPath": "src/app/api/auth/signup/route.ts",
+      "generated": true
+    },
+    {
+      "flowId": "auth-login",
+      "label": "로그인",
+      "verifyCommand": "npm run test -- \"src/app/api/auth/login/route.test.ts\"",
+      "targetTest": "src/app/api/auth/login/route.test.ts",
+      "entryPath": "src/app/api/auth/login/route.ts",
+      "generated": true
+    },
+    {
+      "flowId": "auth-signup-lawyer",
+      "label": "변호사 회원가입",
+      "verifyCommand": "npm run test -- \"src/lib/lawyer/lawyer-signup-risk.test.ts\"",
+      "targetTest": "src/lib/lawyer/lawyer-signup-risk.test.ts",
+      "entryPath": "src/app/api/auth/signup-lawyer/route.ts",
+      "generated": true
+    },
+    {
+      "flowId": "permission-matrix",
+      "label": "권한 정의",
+      "verifyCommand": "npx vitest run --config vitest.patchset.config.ts",
+      "targetTest": "aibeopchin_patchset/tests/case-definitions.test.ts",
+      "entryPath": "src/lib/definitions/permission-definition.ts",
+      "generated": true
+    },
+    {
+      "flowId": "case-intake-validators",
+      "label": "사건 접수 입력 검증",
+      "verifyCommand": "npm run test -- \"aibeopchin_patchset/tests/mvp-flow-first-practical.generated.test.ts\"",
+      "targetTest": "aibeopchin_patchset/tests/mvp-flow-first-practical.generated.test.ts",
+      "entryPath": "src/features/cases/case.validators.ts",
+      "generated": true
+    },
+    {
+      "flowId": "case-create-service",
+      "label": "사건 접수 서비스",
+      "verifyCommand": "npm run test -- \"aibeopchin_patchset/tests/mvp-flow-first-practical.generated.test.ts\"",
+      "targetTest": "aibeopchin_patchset/tests/mvp-flow-first-practical.generated.test.ts",
+      "entryPath": "src/features/cases/case.service.ts",
+      "generated": true
+    }
+  ]
+}

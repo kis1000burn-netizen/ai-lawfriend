@@ -1,5 +1,6 @@
 import { DashboardLivingHeader } from "@/components/dashboard/dashboard-living-header";
 import { DashboardSectionHeading } from "@/components/dashboard/dashboard-section-heading";
+import { LawyerArgumentSocialProofCard } from "@/components/dashboard/lawyer/lawyer-argument-social-proof-card";
 import { LawyerCommandCenterPreview } from "@/components/dashboard/lawyer/lawyer-command-center-preview";
 import { LawyerCaseRadar } from "@/components/dashboard/lawyer/lawyer-case-radar";
 import { LawyerDashboardEmptyGuide } from "@/components/dashboard/lawyer/lawyer-dashboard-empty-guide";
@@ -12,6 +13,7 @@ import {
   type LawyerDashboardMetrics,
 } from "@/lib/dashboard/dashboard-metrics";
 import type { LitigationCommandCenterListSummary } from "@/features/document-intelligence/litigation-command-center-list-summary.schema";
+import type { LawyerArgumentSocialProofSignal } from "@/lib/dashboard/lawyer-argument-social-proof";
 
 type CommandCenterPreviewItem = LitigationCommandCenterListSummary & {
   caseTitle: string;
@@ -20,11 +22,13 @@ type CommandCenterPreviewItem = LitigationCommandCenterListSummary & {
 type Props = {
   metrics?: LawyerDashboardMetrics;
   commandCenterPreview?: CommandCenterPreviewItem[];
+  argumentSocialProof?: LawyerArgumentSocialProofSignal;
 };
 
 export function LawyerDashboardHome({
   metrics = EMPTY_LAWYER_DASHBOARD_METRICS,
   commandCenterPreview = [],
+  argumentSocialProof,
 }: Props) {
   const showEmptyGuide = shouldShowLawyerEmptyGuide(metrics);
 
@@ -34,6 +38,10 @@ export function LawyerDashboardHome({
         role="lawyer"
         statusText="검토 대기 사건과 보완 필요 사건을 우선 확인하세요."
       />
+
+      {argumentSocialProof ? (
+        <LawyerArgumentSocialProofCard socialProof={argumentSocialProof} />
+      ) : null}
 
       <section>
         <DashboardSectionHeading

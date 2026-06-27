@@ -1,0 +1,48 @@
+{
+  "platformId": "aibeopchin",
+  "platformName": "AI법친",
+  "contractVersion": "1.0.0",
+  "requiredRoles": ["USER", "LAWYER", "STAFF", "ADMIN"],
+  "requiredStatusValues": [
+    "CREATED",
+    "INTAKE_PENDING",
+    "IN_INTERVIEW",
+    "INTERVIEW_DONE",
+    "DRAFTING",
+    "REVIEW_PENDING",
+    "DELETED"
+  ],
+  "coreUserFlows": [
+    "auth-signup-user",
+    "auth-login",
+    "auth-signup-lawyer",
+    "case-intake",
+    "interview-save",
+    "case-summary",
+    "document-generation",
+    "supplement-request",
+    "admin-review"
+  ],
+  "riskAreas": {
+    "permissions": "CRITICAL",
+    "caseAccessIsolation": "CRITICAL",
+    "personalData": "HIGH",
+    "payment": "MEDIUM"
+  },
+  "requiredApiResponseShapes": [
+    { "route": "/api/cases/[caseId]/detail", "unauthenticatedStatus": [401] },
+    { "route": "/api/cases/[caseId]/detail", "forbiddenStatus": [403] },
+    { "route": "/api/cases/[caseId]/detail", "missingCaseStatus": [404] }
+  ],
+  "requiredE2eTests": [
+    "tests/e2e/diagnostic-case-access-control.spec.ts",
+    "tests/e2e/admin-role-matrix.spec.ts"
+  ],
+  "predeployBlockRules": [
+    "STATIC_PASS",
+    "PATCHSET_PASS",
+    "INTEGRATION_PASS",
+    "E2E_PASS",
+    "verify:canonical-sources"
+  ]
+}

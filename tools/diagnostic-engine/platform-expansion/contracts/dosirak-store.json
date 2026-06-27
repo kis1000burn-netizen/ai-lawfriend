@@ -1,0 +1,45 @@
+{
+  "platformId": "dosirak-store",
+  "platformName": "도시락.store",
+  "contractVersion": "1.0.0",
+  "requiredRoles": ["CUSTOMER", "VENDOR", "ADMIN"],
+  "requiredStatusValues": [
+    "CART",
+    "ORDER_DRAFT",
+    "ORDER_CONFIRMED",
+    "PAYMENT_REQUESTED",
+    "PAYMENT_COMPLETED",
+    "DELIVERY_IN_PROGRESS",
+    "DELIVERED",
+    "CANCELLED"
+  ],
+  "coreUserFlows": [
+    "menu-browse",
+    "cart-update",
+    "order-confirm-separated-from-payment",
+    "payment-request",
+    "vendor-order-accept",
+    "delivery-tracking"
+  ],
+  "riskAreas": {
+    "permissions": "HIGH",
+    "paymentBoundary": "CRITICAL",
+    "personalData": "HIGH",
+    "orderPaymentSeparation": "CRITICAL"
+  },
+  "requiredApiResponseShapes": [
+    { "route": "/api/orders/[orderId]", "unauthenticatedStatus": [401] },
+    { "route": "/api/payments/request", "requiresOrderConfirmed": true }
+  ],
+  "requiredE2eTests": [
+    "tests/e2e/dosirak-order-payment-boundary.spec.ts"
+  ],
+  "predeployBlockRules": [
+    "payment-boundary-skill-pass",
+    "order-confirm-without-payment-pass"
+  ],
+  "notes": [
+    "AI법친 CaseStatus 규칙을 그대로 복사하지 않는다.",
+    "주문 확정과 결제 요청 분리를 계약의 핵심으로 둔다."
+  ]
+}

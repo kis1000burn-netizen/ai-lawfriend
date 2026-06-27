@@ -1,0 +1,30 @@
+[
+  {
+    "scenario": "업체 데이터 정상",
+    "checks": [
+      { "id": "vendor-flow:endpoint:vendor:list", "status": "pass", "message": "업체 엔드포인트 정상 — HTTP 200, 388ms" },
+      { "id": "vendor-flow:fields:vendor:list",   "status": "pass", "message": "업체 필수 필드 정상 (검사: 12개)" }
+    ],
+    "actions": []
+  },
+  {
+    "scenario": "업체 필수 필드 누락",
+    "checks": [
+      { "id": "vendor-flow:endpoint:vendor:list", "status": "pass", "message": "업체 엔드포인트 정상 — HTTP 200, 421ms" },
+      { "id": "vendor-flow:fields:vendor:list",   "status": "fail", "message": "업체 데이터 필수 필드 누락 3건 (name/category/contact 확인 필요)" }
+    ],
+    "actions": [
+      { "type": "notify",           "message": "[vendor-flow] 업체 데이터 이상 감지\n  • 필수 필드 누락 3건" },
+      { "type": "quarantine-notice","message": "[vendor-flow] 필수 필드 누락 업체 격리 필요 — 관리자 검토 요청" }
+    ]
+  },
+  {
+    "scenario": "업체 엔드포인트 오류",
+    "checks": [
+      { "id": "vendor-flow:endpoint:vendor:list", "status": "fail", "critical": true, "message": "업체 엔드포인트 오류 — HTTP 503" }
+    ],
+    "actions": [
+      { "type": "notify", "message": "[vendor-flow] 업체 데이터 이상 감지\n  • 업체 엔드포인트 오류 — HTTP 503" }
+    ]
+  }
+]

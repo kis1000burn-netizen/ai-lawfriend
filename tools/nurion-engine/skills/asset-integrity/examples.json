@@ -1,0 +1,35 @@
+[
+  {
+    "scenario": "모든 자산 정상",
+    "checks": [
+      { "id": "asset-integrity:asset:style.css", "status": "pass", "message": "자산 정상 — HTTP 200, 124ms" },
+      { "id": "asset-integrity:asset:app.js",    "status": "pass", "message": "자산 정상 — HTTP 200, 98ms"  },
+      { "id": "asset-integrity:asset:sw.js",     "status": "pass", "message": "자산 정상 — HTTP 200, 87ms"  }
+    ],
+    "actions": []
+  },
+  {
+    "scenario": "단일 자산 404",
+    "checks": [
+      { "id": "asset-integrity:asset:style.css", "status": "pass",  "message": "자산 정상 — HTTP 200" },
+      { "id": "asset-integrity:asset:app.v2.js", "status": "fail",  "message": "자산 응답 오류 — app.v2.js HTTP 404" },
+      { "id": "asset-integrity:asset:sw.js",     "status": "pass",  "message": "자산 정상 — HTTP 200" }
+    ],
+    "actions": [
+      { "type": "notify", "message": "[asset-integrity] 자산 응답 오류 감지\n  • app.v2.js HTTP 404" }
+    ]
+  },
+  {
+    "scenario": "다수 자산 실패 (CDN 이상)",
+    "checks": [
+      { "id": "asset-integrity:asset:style.css", "status": "fail", "message": "HTTP 503" },
+      { "id": "asset-integrity:asset:app.js",    "status": "fail", "message": "HTTP 503" },
+      { "id": "asset-integrity:asset:sw.js",     "status": "fail", "message": "HTTP 503" },
+      { "id": "asset-integrity:bulk-fail",       "status": "fail", "critical": true, "message": "다수 자산 응답 실패 (3/3) — CDN 이상 가능성" }
+    ],
+    "actions": [
+      { "type": "notify",        "message": "[asset-integrity] 자산 응답 오류 감지" },
+      { "type": "enable_banner", "key": "GAS_MAINTENANCE_BANNER", "value": "1", "executed": false, "dryRun": true }
+    ]
+  }
+]

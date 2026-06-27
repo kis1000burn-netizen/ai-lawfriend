@@ -1,0 +1,28 @@
+{
+  "_comment": "AI법친 누리온 운영 게이트 SLO 목표. 실제 운영 probe 연결 전에는 manual probe 기준으로 시작한다.",
+  "windowDays": 30,
+  "fastBurnThreshold": 14,
+  "slos": [
+    {
+      "id": "predeploy-gate-availability",
+      "description": "AI법친 배포 전 검증 게이트 정상성",
+      "signalId": "code:aibeopchin-predeploy-gate",
+      "target": 0.99,
+      "unit": "availability"
+    },
+    {
+      "id": "lawyer-settlement-boundary",
+      "description": "수임료·파트너 정산 자동 실행 금지 경계",
+      "signalId": "finance:lawyer-settlement-boundary",
+      "target": 1,
+      "unit": "zero-violation"
+    },
+    {
+      "id": "lawyer-review-boundary",
+      "description": "변호사 검토 전 AI 산출물 확정 노출 금지 경계",
+      "signalId": "ai:lawyer-review-boundary",
+      "target": 1,
+      "unit": "zero-violation"
+    }
+  ]
+}

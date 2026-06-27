@@ -1,0 +1,35 @@
+{
+  "windowDays": 30,
+  "fastBurnThreshold": 14,
+
+  "slos": [
+    {
+      "id": "submissions-availability",
+      "description": "주문 접수 성공률",
+      "signalId": "api:submissions",
+      "target": 0.990,
+      "unit": "availability"
+    },
+    {
+      "id": "ops-list-availability",
+      "description": "운영 목록 API 가용성",
+      "signalId": "ops:list",
+      "target": 0.985,
+      "unit": "availability"
+    },
+    {
+      "id": "gas-health-availability",
+      "description": "GAS 백엔드 가용성",
+      "signalId": "gas:health",
+      "target": 0.940,
+      "unit": "availability"
+    },
+    {
+      "id": "pwa-sw-availability",
+      "description": "Service Worker 가용성",
+      "signalId": "asset:sw-js",
+      "target": 0.995,
+      "unit": "availability"
+    }
+  ]
+}

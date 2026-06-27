@@ -1,0 +1,6 @@
+config/nurion.config.json
+_nurion_events/archive/*.ndjson
+_nurion_events/active-incident.json
+_nurion_events/diagnostics.json
+_nurion_events/advisor.json
+release/LAST_RELEASE.json

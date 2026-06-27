@@ -1,0 +1,30 @@
+[
+  {
+    "scenario": "접수 엔드포인트 정상",
+    "grade": "G0",
+    "checks": [
+      { "id": "submission-flow:endpoint:api:submissions", "status": "pass", "message": "접수 엔드포인트 정상 — HTTP 200, 412ms" }
+    ],
+    "actions": []
+  },
+  {
+    "scenario": "접수 엔드포인트 오류 (G3)",
+    "grade": "G3",
+    "checks": [
+      { "id": "submission-flow:endpoint:api:submissions", "status": "fail", "critical": true, "message": "접수 엔드포인트 오류 — HTTP 502" }
+    ],
+    "actions": [
+      { "type": "notify",   "message": "[submission-flow] 접수 엔드포인트 장애 감지\n  • 접수 엔드포인트 오류 — HTTP 502" },
+      { "type": "set_flag", "key": "SUBMISSION_FREEZE", "value": "1", "executed": false, "dryRun": true }
+    ]
+  },
+  {
+    "scenario": "응답 지연 (5,800ms)",
+    "grade": "G1",
+    "checks": [
+      { "id": "submission-flow:endpoint:api:submissions", "status": "pass",  "message": "접수 엔드포인트 정상 — HTTP 200, 5800ms" },
+      { "id": "submission-flow:latency:api:submissions",  "status": "warn",  "message": "접수 엔드포인트 응답 지연: 5800ms (기준: 5000ms)" }
+    ],
+    "actions": []
+  }
+]

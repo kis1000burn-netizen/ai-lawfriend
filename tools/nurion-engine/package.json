@@ -1,0 +1,24 @@
+{
+  "name": "nurion-engine-template",
+  "version": "1.5.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "nurion": "node scripts/nurion-skill-run.mjs",
+    "nurion:apply": "node scripts/nurion-skill-run.mjs --apply",
+    "nurion:core": "node scripts/nurion-engine.mjs",
+    "nurion:core:apply": "node scripts/nurion-engine.mjs --apply",
+    "nurion:watch": "node scripts/nurion-watch.mjs",
+    "nurion:watch:apply": "node scripts/nurion-watch.mjs --apply",
+    "nurion:diagnose": "node scripts/nurion-diagnostics.mjs",
+    "nurion:advise": "node scripts/nurion-advisor.mjs",
+    "nurion:slo": "node scripts/nurion-slo.mjs",
+    "nurion:slo:json": "node scripts/nurion-slo.mjs --json",
+    "nurion:finance:test": "node scripts/nurion-finance-test.mjs",
+    "nurion:finance:test:v": "node scripts/nurion-finance-test.mjs --verbose",
+    "nurion:finance:test:json": "node scripts/nurion-finance-test.mjs --json",
+    "nurion:test": "node --test tests/*.test.mjs && node scripts/nurion-finance-test.mjs",
+    "nurion:test:lib": "node --test tests/finance-lib.test.mjs"
+  }
+}

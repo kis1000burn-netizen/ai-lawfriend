@@ -1,0 +1,5 @@
+[
+  { "scenario": "수익 무결성 정상", "checks": [{ "id": "finance-settlement/revenue-leak-watch:revenue-integrity", "status": "pass", "message": "수익 무결성 정상 (검사: 42건)" }], "actions": [] },
+  { "scenario": "환불 급증 (G2)", "checks": [{ "id": "finance:refund-spike", "financeType": "finance:refund-spike", "status": "fail", "message": "환불률 급증 — 13.5% (기준: 10%)" }], "actions": [{ "type": "notify", "executed": true }] },
+  { "scenario": "업체 잔액 불일치 (G3)", "checks": [{ "id": "finance:vendor-balance-drift", "financeType": "finance:vendor-balance-drift", "status": "fail", "critical": true, "message": "업체 잔액 불일치 — vendor_32: 차이 24,000원" }], "actions": [{ "type": "escalate", "executed": true }] }
+]
